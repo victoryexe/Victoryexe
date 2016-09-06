@@ -5,6 +5,8 @@ package edu.gatech.oad.antlab.person;
  *  returns their name and a
  *  modified string
  *
+ *  modified string 
+ *  
  *  @author Alexandra Durso
  *  @version 1.1
  */
@@ -35,6 +37,8 @@ public class Person4 {
       for (int i = 0; i < input.length(); i++) {
           char c = input.charAt(i);
           str = str + c++;
+        char c = str.charAt(i);
+        str = str + c++;
       }
       return str;
     }
