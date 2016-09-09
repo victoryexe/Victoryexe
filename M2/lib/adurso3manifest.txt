@@ -1,0 +1,2 @@
+Main-Class: com.edu.gatech.oad.antlab.pkg1.AntLabMain
+Class-Path: resources.jar, .

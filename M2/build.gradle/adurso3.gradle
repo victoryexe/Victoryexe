@@ -1,0 +1,14 @@
+apply plugin: 'java'
+defaultTasks 'jar'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile files('../lib/adurso3.jar', '../lib/resources.jar')
+}
+
+jar {
+    baseName = 'adurso3'
+}
