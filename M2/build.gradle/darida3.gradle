@@ -1,4 +1,4 @@
-defaultTasks ‘jar’
+defaultTask 'jar'
 apply plugin: ‘java’
 dependencies {
 	compile group: 'resources.jar', name: 'resources.jar'
