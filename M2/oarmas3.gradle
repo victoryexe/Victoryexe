@@ -2,7 +2,7 @@ apply plugin: 'java'
 defaultTasks 'jar'
 
 dependencies {
-    compile files('./../lib/resources.jar')
+    compile files('./lib/resources.jar')
 }
 
 jar {
