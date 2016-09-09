@@ -5,6 +5,6 @@ dependencies {
 }
 jar {
 	manifest {
-		atrributes('Main-Class': '../src/main/java/edu/gatech/oad/antlab/pkg1/AntLabMain', 'Class-Path': '../lib/resources.jar')
+		atrributes('Main-Class': 'src.main.java.edu.gatech.oad.antlab.pkg1.AntLabMain', 'Class-Path': 'lib.resources.jar')
 	}
 }

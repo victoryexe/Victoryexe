@@ -36,7 +36,7 @@ public class Person2 {
         char[] c = input.toCharArray();
         for(int i = 0; i < c.length; i++) {
             int j = r.nextInt(c.length);
-            char temp = c[j]
+            char temp = c[j];
             c[j] = c[i];
             c[i] = temp;
         }
