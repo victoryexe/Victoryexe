@@ -43,7 +43,7 @@ public class Person3 {
 	 */
 	private String calc(String input) {
 	  String y = "";
-	  for (int i = input.length() - 2; i >= 0; i--) {
+	  for (int i = input.length() - 1; i >= 0; i--) {
 	  	y += input.substring(i, i+1);
 	  }
 	  return y;
