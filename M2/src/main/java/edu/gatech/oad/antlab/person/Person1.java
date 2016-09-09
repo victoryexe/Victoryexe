@@ -33,8 +33,8 @@ public class Person1 {
 	  String result = input;
 	  if (input.length() > 0) {
 	  	for (int i = 0; i < 2; i++){
-	  		char character = input.charAt(0);
-	  		result = result.substring(1, input.length() - 1) + character;
+	  		char character = result.charAt(0);
+	  		result = result.substring(1, input.length()) + character;
 	  	}
 	  }
 	  return result;
