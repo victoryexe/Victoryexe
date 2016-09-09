@@ -1,12 +1,8 @@
-apply plugin: 'java'
 defaultTasks 'jar'
-
-repositories {
-    mavenCentral()
-}
+apply plugin: 'java'
 
 dependencies {
-    compile files('../lib/adurso3.jar', '../lib/resources.jar')
+    compile files('../lib/resources.jar')
 }
 
 jar {
