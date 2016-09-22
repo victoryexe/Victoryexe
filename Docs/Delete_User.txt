@@ -1,7 +1,11 @@
+==============
+Alex Durso
+CS2340
+==============
+
 Delete User
 Primary Actor: Admin
-Stakeholders and Interests:
-• Users of the application – report information is reliable, information is useful and succinct
+Stakeholders and Interests: None
 Precondition:
 • User to delete exists
 • Admin is logged in
@@ -21,10 +25,7 @@ Extensions:
   i. System reports that user id could not be found and reprompts the admin for action
 5b. Admin cancels account delete
   i. System exits to the screen displaying user ids.
-Special Requirements:
-• Admin accounts cannot be deleted
+Special Requirements: None
 Technology and External Variations List: None
 Frequency: Rare
 Miscellaneous: None
-
-Written by Alex Durso.
