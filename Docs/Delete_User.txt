@@ -1,0 +1,30 @@
+Delete User
+Primary Actor: Admin
+Stakeholders and Interests:
+• Users of the application – report information is reliable, information is useful and succinct
+Precondition:
+• User to delete exists
+• Admin is logged in
+Postcondition:
+• User account has been deleted
+• Log is updated with the deleted account, admin account that deleted and a timestamp
+Happy Path:
+1. Admin selects delete user option
+2. System displays user ids
+3. Admin selects user id to delete
+4. System prompts admin for confirmation
+5. Admin confirms action
+6. System deletes user account and profile
+7. System updates log to include userid that was deleted, the admin responsible, and the timestamp
+Extensions:
+3a. User not found
+  i. System reports that user id could not be found and reprompts the admin for action
+5b. Admin cancels account delete
+  i. System exits to the screen displaying user ids.
+Special Requirements:
+• Admin accounts cannot be deleted
+Technology and External Variations List: None
+Frequency: Rare
+Miscellaneous: None
+
+Written by Alex Durso.
