@@ -13,7 +13,7 @@
    <children>
       <Pane prefHeight="400.0" prefWidth="601.0" style="-fx-background-image: url(&quot;http://www.pearson5.com/wp-content/uploads/2012/11/water_drop.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 900 506;    -fx-background-position: center center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label contentDisplay="CENTER" layoutX="103.0" text="Clean Slate" textAlignment="CENTER" textFill="#3247cfa3" textOverrun="CLIP">
+            <Label contentDisplay="CENTER" layoutX="103.0" text="Clean Slate" textAlignment="CENTER" textFill="#2e69c3f2" textOverrun="CLIP">
                <font>
                   <Font name="Papyrus" size="72.0" />
                </font>
@@ -23,7 +23,7 @@
       <PasswordField layoutX="226.0" layoutY="185.0" />
       <Button layoutX="224.0" layoutY="221.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="152.0" text="Login">
          <font>
-            <Font name="SansSerif Bold" size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font></Button>
       <Label layoutX="163.0" layoutY="146.0" text="Username:  " />
       <Label layoutX="163.0" layoutY="191.0" text="Password:   " />
