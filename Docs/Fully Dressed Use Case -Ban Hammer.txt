@@ -1,0 +1,28 @@
+FULLY DRESSED USED CASE
+Title: Ban User and Deny them access
+Description: Banning a user should mark the user account as permanently unable to authenticate and send 
+a message informing the user that they are banned for a specific reason as defined by the admin of the 
+system. Banning a user should deny them access at the login screen and therefore prevent them from 
+accessing any of their security logs or resources.
+Primary Actor: Administrator
+Preconditions: Administrator Notices an account or user has committed a form of infraction worth 
+suspending their access to our system.
+Post conditions: Mentioned user no longer should have access to any of the apps services and does not 
+have the ability to log in. The account should be still present in the database, but marked so that it may 
+not authenticate. If the user attempts authentication, they should be sent a message that states that they are 
+a banned user and the reason for their banishment.
+Main Success Scenarios (With Extensions):
+1.	Administrator Logs on
+2.	Admin searches through the apps database of users
+3.	Admin marks that user as banned
+a.	If the user is an admin, the ban must go under the approval of another admin
+b.	If the user is later found innocent, or the admins recant their descion, any admin should 
+be able to remove this status
+c.	If the account is deleted, the mark should be deleted with the account and not attach to 
+accounts with a similar name and/or password and user name.
+4.	When banned, system should prevent user from logging in henceforth and their status should 
+show up as such on any logs or reports regarding users
+Frequency of Use: Whenever an administrator finds a user that had done something ban worthy
+Status: Pending
+Owner: Alex Durso
+
