@@ -5,7 +5,9 @@ CS2340
 
 Delete User
 Primary Actor: Admin
-Stakeholders and Interests: None
+Stakeholders and Interests:
+- User whose account is being deleted
+- Other users that rely on accurate, succinct water reports
 Precondition:
 • User to delete exists
 • Admin is logged in
