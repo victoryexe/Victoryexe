@@ -1,0 +1,25 @@
+=========================================================================================
+DAVID ARIDA				
+CS 2340					
+FULLY DRESSED USE CASE			
+=========================================================================================
+
+USE CASE: AUTHENTICATE USER
+
+Primary Actor: 			Authorized User
+Stakeholders/Goals:		…
+Preconditions: 			True
+Postconditions:			User credentials/rights established
+Main Success Scenario:		1. User selects “Login” (Trigger)
+				2. System displays Login UI (prompts for User ID/Password)
+				3. User enters credentials (User ID/Password)
+				4. System checks credentials
+				5. System displays home screen
+				6. System records security log success
+				7. System sets up user session.
+Extension:			4a. User ID not found
+					1. System does … to fix the issue
+				4b. Password incorrect
+					1. System does … to fix the issue
+				6. File System Error
+					1. System does … to fix the issue
