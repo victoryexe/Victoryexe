@@ -1,28 +1,26 @@
 FULLY DRESSED USED CASE
-Title: Ban User and Deny them access
-Description: Banning a user should mark the user account as permanently unable to authenticate and send 
-a message informing the user that they are banned for a specific reason as defined by the admin of the 
-system. Banning a user should deny them access at the login screen and therefore prevent them from 
-accessing any of their security logs or resources.
-Primary Actor: Administrator
-Preconditions: Administrator Notices an account or user has committed a form of infraction worth 
-suspending their access to our system.
-Post conditions: Mentioned user no longer should have access to any of the apps services and does not 
-have the ability to log in. The account should be still present in the database, but marked so that it may 
-not authenticate. If the user attempts authentication, they should be sent a message that states that they are 
-a banned user and the reason for their banishment.
-Main Success Scenarios (With Extensions):
-1.	Administrator Logs on
-2.	Admin searches through the apps database of users
-3.	Admin marks that user as banned
-a.	If the user is an admin, the ban must go under the approval of another admin
-b.	If the user is later found innocent, or the admins recant their descion, any admin should 
-be able to remove this status
-c.	If the account is deleted, the mark should be deleted with the account and not attach to 
-accounts with a similar name and/or password and user name.
-4.	When banned, system should prevent user from logging in henceforth and their status should 
-show up as such on any logs or reports regarding users
-Frequency of Use: Whenever an administrator finds a user that had done something ban worthy
-Status: Pending
-Owner: Alex Durso
+Title: Ban User
+Description: Marks user as banned, preventing them from posting documents while still allowing them 
+access.
+Primary Actor: Admin
+Preconditions: Account to be banned must be a real and valid account that has not already been banned 
+and the admin must be logged in under an administrator account.
+Post conditions: Account has been marked and logged as banned, and can no longer add content to the 
+page, but can still view content and access content.
+The Happy Trail: 
+1.	Admin views user list
+2.	System displays user ID’s
+3.	Admin selects user to be banned
+4.	Systems displays available account actions
+5.	Admin selects the ban user option
+6.	System display confirmation action
+7.	Admin confirms user ban
+8.	System removes user’s rights to add content to the application and displays message to confirm 
+ban and marks the user account as banned.
+Extensions:
+5.) Attempting to ban user that already exists. 
+	System displays message to administrator that account is already banned and will not go through 
+with the process.
+Frequency of Use: Rare
+Stakeholder/Instrest: Banned Users/Other Users that relied or had interest on banned user’s info.
 
