@@ -22,5 +22,7 @@ Extensions:
 	System displays message to administrator that account is already banned and will not go through 
 with the process.
 Frequency of Use: Rare
-Stakeholder/Instrest: Banned Users/Other Users that relied or had interest on banned user’s info.
+Stakeholder/Instrest: Banned Users care to know that their rights have been revoked/Other Users that 
+relied or had interest on banned user’s info as they must now find alternatives/Other Admins would care 
+to know the status of all available users.
 
