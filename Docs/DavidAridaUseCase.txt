@@ -10,7 +10,8 @@ Primary Actor:
 Authorized User
 
 Stakeholders/Goals:		
-None
+Authorized Users: Want to be able to login to the system without encountering problems to perform necessary tasks.
+Client: Want to ensure that authorized users are able to login to the system without issue.
 
 Preconditions: 			
 True
