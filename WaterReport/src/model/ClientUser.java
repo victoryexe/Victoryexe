@@ -1,15 +1,17 @@
+package model;
+
 public class ClientUser implements User {
     private String name;
     private String userName;
     private String userID;
     private String pw;
-    private static cUserCount;
+    private static String cUserCount; // TODO added String, not sure
 
-    public Admin(String name, String userName, String pw) {
+    public ClientUser(String name, String userName, String pw) {
         this.name = name;
         this.userName = userName;
         this.pw = pw;
-        this.userID = "C" + adminCount;
+        this.userID = "C" + cUserCount; // TODO changed adminCount to cUserCount
 
     }
     public String getName() {
@@ -20,6 +22,9 @@ public class ClientUser implements User {
     }
     public void setUserName(String uName) {
         this.userName = uName;
+    }
+    public void setUserID(String userid) {
+        this.userID = userid;
     }
     public void setPassword(String pw) {
         this.pw = pw;

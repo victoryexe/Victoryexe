@@ -1,9 +1,11 @@
+package model;
+
 public class Admin implements User{
     private String name;
     private String userName;
     private String userID;
     private String pw;
-    private static adminCount; 
+    private static String adminCount; // TODO fix type
     //Will Probably Create A Password Class Solely to add another layer of security
     //Plus it will allow me to do some simple encryption for the Lol's
 
@@ -22,6 +24,9 @@ public class Admin implements User{
     }
     public void setUserName(String uName) {
         this.userName = uName;
+    }
+    public void setUserID(String userid) {
+        this.userID = userid;
     }
     public void setPassword(String pw) {
         this.pw = pw;

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="400.0" prefWidth="601.0" style="-fx-background-image: url(&quot;http://www.pearson5.com/wp-content/uploads/2012/11/water_drop.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 900 506;    -fx-background-position: center center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -19,8 +19,8 @@
                </font>
             </Label>
          </children></Pane>
-      <TextField layoutX="226.0" layoutY="142.0" />
-      <PasswordField layoutX="226.0" layoutY="185.0" />
+      <TextField id="username" fx:id="username" layoutX="226.0" layoutY="142.0" />
+      <PasswordField id = "password" fx:id="password" layoutX="226.0" layoutY="185.0" />
       <Button layoutX="224.0" layoutY="221.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="152.0" text="Login">
          <font>
             <Font name="System Bold" size="24.0" />
