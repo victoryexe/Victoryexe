@@ -20,8 +20,8 @@
             </Label>
          </children></Pane>
       <TextField id="username" fx:id="username" layoutX="226.0" layoutY="142.0" />
-      <PasswordField id = "password" fx:id="password" layoutX="226.0" layoutY="185.0" />
-      <Button layoutX="224.0" layoutY="221.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="152.0" text="Login">
+      <PasswordField id="password" fx:id="password" layoutX="226.0" layoutY="185.0" />
+      <Button id="loginButton" fx:id="loginButton" layoutX="224.0" layoutY="221.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="152.0" text="Login">
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Button>
