@@ -16,7 +16,7 @@ public class LoginScreenController {
     private TextField username;
 
     @FXML
-    private PasswordField _password;
+    private PasswordField password;
 
     @FXML
     private Button loginButton;
@@ -36,13 +36,13 @@ public class LoginScreenController {
             @Override
             public void handle(ActionEvent event) {
                 String subject = username.getText();
-                String password = _password.getText();
+                String pass = password.getText();
                 if (subject == null || password == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Username and Password cannot be empty", ButtonType.CLOSE);
                 }
 
-                if (Login.login(subject, password)) {
+                if (Login.login(subject, pass)) {
                     setMainApp(mainApp);
 //                    Alert alert  = new Alert(Alert.AlertType.INFORMATION, "Success!", ButtonType.CLOSE);
                 } else {
