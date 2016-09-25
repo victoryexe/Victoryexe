@@ -1,7 +1,5 @@
 package controller;
 
-import model.login.*;
-import lib.PasswordStorage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -9,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import model.login.*;
 import fxapp.Main;
 import javafx.fxml.FXML;
 
@@ -32,28 +31,23 @@ public class LoginScreenController {
     public void setMainApp(Main main) { mainApp = main; }
 
     @FXML
-    private void initialize() throws PasswordStorage.CannotPerformOperationException,
-            PasswordStorage.InvalidHashException {
+    private void initialize() {
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    String subject = username.getText();
-                    String pass = password.getText();
-                    if (subject == null || password == null) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR,
-                                "Username and Password cannot be empty", ButtonType.CLOSE);
-                    }
+                String subject = username.getText();
+                String pass = password.getText();
+                if (subject == null || password == null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,
+                            "Username and Password cannot be empty", ButtonType.CLOSE);
+                }
 
-                    if (Login.login(subject, pass)) {
-                        setMainApp(mainApp);
+                if (Login.login(subject, pass)) {
+                    setMainApp(mainApp);
 //                    Alert alert  = new Alert(Alert.AlertType.INFORMATION, "Success!", ButtonType.CLOSE);
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR,
-                                "Login failed.", ButtonType.CLOSE);
-                    }
-                } catch (Exception e) {
-                    // TODO plz no
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,
+                            "Login failed.", ButtonType.CLOSE);
                 }
             }
         });
@@ -65,5 +59,6 @@ public class LoginScreenController {
     @FXML
     private void handleCloseMenu() {
         System.exit(0);
+
     }
 }
