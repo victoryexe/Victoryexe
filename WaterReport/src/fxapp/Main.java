@@ -42,7 +42,7 @@ public class Main extends Application {
             LoginScreenController controller = loader.getController();
 
             //Setting title
-            mainScreen.setTitle("Aqua Pura");
+            mainScreen.setTitle("Clean Slate");
 
             //shows the scene with rootLayout
             Scene scene = new Scene(rootLayout);
