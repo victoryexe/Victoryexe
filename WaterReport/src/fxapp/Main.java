@@ -1,6 +1,7 @@
 package fxapp;
 
 import controller.LoginScreenController;
+import controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,6 +24,7 @@ public class Main extends Application {
     private Stage screen;
 
     private AnchorPane rootLayout;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         screen = primaryStage;
@@ -37,6 +39,10 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("../view/LoginScreenView.fxml"));
             rootLayout = loader.load();
+
+            // Give the controller access to the main app.
+            MainController maincontroller = loader.getController();
+            maincontroller.setMainApp(this);
 
             //Setting controller
             LoginScreenController controller = loader.getController();
