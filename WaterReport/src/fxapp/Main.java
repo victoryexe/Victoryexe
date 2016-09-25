@@ -42,6 +42,7 @@ public class Main extends Application {
 
             //Setting controller
             LoginScreenController controller = loader.getController();
+            controller.setMainApp(this);
 
             //Setting title
             mainScreen.setTitle("Clean Slate");

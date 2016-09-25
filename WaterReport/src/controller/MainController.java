@@ -13,14 +13,14 @@ import javafx.scene.control.Alert;
 public class MainController {
 
     /** reference back to mainApplication if needed */
-    private Main mainApplication;
+    private Main mainApp;
 
     /**
      * allow for calling back to the main application code if necessary
      * @param main   the reference to the FX Application instance
      * */
     public void setMainApp(Main main) {
-        mainApplication = main;
+        mainApp = main;
     }
 
     /**
@@ -31,17 +31,4 @@ public class MainController {
         System.exit(0);
 
     }
-/*
-    //About menu item event handler
-    @FXML
-    private void handleAboutMenu() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("M3 Individual Project");
-        alert.setHeaderText("About");
-        alert.setContentText("Student Registration with code from Marco Jakob\nWebsite: http://code.makery.ch");
-
-        alert.showAndWait();
-
-    }
-*/
 }
