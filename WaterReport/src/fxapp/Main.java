@@ -40,10 +40,6 @@ public class Main extends Application {
             loader.setLocation(Main.class.getResource("../view/LoginScreenView.fxml"));
             rootLayout = loader.load();
 
-            // Give the controller access to the main app.
-//            MainController maincontroller = loader.getController();
-//            maincontroller.setMainApp(this);
-
             //Setting controller
             LoginScreenController controller = loader.getController();
 
@@ -59,6 +55,25 @@ public class Main extends Application {
             LOGGER.log(Level.SEVERE, "Failed to find the FXML file!");
             e.printStackTrace();
         }
+    }
+
+    private void showMain(Stage mainScreen) {
+        try {
+            // Load main screen.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("../view/MainScreenView.fxml"));
+            AnchorPane backPane = loader.load();
+
+            // Give the controller access to the main app.
+            MainController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            //error on load, so log it
+            LOGGER.log(Level.SEVERE, "Failed to find the fxml file for Main!!");
+            e.printStackTrace();
+        }
+
     }
 
     public static void main(String[] args) {
