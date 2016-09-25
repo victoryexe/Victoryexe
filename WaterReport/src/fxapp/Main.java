@@ -41,8 +41,8 @@ public class Main extends Application {
             rootLayout = loader.load();
 
             // Give the controller access to the main app.
-            MainController maincontroller = loader.getController();
-            maincontroller.setMainApp(this);
+//            MainController maincontroller = loader.getController();
+//            maincontroller.setMainApp(this);
 
             //Setting controller
             LoginScreenController controller = loader.getController();
