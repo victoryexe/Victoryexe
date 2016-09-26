@@ -49,6 +49,7 @@ public class LoginScreenController {
                 if (subject.equals("") || pass.equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Username and Password cannot be empty", ButtonType.CLOSE);
+                    alert.show();
                 }
 
                 if (Login.login(subject, pass)) {
@@ -62,11 +63,10 @@ public class LoginScreenController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    Alert alert  = new Alert(Alert.AlertType.INFORMATION, "Success!", ButtonType.CLOSE);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Login failed.", ButtonType.CLOSE);
+                    alert.show();
                 }
             }
         });

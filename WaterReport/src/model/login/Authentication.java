@@ -8,12 +8,11 @@ import java.util.HashMap;
  */
 public class Authentication {
     private static Map<String, CharSequence> map = new HashMap<>();
-    private Authentication(String subject, CharSequence pass) { // TODO probably want to redo this for privacy
-        map.put(subject, pass);
+    private Authentication() {
     }
 
-    private void populateMap() { // TODO remove after M4
-
+    private static void populateMap() { // TODO remove after M4
+        map.put("GPBurdell", "password");
     }
 
     /**
@@ -22,7 +21,7 @@ public class Authentication {
      * @return true iff the userid exists
      */
     public static boolean verifySubject(String userid) {
-        map.put("GPBurdell", "password");
+        populateMap();
         return map.containsKey(userid);
     }
 
