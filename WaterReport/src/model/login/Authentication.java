@@ -13,7 +13,7 @@ public class Authentication {
     }
 
     private void populateMap() { // TODO remove after M4
-        map.put("GPBurdell", "password");
+
     }
 
     /**
@@ -22,6 +22,7 @@ public class Authentication {
      * @return true iff the userid exists
      */
     public static boolean verifySubject(String userid) {
+        map.put("GPBurdell", "password");
         return map.containsKey(userid);
     }
 

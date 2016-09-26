@@ -2,14 +2,20 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.login.*;
 import fxapp.Main;
 import javafx.fxml.FXML;
+
+import java.io.IOException;
 
 public class LoginScreenController {
     @FXML
@@ -32,19 +38,32 @@ public class LoginScreenController {
 
     @FXML
     private void initialize() {
+
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event){
+                Stage stage;
+                Parent root;
                 String subject = username.getText();
                 String pass = password.getText();
-                if (subject == null || password == null) {
+                if (subject.equals("") || pass.equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Username and Password cannot be empty", ButtonType.CLOSE);
                 }
 
                 if (Login.login(subject, pass)) {
-                    setMainApp(mainApp);
-//                    Alert alert  = new Alert(Alert.AlertType.INFORMATION, "Success!", ButtonType.CLOSE);
+                    stage = (Stage) loginButton.getScene().getWindow();
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("../view/MainScreenView.fxml"));
+                        Scene scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Alert alert  = new Alert(Alert.AlertType.INFORMATION, "Success!", ButtonType.CLOSE);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Login failed.", ButtonType.CLOSE);
