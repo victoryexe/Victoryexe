@@ -50,9 +50,7 @@ public class LoginScreenController {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Username and Password fields cannot be empty", ButtonType.CLOSE);
                     alert.show();
-                }
-
-                if (Login.login(subject, pass)) {
+                } else if (Login.login(subject, pass)) {
                     stage = (Stage) loginButton.getScene().getWindow();
                     try {
                         root = FXMLLoader.load(getClass().getResource("../view/MainScreenView.fxml"));
