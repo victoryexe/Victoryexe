@@ -2,6 +2,7 @@ package model.login;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Alexandra on 9/24/2016.
@@ -33,5 +34,13 @@ public class Authentication {
     public static boolean verifyPassword(String userid, String password) {
         // TODO currently plain text string matching
         return map.get(userid).equals(password);
+    }
+
+    /**
+     * Gets the set of users
+     * @return a Set containing usernames as Strings
+     */
+    public Set<String> getUserList() {
+        return map.keySet();
     }
 }

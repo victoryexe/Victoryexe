@@ -48,7 +48,7 @@ public class LoginScreenController {
                 String pass = password.getText();
                 if (subject.equals("") || pass.equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
-                            "Username and Password cannot be empty", ButtonType.CLOSE);
+                            "Username and Password fields cannot be empty", ButtonType.CLOSE);
                     alert.show();
                 }
 
