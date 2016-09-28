@@ -9,7 +9,6 @@ public class Login {
      * @return true if login is successful, else false
      */
     public static boolean login(String subject, String password) {
-        return (Authentication.verifySubject(subject)
-                && Authentication.verifyPassword(subject, password));
+        return Authentication.verifyCredentials(subject, password);
     }
 }
