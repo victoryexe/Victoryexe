@@ -43,4 +43,8 @@ public class UserList {
     public Set<String> getUserList() {
         return userMap.keySet();
     }
+
+    public static void makeNewUser(String subject, String password) {
+        userMap.put(subject, password); // TODO santitize inputs
+    }
 }
