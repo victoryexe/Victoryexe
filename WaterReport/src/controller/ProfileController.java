@@ -1,7 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
-import model.User.User;
+import model.Users.User;
 
 /**
  * Created by grizz on 9/27/2016.

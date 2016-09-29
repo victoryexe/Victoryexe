@@ -1,4 +1,4 @@
-package model;
+package model.Users;
 
 public class ClientUser implements User {
     private String name;

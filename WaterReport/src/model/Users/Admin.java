@@ -1,4 +1,4 @@
-package model;
+package model.Users;
 
 public class Admin implements User{
     private String name;

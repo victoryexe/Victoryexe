@@ -44,7 +44,12 @@ public class UserList {
         return userMap.keySet();
     }
 
+    /**
+     * Adds a userid, password entry to the userMap
+     * @param subject The subject's userid
+     * @param password The password associated with the userid
+     */
     public static void makeNewUser(String subject, String password) {
-        userMap.put(subject, password); // TODO santitize inputs
+        userMap.put(subject, password); // TODO sanitize inputs, hash
     }
 }

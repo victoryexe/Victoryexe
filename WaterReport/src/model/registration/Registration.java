@@ -6,6 +6,9 @@ import model.login.UserList;
  * Created by Alexandra on 9/29/2016.
  */
 public class Registration {
+    private Registration() {
+    }
+
     /**
      * Creates an account with the given username and password.
      * @param userid The userid of the new account
