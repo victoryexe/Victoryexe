@@ -1,4 +1,4 @@
-package model;
+package model.Users;
 
 public interface User {
     public String getName();
