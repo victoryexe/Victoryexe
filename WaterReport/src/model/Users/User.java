@@ -5,12 +5,12 @@ package model.Users;
 * Date:  9/30/2016
 */
 public class User implements Account {
-    private String name;
-    private String email;
-    private int userID;
-    private String homeAddress;
-    private String title;
-    private static int userCount; 
+    protected String name;
+    protected String email;
+    protected int userID;
+    protected String homeAddress;
+    protected String title;
+    protected static int userCount; 
     public User(String name, String email) {
         this.name = name;
         this.email = email;
@@ -21,7 +21,7 @@ public class User implements Account {
     public User() {
         name = null;
         email = null;
-        userID = null;
+        userID = 0;
     }
     public String getName() {
         return name;
@@ -33,10 +33,10 @@ public class User implements Account {
         this.homeAddress = address;
     }
     public String getHomeAddress() {
-        return this.getHomeAddress;
+        return this.homeAddress;
     }
     public String setTitle(String title) {
-        this.title = title;
+        return this.title = title;
     }
     public String getTitle() {
         return this.title;
@@ -47,7 +47,7 @@ public class User implements Account {
     public String getEmail() {
         return this.email;
     }
-    public String getUserID() {
+    public int getUserID() {
         return this.userID;
     }
     public AuthLevel getAuthLevel() {

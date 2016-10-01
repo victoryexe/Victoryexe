@@ -4,7 +4,7 @@ package model.Users;
 * Version 2.0
 * Date:  9/30/2016
 */
-public class Admin implements User{
+public class Admin implements Account {
     private String name;
     private String email;
     private int userID;
@@ -32,7 +32,7 @@ public class Admin implements User{
     public String getEmail() {
         return this.email;
     }
-    public String getUserID() {
+    public int getUserID() {
         return this.userID;
     }
     public boolean deleteAccount() {

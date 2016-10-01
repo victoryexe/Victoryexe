@@ -4,14 +4,13 @@ package model.Users;
 * Version: 1.0
 * Date:  9/30/2016
 */
-public class Manage extends Worker implements Account {
+public class Manager extends Worker {
 
-    public Manager(String name, String userName) {
+    public Manager(String name, String email) {
         this.name = name;
-        this.userName = userName;
+        this.email = email;
         super.userCount++;
         this.userID = userCount;
-
     }
     public AuthLevel getAuthLevel() {
         return AuthLevel.MANAGER;

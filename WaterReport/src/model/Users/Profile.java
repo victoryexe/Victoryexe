@@ -17,7 +17,7 @@ public class Profile {
         return user.getName();
     }
     public String getAddress() {
-        return user.getAddress();
+        return user.getHomeAddress();
     }
     public String getTitle() {
     	return user.getTitle();
