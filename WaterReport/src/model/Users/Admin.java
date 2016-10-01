@@ -1,19 +1,20 @@
 package model.Users;
-
+/**
+* Author Osvaldo Armas
+* Version 2.0
+* Date:  9/30/2016
+*/
 public class Admin implements User{
     private String name;
-    private String userName;
-    private String userID;
-    private String pw;
-    private static String adminCount; // TODO fix type
-    //Will Probably Create A Password Class Solely to add another layer of security
-    //Plus it will allow me to do some simple encryption for the Lol's
+    private String email;
+    private int userID;
+    private static int adminCount;
 
-    public Admin(String name, String userName, String pw) {
+    public Admin(String name, String email) {
         this.name = name;
-        this.userName = userName;
-        this.pw = pw;
-        this.userID = "A" + adminCount;
+        this.email = email;
+        adminCount++;
+        this.userID = adminCount;
 
     }
     public String getName() {
@@ -22,19 +23,28 @@ public class Admin implements User{
     public void setName(String name) {
         this.name = name;
     }
-    public void setUserName(String uName) {
-        this.userName = uName;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    public void setUserID(String userid) {
-        this.userID = userid;
+    public AuthLevel getAuthLevel() {
+        return AuthLevel.ADMIN;
     }
-    public void setPassword(String pw) {
-        this.pw = pw;
+    public String getEmail() {
+        return this.email;
     }
-    public boolean verifyPassword(String pass) {
-        return pw == pass; //Strings Allow this stuff, it will be more complex later.
-    } //Using getPassword would be a security problem.
-    public boolean isAdmin() {
+    public String getUserID() {
+        return this.userID;
+    }
+    public boolean deleteAccount() {
         return true;
+    }
+    public boolean banUserFromSubmittingReports() {
+        return true;
+    }
+    public boolean unblockAccount() {
+        return true;
+    }
+    public void viewSecurityLog() {
+        
     }
 }
