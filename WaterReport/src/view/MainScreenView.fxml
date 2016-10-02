@@ -17,7 +17,7 @@
             <Tab fx:id="profiletab" text="Profile">
               <content>
                 <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://poolwizardswi.com/wp-content/uploads/2014/04/Water-Backgrounds.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000 506;    -fx-background-position: center center;">
-                     <children>
+                    <children>
                         <Text fx:id="profiletabtitle" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER PROFILE">
                            <font>
                               <Font name="System Bold Italic" size="20.0" />
