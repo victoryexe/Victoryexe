@@ -1,5 +1,6 @@
 package model.login;
 
+import model.Users.Account;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -8,32 +9,8 @@ import java.util.Set;
  * Created by Alexandra on 9/28/2016.
  */
 public class UserList {
-    private static Map<String, CharSequence> userMap = new HashMap<>();
+    private static Map<String, Account> userMap = new HashMap<>();
     private UserList() {
-    }
-
-    private static void populateMap() { // TODO remove after M4
-        userMap.put("GPBurdell", "password");
-    }
-
-    /**
-     * Verifies that the user exists
-     * @param userid The username
-     * @return true iff the userid exists
-     */
-    public static boolean verifySubject(String userid) {
-        populateMap();
-        return userMap.containsKey(userid);
-    }
-
-    /**
-     * Verifies the entered password is correct
-     * @param password The user-entered password
-     * @return true iff the password is indeed the user's password
-     */
-    public static boolean verifyPassword(String userid, String password) {
-        // TODO currently plain text string matching
-        return userMap.get(userid).equals(password);
     }
 
     /**
@@ -45,11 +22,20 @@ public class UserList {
     }
 
     /**
-     * Adds a userid, password entry to the userMap
-     * @param subject The subject's userid
-     * @param password The password associated with the userid
+     * Gets the Account object associated with the given userid
+     * @param userid the userid of the desired account
+     * @return the Account associated with the userid
      */
-    public static void makeNewUser(String subject, String password) {
-        userMap.put(subject, password); // TODO sanitize inputs, hash
+    public Account getUserAccount(String userid) {
+        return userMap.get(userid);
+    }
+
+    /**
+     * Adds a userid, account entry to the userMap
+     * @param userid The subject's userid
+     * @param user The account object associated with the user account
+     */
+    public static void makeNewUser(String userid, Account user) {
+        userMap.put(userid, user); // TODO make user object, check fields
     }
 }

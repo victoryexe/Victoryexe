@@ -6,9 +6,12 @@ package model.login;
 public class Login {
     /**
      * Verifies credentials
+     * @param subject the userid of the account trying to login
+     * @param password the password entered
      * @return true if login is successful, else false
      */
     public static boolean login(String subject, String password) {
-        return Authentication.verifyCredentials(subject, password);
+        return Authentication.verifySubject(subject)
+                && Authentication.verifyPassword(subject, password);
     }
 }
