@@ -1,8 +1,7 @@
 package model.registration;
 
 import model.login.UserList;
-import model.login.Authentication;
-import model.Users.Account;
+import model.Users.AuthLevel;
 
 /**
  * Created by Alexandra on 9/29/2016.
@@ -12,16 +11,16 @@ public class Registration {
     }
 
     /**
-     * Creates an account with the given username and password.
-     * @param userid The userid of the new account
-     * @param password The password associated with the new userid
-     * @param account The account associated with the new userid
+     * Creates a new account with the given data
+     * @param first the user's first name
+     * @param last the user's last name
+     * @param userid the user's email
+     * @param pass1 the user's password
+     * @param pass2 confirm password
+     * @param auth the AuthLevel of the account
      */
-    public static void createAccount(String userid, String password, Account account) {
-        UserList.makeNewUser(userid, account);
-        Authentication.addNewAccount(userid, password);
+    public static void createAccount(String first, String last, String userid,
+                                     String pass1, String pass2, AuthLevel auth) {
+        UserList.makeNewUser(first, last, userid, pass1, pass2, auth);
     }
-
-    // TODO
-    // Make an instance of user
 }
