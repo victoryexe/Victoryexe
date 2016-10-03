@@ -52,7 +52,7 @@ public class UserList {
             } else if (auth.equals("MANAGER")) {
                 account = new Manager(firstName + " " + lastName, userid);
             } else if (auth.equals("ADMIN")) {
-                account = new Admin(firstName + " " + lastName, userid)
+                account = new Admin(firstName + " " + lastName, userid);
             }
         }
         userMap.put(userid, account);
@@ -75,11 +75,11 @@ public class UserList {
             return false;
         }
 
-        if (userid.indexOf("@") == -1) { // simple email check
+        if (!userid.contains("@")) { // simple email check
             return false;
         }
 
-        if (!password1.equals(password2)) {
+        if (!password1.equals(password2)) { // check that passwords match
             return false;
         }
 

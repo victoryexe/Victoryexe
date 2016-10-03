@@ -50,7 +50,7 @@ public class Authentication {
      * @param subject the userid to check
      * @return true if the userid already exists, false otherwise
      */
-    public static boolean checkSubject(String subject) {
+    private static boolean checkSubject(String subject) {
         return userMap.containsKey(subject);
     }
 
@@ -59,7 +59,7 @@ public class Authentication {
      * @param password the password to check
      * @return true if the password is safe, false otherwise
      */
-    public static boolean sanitizePassword(String password) {
+    private static boolean sanitizePassword(String password) {
         return true;
         // TODO
     }
