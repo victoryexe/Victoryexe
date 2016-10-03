@@ -1,6 +1,7 @@
 package model.login;
 
 import model.Users.*;
+import model.registration.UserFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -43,20 +44,11 @@ public class UserList {
      */
     public static void makeNewUser(String firstName, String lastName, String userid,
                                    String pass1, String pass2, AuthLevel auth) {
-        Account account = null;
         if (isInputValid(firstName, lastName, userid, pass1, pass2)) {
-            if (auth.equals("USER")) {
-                account = new User(firstName + " " + lastName, userid);
-            } else if (auth.equals("WORKER")) {
-                account = new Worker(firstName + " " + lastName, userid);
-            } else if (auth.equals("MANAGER")) {
-                account = new Manager(firstName + " " + lastName, userid);
-            } else if (auth.equals("ADMIN")) {
-                account = new Admin(firstName + " " + lastName, userid);
-            }
+            Account account = UserFactory.makeAccount(firstName, lastName, userid, auth);
+            userMap.put(userid, account);
+            Authentication.addNewAccount(userid, pass1);
         }
-        userMap.put(userid, account);
-        Authentication.addNewAccount(userid, pass1);
     }
 
     /**
@@ -75,7 +67,7 @@ public class UserList {
             return false;
         }
 
-        if (!userid.contains("@")) { // simple email check
+        if (userMap.containsKey(userid) || !userid.contains("@")) {
             return false;
         }
 

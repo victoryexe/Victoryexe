@@ -38,20 +38,11 @@ public class Authentication {
      * @param password the password associated with the account
      */
     public static void addNewAccount(String subject, String password) {
-        if (!checkSubject(subject) && sanitizePassword(password)) {
+        if (sanitizePassword(password)) {
             userMap.put(subject, password);
         } else {
             // TODO throw custom exception?
         }
-    }
-
-    /**
-     * Checks to see whether the proposed userid already exists
-     * @param subject the userid to check
-     * @return true if the userid already exists, false otherwise
-     */
-    private static boolean checkSubject(String subject) {
-        return userMap.containsKey(subject);
     }
 
     /**
