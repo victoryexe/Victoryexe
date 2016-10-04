@@ -23,36 +23,49 @@ public class User implements Account {
         email = null;
         userID = 0;
     }
+    @Override
     public String getName() {
         return name;
     }
+    @Override
     public void setName(String name) {
         this.name = name;
     }
+    @Override
     public void setHomeAddress(String address) {
         this.homeAddress = address;
     }
+    @Override
     public String getHomeAddress() {
         return this.homeAddress;
     }
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
+    @Override
     public String getTitle() {
         return this.title;
     }
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
+    @Override
     public String getEmail() {
         return this.email;
     }
+    @Override
     public int getUserID() {
         return this.userID;
     }
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.USER;
     }
+    /**
+    *@return returns if reporting was succesful;
+    */
     public boolean reportWaterAvailibility() {
         return true;
     }

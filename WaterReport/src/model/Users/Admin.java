@@ -19,33 +19,47 @@ public class Admin implements Account {
         this.userID = adminCount;
 
     }
+    @Override
     public String getName() {
         return name;
     }
+    @Override
     public void setName(String name) {
         this.name = name;
     }
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
+    @Override
     public String getEmail() {
         return this.email;
     }
+    @Override
     public int getUserID() {
         return this.userID;
     }
+    @Override
     public void setHomeAddress(String address) {
         this.homeAddress = address;
     }
+    @Override
     public String getHomeAddress() {
         return this.homeAddress;
     }
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
+<<<<<<< HEAD
+    @Override
+    public String getTitle(String title) {
+=======
     public String getTitle() {
+>>>>>>> 0be61f73d90179cf8316dec5848e75af72dee3bc
         return this.title;
     }
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.ADMIN;
     }
