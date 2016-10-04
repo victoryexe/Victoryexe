@@ -25,7 +25,7 @@ public class Profile {
     public void changeTitle(String title) {
     	acc.setTitle(title);
     }
-    public String changeAddress(String address) {
+    public void changeAddress(String address) {
         acc.setHomeAddress(address);
     }
     public void changeEmail(String email) {

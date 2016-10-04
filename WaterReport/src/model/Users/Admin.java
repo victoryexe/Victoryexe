@@ -51,12 +51,11 @@ public class Admin implements Account {
     public void setTitle(String title) {
         this.title = title;
     }
-<<<<<<< HEAD
     @Override
     public String getTitle(String title) {
-=======
+        return this.title;
+    }
     public String getTitle() {
->>>>>>> 0be61f73d90179cf8316dec5848e75af72dee3bc
         return this.title;
     }
     @Override
