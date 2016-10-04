@@ -123,6 +123,33 @@ public class MainController {
     }
 
     /**
+     * Checks whether the user-provided input is valid
+     * @param firstName the user's first name
+     * @param lastName the user's last name
+     * @param userid the user's email
+     * @param password1 the user's password
+     * @param password2 confirm password
+     * @return true iff all fields are valid
+     */
+    public static boolean isInputValid(String firstName, String lastName, String userid,
+                                       String password1, String password2) {
+        if (firstName == "" || lastName == "" || userid == ""
+                || password1 == "" || password2 == "") { // null checks
+            return false;
+        }
+
+        if (userMap.containsKey(userid) || !userid.contains("@")) {
+            return false;
+        }
+
+        if (!password1.equals(password2)) { // check that passwords match
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Close menu item event handler
      */
     @FXML

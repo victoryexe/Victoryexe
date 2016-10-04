@@ -44,38 +44,9 @@ public class UserList {
      */
     public static void makeNewUser(String firstName, String lastName, String userid,
                                    String pass1, String pass2, AuthLevel auth) {
-        if (isInputValid(firstName, lastName, userid, pass1, pass2)) {
             Account account = UserFactory.makeAccount(firstName, lastName, userid, auth);
             userMap.put(userid, account);
             Authentication.addNewAccount(userid, pass1);
-        }
-    }
-
-    /**
-     * Checks whether the user-provided input is valid
-     * @param firstName the user's first name
-     * @param lastName the user's last name
-     * @param userid the user's email
-     * @param password1 the user's password
-     * @param password2 confirm password
-     * @return true iff all fields are valid
-     */
-    public static boolean isInputValid(String firstName, String lastName, String userid,
-                                       String password1, String password2) {
-        if (firstName == "" || lastName == "" || userid == ""
-                || password1 == "" || password2 == "") { // null checks
-            return false;
-        }
-
-        if (userMap.containsKey(userid) || !userid.contains("@")) {
-            return false;
-        }
-
-        if (!password1.equals(password2)) { // check that passwords match
-            return false;
-        }
-
-        return true;
     }
 
     /**
