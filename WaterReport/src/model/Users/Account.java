@@ -5,10 +5,35 @@ package model.Users;
 * Date:  9/30/2016
 */
 public interface Account {
+    /**
+    * @return the name of the Account Owner
+    **/
     public String getName();
+    /**
+    * @param the name of the Account Owner
+    **/
     public void setName(String name);
+    /**
+    * @return the UserID of the Account Owner
+    **/
     public int getUserID();
+    /**
+    * @return the Email of the Account Owner
+    **/
     public String getEmail();
     public void setEmail(String email);
+    public void setHomeAddress(String address);
+    /**
+    * @return the Home Address of the Account Owner
+    **/
+    public String getHomeAddress();
+    public void setTitle(String title);
+    /**
+    * @return the title of the Account Owner
+    **/
+    public String getTitle();
+    /**
+    * @return the Authorization of the Account Owner
+    **/
     public AuthLevel getAuthLevel();
 }
