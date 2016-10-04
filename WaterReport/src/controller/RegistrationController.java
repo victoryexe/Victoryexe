@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Users.*;
 import model.login.UserList;
@@ -88,7 +85,7 @@ public class RegistrationController {
                 name = first + " " + last;
                 Account user;
 
-                if (MainController.isInputValid(first, last, mail, pass, pass2)) {
+                if (isInputValid(first, last, mail, pass, pass2)) {
                     Registration.createAccount(first, last, mail, pass, pass2, authLevel);
                     user = UserList.getUserAccount(mail);
                     LoginScreenController.currUser = user;
@@ -108,5 +105,37 @@ public class RegistrationController {
             }
         });
 
+    }
+
+    /**
+     * Checks whether the user-provided input is valid
+     * @param firstName the user's first name
+     * @param lastName the user's last name
+     * @param userid the user's email
+     * @param password1 the user's password
+     * @param password2 confirm password
+     * @return true iff all fields are valid
+     */
+    public static boolean isInputValid(String firstName, String lastName, String userid,
+                                       String password1, String password2) {
+        if (firstName.equals("") || lastName.equals("")|| userid.equals("")
+                || password1.equals("")|| password2.equals("")) { // null checks
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "All fields must be filled in.", ButtonType.CLOSE);
+            alert.show();
+            return false;
+        } else if (UserList.containsUserID(userid) || !userid.contains("@")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Must enter valid email address", ButtonType.CLOSE);
+            alert.show();
+            return false;
+        } else if (!password1.equals(password2)) { // check that passwords match
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Passwords must match.", ButtonType.CLOSE);
+            alert.show();
+            return false;
+        }
+
+        return true;
     }
 }

@@ -36,7 +36,7 @@ public class User implements Account {
         return this.homeAddress;
     }
     public void setTitle(String title) {
-        return this.title = title;
+        this.title = title;
     }
     public String getTitle() {
         return this.title;
