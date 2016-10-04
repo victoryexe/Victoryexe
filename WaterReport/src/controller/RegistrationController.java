@@ -88,7 +88,7 @@ public class RegistrationController {
                 name = first + " " + last;
                 Account user;
 
-                if (UserList.isInputValid(first, last, mail, pass, pass2)) {
+                if (MainController.isInputValid(first, last, mail, pass, pass2)) {
                     Registration.createAccount(first, last, mail, pass, pass2, authLevel);
                     user = UserList.getUserAccount(mail);
                     LoginScreenController.currUser = (User) user;

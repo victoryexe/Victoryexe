@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 import model.Users.Profile;
+import model.login.UserList;
 
 import java.io.IOException;
 
@@ -133,12 +134,12 @@ public class MainController {
      */
     public static boolean isInputValid(String firstName, String lastName, String userid,
                                        String password1, String password2) {
-        if (firstName == "" || lastName == "" || userid == ""
-                || password1 == "" || password2 == "") { // null checks
+        if (firstName.equals("") || lastName.equals("")|| userid.equals("")
+                || password1.equals("")|| password2.equals("")) { // null checks
             return false;
         }
 
-        if (userMap.containsKey(userid) || !userid.contains("@")) {
+        if (UserList.containsUserID(userid) || !userid.contains("@")) {
             return false;
         }
 

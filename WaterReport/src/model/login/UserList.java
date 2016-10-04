@@ -60,4 +60,13 @@ public class UserList {
             userMap.put(newEmail, account);
         }
     }
+
+    /**
+     * Checks if the given userid exists in the userMap
+     * @param userid the userid to check
+     * @return true iff userMap contains the userid
+     */
+    public static boolean containsUserID(String userid) {
+        return userMap.containsKey(userid);
+    }
 }
