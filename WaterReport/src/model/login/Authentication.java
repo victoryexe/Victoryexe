@@ -45,6 +45,20 @@ public class Authentication {
     }
 
     /**
+     * Deletes previous user-id: pass mapping and makes a new one
+     * @param oldEmail the user's old email
+     * @param newEmail the user's new email
+     * @param pass1 the user's password
+     * @param pass2 confirm password
+     */
+    public static void updateAccount(String oldEmail, String newEmail, String pass1, String pass2) {
+        CharSequence oldPass = userMap.remove(oldEmail);
+        if(oldPass != null && pass1.equals(pass2) && sanitizePassword((pass1))) {
+            userMap.put(newEmail, pass1);
+        }
+    }
+
+    /**
      * Checks whether password is safe to store
      * @param password the password to check
      * @return true if the password is safe, false otherwise
