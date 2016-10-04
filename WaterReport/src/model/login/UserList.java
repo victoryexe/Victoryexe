@@ -77,4 +77,16 @@ public class UserList {
 
         return true;
     }
+
+    /**
+     * Given a new userid, updates the map, deleting the old entry
+     * @param oldEmail the user's old email
+     * @param newEmail the user's new email
+     */
+    public static void updateMap(String oldEmail, String newEmail) {
+        Account account = userMap.remove(oldEmail);
+        if (account != null) {
+            userMap.put(newEmail, account);
+        }
+    }
 }
