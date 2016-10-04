@@ -5,31 +5,31 @@ package model.Users;
 * Date:  9/30/2016
 */
 public class Profile {
-    private User user;
+    private Account acc;
 
-    public Profile(User user) {
-        this.user = user;
+    public Profile(Account acc) {
+        this.acc = acc;
     }
     public String getEmail() {
-        return user.getEmail();
+        return acc.getEmail();
     }
     public String getName() {
-        return user.getName();
+        return acc.getName();
     }
     public String getAddress() {
-        return user.getHomeAddress();
+        return acc.getHomeAddress();
     }
     public String getTitle() {
-    	return user.getTitle();
+    	return acc.getTitle();
     }
     public void changeTitle(String title) {
-    	user.setTitle(title);
+    	acc.setTitle(title);
     }
     public void changeAddress(String address) {
-        user.setHomeAddress(address);
+        acc.setHomeAddress(address);
     }
     public void changeEmail(String email) {
-        user.setEmail(email);
+        acc.setEmail(email);
     }
     public void changePassword(String pw) {
         //TODO: PasswordRemapping
