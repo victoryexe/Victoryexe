@@ -10,7 +10,7 @@ public interface Account {
     **/
     public String getName();
     /**
-    * @param the name of the Account Owner
+    * @param name of the Account Owner
     **/
     public void setName(String name);
     /**

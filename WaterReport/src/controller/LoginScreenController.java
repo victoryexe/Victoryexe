@@ -28,7 +28,7 @@ public class LoginScreenController {
     @FXML
     private Hyperlink register;
 
-    public static User currUser;
+    public static Account currUser;
 
     /** a link back to Main */
     private Main mainApp;
@@ -54,7 +54,7 @@ public class LoginScreenController {
                             "Username and Password fields cannot be empty", ButtonType.CLOSE);
                     alert.show();
                 } else if (Login.login(subject, pass)) {
-                    currUser = (User) UserList.getUserAccount(subject);
+                    currUser = UserList.getUserAccount(subject);
                     stage = (Stage) loginButton.getScene().getWindow();
                     try {
                         root = FXMLLoader.load(getClass().getResource("../view/MainScreenView.fxml"));

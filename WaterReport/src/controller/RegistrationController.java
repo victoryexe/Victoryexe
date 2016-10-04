@@ -91,7 +91,7 @@ public class RegistrationController {
                 if (MainController.isInputValid(first, last, mail, pass, pass2)) {
                     Registration.createAccount(first, last, mail, pass, pass2, authLevel);
                     user = UserList.getUserAccount(mail);
-                    LoginScreenController.currUser = (User) user;
+                    LoginScreenController.currUser = user;
                     Stage stage;
                     Parent root;
                     stage = (Stage) regSubmit.getScene().getWindow();
