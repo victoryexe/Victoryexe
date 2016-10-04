@@ -62,8 +62,8 @@ public class UserList {
      */
     public static boolean isInputValid(String firstName, String lastName, String userid,
                                        String password1, String password2) {
-        if (firstName == null || lastName == null || userid == null
-                || password1 == null || password2 == null) { // null checks
+        if (firstName == "" || lastName == "" || userid == ""
+                || password1 == "" || password2 == "") { // null checks
             return false;
         }
 

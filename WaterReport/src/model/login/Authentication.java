@@ -18,7 +18,6 @@ public class Authentication {
      * @return true iff the userid exists
      */
     public static boolean verifySubject(String userid) {
-        userMap.put("GPBurdell", "password");
         return userMap.containsKey(userid);
     }
 
