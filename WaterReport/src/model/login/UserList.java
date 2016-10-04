@@ -27,7 +27,7 @@ public class UserList {
      * @param userid the userid of the desired account
      * @return the Account associated with the userid
      */
-    public Account getUserAccount(String userid) {
+    public static Account getUserAccount(String userid) {
         return userMap.get(userid);
     }
 

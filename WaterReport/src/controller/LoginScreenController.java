@@ -5,12 +5,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Users.Account;
+import model.Users.User;
 import model.login.*;
 import fxapp.Main;
 import javafx.fxml.FXML;
@@ -26,6 +24,11 @@ public class LoginScreenController {
 
     @FXML
     private Button loginButton;
+
+    @FXML
+    private Hyperlink register;
+
+    public static User currUser;
 
     /** a link back to Main */
     private Main mainApp;
@@ -51,6 +54,7 @@ public class LoginScreenController {
                             "Username and Password fields cannot be empty", ButtonType.CLOSE);
                     alert.show();
                 } else if (Login.login(subject, pass)) {
+                    currUser = (User) UserList.getUserAccount(subject);
                     stage = (Stage) loginButton.getScene().getWindow();
                     try {
                         root = FXMLLoader.load(getClass().getResource("../view/MainScreenView.fxml"));
@@ -65,6 +69,24 @@ public class LoginScreenController {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Login failed.", ButtonType.CLOSE);
                     alert.show();
+                }
+            }
+        });
+
+        register.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Stage stage;
+                Parent root;
+                stage = (Stage) register.getScene().getWindow();
+                try {
+                    root = FXMLLoader.load(getClass().getResource("../view/Registration.fxml"));
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });

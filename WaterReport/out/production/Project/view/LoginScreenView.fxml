@@ -27,6 +27,6 @@
          </font></Button>
       <Label layoutX="163.0" layoutY="146.0" text="Username:  " />
       <Label layoutX="163.0" layoutY="191.0" text="Password:   " />
-      <Hyperlink layoutX="213.0" layoutY="306.0" text="Not Registered Yet? Click Here!" />
+      <Hyperlink fx:id="register" layoutX="213.0" layoutY="306.0" text="Not Registered Yet? Click Here!" />
    </children>
 </AnchorPane>

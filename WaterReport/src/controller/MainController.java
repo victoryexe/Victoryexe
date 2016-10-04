@@ -11,7 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
+import model.Users.Profile;
 
 import java.io.IOException;
 
@@ -23,6 +26,24 @@ public class MainController {
 
     @FXML
     private Button Logout;
+    @FXML
+    private TextField nametextbox;
+    @FXML
+    private TextField salutationtextbox;
+    @FXML
+    private TextField useridtextbox;
+    @FXML
+    private TextField emailtextbox;
+    @FXML
+    private TextField homeaddresstextbox;
+    @FXML
+    private TextField authorizationleveltextbox;
+    @FXML
+    private Button salutationedit;
+    @FXML
+    private Button submit;
+
+    private Profile currProfile;
 
     /** reference back to mainApplication if needed */
     private Main mainApp;
@@ -45,6 +66,7 @@ public class MainController {
                 Parent root;
                 stage = (Stage) Logout.getScene().getWindow();
                 try {
+                    LoginScreenController.currUser = null;
                     root = FXMLLoader.load(getClass().getResource("../view/LoginScreenView.fxml"));
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
@@ -55,6 +77,49 @@ public class MainController {
                 }
             }
         });
+
+        submit.setVisible(false);
+        currProfile = new Profile(LoginScreenController.currUser);
+        nametextbox.setEditable(false);
+        nametextbox.setText(currProfile.getName());
+        salutationtextbox.setEditable(false);
+        salutationtextbox.setText(currProfile.getTitle());
+        useridtextbox.setEditable(false);
+        useridtextbox.setText("" + LoginScreenController.currUser.getUserID());
+        emailtextbox.setEditable(false);
+        emailtextbox.setText(currProfile.getEmail());
+        homeaddresstextbox.setEditable(false);
+        homeaddresstextbox.setText(currProfile.getAddress());
+        authorizationleveltextbox.setEditable(false);
+        authorizationleveltextbox.setText(LoginScreenController.currUser.getAuthLevel().name());
+
+        salutationedit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                salutationedit.setVisible(false);
+                submit.setVisible(true);
+                nametextbox.setEditable(true);
+                salutationtextbox.setEditable(true);
+                emailtextbox.setEditable(true);
+                homeaddresstextbox.setEditable(true);
+            }
+        });
+
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                submit.setVisible(false);
+                salutationedit.setVisible(true);
+                currProfile.changeAddress(homeaddresstextbox.getText());
+                homeaddresstextbox.setEditable(false);
+                currProfile.changeTitle(salutationtextbox.getText());
+                salutationtextbox.setEditable(false);
+                if (!currProfile.getEmail().equals(emailtextbox.getText())) {
+
+                }
+            }
+        });
+
     }
 
     /**
