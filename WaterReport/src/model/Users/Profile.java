@@ -22,6 +22,9 @@ public class Profile {
     public String getTitle() {
     	return acc.getTitle();
     }
+    public void changeName(String name) {
+        acc.setName(name);
+    }
     public void changeTitle(String title) {
     	acc.setTitle(title);
     }
