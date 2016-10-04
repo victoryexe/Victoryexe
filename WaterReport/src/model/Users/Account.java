@@ -21,12 +21,21 @@ public interface Account {
     * @return the Email of the Account Owner
     **/
     public String getEmail();
+    /**
+    * @param the Email of the Account Owner
+    **/
     public void setEmail(String email);
+    /**
+    * @param the Home Address of the Account Owner
+    **/
     public void setHomeAddress(String address);
     /**
     * @return the Home Address of the Account Owner
     **/
     public String getHomeAddress();
+    /**
+    * @param the Title of the Account Owner
+    **/
     public void setTitle(String title);
     /**
     * @return the title of the Account Owner
