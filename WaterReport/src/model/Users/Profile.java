@@ -1,9 +1,9 @@
 package model.Users;
 /**
-* Author Osvaldo Armas
-* Version 1.0
-* Date:  9/30/2016
-*/
+ * Author Osvaldo Armas
+ * Version 1.0
+ * Date:  9/30/2016
+ */
 public class Profile {
     private Account acc;
 
@@ -20,10 +20,10 @@ public class Profile {
         return acc.getHomeAddress();
     }
     public String getTitle() {
-    	return acc.getTitle();
+        return acc.getTitle();
     }
     public void changeTitle(String title) {
-    	acc.setTitle(title);
+        acc.setTitle(title);
     }
     public void changeAddress(String address) {
         acc.setHomeAddress(address);

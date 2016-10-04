@@ -1,9 +1,9 @@
 package model.Users;
 /**
-* Author Osvaldo Armas
-* Version 2.0
-* Date:  9/30/2016
-*/
+ * Author Osvaldo Armas
+ * Version 2.0
+ * Date:  9/30/2016
+ */
 public class Admin implements Account {
     private String name;
     private String email;
@@ -72,7 +72,7 @@ public class Admin implements Account {
         return true;
     }
     public void viewSecurityLog() {
-        
+
     }
 
 }
