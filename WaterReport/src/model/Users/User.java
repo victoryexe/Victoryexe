@@ -8,7 +8,7 @@ public class User implements Account {
     protected String name;
     protected String email;
     protected int userID;
-    protected String homeAddress;
+    protected Address homeAddress;
     protected String title;
     protected static int userCount; 
     public User(String name, String email) {
@@ -32,11 +32,7 @@ public class User implements Account {
         this.name = name;
     }
     @Override
-    public void setHomeAddress(String address) {
-        this.homeAddress = address;
-    }
-    @Override
-    public String getHomeAddress() {
+    public Address getHomeAddress() {
         return this.homeAddress;
     }
     @Override

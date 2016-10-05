@@ -16,7 +16,7 @@ public class Profile {
     public String getName() {
         return acc.getName();
     }
-    public String getAddress() {
+    public Address getAddress() {
         return acc.getHomeAddress();
     }
     public String getTitle() {
@@ -24,9 +24,6 @@ public class Profile {
     }
     public void changeTitle(String title) {
         acc.setTitle(title);
-    }
-    public void changeAddress(String address) {
-        acc.setHomeAddress(address);
     }
     public void changeEmail(String email) {
         acc.setEmail(email);

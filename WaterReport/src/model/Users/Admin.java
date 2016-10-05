@@ -7,7 +7,7 @@ package model.Users;
 public class Admin implements Account {
     private String name;
     private String email;
-    private String homeAddress;
+    private Address homeAddress;
     private String title;
     private int userID;
     private static int adminCount;
@@ -40,11 +40,7 @@ public class Admin implements Account {
         return this.userID;
     }
     @Override
-    public void setHomeAddress(String address) {
-        this.homeAddress = address;
-    }
-    @Override
-    public String getHomeAddress() {
+    public Address getHomeAddress() {
         return this.homeAddress;
     }
     @Override
@@ -52,9 +48,6 @@ public class Admin implements Account {
         this.title = title;
     }
     @Override
-    public String getTitle(String title) {
-        return this.title;
-    }
     public String getTitle() {
         return this.title;
     }

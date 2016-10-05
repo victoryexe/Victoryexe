@@ -26,13 +26,9 @@ public interface Account {
     **/
     public void setEmail(String email);
     /**
-    * @param the Home Address of the Account Owner
-    **/
-    public void setHomeAddress(String address);
-    /**
     * @return the Home Address of the Account Owner
     **/
-    public String getHomeAddress();
+    public Address getHomeAddress();
     /**
     * @param the Title of the Account Owner
     **/
