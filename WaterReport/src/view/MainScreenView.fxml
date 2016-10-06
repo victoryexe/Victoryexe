@@ -3,6 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -11,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane fx:id="backPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <TabPane fx:id="applicationTabs" layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
         <tabs>
             <Tab fx:id="profiletab" text="Profile">
               <content>
-                <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://poolwizardswi.com/wp-content/uploads/2014/04/Water-Backgrounds.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000 506;    -fx-background-position: center center;">
+                <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://poolwizardswi.com/wp-content/uploads/2014/04/Water-Backgrounds.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000;    -fx-background-position: center center;">
                     <children>
                         <Text fx:id="profiletabtitle" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER PROFILE">
                            <font>
@@ -50,6 +53,7 @@
                         <TextField fx:id="zipcodetextbox" layoutX="344.0" layoutY="175.0" prefHeight="27.0" prefWidth="84.0" promptText="Zip Code" />
                         <TextField fx:id="countrytextbox" layoutX="436.0" layoutY="175.0" prefHeight="27.0" prefWidth="121.0" promptText="Country" AnchorPane.rightAnchor="43.0" />
                         <Label fx:id="currsalutation" layoutX="136.0" layoutY="60.0" />
+                        <Separator prefWidth="200.0" />
                      </children>
                   </AnchorPane>
               </content>
@@ -64,6 +68,24 @@
               <AnchorPane fx:id="submitPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
+            <Tab text="View Water Report">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://andrew-wittman.com/wp-content/uploads/2013/07/Status-Quo.jpg&quot;);" styleClass="-fx-background-size: 600 506;    -fx-background-position: center center;">
+                     <children>
+                        <ScrollPane layoutY="44.0" prefHeight="258.0" prefWidth="500.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0">
+                          <content>
+                            <AnchorPane prefHeight="515.0" prefWidth="482.0">
+                                 <children>
+                                    <ListView layoutX="66.0" layoutY="25.0" prefHeight="515.0" prefWidth="482.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" text="View Report" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="250.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
       <Pane fx:id="logoutPane" layoutX="462.0" layoutY="6.0" prefHeight="25.0" prefWidth="130.0">
