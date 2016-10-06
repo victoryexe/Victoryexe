@@ -36,6 +36,8 @@ public class User implements Account {
         return this.homeAddress;
     }
     @Override
+    public void setHomeAddress(Address homeAddress) { this.homeAddress = homeAddress; }
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }

@@ -25,9 +25,11 @@ public class Profile {
     public void changeTitle(String title) {
         acc.setTitle(title);
     }
+    public void changeAddress(Address address) { acc.setHomeAddress(address); }
     public void changeEmail(String email) {
         acc.setEmail(email);
     }
+    public void changeName(String name) { acc.setName(name); }
     public void changePassword(String pw) {
         //TODO: PasswordRemapping
     }

@@ -30,6 +30,10 @@ public interface Account {
     **/
     public Address getHomeAddress();
     /**
+     * @param address of the Account Owner
+     */
+    public void setHomeAddress(Address address);
+    /**
     * @param the Title of the Account Owner
     **/
     public void setTitle(String title);

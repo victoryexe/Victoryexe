@@ -40,6 +40,8 @@ public class Admin implements Account {
         return this.userID;
     }
     @Override
+    public void setHomeAddress(Address homeAddress) { this.homeAddress = homeAddress; }
+    @Override
     public Address getHomeAddress() {
         return this.homeAddress;
     }

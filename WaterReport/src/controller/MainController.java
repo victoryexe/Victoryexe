@@ -9,15 +9,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Users.Address;
 import model.Users.Profile;
+import model.login.Authentication;
 import model.login.UserList;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
+import java.util.ArrayList;
 
 /**
  * The controller for the root/main window
@@ -28,21 +30,31 @@ public class MainController {
     @FXML
     private Button Logout;
     @FXML
-    private TextField nametextbox;
+    private TextField lastnametextbox;
     @FXML
-    private TextField salutationtextbox;
+    private  TextField firstnametextbox;
     @FXML
-    private TextField useridtextbox;
+    private TextField streetaddresstextbox;
+    @FXML
+    private TextField citytextbox;
+    @FXML
+    private TextField statetextbox;
+    @FXML
+    private TextField countrytextbox;
+    @FXML
+    private TextField aptnumtextbox;
+    @FXML
+    private TextField zipcodetextbox;
     @FXML
     private TextField emailtextbox;
     @FXML
-    private TextField homeaddresstextbox;
-    @FXML
-    private TextField authorizationleveltextbox;
+    private ComboBox salutationcombobox;
     @FXML
     private Button salutationedit;
     @FXML
     private Button submit;
+    @FXML
+    private Label currsalutation;
 
     private Profile currProfile;
 
@@ -79,30 +91,103 @@ public class MainController {
             }
         });
 
-        submit.setVisible(false);
+        DecimalFormat format = new DecimalFormat( "#" );
+
+        zipcodetextbox.setTextFormatter( new TextFormatter<>(c ->
+        {
+            if ( c.getControlNewText().isEmpty() )
+            {
+                return c;
+            }
+
+            ParsePosition parsePosition = new ParsePosition( 0 );
+            Object object = format.parse( c.getControlNewText(), parsePosition );
+
+            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+            {
+                return null;
+            }
+            else
+            {
+                return c;
+            }
+        }));
+
+        aptnumtextbox.setTextFormatter( new TextFormatter<>(c ->
+        {
+            if ( c.getControlNewText().isEmpty() )
+            {
+                return c;
+            }
+
+            ParsePosition parsePosition = new ParsePosition( 0 );
+            Object object = format.parse( c.getControlNewText(), parsePosition );
+
+            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+            {
+                return null;
+            }
+            else
+            {
+                return c;
+            }
+        }));
+
+        ArrayList<String> salutation = new ArrayList<String>();
+        salutation.add("");
+        salutation.add("Mr.");
+        salutation.add("Ms.");
+        salutation.add("Mrs.");
+        salutation.add("Dr.");
+        salutationcombobox.setItems(javafx.collections.FXCollections.observableList(salutation));
+        salutationcombobox.setVisible(false);
         currProfile = new Profile(LoginScreenController.currUser);
-        nametextbox.setEditable(false);
-        nametextbox.setText(currProfile.getName());
-        salutationtextbox.setEditable(false);
-        salutationtextbox.setText(currProfile.getTitle());
-        useridtextbox.setEditable(false);
-        useridtextbox.setText("" + LoginScreenController.currUser.getUserID());
+        if (currProfile.getTitle() != null) {
+            currsalutation.setText(currProfile.getTitle());
+        }
+        submit.setVisible(false);
+        lastnametextbox.setEditable(false);
+        firstnametextbox.setEditable(false);
         emailtextbox.setEditable(false);
+        streetaddresstextbox.setEditable(false);
+        citytextbox.setEditable(false);
+        statetextbox.setEditable(false);
+        countrytextbox.setEditable(false);
+        aptnumtextbox.setEditable(false);
+        zipcodetextbox.setEditable(false);
+        String name = currProfile.getName();
+        firstnametextbox.setText(name.substring(0, name.indexOf(" ")));
+        lastnametextbox.setText(name.substring(name.indexOf(" ")));
         emailtextbox.setText(currProfile.getEmail());
-        homeaddresstextbox.setEditable(false);
-        homeaddresstextbox.setText(currProfile.getAddress());
-        authorizationleveltextbox.setEditable(false);
-        authorizationleveltextbox.setText(LoginScreenController.currUser.getAuthLevel().name());
+        if (currProfile.getAddress() != null) {
+            streetaddresstextbox.setText(currProfile.getAddress().getStreet());
+            if (currProfile.getAddress().apartmentNumber() != -1) {
+                aptnumtextbox.setText("" + currProfile.getAddress().apartmentNumber());
+            }
+            citytextbox.setText(currProfile.getAddress().getCity());
+            statetextbox.setText(currProfile.getAddress().getState());
+            countrytextbox.setText(currProfile.getAddress().getCountry());
+            if (currProfile.getAddress().getZip() != -1) {
+                zipcodetextbox.setText("" + currProfile.getAddress().getZip());
+            }
+        }
 
         salutationedit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 salutationedit.setVisible(false);
                 submit.setVisible(true);
-                nametextbox.setEditable(true);
-                salutationtextbox.setEditable(true);
+                currsalutation.setVisible(false);
+                salutationcombobox.setVisible(true);
+                lastnametextbox.setEditable(true);
+                firstnametextbox.setEditable(true);
                 emailtextbox.setEditable(true);
-                homeaddresstextbox.setEditable(true);
+                streetaddresstextbox.setEditable(true);
+                citytextbox.setEditable(true);
+                statetextbox.setEditable(true);
+                countrytextbox.setEditable(true);
+                aptnumtextbox.setEditable(true);
+                zipcodetextbox.setEditable(true);
             }
         });
 
@@ -111,12 +196,46 @@ public class MainController {
             public void handle(ActionEvent event) {
                 submit.setVisible(false);
                 salutationedit.setVisible(true);
-                currProfile.changeAddress(homeaddresstextbox.getText());
-                homeaddresstextbox.setEditable(false);
-                currProfile.changeTitle(salutationtextbox.getText());
-                salutationtextbox.setEditable(false);
+                currProfile.changeTitle((String) salutationcombobox.getValue());
+                currsalutation.setText(currProfile.getTitle());
+                currsalutation.setVisible(true);
+                salutationcombobox.setVisible(false);
+                salutationcombobox.setEditable(false);
+                currProfile.changeName(firstnametextbox.getText() + " " + lastnametextbox.getText());
+                int zip;
+                int apt;
                 if (!currProfile.getEmail().equals(emailtextbox.getText())) {
-
+                    UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
+                    Authentication.updateEmail(currProfile.getEmail(), emailtextbox.getText());
+                    currProfile.changeEmail(emailtextbox.getText());
+                }
+                if (currProfile.getAddress() == null) {
+                    if (zipcodetextbox.getText().equals("")) {
+                        zip = -1;
+                    } else {
+                        zip = Integer.valueOf(zipcodetextbox.getText());
+                    }
+                    if (aptnumtextbox.getText().equals("")) {
+                        apt = -1;
+                    } else {
+                        apt = Integer.valueOf(aptnumtextbox.getText());
+                    }
+                    currProfile.changeAddress(new Address(streetaddresstextbox.getText(), apt,
+                            citytextbox.getText(), statetextbox.getText(), zip, countrytextbox.getText()));
+                } else {
+                    currProfile.getAddress().setStreet(streetaddresstextbox.getText());
+                    currProfile.getAddress().setCity(citytextbox.getText());
+                    currProfile.getAddress().setState(statetextbox.getText());
+                    if (zipcodetextbox.getText().equals("")) {
+                        currProfile.getAddress().setZip(-1);
+                    } else {
+                        currProfile.getAddress().setZip(Integer.valueOf(zipcodetextbox.getText()));
+                    }
+                    if (aptnumtextbox.getText().equals("")) {
+                        currProfile.getAddress().setApartmentNum(-1);
+                    } else {
+                        currProfile.getAddress().setApartmentNum(Integer.valueOf(aptnumtextbox.getText()));
+                    }
                 }
             }
         });
