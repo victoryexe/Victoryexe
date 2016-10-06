@@ -177,7 +177,10 @@ public class MainController {
                 zipcodetextbox.setText("" + currProfile.getAddress().getZip());
             }
         }
-
+        /**
+         * sets the function of the edit button to set all fields editable and replace
+         * itself with the submit button
+         */
         salutationedit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -188,7 +191,10 @@ public class MainController {
                 setAllEditable(true);
             }
         });
-
+         /**
+         * Sets the function of the submit button to make all fields uneditable
+         * and to save any changes made to the profile page
+         */
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -198,6 +204,7 @@ public class MainController {
                 currsalutation.setText(currProfile.getTitle());
                 currsalutation.setVisible(true);
                 salutationcombobox.setVisible(false);
+                setAllEditable(false);
                 currProfile.changeName(firstnametextbox.getText() + " " + lastnametextbox.getText());
                 int zip;
                 int apt;
