@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Users.Address;
 import model.Users.Profile;
@@ -71,7 +72,10 @@ public class MainController {
 
     @FXML
     private void initialize() {
-
+        /**
+         * Sets the function of the Logout button to return user to the
+         * Login screen and clears the current user.
+         */
         Logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -91,6 +95,10 @@ public class MainController {
             }
         });
 
+        /**
+         * Forces only decimal numbers to be entered as values in either
+         * zipcodetextbox or aptnumtextbox
+         */
         DecimalFormat format = new DecimalFormat( "#" );
 
         zipcodetextbox.setTextFormatter( new TextFormatter<>(c ->
@@ -141,20 +149,18 @@ public class MainController {
         salutation.add("Dr.");
         salutationcombobox.setItems(javafx.collections.FXCollections.observableList(salutation));
         salutationcombobox.setVisible(false);
+        salutationcombobox.setOnMousePressed(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                salutationcombobox.requestFocus();
+            }
+        });
         currProfile = new Profile(LoginScreenController.currUser);
         if (currProfile.getTitle() != null) {
             currsalutation.setText(currProfile.getTitle());
         }
         submit.setVisible(false);
-        lastnametextbox.setEditable(false);
-        firstnametextbox.setEditable(false);
-        emailtextbox.setEditable(false);
-        streetaddresstextbox.setEditable(false);
-        citytextbox.setEditable(false);
-        statetextbox.setEditable(false);
-        countrytextbox.setEditable(false);
-        aptnumtextbox.setEditable(false);
-        zipcodetextbox.setEditable(false);
+        setAllEditable(false);
         String name = currProfile.getName();
         firstnametextbox.setText(name.substring(0, name.indexOf(" ")));
         lastnametextbox.setText(name.substring(name.indexOf(" ")));
@@ -179,15 +185,7 @@ public class MainController {
                 submit.setVisible(true);
                 currsalutation.setVisible(false);
                 salutationcombobox.setVisible(true);
-                lastnametextbox.setEditable(true);
-                firstnametextbox.setEditable(true);
-                emailtextbox.setEditable(true);
-                streetaddresstextbox.setEditable(true);
-                citytextbox.setEditable(true);
-                statetextbox.setEditable(true);
-                countrytextbox.setEditable(true);
-                aptnumtextbox.setEditable(true);
-                zipcodetextbox.setEditable(true);
+                setAllEditable(true);
             }
         });
 
@@ -200,7 +198,6 @@ public class MainController {
                 currsalutation.setText(currProfile.getTitle());
                 currsalutation.setVisible(true);
                 salutationcombobox.setVisible(false);
-                salutationcombobox.setEditable(false);
                 currProfile.changeName(firstnametextbox.getText() + " " + lastnametextbox.getText());
                 int zip;
                 int apt;
@@ -240,6 +237,21 @@ public class MainController {
             }
         });
 
+    }
+    /**
+     * Sets all texts fields as either editable or non-editable
+     * @param value
+     */
+    public void setAllEditable(boolean value) {
+        lastnametextbox.setEditable(value);
+        firstnametextbox.setEditable(value);
+        emailtextbox.setEditable(value);
+        streetaddresstextbox.setEditable(value);
+        citytextbox.setEditable(value);
+        statetextbox.setEditable(value);
+        countrytextbox.setEditable(value);
+        aptnumtextbox.setEditable(value);
+        zipcodetextbox.setEditable(value);
     }
 
     /**
