@@ -1,0 +1,44 @@
+=========================================================
+=========================================================
+==========================
+Owen Brahms			
+CS 2340					
+FULLY DRESSED USE CASE			
+=========================================================
+=========================================================
+==========================
+
+View Log
+Primary Actor: Admin
+Stakeholders and Interests:
+ Admin: The Admin needs to be able to be aware of the goings on of the system
+and should be able to check for aberrations in normal use.
+ System: Used to check for failed login attempts to block user
+
+Precondition:
+-Admin is logged in
+-Log files exist
+
+Postcondition:
+-Logs are displayed for Admin to view
+
+Sunny Day:
+1. Admin selects view logs option
+2. System displays menu of available logs to view
+3. Admin selects log to view
+4. System displays selected log to Admin
+
+Extensions: 
+4a. Log file does not exist
+	1. System alerts Admin to the non-existence of the log file
+	2. Admin is asked if they wish to create a log file
+
+Special Requirements: None
+
+Technology and External Variations List: None
+
+Frequency: Common
+
+Miscellaneous: None
+
+Written by Owen Brahms
