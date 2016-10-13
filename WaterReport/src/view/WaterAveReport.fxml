@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:id="wateravereportpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(&quot;http://cdn.meaningfullife.org/wp-content/uploads/2014/07/tsunami2.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 900 506;    -fx-background-position: center center;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text fx:id="wateravereporttitle" fill="WHITE" layoutX="24.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WATER AVAILABILITY REPORT" wrappingWidth="385.14453125">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="24.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" />
+      <Text fill="WHITE" layoutX="24.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" />
+      <Text fill="WHITE" layoutX="24.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report Number:" />
+      <Text fill="WHITE" layoutX="24.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Reporter:" />
+      <Text fill="WHITE" layoutX="24.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location of Water:" />
+      <Text fill="WHITE" layoutX="24.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of Water:" />
+      <Text fill="WHITE" layoutX="24.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition of Water:" />
+      <Text fx:id="dateedit" fill="WHITE" layoutX="164.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="timeedit" fill="WHITE" layoutX="164.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="reportnumberedit" fill="WHITE" layoutX="164.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="nameofreporteredit" fill="WHITE" layoutX="164.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="locationofwateredit" fill="WHITE" layoutX="164.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="typeofwateredit" fill="WHITE" layoutX="164.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="conditionofwateredit" fill="WHITE" layoutX="164.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+   </children>
+</AnchorPane>
