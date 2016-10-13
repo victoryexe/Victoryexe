@@ -9,12 +9,14 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane fx:id="backPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <TabPane fx:id="applicationTabs" layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
         <tabs>
@@ -65,7 +67,34 @@
           </Tab>
           <Tab fx:id="submitTab" text="Submit Report">
             <content>
-              <AnchorPane fx:id="submitPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane fx:id="submitPane" minHeight="0.0" minWidth="0.0" opacity="0.66" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;https://s-media-cache-ak0.pinimg.com/originals/2d/e0/98/2de098e427a6fc97bdf1509acad77af6.jpg&quot;);">
+                     <children>
+                        <ImageView fitHeight="410.0" fitWidth="472.0" layoutX="77.0" layoutY="-30.0" opacity="0.21" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@imageedit_1_2005740847.png" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="latitude" alignment="CENTER" layoutX="227.0" layoutY="83.0" promptText="Latitude" />
+                        <TextField fx:id="longitude" alignment="CENTER" layoutX="227.0" layoutY="108.0" promptText="Longitude" />
+                        <ComboBox fx:id="sourceBox" layoutX="224.0" layoutY="175.0" prefWidth="150.0" />
+                        <Label layoutX="263.0" layoutY="56.0" text="Location">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="submitRepBox" layoutX="253.0" layoutY="307.0" mnemonicParsing="false" text="Submit Report" />
+                        <Label layoutX="242.0" layoutY="148.0" text="Water Source">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="conditionBox" layoutX="227.0" layoutY="249.0" prefWidth="150.0" />
+                        <Label alignment="CENTER" layoutX="231.0" layoutY="222.0" text="Water Condition">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab text="View Water Report">
