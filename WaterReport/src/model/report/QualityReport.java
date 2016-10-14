@@ -6,6 +6,7 @@ import model.Users.Worker;
  * Created by Alexandra on 10/12/2016.
  */
 public class QualityReport extends Report{
+    private static int reportCount = 0;
     private OverallCondition waterCondition;
     private int virusPPM;
     private int contaminantPPM;
@@ -24,6 +25,7 @@ public class QualityReport extends Report{
         waterCondition = condition;
         this.virusPPM = virusPPM;
         this.contaminantPPM = contaminantPPM;
+        setRID(reportCount++);
     }
 
     /**
@@ -72,5 +74,24 @@ public class QualityReport extends Report{
      */
     public void setContaminantPPM(int contaminantPPM) {
         this.contaminantPPM = contaminantPPM;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof QualityReport)) {
+            return false;
+        }
+        return ((QualityReport) obj).getReportID() == this.getReportID();
+    }
+
+    @Override
+    public int hashCode() {
+        return getReportID();
     }
 }

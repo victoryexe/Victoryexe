@@ -10,7 +10,6 @@ import java.time.LocalTime;
  * Created by Alexandra on 10/12/2016.
  */
 public abstract class Report implements Comparable<Report> {
-    private static int reportCounter = 0; // TODO Stringify
     private LocalDateTime timestamp;
     private int rID;
     private User submitterID;
@@ -24,7 +23,6 @@ public abstract class Report implements Comparable<Report> {
      */
     public Report(User submitter, Location location) {
         timestamp = LocalDateTime.now();
-        rID = reportCounter++;
         submitterID = submitter;
         this.location = location;
     }
@@ -95,6 +93,14 @@ public abstract class Report implements Comparable<Report> {
      */
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * Sets this report's rID to the one specified
+     * @param rID the new rID of this report
+     */
+    public void setRID(int rID) {
+        this.rID = rID;
     }
 
     @Override

@@ -57,6 +57,24 @@ public class Admin implements Account {
     public AuthLevel getAuthLevel() {
         return AuthLevel.ADMIN;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Admin)) {
+            return false;
+        }
+        return ((Admin) obj).getUserID() == this.getUserID();
+    }
+    @Override
+    public int hashCode() {
+        return getUserID();
+    }
+
     public boolean deleteAccount() {
         return true;
     }
