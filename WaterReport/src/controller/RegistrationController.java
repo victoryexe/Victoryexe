@@ -1,5 +1,6 @@
 package controller;
 
+import com.lynden.gmapsfx.GoogleMapView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import model.registration.Registration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 
 /**
  * Created by grizz on 9/27/2016.
@@ -106,6 +108,16 @@ public class RegistrationController {
         });
 
     }
+
+    //TEST CODE ZONE WOOP WOOP
+    /*GeoApiContext context = new GeoApiContext().setApiKey("AIza...");
+    GeocodingResult[] results =  GeocodingApi.geocode(context,
+            "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
+System.out.println(results[0].formattedAddress);*/
+
+
+    //TEST CODE ZONE WOOOP WOOP
+
 
     /**
      * Checks whether the user-provided input is valid
