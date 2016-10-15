@@ -61,6 +61,25 @@ public class User implements Account {
     public AuthLevel getAuthLevel() {
         return AuthLevel.USER;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        return ((User) obj).getUserID() == this.getUserID();
+    }
+    @Override
+    public int hashCode() {
+        return getUserID();
+    }
+
     /**
     *@return returns if reporting was succesful;
     */
