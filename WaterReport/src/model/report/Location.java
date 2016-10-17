@@ -6,5 +6,20 @@ package model.report;
  */
 public class Location {
     // TODO
+    //Temporary constructor & getters
+    private String latitude;
+    private String longitude;
+    public Location (String latitude, String longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
     // Will require GMap integration
 }

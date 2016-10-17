@@ -2,11 +2,15 @@ package fxapp;
 
 import controller.LoginScreenController;
 import controller.MainController;
+import controller.ReportListController;
+import controller.ViewReportsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.report.WaterReport;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -75,6 +79,31 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
+    }
+
+    public void showAveReport() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("../view/WaterAveReport.fxml"));
+            AnchorPane page = loader.load();
+
+            MainController controller = loader.getController();
+            controller.setMainApp(this);
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Water Availability Report");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(screen);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            ViewReportsController Vcontroller = loader.getController();
+            Vcontroller.setDialogStage(dialogStage);
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

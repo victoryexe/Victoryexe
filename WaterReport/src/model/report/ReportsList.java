@@ -42,7 +42,7 @@ public class ReportsList {
         return reports;
     }
 
-    public static void makeReport() {
-        // TODO
+    public static void makeReport(Integer rID, Report report) {
+        reportMap.put(rID, report);
     }
 }

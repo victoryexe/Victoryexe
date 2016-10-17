@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane fx:id="wateravereportpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(&quot;http://cdn.meaningfullife.org/wp-content/uploads/2014/07/tsunami2.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 900 506;    -fx-background-position: center center;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="wateravereportpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url(&quot;http://cdn.meaningfullife.org/wp-content/uploads/2014/07/tsunami2.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 900 506;    -fx-background-position: center center;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewReportsController">
    <children>
       <Text fx:id="wateravereporttitle" fill="WHITE" layoutX="24.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WATER AVAILABILITY REPORT" wrappingWidth="385.14453125">
          <font>
