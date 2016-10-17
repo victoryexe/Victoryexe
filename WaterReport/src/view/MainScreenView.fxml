@@ -107,7 +107,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="conditionBox" layoutX="227.0" layoutY="249.0" prefWidth="150.0" />
+                        <ComboBox fx:id="conditionBox" layoutX="179.0" layoutY="249.0" prefHeight="25.0" prefWidth="239.0" />
                         <Label alignment="CENTER" layoutX="231.0" layoutY="222.0" text="Water Condition">
                            <font>
                               <Font name="System Bold" size="18.0" />
