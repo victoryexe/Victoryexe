@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Created by Alexandra on 10/12/2016.
@@ -12,7 +13,8 @@ public class SortReports {
     private static List<Report> reports;
 
     private static void updateReports() {
-        reports = ReportsList.getReportsList();
+        reports = ReportsList.getWaterReportsList();
+        reports.addAll(ReportsList.getQualityReportsList());
     }
 
     public static List<Report> sortByReportID() {
@@ -31,5 +33,39 @@ public class SortReports {
         return reportClone;
     }
 
-    // TODO WaterType, WaterCondition, Location
+    public static Set<WaterReport> filterByWaterType(WaterType ... type) {
+        updateReports();
+        Set<WaterReport> reportSet = new HashSet<>();
+        for (Report r : reports) {
+            if (r instanceof WaterReport) { // type check
+                for (int i = 0; i < type.length; i++) {
+                    // checks if the report's water type is a param
+                    if (((WaterReport) r).getWaterType().equals(type[i])) {
+                        reportSet.add((WaterReport) r);
+                        i = type.length; // exit array check
+                    }
+                }
+            }
+        }
+        return reportSet;
+    }
+
+    public static Set<WaterReport> filterByWaterCondition(WaterCondition ... condition) {
+        updateReports();
+        Set<WaterReport> reportSet = new HashSet<>();
+        for (Report r : reports) {
+            if (r instanceof WaterReport) { // type check
+                for (int i = 0; i < condition.length; i++) {
+                    // checks if the report's water type is a param
+                    if (((WaterReport) r).getWaterType().equals(condition[i])) {
+                        reportSet.add((WaterReport) r);
+                        i = condition.length; // exit array check
+                    }
+                }
+            }
+        }
+        return reportSet;
+    }
+
+    // TODO Location, OverallCondition
 }
