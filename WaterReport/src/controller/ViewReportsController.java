@@ -32,7 +32,21 @@ public class ViewReportsController {
 
     private static WaterReport report;
 
+    /**
+     * Used to acquire the report being displayed
+     *
+     * @param wreport the water report currently being displayed
+     */
     public static void setReport(WaterReport wreport) {report = wreport;}
+
+    /**
+     * Sets the stage for the dialog
+     *
+     * @param dialogStage the stage for the dialog
+     */
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
 
     @FXML
     private void initialize() {
@@ -50,12 +64,4 @@ public class ViewReportsController {
         }
         conditionofwateredit.setText(report.getWaterCondition().name());
     }
-
-
-
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-
-
 }

@@ -13,11 +13,19 @@ import java.util.ArrayList;
  */
 public class AddReportController {
 
-
+    /**
+     * Takes in the information from the Main Controller and handles the functions of the Submit Report tab
+     * @param latitude TextField where user submits the latitude of water location
+     * @param longitude TextField where user submits the longitude of water location
+     * @param sourceBox ComboBox where user selects the water source
+     * @param conditionBox ComboBox where user selects the water condition
+     * @param submitRepBox Button used to submit the water report to the system
+     * @param other TextField where the user may submit a custom water source
+     */
     public AddReportController (TextField latitude, TextField longitude,
                                 ComboBox sourceBox, ComboBox conditionBox, Button submitRepBox,
                                 TextField other) {
-
+        //Initializes the water source and water condition ComboBoxes
         ArrayList<WaterType> source = new ArrayList<WaterType>();
         for (WaterType type : WaterType.values()) {
             source.add(type);
@@ -34,6 +42,7 @@ public class AddReportController {
         submitRepBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                // Checks for valid input before creating report
                 if (latitude.getText().equals("") || longitude.getText().equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Both Latitude and Longitude must be filled in.", ButtonType.CLOSE);
@@ -44,16 +53,14 @@ public class AddReportController {
                             "Please Specify Water Source.", ButtonType.CLOSE);
                     alert.show();
                 } else if (Double.valueOf(latitude.getText()) > 90.0
-                        || Double.valueOf(latitude.getText()) < -90.0) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR,
-                            "Invalid Latitude, please enter a valid location.", ButtonType.CLOSE);
-                    alert.show();
-                } else if (Double.valueOf(longitude.getText()) > 180.0
+                        || Double.valueOf(latitude.getText()) < -90.0
+                        || Double.valueOf(longitude.getText()) > 180.0
                         || Double.valueOf(longitude.getText()) < -180.0) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
-                            "Invalid Longitude, please enter a valid location.", ButtonType.CLOSE);
+                            "Invalid Latitude or Longitude, please enter a valid location.", ButtonType.CLOSE);
                     alert.show();
                 } else {
+                    // creates report and stores in ReportList
                     Report report = ReportsList.makeReport((User) LoginScreenController.currUser,
                             new Location(latitude.getText(), longitude.getText()),
                             (WaterType) sourceBox.getValue(), (WaterCondition) conditionBox.getValue());
@@ -68,6 +75,7 @@ public class AddReportController {
                             "Report #W" + report.getReportID() + " has been submitted.\n" +
                                     "Thank you for your contribution.", ButtonType.CLOSE);
                     alert.show();
+                    // updates the View Reports ListView
                     ReportListController.updateList();
                 }
             }

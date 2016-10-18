@@ -112,9 +112,12 @@ public class MainController {
                 }
             }
         });
+        // Delegates control of report submission to AddReportController
         AddReportController addReport = new AddReportController(latitude,
                 longitude, sourceBox, conditionBox, submitRepBox, othertype);
+        // Delegates control of the View Report screen to ReportListController
         ReportListController reportList = new ReportListController(reportlist, viewreport);
+        // Delegates control of the profile view to ProfileController
         ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
                 statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox, emailtextbox, salutationcombobox,
                 salutationedit, submit, currsalutation);
@@ -157,6 +160,12 @@ public class MainController {
 
     }
 
+    /**
+     * Takes a ComboBox and an ArrayList containing its elements then populates the ComboBox and sets
+     * the default value to the first entry in the list
+     * @param box the ComboBox being populated
+     * @param list the ArrayList being used to populate box
+     */
     protected static void populateComboBox(ComboBox box, ArrayList list) {
         box.setItems(javafx.collections.FXCollections.observableList(list));
         box.setValue(list.get(0));
