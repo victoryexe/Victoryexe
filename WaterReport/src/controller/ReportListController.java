@@ -30,7 +30,7 @@ public class ReportListController {
     public ReportListController(ListView reportlist, Button viewreport) {
         this.reportlist = reportlist;
         this.viewreport = viewreport;
-        reports = ReportsList.getReportsList();
+        reports = ReportsList.getWaterReportsList();
 
         viewreport.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -43,7 +43,7 @@ public class ReportListController {
 
 
     public static void updateList() {
-        reports = ReportsList.getReportsList();
+        reports = ReportsList.getWaterReportsList();
         reportlist.setItems(javafx.collections.FXCollections.observableList(reports));
     }
 }
