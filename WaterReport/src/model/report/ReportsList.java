@@ -53,10 +53,11 @@ public class ReportsList {
      * @param watertype the type of the water
      * @param waterCondition the condition of the water
      */
-    public static void makeReport(User user, Location location,
+    public static Report makeReport(User user, Location location,
                                   WaterType watertype, WaterCondition waterCondition) {
         WaterReport report = new WaterReport(user, location, watertype, waterCondition);
         waterReportMap.put(report.getReportID(), report);
+        return report;
     }
 
     /**

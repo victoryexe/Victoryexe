@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.report.Report;
 import model.report.ReportsList;
@@ -48,13 +49,27 @@ public class ReportListController {
                 } else {
                     ViewReportsController.setReport(report);
                     Stage stage;
-                    Parent root;
                     stage = (Stage) viewreport.getScene().getWindow();
                     try {
-                        root = FXMLLoader.load(getClass().getResource("../view/WaterAveReport.fxml"));
-                        Scene scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("../view/WaterAveReport.fxml"));
+                        AnchorPane page = loader.load();
+
+                        // Create the dialog Stage.
+                        Stage dialogStage = new Stage();
+                        dialogStage.setTitle("Water Report");
+                        dialogStage.initModality(Modality.WINDOW_MODAL);
+                        dialogStage.initOwner(stage);
+                        Scene scene = new Scene(page);
+                        dialogStage.setScene(scene);
+
+                        // Set the person into the controller.
+                        ViewReportsController controller = loader.getController();
+                        controller.setDialogStage(dialogStage);
+                        controller.setReport(report);
+
+                        // Show the dialog and wait until the user closes it
+                        dialogStage.showAndWait();
 
                     } catch (IOException e) {
                         e.printStackTrace();

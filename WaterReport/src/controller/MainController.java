@@ -71,6 +71,8 @@ public class MainController {
     private ListView reportlist;
     @FXML
     private Button viewreport;
+    @FXML
+    private TextField othertype;
 
 
     private Profile currProfile;
@@ -111,7 +113,7 @@ public class MainController {
             }
         });
         AddReportController addReport = new AddReportController(latitude,
-                longitude, sourceBox, conditionBox, submitRepBox);
+                longitude, sourceBox, conditionBox, submitRepBox, othertype);
         ReportListController reportList = new ReportListController(reportlist, viewreport);
         ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
                 statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox, emailtextbox, salutationcombobox,

@@ -13,6 +13,7 @@ public abstract class Report implements Comparable<Report> {
     private LocalDateTime timestamp;
     private int rID;
     private User submitterID;
+    private String other;
     private Location location;
 
     /**
@@ -96,12 +97,25 @@ public abstract class Report implements Comparable<Report> {
     }
 
     /**
+     * Gets the watersource should the user have entered OTHER
+     * @return the string representing the OTHER water source
+     */
+    public String getOther() { return other; }
+
+    /**
      * Sets this report's rID to the one specified
      * @param rID the new rID of this report
      */
     public void setRID(int rID) {
         this.rID = rID;
     }
+
+    /**
+     * Sets the string representative of other water source
+     * to the one specified
+     * @param other the custom water source entered by user
+     */
+    public void setOther(String other) { this.other = other; }
 
     @Override
     public int hashCode() {
