@@ -62,7 +62,7 @@ public class AddReportController {
                 } else {
                     // creates report and stores in ReportList
                     Report report = ReportsList.makeReport((User) LoginScreenController.currUser,
-                            new Location(latitude.getText(), longitude.getText()),
+                            new Location(Double.parseDouble(latitude.getText()), Double.parseDouble(longitude.getText())),
                             (WaterType) sourceBox.getValue(), (WaterCondition) conditionBox.getValue());
                                         latitude.setText("");
                     if ( sourceBox.getValue().equals(WaterType.OTHER)) {

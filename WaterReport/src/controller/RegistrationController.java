@@ -1,6 +1,5 @@
 package controller;
 
-import com.lynden.gmapsfx.GoogleMapView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
