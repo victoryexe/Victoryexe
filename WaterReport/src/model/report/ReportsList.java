@@ -95,9 +95,10 @@ public class ReportsList {
      * @param virusPPM the virusPPM of the water
      * @param contaminantPPM the contaminantPPM of the water
      */
-    public static void makeReport(Worker worker, Location location,
-                                  OverallCondition condition, int virusPPM, int contaminantPPM) {
+    public static Report makeReport(Worker worker, Location location,
+                                  OverallCondition condition, double virusPPM, double contaminantPPM) {
         QualityReport report = new QualityReport(worker, location, condition, virusPPM, contaminantPPM);
         qualityReportMap.put(report.getReportID(), report);
+        return report;
     }
 }

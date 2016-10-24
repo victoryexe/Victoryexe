@@ -65,10 +65,10 @@ public class AddReportController {
                             Double.parseDouble(longitude.getText()));
                     Report report = ReportsList.makeReport((User) LoginScreenController.currUser, loc,
                             (WaterType) sourceBox.getValue(), (WaterCondition) conditionBox.getValue());
-                                        latitude.setText("");
                     if ( sourceBox.getValue().equals(WaterType.OTHER)) {
                         report.setOther(other.getText());
                     }
+                    latitude.setText("");
                     longitude.setText("");
                     sourceBox.setValue(source.get(0));
                     conditionBox.setValue(condition.get(0));

@@ -81,13 +81,17 @@ public class MainController {
     @FXML
     private TabPane applicationTabs;
     @FXML
-    private Tab View;
+    private TextField purityLat;
     @FXML
-    private Tab submitTab;
+    private TextField purityLon;
     @FXML
-    private Tab sourceTab;
+    private TextField VirusPPM;
     @FXML
-    private Tab Purity;
+    private TextField ContamPPM;
+    @FXML
+    private ComboBox purityCond;
+    @FXML
+    private Button SubmitPurity;
 
     private Profile currProfile;
 
@@ -119,28 +123,60 @@ public class MainController {
                 mainApp.showLogin(stage);
             }
         });
-        if(LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.USER)) {
-            applicationTabs.getTabs().remove(3);
-            applicationTabs.getTabs().remove(3);
-        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.WORKER)) {
-            applicationTabs.getTabs().remove(3);
-        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.ADMIN)) {
-            for(int i = 0; i < 4; i++) {
-                applicationTabs.getTabs().remove(1);
-            }
-        }
-        // Delegates control of report submission to AddReportController
-        AddReportController addReport = new AddReportController(latitude,
-                longitude, sourceBox, conditionBox, submitRepBox, othertype);
-        // Delegates control of the View Report screen to ReportListController
-        ReportListController reportList = new ReportListController(reportlist, viewreport);
-        reportList.setMainApp(mainApp);
+
         // Delegates control of the profile view to ProfileController
         ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
                 statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox, emailtextbox, salutationcombobox,
                 salutationedit, submit, currsalutation);
-        MapController map = new MapController(GmapsViewPane);
-        GmapsViewPane.addMapInializedListener(map);
+
+        if(LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.USER)) {
+            applicationTabs.getTabs().remove(3);
+            applicationTabs.getTabs().remove(3);
+
+            // Delegates control of WaterReport submission to AddReportController
+            AddReportController addReport = new AddReportController(latitude,
+                    longitude, sourceBox, conditionBox, submitRepBox, othertype);
+
+            // Delegates control of the Google Map to MapController
+            MapController map = new MapController(GmapsViewPane);
+            GmapsViewPane.addMapInializedListener(map);
+
+        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.WORKER)) {
+            applicationTabs.getTabs().remove(3);
+
+            // Delegates control of WaterReport submission to AddReportController
+            AddReportController addReport = new AddReportController(latitude,
+                    longitude, sourceBox, conditionBox, submitRepBox, othertype);
+
+            // Delegates control of QualityReport submission to AddQualityController
+            AddQualityController qualReport = new AddQualityController(purityLat,
+                    purityLon, VirusPPM, ContamPPM, purityCond, SubmitPurity);
+
+            // Delegates control of the Google Map to MapController
+            MapController map = new MapController(GmapsViewPane);
+            GmapsViewPane.addMapInializedListener(map);
+
+        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.ADMIN)) {
+            for(int i = 0; i < 4; i++) {
+                applicationTabs.getTabs().remove(1);
+            }
+        } else {
+            // Delegates control of report submission to AddReportController
+            AddReportController addReport = new AddReportController(latitude,
+                    longitude, sourceBox, conditionBox, submitRepBox, othertype);
+
+            // Delegates control of QualityReport submission to AddQualityController
+            AddQualityController qualReport = new AddQualityController(purityLat,
+                    purityLon, VirusPPM, ContamPPM, purityCond, SubmitPurity);
+
+            // Delegates control of the View Report screen to ReportListController
+            ReportListController reportList = new ReportListController(reportlist, viewreport);
+            reportList.setMainApp(mainApp);
+
+            // Delegates control of the Google Map to MapController
+            MapController map = new MapController(GmapsViewPane);
+            GmapsViewPane.addMapInializedListener(map);
+        }
     }
 
     /**
