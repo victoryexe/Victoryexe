@@ -30,7 +30,13 @@ public class ViewReportsController {
 
     private Stage dialogStage;
 
+    private Main mainApp;
+
     private static WaterReport report;
+
+    public void setMainApp(Main main) {
+        mainApp = main;
+    }
 
     /**
      * Used to acquire the report being displayed
@@ -54,8 +60,8 @@ public class ViewReportsController {
         timeedit.setText(String.valueOf(report.getTime()));
         reportnumberedit.setText(String.valueOf(report.getReportID()));
         nameofreporteredit.setText(report.getSubmitterID().getName());
-        locationofwateredit.setText(report.getLocation().getLatitude()
-                + ", " + report.getLocation().getLongitude());
+        locationofwateredit.setText(String.valueOf(report.getLocation().getLatitude())
+                + ", " + String.valueOf(report.getLocation().getLongitude()));
         if (report.getWaterType().equals(WaterType.OTHER)) {
             typeofwateredit.setText(report.getWaterType().name() + ": "
                     + report.getOther());

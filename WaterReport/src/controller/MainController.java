@@ -1,5 +1,6 @@
 package controller;
 
+import com.lynden.gmapsfx.GoogleMapView;
 import fxapp.Main;
 
 import javafx.event.ActionEvent;
@@ -73,6 +74,8 @@ public class MainController {
     private Button viewreport;
     @FXML
     private TextField othertype;
+    @FXML
+    private GoogleMapView GmapsViewPane;
 
 
     private Profile currProfile;
@@ -98,18 +101,9 @@ public class MainController {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage;
-                Parent root;
                 stage = (Stage) Logout.getScene().getWindow();
-                try {
-                    LoginScreenController.currUser = null;
-                    root = FXMLLoader.load(getClass().getResource("../view/LoginScreenView.fxml"));
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                LoginScreenController.currUser = null;
+                mainApp.showLogin(stage);
             }
         });
         // Delegates control of report submission to AddReportController
@@ -117,10 +111,13 @@ public class MainController {
                 longitude, sourceBox, conditionBox, submitRepBox, othertype);
         // Delegates control of the View Report screen to ReportListController
         ReportListController reportList = new ReportListController(reportlist, viewreport);
+        reportList.setMainApp(mainApp);
         // Delegates control of the profile view to ProfileController
         ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
                 statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox, emailtextbox, salutationcombobox,
                 salutationedit, submit, currsalutation);
+        MapController map = new MapController(GmapsViewPane);
+        GmapsViewPane.addMapInializedListener(map);
     }
 
     /**

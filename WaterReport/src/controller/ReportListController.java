@@ -31,12 +31,14 @@ public class ReportListController {
 
     private Main mainApp;
 
-    public void setMainApp(Main main) { mainApp = main; }
+    public void setMainApp(Main main) {
+        mainApp = main;
+    }
 
     public ReportListController(ListView reportlist, Button viewreport) {
         this.reportlist = reportlist;
         this.viewreport = viewreport;
-        reports = ReportsList.getWaterReportsList();
+        updateList();
 
         viewreport.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -48,8 +50,6 @@ public class ReportListController {
                     alert.show();
                 } else {
                     ViewReportsController.setReport(report);
-                    Stage stage;
-                    stage = (Stage) viewreport.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getResource("../view/WaterAveReport.fxml"));
@@ -59,14 +59,13 @@ public class ReportListController {
                         Stage dialogStage = new Stage();
                         dialogStage.setTitle("Water Report");
                         dialogStage.initModality(Modality.WINDOW_MODAL);
-                        dialogStage.initOwner(stage);
+                        dialogStage.initOwner(viewreport.getScene().getWindow());
                         Scene scene = new Scene(page);
                         dialogStage.setScene(scene);
 
                         // Set the person into the controller.
                         ViewReportsController controller = loader.getController();
                         controller.setDialogStage(dialogStage);
-                        controller.setReport(report);
 
                         // Show the dialog and wait until the user closes it
                         dialogStage.showAndWait();
