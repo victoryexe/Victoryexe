@@ -14,7 +14,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Users.Account;
 import model.Users.Address;
+import model.Users.AuthLevel;
 import model.Users.Profile;
 import model.login.Authentication;
 import model.login.UserList;
@@ -76,12 +78,23 @@ public class MainController {
     private TextField othertype;
     @FXML
     private GoogleMapView GmapsViewPane;
-
+    @FXML
+    private TabPane applicationTabs;
+    @FXML
+    private Tab View;
+    @FXML
+    private Tab submitTab;
+    @FXML
+    private Tab sourceTab;
+    @FXML
+    private Tab Purity;
 
     private Profile currProfile;
 
     /** reference back to mainApplication if needed */
     private Main mainApp;
+
+    private Account currUser;
 
     /**
      * allow for calling back to the main application code if necessary
@@ -106,6 +119,16 @@ public class MainController {
                 mainApp.showLogin(stage);
             }
         });
+        if(LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.USER)) {
+            applicationTabs.getTabs().remove(3);
+            applicationTabs.getTabs().remove(3);
+        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.WORKER)) {
+            applicationTabs.getTabs().remove(3);
+        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.ADMIN)) {
+            for(int i = 0; i < 4; i++) {
+                applicationTabs.getTabs().remove(1);
+            }
+        }
         // Delegates control of report submission to AddReportController
         AddReportController addReport = new AddReportController(latitude,
                 longitude, sourceBox, conditionBox, submitRepBox, othertype);
