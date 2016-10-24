@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Users.Address;
 import model.Users.Profile;
@@ -56,6 +57,23 @@ public class MainController {
     private Button submit;
     @FXML
     private Label currsalutation;
+    @FXML
+    private TextField latitude;
+    @FXML
+    private TextField longitude;
+    @FXML
+    private ComboBox sourceBox;
+    @FXML
+    private Button submitRepBox;
+    @FXML
+    private ComboBox conditionBox;
+    @FXML
+    private ListView reportlist;
+    @FXML
+    private Button viewreport;
+    @FXML
+    private TextField othertype;
+
 
     private Profile currProfile;
 
@@ -94,171 +112,15 @@ public class MainController {
                 }
             }
         });
-
-        /**
-         * Forces only decimal numbers to be entered as values in either
-         * zipcodetextbox or aptnumtextbox
-         */
-        DecimalFormat format = new DecimalFormat( "#" );
-
-        zipcodetextbox.setTextFormatter( new TextFormatter<>(c ->
-        {
-            if ( c.getControlNewText().isEmpty() )
-            {
-                return c;
-            }
-
-            ParsePosition parsePosition = new ParsePosition( 0 );
-            Object object = format.parse( c.getControlNewText(), parsePosition );
-
-            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-            {
-                return null;
-            }
-            else
-            {
-                return c;
-            }
-        }));
-
-        aptnumtextbox.setTextFormatter( new TextFormatter<>(c ->
-        {
-            if ( c.getControlNewText().isEmpty() )
-            {
-                return c;
-            }
-
-            ParsePosition parsePosition = new ParsePosition( 0 );
-            Object object = format.parse( c.getControlNewText(), parsePosition );
-
-            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-            {
-                return null;
-            }
-            else
-            {
-                return c;
-            }
-        }));
-
-        ArrayList<String> salutation = new ArrayList<String>();
-        salutation.add("");
-        salutation.add("Mr.");
-        salutation.add("Ms.");
-        salutation.add("Mrs.");
-        salutation.add("Dr.");
-        salutationcombobox.setItems(javafx.collections.FXCollections.observableList(salutation));
-        salutationcombobox.setVisible(false);
-        salutationcombobox.setOnMousePressed(new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent event) {
-                salutationcombobox.requestFocus();
-            }
-        });
-        currProfile = new Profile(LoginScreenController.currUser);
-        if (currProfile.getTitle() != null) {
-            currsalutation.setText(currProfile.getTitle());
-        }
-        submit.setVisible(false);
-        setAllEditable(false);
-        String name = currProfile.getName();
-        firstnametextbox.setText(name.substring(0, name.indexOf(" ")));
-        lastnametextbox.setText(name.substring(name.indexOf(" ")));
-        emailtextbox.setText(currProfile.getEmail());
-        if (currProfile.getAddress() != null) {
-            streetaddresstextbox.setText(currProfile.getAddress().getStreet());
-            if (currProfile.getAddress().apartmentNumber() != -1) {
-                aptnumtextbox.setText("" + currProfile.getAddress().apartmentNumber());
-            }
-            citytextbox.setText(currProfile.getAddress().getCity());
-            statetextbox.setText(currProfile.getAddress().getState());
-            countrytextbox.setText(currProfile.getAddress().getCountry());
-            if (currProfile.getAddress().getZip() != -1) {
-                zipcodetextbox.setText("" + currProfile.getAddress().getZip());
-            }
-        }
-        /**
-         * sets the function of the edit button to set all fields editable and replace
-         * itself with the submit button
-         */
-        salutationedit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                salutationedit.setVisible(false);
-                submit.setVisible(true);
-                currsalutation.setVisible(false);
-                salutationcombobox.setVisible(true);
-                setAllEditable(true);
-            }
-        });
-         /**
-         * Sets the function of the submit button to make all fields uneditable
-         * and to save any changes made to the profile page
-         */
-        submit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                submit.setVisible(false);
-                salutationedit.setVisible(true);
-                currProfile.changeTitle((String) salutationcombobox.getValue());
-                currsalutation.setText(currProfile.getTitle());
-                currsalutation.setVisible(true);
-                salutationcombobox.setVisible(false);
-                setAllEditable(false);
-                currProfile.changeName(firstnametextbox.getText() + " " + lastnametextbox.getText());
-                int zip;
-                int apt;
-                if (!currProfile.getEmail().equals(emailtextbox.getText())) {
-                    UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
-                    Authentication.updateEmail(currProfile.getEmail(), emailtextbox.getText());
-                    currProfile.changeEmail(emailtextbox.getText());
-                }
-                if (currProfile.getAddress() == null) {
-                    if (zipcodetextbox.getText().equals("")) {
-                        zip = -1;
-                    } else {
-                        zip = Integer.valueOf(zipcodetextbox.getText());
-                    }
-                    if (aptnumtextbox.getText().equals("")) {
-                        apt = -1;
-                    } else {
-                        apt = Integer.valueOf(aptnumtextbox.getText());
-                    }
-                    currProfile.changeAddress(new Address(streetaddresstextbox.getText(), apt,
-                            citytextbox.getText(), statetextbox.getText(), zip, countrytextbox.getText()));
-                } else {
-                    currProfile.getAddress().setStreet(streetaddresstextbox.getText());
-                    currProfile.getAddress().setCity(citytextbox.getText());
-                    currProfile.getAddress().setState(statetextbox.getText());
-                    if (zipcodetextbox.getText().equals("")) {
-                        currProfile.getAddress().setZip(-1);
-                    } else {
-                        currProfile.getAddress().setZip(Integer.valueOf(zipcodetextbox.getText()));
-                    }
-                    if (aptnumtextbox.getText().equals("")) {
-                        currProfile.getAddress().setApartmentNum(-1);
-                    } else {
-                        currProfile.getAddress().setApartmentNum(Integer.valueOf(aptnumtextbox.getText()));
-                    }
-                }
-            }
-        });
-
-    }
-    /**
-     * Sets all texts fields as either editable or non-editable
-     * @param value
-     */
-    public void setAllEditable(boolean value) {
-        lastnametextbox.setEditable(value);
-        firstnametextbox.setEditable(value);
-        emailtextbox.setEditable(value);
-        streetaddresstextbox.setEditable(value);
-        citytextbox.setEditable(value);
-        statetextbox.setEditable(value);
-        countrytextbox.setEditable(value);
-        aptnumtextbox.setEditable(value);
-        zipcodetextbox.setEditable(value);
+        // Delegates control of report submission to AddReportController
+        AddReportController addReport = new AddReportController(latitude,
+                longitude, sourceBox, conditionBox, submitRepBox, othertype);
+        // Delegates control of the View Report screen to ReportListController
+        ReportListController reportList = new ReportListController(reportlist, viewreport);
+        // Delegates control of the profile view to ProfileController
+        ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
+                statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox, emailtextbox, salutationcombobox,
+                salutationedit, submit, currsalutation);
     }
 
     /**
@@ -268,5 +130,44 @@ public class MainController {
     private void handleCloseMenu() {
         System.exit(0);
 
+    }
+    /**
+     * Forces only decimal numbers to be entered as values in corresponding
+     * TextField
+     */
+
+    protected static void restrictToNums(TextField field) {
+        DecimalFormat format = new DecimalFormat( "#" );
+        field.setTextFormatter( new TextFormatter<>(c ->
+        {
+            if ( c.getControlNewText().isEmpty() )
+            {
+                return c;
+            }
+
+            ParsePosition parsePosition = new ParsePosition( 0 );
+            Object object = format.parse( c.getControlNewText(), parsePosition );
+
+            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+            {
+                return null;
+            }
+            else
+            {
+                return c;
+            }
+        }));
+
+    }
+
+    /**
+     * Takes a ComboBox and an ArrayList containing its elements then populates the ComboBox and sets
+     * the default value to the first entry in the list
+     * @param box the ComboBox being populated
+     * @param list the ArrayList being used to populate box
+     */
+    protected static void populateComboBox(ComboBox box, ArrayList list) {
+        box.setItems(javafx.collections.FXCollections.observableList(list));
+        box.setValue(list.get(0));
     }
 }

@@ -94,4 +94,9 @@ public class QualityReport extends Report{
     public int hashCode() {
         return getReportID();
     }
+
+    @Override
+    public String toString() {
+        return "Quality Report #Q" + getReportID();
+    }
 }

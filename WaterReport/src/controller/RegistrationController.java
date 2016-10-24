@@ -1,6 +1,5 @@
 package controller;
 
-import com.lynden.gmapsfx.GoogleMapView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -54,9 +53,7 @@ public class RegistrationController {
         for (AuthLevel a : AuthLevel.values()) {
             auth.add(a);
         }
-        authLevels.setItems(javafx.collections.FXCollections.observableList(auth));
-        authLevels.setValue(auth.get(0));
-
+        MainController.populateComboBox(authLevels, auth);
         regCancel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

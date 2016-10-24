@@ -2,11 +2,15 @@ package fxapp;
 
 import controller.LoginScreenController;
 import controller.MainController;
+import controller.ReportListController;
+import controller.ViewReportsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.report.WaterReport;
 
 import java.io.IOException;
 import java.util.logging.Level;

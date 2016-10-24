@@ -75,4 +75,9 @@ public class WaterReport extends Report {
     public int hashCode() {
         return getReportID();
     }
+
+    @Override
+    public String toString() {
+        return "Availability Report #W" + getReportID();
+    }
 }
