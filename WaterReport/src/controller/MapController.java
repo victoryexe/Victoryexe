@@ -50,7 +50,7 @@ public class MapController implements Initializable, MapComponentInitializedList
         MapOptions options = new MapOptions();
 
         //set up the center location for the map
-        LatLong center = new LatLong(34, -88);
+        LatLong center = new LatLong(33.777553, -84.396112);
 
         options.center(center)
                 .zoom(9)
