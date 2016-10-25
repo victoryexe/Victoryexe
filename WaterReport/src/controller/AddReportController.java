@@ -61,16 +61,18 @@ public class AddReportController {
                     alert.show();
                 } else {
                     // creates report and stores in ReportList
-                    Report report = ReportsList.makeReport((User) LoginScreenController.currUser,
-                            new Location(Double.parseDouble(latitude.getText()), Double.parseDouble(longitude.getText())),
+                    Location loc = new Location(Double.parseDouble(latitude.getText()),
+                            Double.parseDouble(longitude.getText()));
+                    Report report = ReportsList.makeReport((User) LoginScreenController.currUser, loc,
                             (WaterType) sourceBox.getValue(), (WaterCondition) conditionBox.getValue());
-                                        latitude.setText("");
                     if ( sourceBox.getValue().equals(WaterType.OTHER)) {
                         report.setOther(other.getText());
                     }
+                    latitude.setText("");
                     longitude.setText("");
                     sourceBox.setValue(source.get(0));
                     conditionBox.setValue(condition.get(0));
+                    MapController.addMarker(loc);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION,
                             "Report #W" + report.getReportID() + " has been submitted.\n" +
                                     "Thank you for your contribution.", ButtonType.CLOSE);

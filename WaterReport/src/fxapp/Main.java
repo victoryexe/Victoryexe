@@ -1,11 +1,9 @@
 package fxapp;
 
-import controller.LoginScreenController;
-import controller.MainController;
-import controller.ReportListController;
-import controller.ViewReportsController;
+import controller.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -28,6 +26,7 @@ public class Main extends Application {
     private Stage screen;
 
     private AnchorPane rootLayout;
+    private FXMLLoader loader;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -40,7 +39,7 @@ public class Main extends Application {
     private void initRootLayout(Stage mainScreen) {
         try {
             // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
+            loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("../view/LoginScreenView.fxml"));
             rootLayout = loader.load();
 
@@ -62,16 +61,21 @@ public class Main extends Application {
         }
     }
 
-    private void showMain(Stage mainScreen) {
+    public void showMain(Stage stage) {
+        Parent root;
         try {
             // Load main screen.
-            FXMLLoader loader = new FXMLLoader();
+            loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("../view/MainScreenView.fxml"));
-            AnchorPane backPane = loader.load();
+            root = loader.load();
 
             // Give the controller access to the main app.
             MainController controller = loader.getController();
             controller.setMainApp(this);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
         } catch (IOException e) {
             //error on load, so log it
@@ -79,6 +83,38 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
+    }
+    public void showRegistration(Stage stage) {
+        Parent root;
+        try {
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../view/Registration.fxml"));
+            root = loader.load();
+            RegistrationController controller = loader.getController();
+            controller.setMainApp(this);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void showLogin(Stage stage) {
+        Parent root;
+        try {
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../view/LoginScreenView.fxml"));
+            root = loader.load();
+            LoginScreenController controller = loader.getController();
+            controller.setMainApp(this);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

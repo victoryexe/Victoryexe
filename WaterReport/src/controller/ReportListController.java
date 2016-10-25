@@ -13,11 +13,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.registration.Registration;
+import model.report.QualityReport;
 import model.report.Report;
 import model.report.ReportsList;
 import model.report.WaterReport;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,25 +34,25 @@ public class ReportListController {
 
     private Main mainApp;
 
-    public void setMainApp(Main main) { mainApp = main; }
+    public void setMainApp(Main main) {
+        mainApp = main;
+    }
 
     public ReportListController(ListView reportlist, Button viewreport) {
         this.reportlist = reportlist;
         this.viewreport = viewreport;
-        reports = ReportsList.getWaterReportsList();
+        updateList();
 
         viewreport.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                WaterReport report = (WaterReport) reportlist.getSelectionModel().getSelectedItem();
+                Report report = (Report) reportlist.getSelectionModel().getSelectedItem();
                 if (report == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "No Report Selected.", ButtonType.CLOSE);
                     alert.show();
-                } else {
-                    ViewReportsController.setReport(report);
-                    Stage stage;
-                    stage = (Stage) viewreport.getScene().getWindow();
+                } else if (report instanceof WaterReport) {
+                    ViewReportsController.setReport((WaterReport) report);
                     try {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getResource("../view/WaterAveReport.fxml"));
@@ -59,14 +62,13 @@ public class ReportListController {
                         Stage dialogStage = new Stage();
                         dialogStage.setTitle("Water Report");
                         dialogStage.initModality(Modality.WINDOW_MODAL);
-                        dialogStage.initOwner(stage);
+                        dialogStage.initOwner(viewreport.getScene().getWindow());
                         Scene scene = new Scene(page);
                         dialogStage.setScene(scene);
 
                         // Set the person into the controller.
                         ViewReportsController controller = loader.getController();
                         controller.setDialogStage(dialogStage);
-                        controller.setReport(report);
 
                         // Show the dialog and wait until the user closes it
                         dialogStage.showAndWait();
@@ -74,6 +76,10 @@ public class ReportListController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                } else if (report instanceof QualityReport) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,
+                            "Quality Report Screen still in development.", ButtonType.CLOSE);
+                    alert.show();
                 }
             }
         });
@@ -81,7 +87,15 @@ public class ReportListController {
 
 
     public static void updateList() {
-        reports = ReportsList.getWaterReportsList();
+        List<Report> wrep = ReportsList.getWaterReportsList();
+        List<Report> qrep = ReportsList.getQualityReportsList();
+        reports = new ArrayList();
+        for (Report w : wrep) {
+            reports.add(w);
+        }
+        for (Report q : qrep) {
+            reports.add(q);
+        }
         reportlist.setItems(javafx.collections.FXCollections.observableList(reports));
     }
 }

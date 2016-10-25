@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane fx:id="backPane" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <TabPane fx:id="applicationTabs" layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
         <tabs>
@@ -122,7 +122,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="View Water Report">
+            <Tab fx:id="View" text="View Water Report">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://andrew-wittman.com/wp-content/uploads/2013/07/Status-Quo.jpg&quot;);" styleClass="-fx-background-size: 600 506;    -fx-background-position: center center;">
                      <children>
@@ -140,7 +140,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Submit Purity">
+            <Tab fx:id="Purity" text="Submit Purity">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

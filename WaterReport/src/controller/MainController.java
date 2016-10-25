@@ -1,5 +1,6 @@
 package controller;
 
+import com.lynden.gmapsfx.GoogleMapView;
 import fxapp.Main;
 
 import javafx.event.ActionEvent;
@@ -13,7 +14,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Users.Account;
 import model.Users.Address;
+import model.Users.AuthLevel;
 import model.Users.Profile;
 import model.login.Authentication;
 import model.login.UserList;
@@ -73,12 +76,29 @@ public class MainController {
     private Button viewreport;
     @FXML
     private TextField othertype;
-
+    @FXML
+    private GoogleMapView GmapsViewPane;
+    @FXML
+    private TabPane applicationTabs;
+    @FXML
+    private TextField purityLat;
+    @FXML
+    private TextField purityLon;
+    @FXML
+    private TextField VirusPPM;
+    @FXML
+    private TextField ContamPPM;
+    @FXML
+    private ComboBox purityCond;
+    @FXML
+    private Button SubmitPurity;
 
     private Profile currProfile;
 
     /** reference back to mainApplication if needed */
     private Main mainApp;
+
+    private Account currUser;
 
     /**
      * allow for calling back to the main application code if necessary
@@ -98,29 +118,47 @@ public class MainController {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage;
-                Parent root;
                 stage = (Stage) Logout.getScene().getWindow();
-                try {
-                    LoginScreenController.currUser = null;
-                    root = FXMLLoader.load(getClass().getResource("../view/LoginScreenView.fxml"));
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                LoginScreenController.currUser = null;
+                mainApp.showLogin(stage);
             }
         });
-        // Delegates control of report submission to AddReportController
-        AddReportController addReport = new AddReportController(latitude,
-                longitude, sourceBox, conditionBox, submitRepBox, othertype);
-        // Delegates control of the View Report screen to ReportListController
-        ReportListController reportList = new ReportListController(reportlist, viewreport);
+
         // Delegates control of the profile view to ProfileController
         ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
                 statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox, emailtextbox, salutationcombobox,
                 salutationedit, submit, currsalutation);
+
+        // Delegates control of report submission to AddReportController
+        AddReportController addReport = new AddReportController(latitude,
+                longitude, sourceBox, conditionBox, submitRepBox, othertype);
+
+        // Delegates control of QualityReport submission to AddQualityController
+        AddQualityController qualReport = new AddQualityController(purityLat,
+                purityLon, VirusPPM, ContamPPM, purityCond, SubmitPurity);
+
+        // Delegates control of the View Report screen to ReportListController
+        ReportListController reportList = new ReportListController(reportlist, viewreport);
+        reportList.setMainApp(mainApp);
+
+        // Delegates control of the Google Map to MapController
+        MapController map = new MapController(GmapsViewPane);
+        GmapsViewPane.addMapInializedListener(map);
+
+        if(LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.USER)) {
+            applicationTabs.getTabs().remove(3);
+            applicationTabs.getTabs().remove(3);
+
+        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.WORKER)) {
+            applicationTabs.getTabs().remove(3);
+
+        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.ADMIN)) {
+            for(int i = 0; i < 4; i++) {
+                applicationTabs.getTabs().remove(1);
+            }
+        } else {
+
+        }
     }
 
     /**
