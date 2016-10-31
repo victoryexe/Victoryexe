@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.lynden.gmapsfx.GoogleMapView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane fx:id="backPane" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <TabPane fx:id="applicationTabs" layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
         <tabs>
             <Tab fx:id="profiletab" text="Profile">
               <content>
-                <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://poolwizardswi.com/wp-content/uploads/2014/04/Water-Backgrounds.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000 506;    -fx-background-position: center center;">
+                <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://poolwizardswi.com/wp-content/uploads/2014/04/Water-Backgrounds.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000;    -fx-background-position: center center;">
                     <children>
                         <Text fx:id="profiletabtitle" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER PROFILE">
                            <font>
@@ -50,20 +57,137 @@
                         <TextField fx:id="zipcodetextbox" layoutX="344.0" layoutY="175.0" prefHeight="27.0" prefWidth="84.0" promptText="Zip Code" />
                         <TextField fx:id="countrytextbox" layoutX="436.0" layoutY="175.0" prefHeight="27.0" prefWidth="121.0" promptText="Country" AnchorPane.rightAnchor="43.0" />
                         <Label fx:id="currsalutation" layoutX="136.0" layoutY="60.0" />
+                        <Separator prefWidth="200.0" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
           <Tab fx:id="sourceTab" text="Find Water Sources">
             <content>
-              <AnchorPane fx:id="sourcePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane fx:id="sourcePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.29797979797979796" layoutX="94.0" layoutY="63.0" prefHeight="369.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="177.0">
+                                 <children>
+                                    <ListView fx:id="reportInfo" fixedCellSize="1.0" layoutY="63.0" prefHeight="367.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="227.0" prefWidth="136.0">
+                                 <children>
+                                    <GoogleMapView fx:id="GmapsViewPane" layoutX="21.0" layoutY="32.0" prefHeight="335.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0" />
+                                    <TextField layoutX="4.0" layoutY="2.0" prefHeight="25.0" prefWidth="409.0" promptText="Search Location" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children></AnchorPane>
             </content>
           </Tab>
           <Tab fx:id="submitTab" text="Submit Report">
             <content>
-              <AnchorPane fx:id="submitPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane fx:id="submitPane" minHeight="0.0" minWidth="0.0" opacity="0.66" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="532.0" fitWidth="620.0" layoutX="-11.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@2de098e427a6fc97bdf1509acad77af6.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="410.0" fitWidth="472.0" layoutX="77.0" layoutY="-30.0" opacity="0.21" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@imageedit_1_2005740847.png" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="latitude" alignment="CENTER" layoutX="227.0" layoutY="53.0" promptText="Latitude" />
+                        <TextField fx:id="longitude" alignment="CENTER" layoutX="227.0" layoutY="78.0" promptText="Longitude" />
+                        <ComboBox fx:id="sourceBox" layoutX="227.0" layoutY="141.0" prefWidth="150.0" />
+                        <Label layoutX="262.0" layoutY="26.0" text="Location">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="submitRepBox" layoutX="253.0" layoutY="307.0" mnemonicParsing="false" text="Submit Report" />
+                        <Label layoutX="244.0" layoutY="114.0" text="Water Source">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="conditionBox" layoutX="180.0" layoutY="232.0" prefHeight="25.0" prefWidth="239.0" />
+                        <Label alignment="CENTER" layoutX="232.0" layoutY="205.0" text="Water Condition">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="othertype" layoutX="179.0" layoutY="172.0" prefHeight="25.0" prefWidth="241.0" promptText="If Other, please specify..." />
+                     </children></AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="View" text="View Water Report">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://andrew-wittman.com/wp-content/uploads/2013/07/Status-Quo.jpg&quot;);" styleClass="-fx-background-size: 600 506;    -fx-background-position: center center;">
+                     <children>
+                        <ScrollPane layoutY="44.0" prefHeight="258.0" prefWidth="500.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0">
+                          <content>
+                            <AnchorPane prefHeight="515.0" prefWidth="482.0">
+                                 <children>
+                                    <ListView fx:id="reportlist" layoutX="66.0" layoutY="25.0" prefHeight="515.0" prefWidth="482.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Button fx:id="viewreport" contentDisplay="CENTER" mnemonicParsing="false" text="View Report" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="250.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="Purity" text="Submit Purity">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="442.0" fitWidth="683.0" layoutX="-41.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@7429036760_1db05388c4_h.jpg" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="purityLat" alignment="CENTER" layoutX="226.0" layoutY="55.0" promptText="Latitude" />
+                        <TextField fx:id="purityLon" alignment="CENTER" layoutX="226.0" layoutY="80.0" promptText="Longitude" />
+                        <Label layoutX="264.0" layoutY="28.0" text="Location" textFill="#f2eded">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="230.0" layoutY="113.0" text="Water Condition" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="purityCond" layoutX="228.0" layoutY="140.0" prefWidth="150.0" promptText="Overall Condition" />
+                        <Label layoutX="286.0" layoutY="214.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="VirusPPM" alignment="CENTER" layoutX="226.0" layoutY="198.0" prefHeight="25.0" prefWidth="155.0" promptText="parts per million" />
+                        <TextField fx:id="ContamPPM" alignment="CENTER" layoutX="227.0" layoutY="255.0" prefHeight="25.0" prefWidth="152.0" promptText="parts per million" />
+                        <Label layoutX="250.0" layoutY="171.0" text="Virus (PPM)" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="215.0" layoutY="228.0" text="Contaminants (PPM)" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="SubmitPurity" layoutX="258.0" layoutY="296.0" mnemonicParsing="false" text="Submit">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
       <Pane fx:id="logoutPane" layoutX="462.0" layoutY="6.0" prefHeight="25.0" prefWidth="130.0">

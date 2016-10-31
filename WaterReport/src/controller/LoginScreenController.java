@@ -45,8 +45,6 @@ public class LoginScreenController {
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event){
-                Stage stage;
-                Parent root;
                 String subject = username.getText();
                 String pass = password.getText();
                 if (subject.equals("") || pass.equals("")) {
@@ -55,16 +53,7 @@ public class LoginScreenController {
                     alert.show();
                 } else if (Login.login(subject, pass)) {
                     currUser = UserList.getUserAccount(subject);
-                    stage = (Stage) loginButton.getScene().getWindow();
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("../view/MainScreenView.fxml"));
-                        Scene scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    mainApp.showMain((Stage) loginButton.getScene().getWindow());
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Login failed.", ButtonType.CLOSE);
@@ -76,18 +65,7 @@ public class LoginScreenController {
         register.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Stage stage;
-                Parent root;
-                stage = (Stage) register.getScene().getWindow();
-                try {
-                    root = FXMLLoader.load(getClass().getResource("../view/Registration.fxml"));
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mainApp.showRegistration((Stage) register.getScene().getWindow());
             }
         });
     }

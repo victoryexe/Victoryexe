@@ -65,7 +65,7 @@ public class WaterReport extends Report {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof QualityReport)) {
+        if (!(obj instanceof WaterReport)) {
             return false;
         }
         return ((WaterReport) obj).getReportID() == this.getReportID();

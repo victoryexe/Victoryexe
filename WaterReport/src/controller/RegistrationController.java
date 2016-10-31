@@ -1,6 +1,6 @@
 package controller;
 
-import com.lynden.gmapsfx.GoogleMapView;
+import fxapp.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,6 +47,11 @@ public class RegistrationController {
     private String pass2;
     private String name;
     private AuthLevel authLevel;
+    private Main mainApp;
+
+    public void setMainApp(Main main) {
+        mainApp = main;
+    }
 
     @FXML
     public void initialize() {
@@ -58,18 +63,7 @@ public class RegistrationController {
         regCancel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Stage stage;
-                Parent root;
-                stage = (Stage) regCancel.getScene().getWindow();
-                try {
-                    root = FXMLLoader.load(getClass().getResource("../view/LoginScreenView.fxml"));
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mainApp.showLogin((Stage) regCancel.getScene().getWindow());
             }
         });
 
@@ -89,18 +83,7 @@ public class RegistrationController {
                     Registration.createAccount(first, last, mail, pass, pass2, authLevel);
                     user = UserList.getUserAccount(mail);
                     LoginScreenController.currUser = user;
-                    Stage stage;
-                    Parent root;
-                    stage = (Stage) regSubmit.getScene().getWindow();
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("../view/MainScreenView.fxml"));
-                        Scene scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    mainApp.showMain((Stage) regSubmit.getScene().getWindow());
                 }
             }
         });
