@@ -34,6 +34,20 @@ public class Location implements Comparable<Location> {
         return longitude;
     }
 
+    /**
+     * Calculates the distance between two Locations
+     * @param l1 the first Location
+     * @param l2 the second Location
+     * @return the distance between the two Locations
+     */
+    public static double calculateDistance(Location l1, Location l2) {
+        double latDiff = l1.getLatitude() - l2.getLatitude();
+        double longDiff = l1.getLongitude() - l2.getLongitude();
+        double dist =  Math.sqrt(Math.pow(latDiff, 2.0) + Math.pow(longDiff, 2.0));
+        // TODO convert to km / mi
+        return dist;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

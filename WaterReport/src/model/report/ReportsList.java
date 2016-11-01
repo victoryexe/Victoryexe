@@ -13,7 +13,6 @@ import java.util.Map;
  */
 public class ReportsList {
     private ReportsList() {
-
     }
 
     private static Map<Integer, WaterReport> waterReportMap = new HashMap<Integer, WaterReport>();
@@ -57,7 +56,11 @@ public class ReportsList {
     public static WaterReport makeReport(User user, Location location,
                                   WaterType watertype, WaterCondition waterCondition) {
         WaterReport report = new WaterReport(user, location, watertype, waterCondition);
-        return waterReportMap.put(report.getReportID(), report);
+        if (waterReportMap.containsKey(report.getReportID())) {
+            return null;
+        }
+        waterReportMap.put(report.getReportID(), report);
+        return report;
     }
 
     /**
@@ -99,6 +102,12 @@ public class ReportsList {
     public static QualityReport makeReport(Worker worker, Location location,
                                   OverallCondition condition, double virusPPM, double contaminantPPM) {
         QualityReport report = new QualityReport(worker, location, condition, virusPPM, contaminantPPM);
-        return qualityReportMap.put(report.getReportID(), report);
+        if (qualityReportMap.containsKey(report.getReportID())) {
+            return null;
+        }
+        qualityReportMap.put(report.getReportID(), report);
+        return report;
     }
+
+    // TODO Delete Reports
 }

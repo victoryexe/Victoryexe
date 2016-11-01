@@ -165,4 +165,78 @@ public class SortReports {
         reports.addAll(filterQualityReportsByLocation(loc));
         return reports;
     }
+
+    /**
+     * Calculates the average virusPPM per month, where each month
+     * is denoted by the array index
+     * [0] January, [1] February, ... [11] December
+     * @param loc the Location for which to generate data
+     * @param radius the radius in miles that a Location must be relative
+     * to @param loc to be included in the HistoricalReport
+     * @param virusPPM the virus parts per million
+     * @param year the desired year
+     * @return a double[] containing the average virusPPM per month
+     */
+    public static double[] generateHistoricalReportByVirusPPM(
+            Location loc, double radius, double virusPPM, int year) {
+        reports = ReportsList.getQualityReportsList();
+        List<List<Double>> reportsByMonth = new ArrayList<>(12);
+        for (Report r : reports) {
+            if (Location.calculateDistance(loc, r.getLocation()) <= radius
+                    && r.getTimestamp().getYear() == year) { // check against params
+                int index = r.getTimestamp().getMonthValue() - 1;
+                if (reportsByMonth.get(index) == null) { // instantiate list
+                    reportsByMonth.set(index, new LinkedList<Double>());
+                }
+                reportsByMonth.get(index).add(((QualityReport) r).getVirusPPM());
+            }
+        }
+
+        double[] virusPPMByMonth = new double[12];
+        for (int i = 0; i < reportsByMonth.size(); i++) {
+            double sum = 0;
+            for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
+                sum += reportsByMonth.get(i).get(j);
+            }
+            virusPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+        }
+        return virusPPMByMonth;
+    }
+
+    /**
+     * Calculates the average contaminant per month, where each month
+     * is denoted by the array index
+     * [0] January, [1] February, ... [11] December
+     * @param loc the Location for which to generate data
+     * @param radius the radius in miles that a Location must be relative
+     * to @param loc to be included in the HistoricalReport
+     * @param contaminantPPM the virus parts per million
+     * @param year the desired year
+     * @return a double[] containing the average contaminantPPM per month
+     */
+    public static double[] generateHistoricalReportByContaminantPPM(
+            Location loc, double radius, double contaminantPPM, int year) {
+        reports = ReportsList.getQualityReportsList();
+        List<List<Double>> reportsByMonth = new ArrayList<>(12);
+        for (Report r : reports) {
+            if (Location.calculateDistance(loc, r.getLocation()) <= radius
+                    && r.getTimestamp().getYear() == year) { // check against params
+                int index = r.getTimestamp().getMonthValue() - 1;
+                if (reportsByMonth.get(index) == null) { // instantiate list
+                    reportsByMonth.set(index, new LinkedList<>());
+                }
+                reportsByMonth.get(index).add(((QualityReport) r).getContaminantPPM());
+            }
+        }
+
+        double[] contaminantPPMByMonth = new double[12];
+        for (int i = 0; i < reportsByMonth.size(); i++) {
+            double sum = 0;
+            for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
+                sum += reportsByMonth.get(i).get(j);
+            }
+            contaminantPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+        }
+        return contaminantPPMByMonth;
+    }
 }
