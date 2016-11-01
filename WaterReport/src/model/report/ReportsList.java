@@ -16,13 +16,13 @@ public class ReportsList {
 
     }
 
-    private static Map<Integer, Report> waterReportMap = new HashMap<Integer, Report>();
-    private static Map<Integer, Report> qualityReportMap = new HashMap<Integer, Report>();
+    private static Map<Integer, WaterReport> waterReportMap = new HashMap<Integer, WaterReport>();
+    private static Map<Integer, QualityReport> qualityReportMap = new HashMap<Integer, QualityReport>();
 
     /**
      * Given an report ID, returns the Report associated with it
      * @param rID the ID of the desired report
-     * @return the Report associated with rID
+     * @return the Report associated with rID or null if none exists
      */
     public static Report getWaterReport(Integer rID) {
         return waterReportMap.get(rID);
@@ -52,18 +52,18 @@ public class ReportsList {
      * @param location the location of the water source
      * @param watertype the type of the water
      * @param waterCondition the condition of the water
+     * @return the WaterReport made, or null if none was made
      */
-    public static Report makeReport(User user, Location location,
+    public static WaterReport makeReport(User user, Location location,
                                   WaterType watertype, WaterCondition waterCondition) {
         WaterReport report = new WaterReport(user, location, watertype, waterCondition);
-        waterReportMap.put(report.getReportID(), report);
-        return report;
+        return waterReportMap.put(report.getReportID(), report);
     }
 
     /**
      * Retrieves a QualityReport from the map, or null if it does not exist
      * @param rID the ID of the desired QualityReport
-     * @return the corresponding QualityReport
+     * @return the corresponding QualityReport or null if none exists
      */
     public static Report getQualityReport(Integer rID) {
         return qualityReportMap.get(rID);
@@ -94,11 +94,11 @@ public class ReportsList {
      * @param condition the condition of the water
      * @param virusPPM the virusPPM of the water
      * @param contaminantPPM the contaminantPPM of the water
+     * @return the QualityReport made or null if none was made
      */
-    public static Report makeReport(Worker worker, Location location,
+    public static QualityReport makeReport(Worker worker, Location location,
                                   OverallCondition condition, double virusPPM, double contaminantPPM) {
         QualityReport report = new QualityReport(worker, location, condition, virusPPM, contaminantPPM);
-        qualityReportMap.put(report.getReportID(), report);
-        return report;
+        return qualityReportMap.put(report.getReportID(), report);
     }
 }

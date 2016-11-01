@@ -25,7 +25,7 @@ public class UserList {
     /**
      * Gets the Account object associated with the given userid
      * @param userid the userid of the desired account
-     * @return the Account associated with the userid
+     * @return the Account associated with the userid or null if none exists
      */
     public static Account getUserAccount(String userid) {
         return userMap.get(userid);
@@ -41,24 +41,37 @@ public class UserList {
      * @param pass1 the user's password
      * @param pass2 confirm password
      * @param auth the user's specified AuthLevel
+     * @return the Account added to the userMap, or null if the Account
+     * could not be added
      */
-    public static void makeNewUser(String firstName, String lastName, String userid,
+    public static Account makeNewUser(String firstName, String lastName, String userid,
                                    String pass1, String pass2, AuthLevel auth) {
             Account account = UserFactory.makeAccount(firstName, lastName, userid, auth);
+            if (userMap.containsKey(account.getEmail())
+                    || Authentication.verifySubject(account.getEmail())) {
+                return null;
+            }
             userMap.put(userid, account);
             Authentication.addNewAccount(userid, pass1);
+            return account;
     }
 
     /**
      * Given a new userid, updates the map, deleting the old entry
      * @param oldEmail the user's old email
      * @param newEmail the user's new email
+     * @throws java.util.NoSuchElementException if no user is associated
+     * with the given oldEmail
+     * @return true iff the map was updated, false otherwise
      */
-    public static void updateMap(String oldEmail, String newEmail) {
+    public static boolean updateMap(String oldEmail, String newEmail) {
         Account account = userMap.remove(oldEmail);
-        if (account != null) {
-            userMap.put(newEmail, account);
+        if (account == null) {
+            throw new java.util.NoSuchElementException("No account is" +
+                    "associated with the userid " + oldEmail);
         }
+        userMap.put(newEmail, account);
+        return Authentication.updateEmail(oldEmail, newEmail);
     }
 
     /**

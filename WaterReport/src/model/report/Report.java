@@ -140,16 +140,4 @@ public abstract class Report implements Comparable<Report> {
     public int compareTo(Report r) {
         return this.getReportID() - r.getReportID();
     }
-
-    @Override
-    public String toString() {
-        String str = "";
-        if (this instanceof WaterReport) {
-            str = "WaterReport ";
-        } else if (this instanceof QualityReport) {
-            str = "QualityReport ";
-        }
-        str += this.getReportID();
-        return str;
-    }
 }
