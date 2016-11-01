@@ -106,7 +106,7 @@ public class ReportListController {
 
 
     public static void updateList() {
-        reports = SortReports.sortByReportID();
+        reports = SortReports.sortByMostRecent();
         reportlist.setItems(javafx.collections.FXCollections.observableList(reports));
     }
 }

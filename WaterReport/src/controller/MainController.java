@@ -81,6 +81,10 @@ public class MainController {
     @FXML
     private TabPane applicationTabs;
     @FXML
+    private Tab submitTab;
+    @FXML
+    private Tab Purity;
+    @FXML
     private TextField purityLat;
     @FXML
     private TextField purityLon;
@@ -92,6 +96,10 @@ public class MainController {
     private ComboBox purityCond;
     @FXML
     private Button SubmitPurity;
+    @FXML
+    private Button avetoqual;
+    @FXML
+    private Button qualtoave;
 
     private Profile currProfile;
 
@@ -131,11 +139,13 @@ public class MainController {
 
         // Delegates control of report submission to AddReportController
         AddReportController addReport = new AddReportController(latitude,
-                longitude, sourceBox, conditionBox, submitRepBox, othertype);
+                longitude, sourceBox, conditionBox, submitRepBox, othertype, avetoqual,
+                applicationTabs, Purity);
 
         // Delegates control of QualityReport submission to AddQualityController
         AddQualityController qualReport = new AddQualityController(purityLat,
-                purityLon, VirusPPM, ContamPPM, purityCond, SubmitPurity);
+                purityLon, VirusPPM, ContamPPM, purityCond, SubmitPurity, qualtoave,
+                applicationTabs, submitTab);
 
         // Delegates control of the View Report screen to ReportListController
         ReportListController reportList = new ReportListController(reportlist, viewreport);
@@ -144,16 +154,15 @@ public class MainController {
         // Delegates control of the Google Map to MapController
         MapController map = new MapController(GmapsViewPane);
         GmapsViewPane.addMapInializedListener(map);
-
+        applicationTabs.getTabs().remove(4);
         if(LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.USER)) {
-            applicationTabs.getTabs().remove(3);
             applicationTabs.getTabs().remove(3);
 
         } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.WORKER)) {
             applicationTabs.getTabs().remove(3);
 
         } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.ADMIN)) {
-            for(int i = 0; i < 4; i++) {
+            for(int i = 0; i < 3; i++) {
                 applicationTabs.getTabs().remove(1);
             }
         } else {

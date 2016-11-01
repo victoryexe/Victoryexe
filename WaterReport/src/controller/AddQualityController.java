@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class AddQualityController {
 
     public AddQualityController(TextField purityLat, TextField purityLon, TextField VirusPPM,
-                                TextField ContamPPM, ComboBox purityCond, Button SubmitPurity) {
+                                TextField ContamPPM, ComboBox purityCond, Button SubmitPurity,
+                                Button qualtoave, TabPane pane, Tab water) {
         MainController.restrictToNums(purityLat);
         MainController.restrictToNums(purityLon);
         MainController.restrictToNums(VirusPPM);
@@ -63,5 +64,17 @@ public class AddQualityController {
             }
         });
 
+        qualtoave.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                purityLat.setText("");
+                purityLon.setText("");
+                purityCond.setValue(conditions.get(0));
+                VirusPPM.setText("");
+                ContamPPM.setText("");
+                pane.getTabs().set(2, water);
+                pane.getSelectionModel().select(water);
+            }
+        });
     }
 }

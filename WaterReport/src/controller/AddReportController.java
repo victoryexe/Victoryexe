@@ -3,7 +3,9 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import model.Users.AuthLevel;
 import model.Users.User;
+import model.Users.Worker;
 import model.report.*;
 
 import java.util.ArrayList;
@@ -21,10 +23,13 @@ public class AddReportController {
      * @param conditionBox ComboBox where user selects the water condition
      * @param submitRepBox Button used to submit the water report to the system
      * @param other TextField where the user may submit a custom water source
+     * @param avetoqual
+     * @param pane
+     * @param quality
      */
     public AddReportController (TextField latitude, TextField longitude,
                                 ComboBox sourceBox, ComboBox conditionBox, Button submitRepBox,
-                                TextField other) {
+                                TextField other, Button avetoqual, TabPane pane, Tab quality) {
         //Initializes the water source and water condition ComboBoxes
         ArrayList<WaterType> source = new ArrayList<WaterType>();
         for (WaterType type : WaterType.values()) {
@@ -80,6 +85,20 @@ public class AddReportController {
                     // updates the View Reports ListView
                     ReportListController.updateList();
                 }
+            }
+        });
+        if (LoginScreenController.currUser.getAuthLevel() == AuthLevel.USER) {
+            avetoqual.setVisible(false);
+        }
+        avetoqual.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                latitude.setText("");
+                longitude.setText("");
+                sourceBox.setValue(source.get(0));
+                conditionBox.setValue(condition.get(0));
+                pane.getTabs().set(2, quality);
+                pane.getSelectionModel().select(quality);
             }
         });
     }
