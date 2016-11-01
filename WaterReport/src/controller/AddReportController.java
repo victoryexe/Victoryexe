@@ -23,9 +23,9 @@ public class AddReportController {
      * @param conditionBox ComboBox where user selects the water condition
      * @param submitRepBox Button used to submit the water report to the system
      * @param other TextField where the user may submit a custom water source
-     * @param avetoqual
-     * @param pane
-     * @param quality
+     * @param avetoqual Button used to switch to the quality report
+     * @param pane TabPane where all tabs are located
+     * @param quality Tab where quality reports may be created
      */
     public AddReportController (TextField latitude, TextField longitude,
                                 ComboBox sourceBox, ComboBox conditionBox, Button submitRepBox,

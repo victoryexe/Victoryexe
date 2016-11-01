@@ -118,10 +118,6 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        /**
-         * Sets the function of the Logout button to return user to the
-         * Login screen and clears the current user.
-         */
         Logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

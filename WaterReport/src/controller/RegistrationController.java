@@ -109,7 +109,7 @@ System.out.println(results[0].formattedAddress);*/
      * @param password2 confirm password
      * @return true iff all fields are valid
      */
-    public static boolean isInputValid(String firstName, String lastName, String userid,
+    private boolean isInputValid(String firstName, String lastName, String userid,
                                        String password1, String password2) {
         if (firstName.equals("") || lastName.equals("")|| userid.equals("")
                 || password1.equals("")|| password2.equals("")) { // null checks

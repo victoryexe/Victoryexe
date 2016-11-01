@@ -12,6 +12,18 @@ import java.util.ArrayList;
  * Created by grizz on 10/24/2016.
  */
 public class AddQualityController {
+    /**
+     *
+     * @param purityLat TextField where user submits the latitude of water location
+     * @param purityLon TextField where user submits the longitude of water location
+     * @param VirusPPM TextField where user submits the VirusPPM
+     * @param ContamPPM TextField where user submits the Contaminant PPM
+     * @param purityCond ComboBox where user selects the overall condition of the water
+     * @param SubmitPurity Button where user submits the report
+     * @param qualtoave Button where user switches to the quality report screen
+     * @param pane TabPane where all Tabs are located
+     * @param water Tab where water reports may be created
+     */
 
     public AddQualityController(TextField purityLat, TextField purityLon, TextField VirusPPM,
                                 TextField ContamPPM, ComboBox purityCond, Button SubmitPurity,
