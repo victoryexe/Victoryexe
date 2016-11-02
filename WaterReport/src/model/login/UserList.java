@@ -8,6 +8,9 @@ import java.util.Set;
 
 /**
  * Created by Alexandra on 9/28/2016.
+ * A class that holds a map of all users in the system and their respective
+ * Accounts. Oversees creation of new users and adds them to the list, permits
+ * updates, and performs existence checks of Accounts.
  */
 public class UserList {
     private static Map<String, Account> userMap = new HashMap<>();

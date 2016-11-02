@@ -2,10 +2,12 @@ package model.login;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by Alexandra on 9/24/2016.
+ * A helper class that contains a map of userids to passwords, methods
+ * to update these entries, and methods to check whether users exist
+ * in the map.
  */
 public class Authentication {
     private static Map<String, CharSequence> userMap = new HashMap<>();

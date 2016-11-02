@@ -5,9 +5,10 @@ import model.report.Report;
 
 /**
  * Created by Alexandra on 10/27/2016.
+ * A Log that holds information specific to Report deletion
  */
 public class DeletedReportLog extends Log {
-    private String reportID;
+    private final String reportID;
 
     /**
      * Makes a DeletedReport log with a timestamp and reportID

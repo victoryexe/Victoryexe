@@ -1,15 +1,15 @@
 package model.login;
 
 import model.Users.Account;
-import model.Users.User;
 import model.log.LogList;
 
 /**
  * Created by grizz on 9/19/2016.
+ * A class that controls the action of logging in
  */
 public class Login {
     /**
-     * Verifies credentials
+     * Verifies credentials and logs the attempt
      * @param subject the userid of the account trying to login
      * @param password the password entered
      * @return true if login is successful, else false

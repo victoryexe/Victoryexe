@@ -4,6 +4,7 @@ import model.Users.*;
 
 /**
  * Created by Alexandra on 10/3/2016.
+ * A class that creates an Account given valid input and returns that Account
  */
 public class UserFactory {
     /**

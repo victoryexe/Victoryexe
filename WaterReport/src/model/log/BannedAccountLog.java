@@ -4,9 +4,10 @@ import model.Users.Admin;
 
 /**
  * Created by Alexandra on 10/27/2016.
+ * A Log that holds relevant data for the specific action of banning an account
  */
 public class BannedAccountLog extends Log {
-    private String bannedAccountID;
+    private final String bannedAccountID;
 
     /**
      * Makes a BannedAccount log with a timestamp ang given params

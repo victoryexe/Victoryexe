@@ -4,9 +4,11 @@ import model.Users.Worker;
 
 /**
  * Created by Alexandra on 10/12/2016.
+ * Represents a Water Quality Report
  */
 public class QualityReport extends Report{
     private static int reportCount = 0;
+    private final int rID;
     private OverallCondition waterCondition;
     private double virusPPM;
     private double contaminantPPM;
@@ -25,7 +27,7 @@ public class QualityReport extends Report{
         waterCondition = condition;
         this.virusPPM = virusPPM;
         this.contaminantPPM = contaminantPPM;
-        setRID(reportCount++);
+        rID = reportCount++;
     }
 
     /**
@@ -74,6 +76,11 @@ public class QualityReport extends Report{
      */
     public void setContaminantPPM(double contaminantPPM) {
         this.contaminantPPM = contaminantPPM;
+    }
+
+    @Override
+    public int getReportID() {
+        return rID;
     }
 
     @Override

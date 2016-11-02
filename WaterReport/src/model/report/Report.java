@@ -8,13 +8,13 @@ import java.time.LocalTime;
 
 /**
  * Created by Alexandra on 10/12/2016.
+ * Represents a Report
  */
 public abstract class Report implements Comparable<Report> {
-    private LocalDateTime timestamp;
-    private int rID;
-    private User submitterID;
+    private final LocalDateTime timestamp;
+    private final User submitterID;
     private String other;
-    private Location location;
+    private final Location location;
 
     /**
      * Creates a report, using the local machine's date and time, the user
@@ -28,33 +28,11 @@ public abstract class Report implements Comparable<Report> {
         this.location = location;
     }
 
-//    private String generateReportID() {
-//        String modified = "";
-//        boolean changed = false;
-//        for (int i = 0; i < reportCounter.length(); i++) {
-//            char current = reportCounter.charAt(i);
-//            if (current < 122 && !changed) {
-//                modified += ++current;
-//                changed = true;
-//            } else {
-//                modified += current;
-//            }
-//            if (current == 122 && !changed) {
-//                modified += "A";
-//                changed = true;
-//            }
-//        }
-//        reportCounter = modified;
-//        return modified;
-//    }
-
     /**
      * Gets the id of this report
      * @return the id of this report
      */
-    public int getReportID() {
-        return rID;
-    }
+    public abstract int getReportID();
 
     /**
      * Gets the User that submitted this report
@@ -97,18 +75,10 @@ public abstract class Report implements Comparable<Report> {
     }
 
     /**
-     * Gets the watersource should the user have entered OTHER
-     * @return the string representing the OTHER water source
+     * Gets the water type should the user have entered WaterType.OTHER
+     * @return the string representing the WaterType.OTHER water source
      */
     public String getOther() { return other; }
-
-    /**
-     * Sets this report's rID to the one specified
-     * @param rID the new rID of this report
-     */
-    public void setRID(int rID) {
-        this.rID = rID;
-    }
 
     /**
      * Sets the string representative of other water source
@@ -116,11 +86,6 @@ public abstract class Report implements Comparable<Report> {
      * @param other the custom water source entered by user
      */
     public void setOther(String other) { this.other = other; }
-
-    @Override
-    public int hashCode() {
-        return rID;
-    }
 
     @Override
     public boolean equals(Object obj) {

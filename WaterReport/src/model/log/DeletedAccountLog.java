@@ -4,9 +4,10 @@ import model.Users.Admin;
 
 /**
  * Created by Alexandra on 10/27/2016.
+ * A Log that holds data specific to account deletion
  */
 public class DeletedAccountLog extends Log {
-    private String deletedAccountID;
+    private final String deletedAccountID;
 
     /**
      * Makes a DeletedAccountLog with a timestamp and given params

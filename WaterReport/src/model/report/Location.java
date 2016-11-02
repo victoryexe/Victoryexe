@@ -2,10 +2,11 @@ package model.report;
 
 /**
  * Created by Alexandra on 10/12/2016.
+ * Represents a Location
  */
 public class Location implements Comparable<Location> {
-    private double latitude;
-    private double longitude;
+    private final double latitude;
+    private final double longitude;
     // TODO Requires GMap Integration
 
     /**

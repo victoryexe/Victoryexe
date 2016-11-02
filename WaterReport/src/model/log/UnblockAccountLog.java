@@ -4,9 +4,10 @@ import model.Users.Admin;
 
 /**
  * Created by Alexandra on 10/27/2016.
+ * A Log that holds data specific to unblocking accounts
  */
 public class UnblockAccountLog extends Log {
-    private String unbannedAccountID;
+    private final String unbannedAccountID;
 
     /**
      * Makes an UnblockAccount Log with a timestamp anf given params

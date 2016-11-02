@@ -6,6 +6,7 @@ import model.Users.Account;
 
 /**
  * Created by Alexandra on 9/29/2016.
+ * A class that oversees Account registration
  */
 public class Registration {
     private Registration() {
