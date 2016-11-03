@@ -14,6 +14,7 @@ public abstract class Report implements Comparable<Report> {
     private final LocalDateTime timestamp;
     private final User submitterID;
     private String other;
+    private boolean isDeleted;
     private final Location location;
 
     /**
@@ -86,6 +87,21 @@ public abstract class Report implements Comparable<Report> {
      * @param other the custom water source entered by user
      */
     public void setOther(String other) { this.other = other; }
+
+    /**
+     * Gets this Report's deleted status
+     * @return true if this Report has been deleted, false otherwise
+     */
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    /**
+     * Flips this Report's isDeleted marker from true to false or false to true
+     */
+    public void setIsDeleted() {
+        isDeleted = !isDeleted;
+    }
 
     @Override
     public boolean equals(Object obj) {

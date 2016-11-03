@@ -9,6 +9,8 @@ import java.util.Set;
 
 /**
  * Created by Alexandra on 10/12/2016.
+ * A class with utility methods, mostly regarding sorting Reports, which
+ * are taken from the ReportsList class.
  */
 public class SortReports {
     private static List<Report> reports;

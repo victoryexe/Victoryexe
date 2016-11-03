@@ -10,7 +10,10 @@ public class User implements Account {
     protected int userID;
     protected Address homeAddress;
     protected String title;
-    protected static int userCount; 
+    protected static int userCount;
+    private boolean isBanned;
+    private boolean isBlocked;
+
     public User(String name, String email) {
         this.name = name;
         this.email = email;
@@ -61,6 +64,23 @@ public class User implements Account {
     public AuthLevel getAuthLevel() {
         return AuthLevel.USER;
     }
+    @Override
+    public boolean getIsBanned() {
+        return isBanned;
+    }
+    @Override
+    public void setIsBanned() {
+        isBanned = !isBanned;
+    }
+    @Override
+    public boolean getIsBlocked() {
+        return isBlocked;
+    }
+    @Override
+    public void setIsBlocked() {
+        isBlocked = !isBlocked;
+    }
+
 
     @Override
     public boolean equals(Object obj) {

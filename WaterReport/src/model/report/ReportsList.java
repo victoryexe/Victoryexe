@@ -10,6 +10,9 @@ import java.util.Map;
 
 /**
  * Created by Alexandra on 10/12/2016.
+ * A helper class that stores all Reports in the system as ReportID - Report
+ * entries. Also contains helper methods for making, updating, deleting, and
+ * check for existence of Reports.
  */
 public class ReportsList {
     private ReportsList() {

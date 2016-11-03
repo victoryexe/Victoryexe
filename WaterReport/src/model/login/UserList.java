@@ -1,6 +1,7 @@
 package model.login;
 
 import model.Users.*;
+import model.log.LogList;
 import model.registration.UserFactory;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,6 +76,65 @@ public class UserList {
         }
         userMap.put(newEmail, account);
         return Authentication.updateEmail(oldEmail, newEmail);
+    }
+
+    /**
+     * Deletes the userid-Account mapping associated with the given userid
+     * Precondition: Admin is logged into the system
+     * @param admin the Admin deleting an Account
+     * @param userid the userid of the Account to be deleted
+     * @throws java.util.NoSuchElementException if no user is associated
+     * with the given userid
+     * @return true iff the Account was successfully deleted
+     */
+    public static boolean deleteAccount(Admin admin, String userid) {
+        Account deleted = userMap.remove(userid);
+        if (deleted == null || !Authentication.deleteAccount(userid)) {
+            throw new java.util.NoSuchElementException("No account is" +
+                    "associated with the userid " + userid);
+        }
+        LogList.makeDeletedAccountEntry(admin, userid);
+        return true;
+    }
+
+    /**
+     * Bans the Account associated with the given userid
+     * Precondition: Admin is logged into the system
+     * @param admin the Admin banning an Account
+     * @param userid the userid of the Account to be banned
+     * @throws java.util.NoSuchElementException if no user is associated
+     * with the given userid
+     * @return true iff the Account was successfully deleted
+     */
+    public static boolean banAccount(Admin admin, String userid) {
+        Account account = userMap.get(userid);
+        if (account == null) {
+            throw new java.util.NoSuchElementException("No account is" +
+                    "associated with the userid " + userid);
+        }
+        account.setIsBanned();
+        LogList.makeBannedAccountEntry(admin, userid);
+        return true;
+    }
+
+    /**
+     * Unblocks the Account associated with the given userid
+     * Precondition: Admin is logged into the system
+     * @param admin the Admin banning an Account
+     * @param userid the userid of the Account to be unblocked
+     * @throws java.util.NoSuchElementException if no user is associated
+     * with the given userid
+     * @return true iff the Account was successfully unblocked
+     */
+    public static boolean unblockAccount(Admin admin, String userid) {
+        Account account = userMap.get(userid);
+        if (account == null) {
+            throw new java.util.NoSuchElementException("No account is +" +
+                    "associated with the userid " + userid);
+        }
+        account.setIsBlocked();
+        LogList.makeUnblockAccountEntry(admin, userid);
+        return true;
     }
 
     /**
