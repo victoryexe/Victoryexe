@@ -45,10 +45,11 @@ public class SortReports {
     }
 
     /**
-     * Given a WaterType(s), returns a Set of all WaterReports of that
-     * WaterType
+     * Given a WaterType(s), returns a Set of all WaterReports that have
+     * at least one matching WaterType
      * @param type one or more WaterTypes to filter by
-     * @return a Set of WaterReports of the desired WaterType(s)
+     * @return a Set of WaterReports of the desired WaterType(s) or an
+     * empty set if no WaterReports match
      */
     public static Set<WaterReport> filterByWaterType(WaterType ... type) {
         updateReports();
@@ -68,10 +69,11 @@ public class SortReports {
     }
 
     /**
-     * Given a WaterCondition(s), finds all WaterReports with the given
+     * Given a WaterCondition(s), finds all WaterReports with at least one given
      * WaterCondition(s)
      * @param condition one or more WaterConditions to filter by
-     * @return a Set of all WaterReports of the desired WaterCondition(s)
+     * @return a Set of all WaterReports of the desired WaterCondition(s) or
+     * an empty Set if no WaterReports match
      */
     public static Set<WaterReport> filterByWaterCondition(WaterCondition ... condition) {
         updateReports();
@@ -91,10 +93,11 @@ public class SortReports {
     }
 
     /**
-     * Given an OverallCondition(s), finds all QualityReports with those
+     * Given an OverallCondition(s), finds all QualityReports with at least one
      * given conditions
      * @param condition one or more OverallConditions to filter by
      * @return a Set of all QualityReports of the desired OverallCondition(s)
+     * or an empty Set if no QualityReports match
      */
     public static Set<QualityReport> filterByOverallCondition(OverallCondition ... condition) {
         updateReports();

@@ -74,6 +74,7 @@ public class UserList {
             throw new java.util.NoSuchElementException("No account is" +
                     "associated with the userid " + oldEmail);
         }
+        account.setEmail(newEmail);
         userMap.put(newEmail, account);
         return Authentication.updateEmail(oldEmail, newEmail);
     }

@@ -41,7 +41,7 @@ public class ReportsList {
 
     /**
      * Returns a List of all reports in waterReportMap
-     * @return a List of all reports in the map
+     * @return a List copy of all reports in the map
      */
     public static List<Report> getWaterReportsList() {
         return new ArrayList<>(waterReportMap.values());
@@ -85,7 +85,7 @@ public class ReportsList {
 
     /**
      * Returns a List of all QualityReports
-     * @return a List of all QualityReports
+     * @return a List copy of all QualityReports
      */
     public static List<Report> getQualityReportsList() {
         return new ArrayList<>(qualityReportMap.values());
