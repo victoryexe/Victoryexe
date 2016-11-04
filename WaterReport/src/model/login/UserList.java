@@ -1,6 +1,8 @@
 package model.login;
 
-import model.Users.*;
+import model.Users.Account;
+import model.Users.Admin;
+import model.Users.AuthLevel;
 import model.log.LogList;
 import model.registration.UserFactory;
 import java.util.HashMap;
@@ -15,8 +17,6 @@ import java.util.Set;
  */
 public class UserList {
     private static Map<String, Account> userMap = new HashMap<>();
-    private UserList() {
-    }
 
     /**
      * Gets the set of users
@@ -48,16 +48,16 @@ public class UserList {
      * @return the Account added to the userMap, or null if the Account
      * could not be added
      */
-    public static Account makeNewUser(String firstName, String lastName, String userid,
-                                   String pass1, String pass2, AuthLevel auth) {
-            Account account = UserFactory.makeAccount(firstName, lastName, userid, auth);
-            if (userMap.containsKey(account.getEmail())
-                    || Authentication.verifySubject(account.getEmail())) {
-                return null;
-            }
-            userMap.put(userid, account);
-            Authentication.addNewAccount(userid, pass1);
-            return account;
+    public static Account makeNewUser(String firstName, String lastName,
+                                      String userid, String pass1, String pass2, AuthLevel auth) {
+        Account account = UserFactory.makeAccount(firstName, lastName, userid, auth);
+        if (userMap.containsKey(account.getEmail())
+                || Authentication.verifySubject(account.getEmail())) {
+            return null;
+        }
+        userMap.put(userid, account);
+        Authentication.addNewAccount(userid, pass1);
+        return account;
     }
 
     /**
@@ -71,8 +71,8 @@ public class UserList {
     public static boolean updateMap(String oldEmail, String newEmail) {
         Account account = userMap.remove(oldEmail);
         if (account == null) {
-            throw new java.util.NoSuchElementException("No account is" +
-                    "associated with the userid " + oldEmail);
+            throw new java.util.NoSuchElementException("No account is"
+                    + "associated with the userid " + oldEmail);
         }
         account.setEmail(newEmail);
         userMap.put(newEmail, account);
@@ -91,8 +91,8 @@ public class UserList {
     public static boolean deleteAccount(Admin admin, String userid) {
         Account deleted = userMap.remove(userid);
         if (deleted == null || !Authentication.deleteAccount(userid)) {
-            throw new java.util.NoSuchElementException("No account is" +
-                    "associated with the userid " + userid);
+            throw new java.util.NoSuchElementException("No account is"
+                    + "associated with the userid " + userid);
         }
         LogList.makeDeletedAccountEntry(admin, userid);
         return true;
@@ -110,8 +110,8 @@ public class UserList {
     public static boolean banAccount(Admin admin, String userid) {
         Account account = userMap.get(userid);
         if (account == null) {
-            throw new java.util.NoSuchElementException("No account is" +
-                    "associated with the userid " + userid);
+            throw new java.util.NoSuchElementException("No account is"
+                    + "associated with the userid " + userid);
         }
         account.setIsBanned();
         LogList.makeBannedAccountEntry(admin, userid);
@@ -130,8 +130,8 @@ public class UserList {
     public static boolean unblockAccount(Admin admin, String userid) {
         Account account = userMap.get(userid);
         if (account == null) {
-            throw new java.util.NoSuchElementException("No account is +" +
-                    "associated with the userid " + userid);
+            throw new java.util.NoSuchElementException("No account is +"
+                    + "associated with the userid " + userid);
         }
         account.setIsBlocked();
         LogList.makeUnblockAccountEntry(admin, userid);

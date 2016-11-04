@@ -6,7 +6,7 @@ import model.Users.Worker;
  * Created by Alexandra on 10/12/2016.
  * Represents a Water Quality Report
  */
-public class QualityReport extends Report{
+public class QualityReport extends Report {
     private static int reportCount = 0;
     private final int rID;
     private OverallCondition waterCondition;
@@ -22,7 +22,8 @@ public class QualityReport extends Report{
      * @param contaminantPPM the contaminant PPM of this source
      */
     public QualityReport(Worker worker, Location location,
-                         OverallCondition condition, double virusPPM, double contaminantPPM) {
+                         OverallCondition condition, double virusPPM,
+                         double contaminantPPM) {
         super(worker, location);
         waterCondition = condition;
         this.virusPPM = virusPPM;

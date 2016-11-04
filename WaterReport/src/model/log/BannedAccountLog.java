@@ -19,6 +19,10 @@ public class BannedAccountLog extends Log {
         this.bannedAccountID = bannedAccountID;
     }
 
+    /**
+     * Gets the the bannedAccountID of this BannedAccountLog
+     * @return the userid of the account that was banned
+     */
     public String getBannedAccountID() {
         return bannedAccountID;
     }

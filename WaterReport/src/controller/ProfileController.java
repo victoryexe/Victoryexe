@@ -143,7 +143,6 @@ public class ProfileController {
                 int apt;
                 if (!currProfile.getEmail().equals(emailtextbox.getText())) {
                     UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
-                    Authentication.updateEmail(currProfile.getEmail(), emailtextbox.getText());
                     currProfile.changeEmail(emailtextbox.getText());
                 }
                 if (currProfile.getAddress() == null) {

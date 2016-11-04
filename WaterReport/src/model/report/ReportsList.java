@@ -15,11 +15,11 @@ import java.util.Map;
  * check for existence of Reports.
  */
 public class ReportsList {
-    private ReportsList() {
-    }
 
-    private static Map<Integer, WaterReport> waterReportMap = new HashMap<>();
-    private static Map<Integer, QualityReport> qualityReportMap = new HashMap<>();
+    private static Map<Integer, WaterReport> waterReportMap =
+            new HashMap<>();
+    private static Map<Integer, QualityReport> qualityReportMap =
+            new HashMap<>();
 
     /**
      * Given an report ID, returns the Report associated with it
@@ -31,7 +31,8 @@ public class ReportsList {
     }
 
     /**
-     * Given an report ID, checks whether that report is contained in the waterReportMap
+     * Given an report ID, checks whether that report is contained in the
+     * waterReportMap
      * @param rID the ID of the desired report
      * @return true iff the Report is contained in waterReportMap
      */
@@ -56,8 +57,10 @@ public class ReportsList {
      * @return the WaterReport made, or null if none was made
      */
     public static WaterReport makeReport(User user, Location location,
-                                  WaterType waterType, WaterCondition waterCondition) {
-        WaterReport report = new WaterReport(user, location, waterType, waterCondition);
+                                         WaterType waterType,
+                                         WaterCondition waterCondition) {
+        WaterReport report = new WaterReport(user, location, waterType,
+                waterCondition);
         if (waterReportMap.containsKey(report.getReportID())) {
             return null;
         }
@@ -101,8 +104,11 @@ public class ReportsList {
      * @return the QualityReport made or null if none was made
      */
     public static QualityReport makeReport(Worker worker, Location location,
-                                  OverallCondition condition, double virusPPM, double contaminantPPM) {
-        QualityReport report = new QualityReport(worker, location, condition, virusPPM, contaminantPPM);
+                                           OverallCondition condition,
+                                           double virusPPM,
+                                           double contaminantPPM) {
+        QualityReport report = new QualityReport(worker, location, condition,
+                virusPPM, contaminantPPM);
         if (qualityReportMap.containsKey(report.getReportID())) {
             return null;
         }

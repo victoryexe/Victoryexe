@@ -12,8 +12,8 @@ import java.util.List;
  * A class that controls the action of logging in
  */
 public class Login {
-    private final static int BLOCK_ACCOUNT_WINDOW = 15;
-    private final static int MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS = 3;
+    private static final int BLOCK_ACCOUNT_WINDOW = 15;
+    private static final int MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS = 3;
 
     /**
      * Verifies credentials and logs the attempt
@@ -30,7 +30,9 @@ public class Login {
             if (!success) { // block account if necessary
                 List<UnblockAccountLog> log = LogList.getUnblockAccountLog();
                 int attempts = 0;
-                for (int i = log.size() - 1; i >= 0; i--) { // check for recent attempts
+                for (int i = log.size() - 1; i >= 0; i--) {
+                    // checks for recent attempts
+                    // TODO optimize
                     if (LocalDateTime.now().minusMinutes(BLOCK_ACCOUNT_WINDOW)
                             .isBefore(log.get(i).getTimestamp())) {
                         attempts++;

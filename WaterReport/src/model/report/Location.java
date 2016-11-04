@@ -14,7 +14,7 @@ public class Location implements Comparable<Location> {
      * @param latitude the Location's latitude
      * @param longitude the Location's longitude
      */
-    public Location (double latitude, double longitude) {
+    public Location(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -44,7 +44,8 @@ public class Location implements Comparable<Location> {
     public static double calculateDistance(Location l1, Location l2) {
         double latDiff = l1.getLatitude() - l2.getLatitude();
         double longDiff = l1.getLongitude() - l2.getLongitude();
-        double dist =  Math.sqrt(Math.pow(latDiff, 2.0) + Math.pow(longDiff, 2.0));
+        double dist =  Math.sqrt(Math.pow(latDiff, 2.0)
+                + Math.pow(longDiff, 2.0));
         // TODO convert to km / mi
         return dist;
     }

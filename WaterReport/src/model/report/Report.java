@@ -79,14 +79,18 @@ public abstract class Report implements Comparable<Report> {
      * Gets the water type should the user have entered WaterType.OTHER
      * @return the string representing the WaterType.OTHER water source
      */
-    public String getOther() { return other; }
+    public String getOther() {
+        return other;
+    }
 
     /**
      * Sets the string representative of other water source
      * to the one specified
      * @param other the custom water source entered by user
      */
-    public void setOther(String other) { this.other = other; }
+    public void setOther(String other) {
+        this.other = other;
+    }
 
     /**
      * Gets this Report's deleted status

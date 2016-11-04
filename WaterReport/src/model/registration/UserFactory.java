@@ -1,6 +1,11 @@
 package model.registration;
 
-import model.Users.*;
+import model.Users.Account;
+import model.Users.User;
+import model.Users.Worker;
+import model.Users.Manager;
+import model.Users.Admin;
+import model.Users.AuthLevel;
 
 /**
  * Created by Alexandra on 10/3/2016.
@@ -15,7 +20,8 @@ public class UserFactory {
      * @param auth the designated authentication level
      * @return the created Account
      */
-    public static Account makeAccount(String firstName, String lastName, String userid, AuthLevel auth) {
+    public static Account makeAccount(String firstName, String lastName,
+                                      String userid, AuthLevel auth) {
         Account account = null;
         if (auth.equals(AuthLevel.USER)) {
             account = new User(firstName + " " + lastName, userid);

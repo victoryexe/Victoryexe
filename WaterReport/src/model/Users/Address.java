@@ -6,8 +6,12 @@ package model.Users;
 public class Address {
     // Common optional fields like apt# will be -1 if not
     // specified. For objects, these optional fields will be null.
-    private String street, city, state, country;
-    private int apt, zip;
+    private String street;
+    private String city;
+    private String state;
+    private String country;
+    private int apt;
+    private int zip;
 
     /**
      * Makes a new Address object
@@ -18,7 +22,8 @@ public class Address {
      * @param zip user's zip code
      * @param country user's country of residence
      */
-    public Address(String street, int apt, String city, String state, int zip, String country) {
+    public Address(String street, int apt, String city, String state, int zip,
+                   String country) {
         this.street = street;
         this.apt = apt;
         this.city = city;
@@ -35,7 +40,8 @@ public class Address {
      * @param zip user's zip code
      * @param country user's country of residence
      */
-    public Address(String street, String city, String state, int zip, String country) {
+    public Address(String street, String city, String state, int zip,
+                   String country) {
         this(street, -1, city, state, zip, country);
     }
 

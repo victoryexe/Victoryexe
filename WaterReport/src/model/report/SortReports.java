@@ -15,6 +15,9 @@ import java.util.Set;
 public class SortReports {
     private static List<Report> reports;
 
+    /**
+     * Updates @code reports by pulling from ReportsList
+     */
     private static void updateReports() {
         reports = ReportsList.getWaterReportsList();
         reports.addAll(ReportsList.getQualityReportsList());
@@ -75,14 +78,16 @@ public class SortReports {
      * @return a Set of all WaterReports of the desired WaterCondition(s) or
      * an empty Set if no WaterReports match
      */
-    public static Set<WaterReport> filterByWaterCondition(WaterCondition ... condition) {
+    public static Set<WaterReport> filterByWaterCondition(WaterCondition ...
+                                                                  condition) {
         updateReports();
         Set<WaterReport> reportSet = new HashSet<>();
         for (Report r : reports) {
             if (r instanceof WaterReport) { // type check
                 for (int i = 0; i < condition.length; i++) {
                     // checks if the report's water condition is a param
-                    if (((WaterReport) r).getWaterCondition().equals(condition[i])) {
+                    if (((WaterReport) r).getWaterCondition()
+                            .equals(condition[i])) {
                         reportSet.add((WaterReport) r);
                         i = condition.length; // exit array check
                     }
@@ -99,7 +104,8 @@ public class SortReports {
      * @return a Set of all QualityReports of the desired OverallCondition(s)
      * or an empty Set if no QualityReports match
      */
-    public static Set<QualityReport> filterByOverallCondition(OverallCondition ... condition) {
+    public static Set<QualityReport> filterByOverallCondition(
+            OverallCondition ... condition) {
         updateReports();
         Set<QualityReport> reportSet = new HashSet<>();
         for (Report r : reports) {
@@ -120,7 +126,8 @@ public class SortReports {
      * @param loc one or more Locations to filter by
      * @return a List containing all WaterReports associated with @param loc
      */
-    public static List<WaterReport> filterWaterReportsByLocation(Location ... loc) {
+    public static List<WaterReport> filterWaterReportsByLocation(
+            Location ... loc) {
         updateReports();
         List<WaterReport> waterReports = new ArrayList<>();
         for (Report r : reports) {
@@ -142,7 +149,8 @@ public class SortReports {
      * @param loc one or more Locations to filter by
      * @return a List containing all QualityReports associated with @param loc
      */
-    public static List<QualityReport> filterQualityReportsByLocation(Location ... loc) {
+    public static List<QualityReport> filterQualityReportsByLocation(
+            Location ... loc) {
         updateReports();
         List<QualityReport> qualityReports = new ArrayList<>();
         for (Report r : reports) {
@@ -177,7 +185,7 @@ public class SortReports {
      * [0] January, [1] February, ... [11] December
      * @param loc the Location for which to generate data
      * @param radius the radius in miles that a Location must be relative
-     * to @param loc to be included in the HistoricalReport
+     * to loc to be included in the HistoricalReport
      * @param year the desired year
      * @return a double[] containing the average virusPPM per month
      */
@@ -213,7 +221,7 @@ public class SortReports {
      * [0] January, [1] February, ... [11] December
      * @param loc the Location for which to generate data
      * @param radius the radius in miles that a Location must be relative
-     * to @param loc to be included in the HistoricalReport
+     * to loc to be included in the HistoricalReport
      * @param year the desired year
      * @return a double[] containing the average contaminantPPM per month
      */

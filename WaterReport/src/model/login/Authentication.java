@@ -11,8 +11,6 @@ import java.util.HashMap;
  */
 public class Authentication {
     private static Map<String, CharSequence> userMap = new HashMap<>();
-    private Authentication() {
-    }
 
     /**
      * Verifies that the user exists
@@ -25,6 +23,7 @@ public class Authentication {
 
     /**
      * Verifies the entered password is correct
+     * @param userid the userid the user entered
      * @param password The user-entered password
      * @return true iff the password is indeed the user's password
      */
@@ -57,11 +56,12 @@ public class Authentication {
      * with the given oldEmail
      * @return true iff the map was updated, false otherwise
      */
-    protected static boolean updateAccount(String oldEmail, String newEmail, String pass1, String pass2) {
+    protected static boolean updateAccount(String oldEmail, String newEmail,
+                                           String pass1, String pass2) {
         CharSequence oldPass = userMap.remove(oldEmail);
         if (oldPass == null) {
-            throw new java.util.NoSuchElementException("No existing user" +
-                    "with the email " + oldEmail);
+            throw new java.util.NoSuchElementException("No existing user"
+                    + "with the email " + oldEmail);
         }
         if (pass1.equals(pass2) && sanitizePassword((pass1))) {
             userMap.put(newEmail, pass1);
@@ -81,8 +81,8 @@ public class Authentication {
     static boolean updateEmail(String oldEmail, String newEmail) {
         String pass = (String) userMap.get(oldEmail);
         if (pass == null) {
-            throw new java.util.NoSuchElementException("No existing user" +
-                    "with the email " + oldEmail);
+            throw new java.util.NoSuchElementException("No existing user"
+                    + "with the email " + oldEmail);
         }
         return updateAccount(oldEmail, newEmail, pass, pass);
     }
@@ -108,8 +108,8 @@ public class Authentication {
     static boolean deleteAccount(String userid) {
         CharSequence removed = userMap.remove(userid);
         if (removed == null) {
-            throw new java.util.NoSuchElementException("No existing user" +
-                "with the email " + userid);
+            throw new java.util.NoSuchElementException("No existing user"
+                + "with the email " + userid);
         }
         return true;
     }
