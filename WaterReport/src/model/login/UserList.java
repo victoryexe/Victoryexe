@@ -57,8 +57,9 @@ public class UserList {
         }
         if (Authentication.addNewAccount(userid, pass1, pass2)) {
             userMap.put(userid, account);
+            return account;
         }
-        return account;
+        return null;
     }
 
     /**
