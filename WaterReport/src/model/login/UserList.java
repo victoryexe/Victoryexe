@@ -55,8 +55,9 @@ public class UserList {
                 || Authentication.verifySubject(account.getEmail())) {
             return null;
         }
-        userMap.put(userid, account);
-        Authentication.addNewAccount(userid, pass1);
+        if (Authentication.addNewAccount(userid, pass1, pass2)) {
+            userMap.put(userid, account);
+        }
         return account;
     }
 

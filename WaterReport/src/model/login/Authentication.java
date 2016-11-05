@@ -36,14 +36,19 @@ public class Authentication {
      * Adds a new password, userid entry to userMap
      * @param subject the userid of the new account
      * @param password the password associated with the account
+     * @param password2 the confirmed password
      * @return true if the user was successfully added to the map
      */
-    static boolean addNewAccount(String subject, String password) {
+    static boolean addNewAccount(String subject, String password,
+                                 String password2) {
         if (userMap.containsKey(subject) || !sanitizePassword(password)) {
             return false;
         }
-        userMap.put(subject, password);
-        return true;
+        if (password.equals(password2)) { // TODO plain string matching
+            userMap.put(subject, password);
+            return true;
+        }
+        return false;
     }
 
     /**
