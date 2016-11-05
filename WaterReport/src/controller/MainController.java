@@ -118,14 +118,11 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        Logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage stage;
-                stage = (Stage) Logout.getScene().getWindow();
-                LoginScreenController.currUser = null;
-                mainApp.showLogin(stage);
-            }
+        Logout.setOnAction(event -> {
+            Stage stage;
+            stage = (Stage) Logout.getScene().getWindow();
+            LoginScreenController.currUser = null;
+            mainApp.showLogin(stage);
         });
 
         // Delegates control of the profile view to ProfileController

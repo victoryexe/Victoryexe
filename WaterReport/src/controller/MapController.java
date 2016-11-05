@@ -14,30 +14,26 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Created by grizz on 10/19/2016.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class MapController implements Initializable, MapComponentInitializedListener {
 
-    private GoogleMapView mapView;
+    private final GoogleMapView mapView;
 
     private static GoogleMap map;
 
-    private List<Location> locations = new ArrayList<>();
+    private final List<Location> locations = new ArrayList<>();
 
     public MapController(GoogleMapView mapView) {
         this.mapView = mapView;
         List<Report> qreports = ReportsList.getQualityReportsList();
         List<Report> wreports = ReportsList.getWaterReportsList();
-        for (Report rep : wreports) {
-            locations.add(rep.getLocation());
-        }
-        for (Report rep : qreports) {
-            if (!locations.contains(rep.getLocation())) {
-                locations.add(rep.getLocation());
-            }
-        }
+        locations.addAll(wreports.stream().map(Report::getLocation).collect(Collectors.toList()));
+        qreports.stream().filter(rep -> !locations.contains(rep.getLocation())).forEach(rep -> locations.add(rep.getLocation()));
     }
 
     @Override
@@ -64,9 +60,7 @@ public class MapController implements Initializable, MapComponentInitializedList
 
         map = mapView.createMap(options);
 
-        for (Location l : locations) {
-            addMarker(l);
-        }
+        locations.forEach(MapController::addMarker);
     }
     public static void addMarker(Location location) {
         String message = "";
