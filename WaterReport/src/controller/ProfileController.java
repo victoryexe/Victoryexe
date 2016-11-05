@@ -96,10 +96,6 @@ public class ProfileController {
                 zipcodetextbox.setText("" + currProfile.getAddress().getZip());
             }
         }
-        /**
-         * sets the function of the edit button to set all fields editable and replace
-         * itself with the submit button
-         */
         salutationedit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -132,10 +128,6 @@ public class ProfileController {
                 setAllEditable(true);
             }
         });
-        /**
-         * Sets the function of the submit button to make all fields uneditable
-         * and to save any changes made to the profile page
-         */
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -151,7 +143,6 @@ public class ProfileController {
                 int apt;
                 if (!currProfile.getEmail().equals(emailtextbox.getText())) {
                     UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
-                    Authentication.updateEmail(currProfile.getEmail(), emailtextbox.getText());
                     currProfile.changeEmail(emailtextbox.getText());
                 }
                 if (currProfile.getAddress() == null) {
@@ -188,7 +179,7 @@ public class ProfileController {
     }
     /**
      * Sets all texts fields as either editable or non-editable
-     * @param value
+     * @param value editable or non-editable
      */
     private void setAllEditable(boolean value) {
         lastnametextbox.setEditable(value);

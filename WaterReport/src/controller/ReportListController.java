@@ -14,10 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.registration.Registration;
-import model.report.QualityReport;
-import model.report.Report;
-import model.report.ReportsList;
-import model.report.WaterReport;
+import model.report.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,15 +106,7 @@ public class ReportListController {
 
 
     public static void updateList() {
-        List<Report> wrep = ReportsList.getWaterReportsList();
-        List<Report> qrep = ReportsList.getQualityReportsList();
-        reports = new ArrayList();
-        for (Report w : wrep) {
-            reports.add(w);
-        }
-        for (Report q : qrep) {
-            reports.add(q);
-        }
+        reports = SortReports.sortByMostRecent();
         reportlist.setItems(javafx.collections.FXCollections.observableList(reports));
     }
 }

@@ -4,9 +4,10 @@ import model.Users.Account;
 
 /**
  * Created by Alexandra on 10/27/2016.
+ * A Log that holds information specific to login attempts
  */
 public class LoginAttemptLog extends Log {
-    private boolean successStatus;
+    private final boolean successStatus;
 
     /**
      * Makes a new LoginAttemptLog with a timestamp and the given params
@@ -22,7 +23,7 @@ public class LoginAttemptLog extends Log {
      * Gets whether the login attempt was successful or not
      * @return true iff the login attempt succeeded
      */
-    public boolean getSuccessStauts() {
+    public boolean getSuccessStatus() {
         return successStatus;
     }
 }
