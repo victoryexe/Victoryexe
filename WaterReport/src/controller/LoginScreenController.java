@@ -1,19 +1,12 @@
 package controller;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Users.Account;
-import model.Users.User;
 import model.login.*;
 import fxapp.Main;
 import javafx.fxml.FXML;
-
-import java.io.IOException;
 
 public class LoginScreenController {
     @FXML
@@ -42,9 +35,7 @@ public class LoginScreenController {
     @FXML
     private void initialize() {
 
-        loginButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event){
+        loginButton.setOnAction((ActionEvent event) -> {
                 String subject = username.getText();
                 String pass = password.getText();
                 if (subject.equals("") || pass.equals("")) {
@@ -59,15 +50,10 @@ public class LoginScreenController {
                             "Login failed.", ButtonType.CLOSE);
                     alert.show();
                 }
-            }
-        });
+            });
 
-        register.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                mainApp.showRegistration((Stage) register.getScene().getWindow());
-            }
-        });
+        register.setOnAction((ActionEvent event) ->
+                mainApp.showRegistration((Stage) register.getScene().getWindow()));
     }
 
     /**

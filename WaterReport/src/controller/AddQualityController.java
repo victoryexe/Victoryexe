@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import model.Users.Worker;
 import model.report.*;
@@ -38,9 +37,8 @@ public class AddQualityController {
         }
         MainController.populateComboBox(purityCond, conditions);
 
-        SubmitPurity.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        SubmitPurity.setOnAction((ActionEvent event) -> {
+
                 // Checks for valid input before creating report
                 if (purityLat.getText().equals("") || purityLon.getText().equals("")
                         || VirusPPM.getText().equals("") || ContamPPM.getText().equals("")) {
@@ -73,12 +71,10 @@ public class AddQualityController {
                     // updates the View Reports ListView
                     ReportListController.updateList();
                 }
-            }
-        });
+            });
 
-        qualtoave.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        qualtoave.setOnAction((ActionEvent event) -> {
+
                 purityLat.setText("");
                 purityLon.setText("");
                 purityCond.setValue(conditions.get(0));
@@ -86,7 +82,6 @@ public class AddQualityController {
                 ContamPPM.setText("");
                 pane.getTabs().set(2, water);
                 pane.getSelectionModel().select(water);
-            }
         });
     }
 }

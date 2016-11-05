@@ -1,11 +1,9 @@
 package controller;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import model.Users.AuthLevel;
 import model.Users.User;
-import model.Users.Worker;
 import model.report.*;
 
 import java.util.ArrayList;
@@ -31,11 +29,11 @@ public class AddReportController {
                                 ComboBox sourceBox, ComboBox conditionBox, Button submitRepBox,
                                 TextField other, Button avetoqual, TabPane pane, Tab quality) {
         //Initializes the water source and water condition ComboBoxes
-        ArrayList<WaterType> source = new ArrayList<WaterType>();
+        ArrayList<WaterType> source = new ArrayList<>();
         for (WaterType type : WaterType.values()) {
             source.add(type);
         }
-        ArrayList<WaterCondition> condition = new ArrayList<WaterCondition>();
+        ArrayList<WaterCondition> condition = new ArrayList<>();
         for (WaterCondition con : WaterCondition.values()) {
             condition.add(con);
         }
@@ -44,9 +42,7 @@ public class AddReportController {
         MainController.restrictToNums(latitude);
         MainController.restrictToNums(longitude);
 
-        submitRepBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        submitRepBox.setOnAction((ActionEvent event) -> {
                 // Checks for valid input before creating report
                 if (latitude.getText().equals("") || longitude.getText().equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
@@ -85,21 +81,17 @@ public class AddReportController {
                     // updates the View Reports ListView
                     ReportListController.updateList();
                 }
-            }
-        });
+            });
         if (LoginScreenController.currUser.getAuthLevel() == AuthLevel.USER) {
             avetoqual.setVisible(false);
         }
-        avetoqual.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        avetoqual.setOnAction((ActionEvent event) -> {
                 latitude.setText("");
                 longitude.setText("");
                 sourceBox.setValue(source.get(0));
                 conditionBox.setValue(condition.get(0));
                 pane.getTabs().set(2, quality);
                 pane.getSelectionModel().select(quality);
-            }
-        });
+            });
     }
 }
