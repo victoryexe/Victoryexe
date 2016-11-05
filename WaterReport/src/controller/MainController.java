@@ -118,18 +118,11 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        /**
-         * Sets the function of the Logout button to return user to the
-         * Login screen and clears the current user.
-         */
-        Logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage stage;
-                stage = (Stage) Logout.getScene().getWindow();
-                LoginScreenController.currUser = null;
-                mainApp.showLogin(stage);
-            }
+        Logout.setOnAction(event -> {
+            Stage stage;
+            stage = (Stage) Logout.getScene().getWindow();
+            LoginScreenController.currUser = null;
+            mainApp.showLogin(stage);
         });
 
         // Delegates control of the profile view to ProfileController
@@ -162,10 +155,9 @@ public class MainController {
             applicationTabs.getTabs().remove(3);
 
         } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.ADMIN)) {
-            for(int i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 applicationTabs.getTabs().remove(1);
             }
-        } else {
 
         }
     }
