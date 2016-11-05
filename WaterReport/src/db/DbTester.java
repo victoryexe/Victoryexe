@@ -12,7 +12,7 @@ public class  DbTester {
             System.out.println("Database connection established");
             Statement stmt = null;
             ResultSet rs = null;
-            //try {
+            try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("USE Water_Tester");
                 rs = stmt.executeQuery("DESCRIBE AccountTester");   
