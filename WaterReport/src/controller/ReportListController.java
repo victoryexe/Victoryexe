@@ -4,7 +4,6 @@ import fxapp.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,11 +12,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.registration.Registration;
 import model.report.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +23,7 @@ import java.util.List;
 public class ReportListController {
 
     private static ListView reportlist;
-    private Button viewreport;
+    private final Button viewreport;
     private static List reports;
     private FXMLLoader loader;
 

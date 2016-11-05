@@ -1,20 +1,15 @@
 package controller;
 
 import fxapp.Main;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Users.*;
 import model.login.UserList;
 import model.registration.Registration;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -56,35 +51,25 @@ public class RegistrationController {
     @FXML
     public void initialize() {
         ArrayList<AuthLevel> auth = new ArrayList<>();
-        for (AuthLevel a : AuthLevel.values()) {
-            auth.add(a);
-        }
+        Collections.addAll(auth, AuthLevel.values());
         MainController.populateComboBox(authLevels, auth);
-        regCancel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                mainApp.showLogin((Stage) regCancel.getScene().getWindow());
-            }
-        });
+        regCancel.setOnAction(event -> mainApp.showLogin((Stage) regCancel.getScene().getWindow()));
 
-        regSubmit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                first = firstName.getText();
-                last = lastName.getText();
-                mail = email.getText();
-                pass = passwordSet.getText();
-                pass2 = passwordConfirm.getText();
-                authLevel = (AuthLevel) authLevels.getValue();
-                name = first + " " + last;
-                Account user;
+        regSubmit.setOnAction(event -> {
+            first = firstName.getText();
+            last = lastName.getText();
+            mail = email.getText();
+            pass = passwordSet.getText();
+            pass2 = passwordConfirm.getText();
+            authLevel = (AuthLevel) authLevels.getValue();
+            name = first + " " + last;
+            Account user;
 
-                if (isInputValid(first, last, mail, pass, pass2)) {
-                    Registration.createAccount(first, last, mail, pass, pass2, authLevel);
-                    user = UserList.getUserAccount(mail);
-                    LoginScreenController.currUser = user;
-                    mainApp.showMain((Stage) regSubmit.getScene().getWindow());
-                }
+            if (isInputValid(first, last, mail, pass, pass2)) {
+                Registration.createAccount(first, last, mail, pass, pass2, authLevel);
+                user = UserList.getUserAccount(mail);
+                LoginScreenController.currUser = user;
+                mainApp.showMain((Stage) regSubmit.getScene().getWindow());
             }
         });
 
