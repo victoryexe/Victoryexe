@@ -102,9 +102,14 @@ System.out.println(results[0].formattedAddress);*/
                     "All fields must be filled in.", ButtonType.CLOSE);
             alert.show();
             return false;
-        } else if (UserList.containsUserID(userid) || !userid.contains("@")) {
+        } else if (!userid.contains("@")) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Must enter valid email address", ButtonType.CLOSE);
+            alert.show();
+            return false;
+        } else if(UserList.containsUserID(userid)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Username already exists.", ButtonType.CLOSE);
             alert.show();
             return false;
         } else if (!password1.equals(password2)) { // check that passwords match
