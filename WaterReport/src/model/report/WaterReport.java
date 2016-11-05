@@ -4,9 +4,11 @@ import model.Users.User;
 
 /**
  * Created by Alexandra on 10/12/2016.
+ * Represents a Water Availability Report
  */
 public class WaterReport extends Report {
     private static int reportCount = 0;
+    private final int rID;
     private WaterType waterType;
     private WaterCondition waterCondition;
 
@@ -22,7 +24,7 @@ public class WaterReport extends Report {
         super(submitter, location);
         this.waterType = waterType;
         this.waterCondition = waterCondition;
-        setRID(reportCount++);
+        rID = reportCount++;
     }
 
     /**
@@ -55,6 +57,11 @@ public class WaterReport extends Report {
      */
     public void setWaterCondition(WaterCondition condition) {
         waterCondition = condition;
+    }
+
+    @Override
+    public int getReportID() {
+        return rID;
     }
 
     @Override

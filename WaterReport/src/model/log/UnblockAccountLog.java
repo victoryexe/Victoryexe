@@ -4,16 +4,18 @@ import model.Users.Admin;
 
 /**
  * Created by Alexandra on 10/27/2016.
+ * A Log that holds data specific to unblocking accounts
  */
 public class UnblockAccountLog extends Log {
-    private String unbannedAccountID;
+    private final String unbannedAccountID;
 
     /**
      * Makes an UnblockAccount Log with a timestamp anf given params
      * @param responsibleAccount the Admin that unblocked the account
      * @param unblockedAccountID the Account that was unblocked
      */
-    public UnblockAccountLog(Admin responsibleAccount, String unblockedAccountID) {
+    public UnblockAccountLog(Admin responsibleAccount,
+                             String unblockedAccountID) {
         super(responsibleAccount);
         this.unbannedAccountID = unblockedAccountID;
     }

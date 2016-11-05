@@ -8,41 +8,64 @@ public interface Account {
     /**
     * @return the name of the Account Owner
     **/
-    public String getName();
+    String getName();
     /**
     * @param name of the Account Owner
     **/
-    public void setName(String name);
+    void setName(String name);
     /**
     * @return the UserID of the Account Owner
     **/
-    public int getUserID();
+    int getUserID();
     /**
     * @return the Email of the Account Owner
     **/
-    public String getEmail();
+    String getEmail();
     /**
-    * @param the Email of the Account Owner
+    * @param email of the Account Owner
     **/
-    public void setEmail(String email);
+    void setEmail(String email);
     /**
     * @return the Home Address of the Account Owner
     **/
-    public Address getHomeAddress();
+    Address getHomeAddress();
     /**
      * @param address of the Account Owner
      */
-    public void setHomeAddress(Address address);
+    void setHomeAddress(Address address);
     /**
-    * @param the Title of the Account Owner
+    * @param title of the Account Owner
     **/
-    public void setTitle(String title);
+    void setTitle(String title);
     /**
     * @return the title of the Account Owner
     **/
-    public String getTitle();
+    String getTitle();
     /**
     * @return the Authorization of the Account Owner
     **/
-    public AuthLevel getAuthLevel();
+    AuthLevel getAuthLevel();
+
+    /**
+     * Gets this Account's banned status
+     * @return true if this Account is banned, false otherwise
+     */
+    boolean getIsBanned();
+
+    /**
+     * Flips this Account's banned status: if the Account is currently
+     * banned this will set isBanned to false, and vice-versa
+     */
+    void setIsBanned();
+
+    /**
+     * Gets this Account's blocked status
+     * @return true if this Account is blocked, otherwise false
+     */
+    boolean getIsBlocked();
+
+    /**
+     * Flips this Account's blocked status
+     */
+    void setIsBlocked();
 }

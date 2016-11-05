@@ -10,13 +10,16 @@ import java.util.Map;
 
 /**
  * Created by Alexandra on 10/12/2016.
+ * A helper class that stores all Reports in the system as ReportID - Report
+ * entries. Also contains helper methods for making, updating, deleting, and
+ * check for existence of Reports.
  */
 public class ReportsList {
-    private ReportsList() {
-    }
 
-    private static Map<Integer, WaterReport> waterReportMap = new HashMap<Integer, WaterReport>();
-    private static Map<Integer, QualityReport> qualityReportMap = new HashMap<Integer, QualityReport>();
+    private static Map<Integer, WaterReport> waterReportMap =
+            new HashMap<>();
+    private static Map<Integer, QualityReport> qualityReportMap =
+            new HashMap<>();
 
     /**
      * Given an report ID, returns the Report associated with it
@@ -28,7 +31,8 @@ public class ReportsList {
     }
 
     /**
-     * Given an report ID, checks whether that report is contained in the waterReportMap
+     * Given an report ID, checks whether that report is contained in the
+     * waterReportMap
      * @param rID the ID of the desired report
      * @return true iff the Report is contained in waterReportMap
      */
@@ -38,24 +42,25 @@ public class ReportsList {
 
     /**
      * Returns a List of all reports in waterReportMap
-     * @return a List of all reports in the map
+     * @return a List copy of all reports in the map
      */
     public static List<Report> getWaterReportsList() {
-        List<Report> reports = new ArrayList<>(waterReportMap.values());
-        return reports;
+        return new ArrayList<>(waterReportMap.values());
     }
 
     /**
      * Makes a new WaterReport and adds it to the map
      * @param user the user who submitted the report
      * @param location the location of the water source
-     * @param watertype the type of the water
+     * @param waterType the type of the water
      * @param waterCondition the condition of the water
      * @return the WaterReport made, or null if none was made
      */
     public static WaterReport makeReport(User user, Location location,
-                                  WaterType watertype, WaterCondition waterCondition) {
-        WaterReport report = new WaterReport(user, location, watertype, waterCondition);
+                                         WaterType waterType,
+                                         WaterCondition waterCondition) {
+        WaterReport report = new WaterReport(user, location, waterType,
+                waterCondition);
         if (waterReportMap.containsKey(report.getReportID())) {
             return null;
         }
@@ -83,11 +88,10 @@ public class ReportsList {
 
     /**
      * Returns a List of all QualityReports
-     * @return a List of all QualityReports
+     * @return a List copy of all QualityReports
      */
     public static List<Report> getQualityReportsList() {
-        List<Report> reports = new ArrayList<>(qualityReportMap.values());
-        return reports;
+        return new ArrayList<>(qualityReportMap.values());
     }
 
     /**
@@ -100,8 +104,11 @@ public class ReportsList {
      * @return the QualityReport made or null if none was made
      */
     public static QualityReport makeReport(Worker worker, Location location,
-                                  OverallCondition condition, double virusPPM, double contaminantPPM) {
-        QualityReport report = new QualityReport(worker, location, condition, virusPPM, contaminantPPM);
+                                           OverallCondition condition,
+                                           double virusPPM,
+                                           double contaminantPPM) {
+        QualityReport report = new QualityReport(worker, location, condition,
+                virusPPM, contaminantPPM);
         if (qualityReportMap.containsKey(report.getReportID())) {
             return null;
         }
