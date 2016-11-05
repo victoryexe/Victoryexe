@@ -11,6 +11,8 @@ public class Admin implements Account {
     private String title;
     private int userID;
     private static int adminCount;
+    private boolean isBanned;
+    private boolean isBlocked;
 
     public Admin(String name, String email) {
         this.name = name;
@@ -57,6 +59,24 @@ public class Admin implements Account {
     public AuthLevel getAuthLevel() {
         return AuthLevel.ADMIN;
     }
+    @Override
+    public boolean getIsBanned() {
+        return isBanned;
+    }
+    @Override
+    public void setIsBanned() {
+        isBanned = !isBanned;
+    }
+    @Override
+    public boolean getIsBlocked() {
+        return isBlocked;
+    }
+    @Override
+    public void setIsBlocked() {
+        isBlocked = !isBlocked;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
