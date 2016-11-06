@@ -1,17 +1,11 @@
 package controller;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import model.Users.Address;
 import model.Users.Profile;
-import model.Users.User;
-import model.login.Authentication;
 import model.login.UserList;
 
 import java.util.ArrayList;
@@ -21,6 +15,7 @@ import static controller.MainController.restrictToNums;
 
 /**
  * Created by grizz on 9/27/2016.
+ * Handles User Profiles
  */
 public class ProfileController {
 
@@ -48,10 +43,6 @@ public class ProfileController {
         this.aptnumtextbox = aptnumtextbox;
         this.zipcodetextbox = zipcodetextbox;
         this.emailtextbox = emailtextbox;
-        ComboBox salutationcombobox1 = salutationcombobox;
-        Button salutationedit1 = salutationedit;
-        Button submit1 = submit;
-        Label currsalutation1 = currsalutation;
 
         restrictToNums(aptnumtextbox);
         restrictToNums(zipcodetextbox);

@@ -3,25 +3,14 @@ package controller;
 import com.lynden.gmapsfx.GoogleMapView;
 import fxapp.Main;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Users.Account;
-import model.Users.Address;
 import model.Users.AuthLevel;
 import model.Users.Profile;
-import model.login.Authentication;
-import model.login.UserList;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
@@ -101,12 +90,8 @@ public class MainController {
     @FXML
     private Button qualtoave;
 
-    private Profile currProfile;
-
     /** reference back to mainApplication if needed */
     private Main mainApp;
-
-    private Account currUser;
 
     /**
      * allow for calling back to the main application code if necessary
@@ -158,6 +143,7 @@ public class MainController {
             for(int i = 0; i < 3; i++) {
                 applicationTabs.getTabs().remove(1);
             }
+            //Empty else block in preparation for a later update
         } else {
 
         }

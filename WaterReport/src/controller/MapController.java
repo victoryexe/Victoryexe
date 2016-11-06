@@ -4,9 +4,7 @@ import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.*;
-import fxapp.Main;
 import javafx.fxml.Initializable;
-import javafx.stage.Window;
 import model.report.*;
 import netscape.javascript.JSObject;
 
@@ -18,8 +16,9 @@ import java.util.stream.Collectors;
 
 /**
  * Created by grizz on 10/19/2016.
+ * Handles the Map View.
  */
-@SuppressWarnings("DefaultFileTemplate")
+
 public class MapController implements Initializable, MapComponentInitializedListener {
 
     private final GoogleMapView mapView;
