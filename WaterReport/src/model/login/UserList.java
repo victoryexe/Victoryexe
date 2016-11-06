@@ -16,7 +16,7 @@ import java.util.Set;
  * updates, and performs existence checks of Accounts.
  */
 public class UserList {
-    private static Map<String, Account> userMap = new HashMap<>();
+    private static final Map<String, Account> userMap = new HashMap<>();
 
     /**
      * Gets the set of users
@@ -80,6 +80,11 @@ public class UserList {
         userMap.put(newEmail, account);
         return Authentication.updateEmail(oldEmail, newEmail);
     }
+
+    // For methods such as deleteAccount, banAccount, and unblockAccount,
+    // we chose to adhere to previous design choice in that a successful
+    // action returns true, otherwise false. For these methods, these actions
+    // should always be true.
 
     /**
      * Deletes the userid-Account mapping associated with the given userid

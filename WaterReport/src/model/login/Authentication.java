@@ -10,7 +10,7 @@ import java.util.HashMap;
  * in the map.
  */
 public class Authentication {
-    private static Map<String, CharSequence> userMap = new HashMap<>();
+    private static final Map<String, CharSequence> userMap = new HashMap<>();
 
     /**
      * Verifies that the user exists
@@ -41,7 +41,7 @@ public class Authentication {
      */
     static boolean addNewAccount(String subject, String password,
                                  String password2) {
-        if (userMap.containsKey(subject) || !sanitizePassword(password)) {
+        if (userMap.containsKey(subject)) {
             return false;
         }
         if (password.equals(password2)) { // TODO plain string matching
@@ -61,14 +61,14 @@ public class Authentication {
      * with the given oldEmail
      * @return true iff the map was updated, false otherwise
      */
-    protected static boolean updateAccount(String oldEmail, String newEmail,
+    private static boolean updateAccount(String oldEmail, String newEmail,
                                            String pass1, String pass2) {
         CharSequence oldPass = userMap.remove(oldEmail);
         if (oldPass == null) {
             throw new java.util.NoSuchElementException("No existing user"
                     + "with the email " + oldEmail);
         }
-        if (pass1.equals(pass2) && sanitizePassword((pass1))) {
+        if (pass1.equals(pass2)) {
             userMap.put(newEmail, pass1);
             return true;
         }
@@ -90,17 +90,6 @@ public class Authentication {
                     + "with the email " + oldEmail);
         }
         return updateAccount(oldEmail, newEmail, pass, pass);
-    }
-
-
-    /**
-     * Checks whether password is safe to store
-     * @param password the password to check
-     * @return true if the password is safe, false otherwise
-     */
-    private static boolean sanitizePassword(String password) {
-        return true;
-        // TODO
     }
 
     /**

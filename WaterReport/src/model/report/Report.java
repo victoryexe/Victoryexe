@@ -115,10 +115,8 @@ public abstract class Report implements Comparable<Report> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Report)) {
-            return false;
-        }
-        return this.getReportID() == ((Report) obj).getReportID();
+        return obj instanceof Report
+                && this.getReportID() == ((Report) obj).getReportID();
     }
 
     @Override

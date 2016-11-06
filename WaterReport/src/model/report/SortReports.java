@@ -41,9 +41,8 @@ public class SortReports {
     public static List<Report> sortByMostRecent() {
         updateReports();
         List<Report> reportClone = new ArrayList<>(reports);
-        Collections.sort(reportClone, (Report r1, Report r2) -> {
-            return -1 * r1.getTimestamp().compareTo(r2.getTimestamp());
-        });
+        Collections.sort(reportClone, (Report r1, Report r2) ->
+                -1 * r1.getTimestamp().compareTo(r2.getTimestamp()));
         return reportClone;
     }
 

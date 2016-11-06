@@ -16,29 +16,10 @@ import java.util.Map;
  */
 public class ReportsList {
 
-    private static Map<Integer, WaterReport> waterReportMap =
+    private static final Map<Integer, WaterReport> waterReportMap =
             new HashMap<>();
-    private static Map<Integer, QualityReport> qualityReportMap =
+    private static final Map<Integer, QualityReport> qualityReportMap =
             new HashMap<>();
-
-    /**
-     * Given an report ID, returns the Report associated with it
-     * @param rID the ID of the desired report
-     * @return the Report associated with rID or null if none exists
-     */
-    public static Report getWaterReport(Integer rID) {
-        return waterReportMap.get(rID);
-    }
-
-    /**
-     * Given an report ID, checks whether that report is contained in the
-     * waterReportMap
-     * @param rID the ID of the desired report
-     * @return true iff the Report is contained in waterReportMap
-     */
-    public static boolean containsWaterReport(Integer rID) {
-        return waterReportMap.containsKey(rID);
-    }
 
     /**
      * Returns a List of all reports in waterReportMap
@@ -66,24 +47,6 @@ public class ReportsList {
         }
         waterReportMap.put(report.getReportID(), report);
         return report;
-    }
-
-    /**
-     * Retrieves a QualityReport from the map, or null if it does not exist
-     * @param rID the ID of the desired QualityReport
-     * @return the corresponding QualityReport or null if none exists
-     */
-    public static Report getQualityReport(Integer rID) {
-        return qualityReportMap.get(rID);
-    }
-
-    /**
-     * Checks whether the map contains a QualityReport with the given ID
-     * @param rID the ID of the report in question
-     * @return true iff the report is contained in the map
-     */
-    public static boolean containsQualityReport(Integer rID) {
-        return qualityReportMap.containsKey(rID);
     }
 
     /**

@@ -14,7 +14,7 @@ public class QualityReport extends Report {
     private double contaminantPPM;
 
     /**
-     * Makes a new QaulityReport with the given params and a timestamp
+     * Makes a new QualityReport with the given params and a timestamp
      * @param worker the Worker submitting a report
      * @param location the location of the water source
      * @param condition the condition of the water
@@ -92,10 +92,8 @@ public class QualityReport extends Report {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof QualityReport)) {
-            return false;
-        }
-        return ((QualityReport) obj).getReportID() == this.getReportID();
+        return obj instanceof QualityReport
+                && ((QualityReport) obj).getReportID() == this.getReportID();
     }
 
     @Override

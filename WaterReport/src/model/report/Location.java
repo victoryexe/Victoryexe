@@ -58,11 +58,9 @@ public class Location implements Comparable<Location> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Location)) {
-            return false;
-        }
-        return this.latitude == ((Location) obj).latitude
-                && this.longitude == ((Location) obj).longitude;
+        return obj instanceof Location && this.latitude ==
+                ((Location) obj).latitude && this.longitude
+                == ((Location) obj).longitude;
     }
 
     @Override

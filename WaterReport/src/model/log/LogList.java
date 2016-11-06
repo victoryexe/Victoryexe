@@ -14,13 +14,13 @@ import java.util.List;
  * logs, and creates and adds new Logs to these lists.
  */
 public class LogList {
-    private static List<BannedAccountLog> bannedAccountLog =
+    private static final List<BannedAccountLog> bannedAccountLog =
             new LinkedList<>();
-    private static List<DeletedAccountLog> deletedAccountLog =
+    private static final List<DeletedAccountLog> deletedAccountLog =
             new LinkedList<>();
-    private static List<DeletedReportLog> deletedReportLog = new LinkedList<>();
-    private static List<LoginAttemptLog> loginAttemptLog = new LinkedList<>();
-    private static List<UnblockAccountLog> unblockAccountLog =
+    private static final List<DeletedReportLog> deletedReportLog = new LinkedList<>();
+    private static final List<LoginAttemptLog> loginAttemptLog = new LinkedList<>();
+    private static final List<UnblockAccountLog> unblockAccountLog =
             new LinkedList<>();
 
     /**
