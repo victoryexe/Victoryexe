@@ -192,6 +192,7 @@ public class SortReports {
             Location loc, double radius, int year) {
         reports = ReportsList.getQualityReportsList();
         List<List<Double>> reportsByMonth = new ArrayList<>(12);
+        //noinspection Convert2streamapi
         for (Report r : reports) {
             if (Location.calculateDistance(loc, r.getLocation()) <= radius
                     && r.getTimestamp().getYear() == year) { // check against params
@@ -228,6 +229,7 @@ public class SortReports {
             Location loc, double radius, int year) {
         reports = ReportsList.getQualityReportsList();
         List<List<Double>> reportsByMonth = new ArrayList<>(12);
+        //noinspection Convert2streamapi
         for (Report r : reports) {
             if (Location.calculateDistance(loc, r.getLocation()) <= radius
                     && r.getTimestamp().getYear() == year) { // check against params

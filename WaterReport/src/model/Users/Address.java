@@ -2,6 +2,7 @@ package model.Users;
 
 /**
  * Created by Alexandra on 10/4/2016.
+ * Represents an Address
  */
 public class Address {
     // Common optional fields like apt# will be -1 if not

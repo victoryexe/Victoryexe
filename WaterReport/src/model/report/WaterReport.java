@@ -9,8 +9,8 @@ import model.Users.User;
 public class WaterReport extends Report {
     private static int reportCount = 0;
     private final int rID;
-    private WaterType waterType;
-    private WaterCondition waterCondition;
+    private final WaterType waterType;
+    private final WaterCondition waterCondition;
 
     /**
      * Creates a WaterReport with the given parameters and a timestamp
@@ -43,29 +43,16 @@ public class WaterReport extends Report {
         return waterCondition;
     }
 
-    /**
-     * Sets this source's WaterType to the provided one
-     * @param type the updated type of this water
-     */
-    public void setWaterType(WaterType type) {
-        waterType = type;
-    }
-
-    /**
-     * Sets this source's WaterCondition to the provided one
-     * @param condition the updated condition of this water
-     */
-    public void setWaterCondition(WaterCondition condition) {
-        waterCondition = condition;
-    }
-
     @Override
     public int getReportID() {
         return rID;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object obj) {
+        // IntelliJ wants to simplify this entire method into one statement.
+        // For readability, I prefer to keep this method as is.
         if (this == obj) {
             return true;
         }

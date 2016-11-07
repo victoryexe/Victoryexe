@@ -9,9 +9,9 @@ import model.Users.Worker;
 public class QualityReport extends Report {
     private static int reportCount = 0;
     private final int rID;
-    private OverallCondition waterCondition;
-    private double virusPPM;
-    private double contaminantPPM;
+    private final OverallCondition waterCondition;
+    private final double virusPPM;
+    private final double contaminantPPM;
 
     /**
      * Makes a new QualityReport with the given params and a timestamp
@@ -55,37 +55,16 @@ public class QualityReport extends Report {
         return contaminantPPM;
     }
 
-    /**
-     * Sets this source's overall condition to the provided one
-     * @param condition the new OverallCondition of this water
-     */
-    public void setOverallCondition(OverallCondition condition) {
-        waterCondition = condition;
-    }
-
-    /**
-     * Sets this source's virusPPM to the provided one
-     * @param virusPPM the new virusPPM of this source
-     */
-    public void setVirusPPM(double virusPPM) {
-        this.virusPPM = virusPPM;
-    }
-
-    /**
-     * Sets this source's contaminantPPM to the provided one
-     * @param contaminantPPM the new contaminantPPM of this source
-     */
-    public void setContaminantPPM(double contaminantPPM) {
-        this.contaminantPPM = contaminantPPM;
-    }
-
     @Override
     public int getReportID() {
         return rID;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object obj) {
+        // IntelliJ wants to simplify this entire method into one statement.
+        // For readability, I prefer to keep this method as is.
         if (this == obj) {
             return true;
         }

@@ -7,7 +7,7 @@ import model.report.Report;
  * Created by Alexandra on 10/27/2016.
  * A Log that holds information specific to Report deletion
  */
-public class DeletedReportLog extends Log {
+class DeletedReportLog extends Log {
     private final String reportID;
 
     /**
@@ -15,7 +15,7 @@ public class DeletedReportLog extends Log {
      * @param responsibleAccount the Manager that deleted the report
      * @param report the report that is being deleted
      */
-    public DeletedReportLog(Manager responsibleAccount, Report report) {
+    DeletedReportLog(Manager responsibleAccount, Report report) {
         super(responsibleAccount);
         reportID = report.toString();
     }

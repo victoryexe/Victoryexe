@@ -23,7 +23,7 @@ public abstract class Report implements Comparable<Report> {
      * @param submitter the User who created this report
      * @param location the location of this source
      */
-    public Report(User submitter, Location location) {
+    Report(User submitter, Location location) {
         timestamp = LocalDateTime.now();
         submitterID = submitter;
         this.location = location;
@@ -107,8 +107,11 @@ public abstract class Report implements Comparable<Report> {
         isDeleted = !isDeleted;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object obj) {
+        // IntelliJ wants to simplify this entire method into one statement.
+        // For readability, I prefer to keep this method as is.
         if (this == obj) {
             return true;
         }
