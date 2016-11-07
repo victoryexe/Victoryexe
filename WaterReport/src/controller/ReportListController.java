@@ -1,5 +1,6 @@
 package controller;
 
+import fxapp.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,12 @@ public class ReportListController {
     //must be static in order to be used by updateList() which is called by other classes
     private static List reports;
     private FXMLLoader loader;
+
+    private Main mainApp;
+
+    public void setMainApp(Main main) {
+        mainApp = main;
+    }
 
     public ReportListController(ListView reportlist, Button viewreport) {
         this.reportlist = reportlist;
