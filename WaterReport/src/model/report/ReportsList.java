@@ -1,7 +1,9 @@
 package model.report;
 
+import model.Users.Manager;
 import model.Users.User;
 import model.Users.Worker;
+import model.log.LogList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,5 +81,73 @@ public class ReportsList {
         return report;
     }
 
-    // TODO Delete Reports
+    /**
+     * "Deletes" a WaterReport by setting its isRemoved marker to true
+     * @param manager the Manager deleting a WaterReport
+     * @param rID the report ID of the WaterReport to be deleted
+     * @throws java.util.NoSuchElementException if the desired Report does
+     * not exist or had previously been deleted
+     * @return true iff the WaterReport was successfully deleted
+     */
+    public static boolean deleteWaterReport(Manager manager, int rID) {
+        WaterReport deleted = waterReportMap.get(rID);
+        if (deleted == null || deleted.getIsDeleted()) {
+            throw new java.util.NoSuchElementException("No WaterReport with "
+                    + "the ID " + rID +" exists.");
+        }
+        LogList.makeDeletedReportEntry(manager, deleted);
+        deleted.setIsDeleted();
+        return true;
+    }
+
+    /**
+     * "Deletes" a QualityReport by setting its isRemoved marker to true
+     * @param manager the Manager deleting a WaterReport
+     * @param rID the report ID of the QualityReport to be deleted
+     * @throws java.util.NoSuchElementException if the desired Report does
+     * not exist or had previously been deleted
+     * @return true iff the QualityReport was successfully deleted
+     */
+    public static boolean deleteQualityReport(Manager manager, int rID) {
+        Report deleted = qualityReportMap.get(rID);
+        if (deleted == null || deleted.getIsDeleted()) {
+            throw new java.util.NoSuchElementException("No QualityReport with "
+                    + "the ID " + rID +" exists.");
+        }
+        LogList.makeDeletedReportEntry(manager, deleted);
+        deleted.setIsDeleted();
+        return true;
+    }
+
+    /**
+     * Restores a previously deleted WaterReport
+     * @param manager the manager restoring the Report
+     * @param rID the ID of the WaterReport to restore
+     * @return true iff the Report was successfully restored
+     */
+    public static boolean restoreWaterReport(Manager manager, int rID) {
+        WaterReport deleted = waterReportMap.get(rID);
+        if (deleted == null || !deleted.getIsDeleted()) {
+            throw new java.util.NoSuchElementException("No WaterReport with "
+                    + "the ID " + rID + " has been deleted.");
+        }
+        deleted.setIsDeleted();
+        return true;
+    }
+
+    /**
+     * Restores a previously deleted QualityReport
+     * @param manager the manager restoring the Report
+     * @param rID the ID of the WaterReport to restore
+     * @return true iff the Report was successfully restored
+     */
+    public static boolean restoreQualityReport(Manager manager, int rID) {
+        QualityReport deleted = qualityReportMap.get(rID);
+        if (deleted == null || !deleted.getIsDeleted()) {
+            throw new java.util.NoSuchElementException("No WaterReport with "
+                    + "the ID " + rID + " has been deleted.");
+        }
+        deleted.setIsDeleted();
+        return true;
+    }
 }

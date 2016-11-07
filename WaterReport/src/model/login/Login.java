@@ -30,12 +30,17 @@ public class Login {
             if (!success) { // block account if necessary
                 List<UnblockAccountLog> log = LogList.getUnblockAccountLog();
                 int attempts = 0;
-                for (int i = log.size() - 1; i >= 0; i--) {
+                boolean windowActive = true;
+                for (int i = log.size() - 1; i >= 0 && windowActive; i--) {
                     // checks for recent attempts
-                    // TODO optimize
                     if (LocalDateTime.now().minusMinutes(BLOCK_ACCOUNT_WINDOW)
                             .isBefore(log.get(i).getTimestamp())) {
-                        attempts++;
+                        if (log.get(i).getResponsibleAccount().equals(account))
+                        {
+                            attempts++;
+                        }
+                    } else { // if Log is outside BLOCK_ACCOUNT_WINDOW, exit
+                        windowActive = false;
                     }
                     if (attempts >= MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS) {
                         account.setIsBlocked();

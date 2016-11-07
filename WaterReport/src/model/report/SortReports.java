@@ -21,6 +21,13 @@ public class SortReports {
     private static void updateReports() {
         reports = ReportsList.getWaterReportsList();
         reports.addAll(ReportsList.getQualityReportsList());
+
+        for (int i = 0; i < reports.size(); i++) {
+            // don't sort reports that have been marked as deleted
+            if (reports.get(i).getIsDeleted()) {
+                reports.remove(i--);
+            }
+        }
     }
 
     /**
@@ -190,17 +197,21 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByVirusPPM(
             Location loc, double radius, int year) {
-        reports = ReportsList.getQualityReportsList();
+        updateReports();
         List<List<Double>> reportsByMonth = new ArrayList<>(12);
         //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (Location.calculateDistance(loc, r.getLocation()) <= radius
-                    && r.getTimestamp().getYear() == year) { // check against params
-                int index = r.getTimestamp().getMonthValue() - 1;
-                if (reportsByMonth.get(index) == null) { // instantiate list
-                    reportsByMonth.set(index, new LinkedList<>());
+            if (r instanceof QualityReport) {
+                if (Location.calculateDistance(loc, r.getLocation()) <= radius
+                        && r.getTimestamp().getYear() == year) {
+                    // check against params
+                    int index = r.getTimestamp().getMonthValue() - 1;
+                    if (reportsByMonth.get(index) == null) { // instantiate list
+                        reportsByMonth.set(index, new LinkedList<>());
+                    }
+                    reportsByMonth.get(index).add(((QualityReport) r)
+                            .getVirusPPM());
                 }
-                reportsByMonth.get(index).add(((QualityReport) r).getVirusPPM());
             }
         }
 
@@ -227,17 +238,21 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByContaminantPPM(
             Location loc, double radius, int year) {
-        reports = ReportsList.getQualityReportsList();
+        updateReports();
         List<List<Double>> reportsByMonth = new ArrayList<>(12);
         //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (Location.calculateDistance(loc, r.getLocation()) <= radius
-                    && r.getTimestamp().getYear() == year) { // check against params
-                int index = r.getTimestamp().getMonthValue() - 1;
-                if (reportsByMonth.get(index) == null) { // instantiate list
-                    reportsByMonth.set(index, new LinkedList<>());
+            if (r instanceof QualityReport) {
+                if (Location.calculateDistance(loc, r.getLocation()) <= radius
+                        && r.getTimestamp().getYear() == year) {
+                    // check against params
+                    int index = r.getTimestamp().getMonthValue() - 1;
+                    if (reportsByMonth.get(index) == null) { // instantiate list
+                        reportsByMonth.set(index, new LinkedList<>());
+                    }
+                    reportsByMonth.get(index).add(((QualityReport) r)
+                            .getContaminantPPM());
                 }
-                reportsByMonth.get(index).add(((QualityReport) r).getContaminantPPM());
             }
         }
 
