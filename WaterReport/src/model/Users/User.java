@@ -14,6 +14,10 @@ public class User implements Account {
     private boolean isBanned;
     private boolean isBlocked;
 
+    public User(String name, String email, int id) {
+        this(name, email);
+        this.userID = id;
+    }
     public User(String name, String email) {
         this.name = name;
         this.email = email;
