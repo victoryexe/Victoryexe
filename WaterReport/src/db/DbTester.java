@@ -20,7 +20,6 @@ public class  DbTester {
                 while(!rs.isAfterLast()) {
                     System.out.println(rs.getString(2));
                     rs.next();
-
                 }
             } catch (Exception e) {
                 System.out.println("Something Wrong at Statement");
