@@ -89,6 +89,8 @@ public class MainController {
     private Button avetoqual;
     @FXML
     private Button qualtoave;
+    @FXML
+    private Button hisreportTransition;
 
     /** reference back to mainApplication if needed */
     private Main mainApp;
@@ -126,7 +128,7 @@ public class MainController {
                 applicationTabs, submitTab);
 
         // Delegates control of the View Report screen to ReportListController
-        ReportListController reportList = new ReportListController(reportlist, viewreport);
+        ReportListController reportList = new ReportListController(reportlist, viewreport, hisreportTransition);
         reportList.setMainApp(mainApp);
 
         // Delegates control of the Google Map to MapController
