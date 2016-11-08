@@ -86,6 +86,7 @@ public class User implements Account {
     }
 
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -8,6 +8,10 @@ import model.login.*;
 import fxapp.Main;
 import javafx.fxml.FXML;
 
+/**
+ * Created by grizz on 09/24/2016
+ * Handles the processes of logging in to the System
+ */
 public class LoginScreenController {
     @FXML
     private TextField username;

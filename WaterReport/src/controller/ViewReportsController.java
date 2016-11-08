@@ -11,6 +11,7 @@ import model.report.WaterType;
 
 /**
  * Created by grizz on 10/17/2016.
+ * Handles the displaying of Water Reports and Quality Reports
  */
 public class ViewReportsController {
 
@@ -47,13 +48,7 @@ public class ViewReportsController {
 
     private Stage dialogStage;
 
-    private Main mainApp;
-
     private static Report report;
-
-    public void setMainApp(Main main) {
-        mainApp = main;
-    }
 
     /**
      * Used to acquire the report being displayed

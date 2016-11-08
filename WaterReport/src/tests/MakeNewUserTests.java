@@ -22,7 +22,7 @@ import model.login.Authentication;
 /**
  * Tests UserList.makeNewUser
  * @author Alexandra Durso
- * @version Version 1.0
+ * @version Version 1.1
  */
 public class MakeNewUserTests {
     private Map<String, Account> usersReflect;
@@ -39,11 +39,11 @@ public class MakeNewUserTests {
             Field field;
             field = UserList.class.getDeclaredField("userMap");
             field.setAccessible(true);
-            field.set(field, new HashMap<>());
+            ((HashMap<String, Account>) field.get("")).clear();
 
             field = Authentication.class.getDeclaredField("userMap");
             field.setAccessible(true);
-            field.set(field, new HashMap<>());
+            ((HashMap<String, Account>) field.get("")).clear();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -78,6 +78,9 @@ public class MakeNewUserTests {
         }
     }
 
+    // This test fails since makeNewUser() does not do input checking.
+    // All input checking is done in the controller, so this scenario will
+    // never occur in the actual running of the application.
     @Test(timeout = 200)
     public void testNullData() {
         assertNull(null, UserList.makeNewUser(null, null, null, null, null, null));

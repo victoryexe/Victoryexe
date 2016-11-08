@@ -6,9 +6,11 @@ import model.Users.Worker;
 import model.report.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by grizz on 10/24/2016.
+ * Handles adding Quality Reports to the system.
  */
 public class AddQualityController {
     /**
@@ -32,9 +34,8 @@ public class AddQualityController {
         MainController.restrictToNums(VirusPPM);
         MainController.restrictToNums(ContamPPM);
         ArrayList<OverallCondition> conditions = new ArrayList<>();
-        for (OverallCondition con : OverallCondition.values()) {
-            conditions.add(con);
-        }
+        conditions.addAll(Arrays.asList(OverallCondition.values()));
+
         MainController.populateComboBox(purityCond, conditions);
 
         SubmitPurity.setOnAction((ActionEvent event) -> {
@@ -65,6 +66,8 @@ public class AddQualityController {
                     ContamPPM.setText("");
                     MapController.addMarker(loc);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                            //This will only ever have a problem if we have 2^32 reports and have reports with dulpicate
+                            //ID's
                             "Report #Q" + report.getReportID() + " has been submitted.\n" +
                                     "Thank you for your contribution.", ButtonType.CLOSE);
                     alert.show();

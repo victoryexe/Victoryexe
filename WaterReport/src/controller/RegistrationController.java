@@ -14,6 +14,7 @@ import java.util.Collections;
 
 /**
  * Created by grizz on 9/27/2016.
+ * Handles Registration of new users
  */
 public class RegistrationController {
 
@@ -40,7 +41,6 @@ public class RegistrationController {
     private String mail;
     private String pass;
     private String pass2;
-    private String name;
     private AuthLevel authLevel;
     private Main mainApp;
 
@@ -62,7 +62,6 @@ public class RegistrationController {
             pass = passwordSet.getText();
             pass2 = passwordConfirm.getText();
             authLevel = (AuthLevel) authLevels.getValue();
-            name = first + " " + last;
             Account user;
 
             if (isInputValid(first, last, mail, pass, pass2)) {

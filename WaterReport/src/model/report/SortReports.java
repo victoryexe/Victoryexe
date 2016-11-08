@@ -21,6 +21,13 @@ public class SortReports {
     private static void updateReports() {
         reports = ReportsList.getWaterReportsList();
         reports.addAll(ReportsList.getQualityReportsList());
+
+        for (int i = 0; i < reports.size(); i++) {
+            // don't sort reports that have been marked as deleted
+            if (reports.get(i).getIsDeleted()) {
+                reports.remove(i--);
+            }
+        }
     }
 
     /**
@@ -190,16 +197,22 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByVirusPPM(
             Location loc, double radius, int year) {
-        reports = ReportsList.getQualityReportsList();
-        List<List<Double>> reportsByMonth = new ArrayList<>(12);
+        updateReports();
+        List<List<Double>> reportsByMonth = new ArrayList<>();
+        //instantiate list
+        for (int i = 0; i < 12; i++) {
+            reportsByMonth.add(new LinkedList());
+        }
+        //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (Location.calculateDistance(loc, r.getLocation()) <= radius
-                    && r.getTimestamp().getYear() == year) { // check against params
-                int index = r.getTimestamp().getMonthValue() - 1;
-                if (reportsByMonth.get(index) == null) { // instantiate list
-                    reportsByMonth.set(index, new LinkedList<>());
+            if (r instanceof QualityReport) {
+                if (Location.calculateDistance(loc, r.getLocation()) <= radius
+                        && r.getTimestamp().getYear() == year) {
+                    // check against params
+                    int index = r.getTimestamp().getMonthValue() - 1;
+                    reportsByMonth.get(index).add(((QualityReport) r)
+                            .getVirusPPM());
                 }
-                reportsByMonth.get(index).add(((QualityReport) r).getVirusPPM());
             }
         }
 
@@ -209,7 +222,11 @@ public class SortReports {
             for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
                 sum += reportsByMonth.get(i).get(j);
             }
-            virusPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+            if (reportsByMonth.get(i).size() > 0) {
+                virusPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+            } else {
+                virusPPMByMonth[i] = 0;
+            }
         }
         return virusPPMByMonth;
     }
@@ -226,16 +243,22 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByContaminantPPM(
             Location loc, double radius, int year) {
-        reports = ReportsList.getQualityReportsList();
-        List<List<Double>> reportsByMonth = new ArrayList<>(12);
+        updateReports();
+        List<List<Double>> reportsByMonth = new ArrayList<>();
+        //instantiate list
+        for (int i = 0; i < 12; i++) {
+            reportsByMonth.add(new LinkedList<>());
+        }
+        //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (Location.calculateDistance(loc, r.getLocation()) <= radius
-                    && r.getTimestamp().getYear() == year) { // check against params
-                int index = r.getTimestamp().getMonthValue() - 1;
-                if (reportsByMonth.get(index) == null) { // instantiate list
-                    reportsByMonth.set(index, new LinkedList<>());
+            if (r instanceof QualityReport) {
+                if (Location.calculateDistance(loc, r.getLocation()) <= radius
+                        && r.getTimestamp().getYear() == year) {
+                    // check against params
+                    int index = r.getTimestamp().getMonthValue() - 1;
+                    reportsByMonth.get(index).add(((QualityReport) r)
+                            .getContaminantPPM());
                 }
-                reportsByMonth.get(index).add(((QualityReport) r).getContaminantPPM());
             }
         }
 
@@ -245,7 +268,11 @@ public class SortReports {
             for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
                 sum += reportsByMonth.get(i).get(j);
             }
-            contaminantPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+            if (reportsByMonth.get(i).size() > 0) {
+                contaminantPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+            } else {
+                contaminantPPMByMonth[i] = 0;
+            }
         }
         return contaminantPPMByMonth;
     }

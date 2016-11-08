@@ -92,6 +92,11 @@ public class Authentication {
         return updateAccount(oldEmail, newEmail, pass, pass);
     }
 
+    // For methods such as deleteAccount, banAccount, and unblockAccount,
+    // we chose to adhere to previous design choice in that a successful
+    // action returns true, otherwise false. For these methods, these actions
+    // should always be true.
+
     /**
      * Deletes the MapEntry associated with the given userid
      * @param userid the userid to delete

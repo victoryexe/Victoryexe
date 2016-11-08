@@ -10,7 +10,7 @@ import java.time.LocalTime;
  * Created by Alexandra on 10/27/2016.
  * A representation of a Log
  */
-public abstract class Log {
+abstract class Log {
     private final LocalDateTime timestamp;
     private final Account responsibleAccount;
 
@@ -18,7 +18,7 @@ public abstract class Log {
      * Makes a new Log with a timestamp and the responsible account
      * @param responsibleAccount the Account that initiated the action
      */
-    public Log(Account responsibleAccount) {
+    Log(Account responsibleAccount) {
         timestamp = LocalDateTime.now();
         this.responsibleAccount = responsibleAccount;
     }

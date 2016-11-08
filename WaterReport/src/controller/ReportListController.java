@@ -5,10 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,11 +16,12 @@ import java.util.List;
 
 /**
  * Created by grizz on 10/17/2016.
+ * Handles the Report List View
  */
 public class ReportListController {
 
     private static ListView reportlist;
-    private final Button viewreport;
+    //must be static in order to be used by updateList() which is called by other classes
     private static List reports;
     private FXMLLoader loader;
 
@@ -33,9 +31,8 @@ public class ReportListController {
         mainApp = main;
     }
 
-    public ReportListController(ListView reportlist, Button viewreport) {
+    public ReportListController(ListView reportlist, Button viewreport, Button histReport) {
         this.reportlist = reportlist;
-        this.viewreport = viewreport;
         updateList();
 
         viewreport.setOnAction(new EventHandler<ActionEvent>() {
@@ -97,6 +94,32 @@ public class ReportListController {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        histReport.setOnAction((ActionEvent) -> {
+            try {
+                loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("../view/historicalReport.fxml"));
+                SplitPane page = loader.load();
+
+                // Create the dialog Stage.
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Historical Report");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(viewreport.getScene().getWindow());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+
+                // Set the person into the controller.
+                HistoricalReportController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+
+                // Show the dialog and wait until the user closes it
+                dialogStage.showAndWait();
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }

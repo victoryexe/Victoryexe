@@ -6,7 +6,7 @@ import model.Users.Admin;
  * Created by Alexandra on 10/27/2016.
  * A Log that holds relevant data for the specific action of banning an account
  */
-public class BannedAccountLog extends Log {
+class BannedAccountLog extends Log {
     private final String bannedAccountID;
 
     /**
@@ -14,7 +14,7 @@ public class BannedAccountLog extends Log {
      * @param responsibleAccount the Admin that banned the account
      * @param bannedAccountID the userid of the Account being banned account
      */
-    public BannedAccountLog(Admin responsibleAccount, String bannedAccountID) {
+    BannedAccountLog(Admin responsibleAccount, String bannedAccountID) {
         super(responsibleAccount);
         this.bannedAccountID = bannedAccountID;
     }

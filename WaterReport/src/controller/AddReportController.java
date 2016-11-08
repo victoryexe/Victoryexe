@@ -7,9 +7,11 @@ import model.Users.User;
 import model.report.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by grizz on 10/16/2016.
+ * Handles adding Water Reports to the system.
  */
 public class AddReportController {
 
@@ -30,13 +32,11 @@ public class AddReportController {
                                 TextField other, Button avetoqual, TabPane pane, Tab quality) {
         //Initializes the water source and water condition ComboBoxes
         ArrayList<WaterType> source = new ArrayList<>();
-        for (WaterType type : WaterType.values()) {
-            source.add(type);
-        }
+        source.addAll(Arrays.asList(WaterType.values()));
+
         ArrayList<WaterCondition> condition = new ArrayList<>();
-        for (WaterCondition con : WaterCondition.values()) {
-            condition.add(con);
-        }
+        condition.addAll(Arrays.asList( WaterCondition.values()));
+
         MainController.populateComboBox(sourceBox, source);
         MainController.populateComboBox(conditionBox, condition);
         MainController.restrictToNums(latitude);
@@ -75,6 +75,8 @@ public class AddReportController {
                     conditionBox.setValue(condition.get(0));
                     MapController.addMarker(loc);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                            //This will only ever have a problem if we have 2^32 reports and have reports with dulpicate
+                            //ID's
                             "Report #W" + report.getReportID() + " has been submitted.\n" +
                                     "Thank you for your contribution.", ButtonType.CLOSE);
                     alert.show();

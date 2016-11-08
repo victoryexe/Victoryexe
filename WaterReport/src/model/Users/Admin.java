@@ -80,6 +80,7 @@ public class Admin implements Account {
     }
 
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
