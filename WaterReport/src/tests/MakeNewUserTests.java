@@ -22,7 +22,7 @@ import model.login.Authentication;
 /**
  * Tests UserList.makeNewUser
  * @author Alexandra Durso
- * @version Version 1.1
+ * @version Version 1.2
  */
 public class MakeNewUserTests {
     private Map<String, Account> usersReflect;
@@ -78,7 +78,7 @@ public class MakeNewUserTests {
         }
     }
 
-    // This test fails since makeNewUser() does not do input checking.
+    // All tests with null data fail since makeNewUser() does not do input checking.
     // All input checking is done in the controller, so this scenario will
     // never occur in the actual running of the application.
     @Test(timeout = 200)
@@ -89,6 +89,75 @@ public class MakeNewUserTests {
         assertEquals(0, usersReflect.size());
         assertEquals(0, credentialsReflect.size());
     }
+
+
+//    @Test(timeout = 200)
+//    public void testNullLast() {
+//        assertNull(null, UserList.makeNewUser("First", null, "user@gmail.com",
+//                "pass", "pass", AuthLevel.USER));
+//
+//        setMaps();
+//        assertEquals(0, usersReflect.size());
+//        assertEquals(0, credentialsReflect.size());
+//    }
+//
+//    @Test(timeout = 200)
+//    public void testNullEmail() {
+//        assertNull(null, UserList.makeNewUser("First", "Last", null,
+//                "pass", "pass", AuthLevel.USER));
+//
+//        setMaps();
+//        assertEquals(0, usersReflect.size());
+//        assertEquals(0, credentialsReflect.size());
+//    }
+//
+//    @Test(timeout = 200)
+//    public void testNullPasswords() {
+//        assertNull(null, UserList.makeNewUser("First", "Last",
+//                "user@gmail.com", null, null, AuthLevel.USER));
+//
+//        setMaps();
+//        assertEquals(0, usersReflect.size());
+//        assertEquals(0, credentialsReflect.size());
+//    }
+//
+//    @Test(timeout = 200)
+//    public void testNullAuthLevel() {
+//        assertNull(null, UserList.makeNewUser("First", "Last",
+//                "user@gmail.com", "pass", "pass", null));
+//
+//        setMaps();
+//        assertEquals(0, usersReflect.size());
+//        assertEquals(0, credentialsReflect.size());
+//    }
+
+    // Similarly, these methods do not behave as expected because the
+    // controller does all input checking.
+
+    @Test(timeout = 200)
+    public void testEmptyStrings() {
+        Account user = UserList.makeNewUser("", "", "", "", "",
+                AuthLevel.USER);
+        assertNull(user);
+
+        setMaps();
+        assertEquals(0, usersReflect.size());
+        assertEquals(0, credentialsReflect.size());
+    }
+
+    @Test(timeout = 200)
+    public void testInvalidEmailFormat() {
+        Account user = UserList.makeNewUser("First", "Last", "askjfpwehf",
+                "pass", "pass", AuthLevel.USER);
+        assertNull(user);
+
+        setMaps();
+        assertEquals(0, usersReflect.size());
+        assertEquals(0, credentialsReflect.size());
+    }
+
+    // -------------------------------------------------------------------
+    // Things that should actually pass section!
 
     @Test(timeout = 200)
     public void testInvalidPasswords() {
@@ -171,6 +240,47 @@ public class MakeNewUserTests {
         credentials.put(expected.get(2).getEmail(), "pass");
         credentials.put(expected.get(3).getEmail(), "123456");
         credentials.put(expected.get(4).getEmail(), "pass");
+        checkMaps(expected);
+    }
+
+    @Test(timeout = 200)
+    public void testGeneralHeavy() {
+        List<Account> expected = new ArrayList<>(40);
+
+        // Makes 40 accounts in the pattern User, Worker, Manager, Admin
+        for (int i = 0; i < 40; i++) {
+            AuthLevel level;
+            if (i % 4 == 0) {
+                level = AuthLevel.USER;
+            } else if (i % 4 == 1) {
+                level = AuthLevel.WORKER;
+            } else if (i % 4 == 2) {
+                level = AuthLevel.MANAGER;
+            } else {
+                level = AuthLevel.ADMIN;
+            }
+            expected.add(UserList.makeNewUser("User", "User",
+                    "user" + i + "@gatech.edu", "1234", "1234", level));
+        }
+
+        // Adds duplicates
+        for (int i = 0; i < 40; i++) {
+            Account duplicate = UserList.makeNewUser("Ditto", "",
+                    "user" + i + "@gatech.edu", "1234", "1234", AuthLevel.USER);
+            assertNull(duplicate);
+        }
+
+        for (int i = 0; i < expected.size(); i++) {
+            assertNotNull("Expected non-null element at index " + i, expected.get(i));
+        }
+
+        setMaps();
+        assertEquals(40, usersReflect.size());
+        assertEquals(40, credentialsReflect.size());
+
+        for (int i = 0; i < expected.size(); i++) {
+            credentials.put(expected.get(i).getEmail(), "1234");
+        }
         checkMaps(expected);
     }
 }
