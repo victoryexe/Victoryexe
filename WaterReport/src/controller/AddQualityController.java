@@ -56,7 +56,7 @@ public class AddQualityController {
                 } else {
                     Location loc = new Location(Double.parseDouble(purityLat.getText()),
                             Double.parseDouble(purityLon.getText()));
-                    Report report = ReportsList.makeReport((Worker) LoginScreenController.currUser, loc,
+                    Report report = ReportsList.makeReport((Worker) LoginScreenController.getCurrUser(), loc,
                             (OverallCondition) purityCond.getValue(), Double.parseDouble(VirusPPM.getText()),
                             Double.parseDouble(ContamPPM.getText()));
                     purityLat.setText("");

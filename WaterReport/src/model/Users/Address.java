@@ -54,7 +54,7 @@ public class Address {
      * @param country user's country of residence
      */
     public Address(String street, String city, int zip, String country) {
-        this(street, -1, city, null, zip, country);
+        this(street, -1, city, "", zip, country);
     }
 
     /**

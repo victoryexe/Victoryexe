@@ -14,16 +14,19 @@ public class User implements Account {
     private boolean isBanned;
     private boolean isBlocked;
 
+    public User(String name, String email, int userID) {
+        this.name = name;
+        this.email = email;
+        this.userID = userID;
+    }
+
     /**
      * Creates a new User with the given name and email
      * @param name the User's name
      * @param email the User's email
      */
     public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-        this.userID = ++userCount;
-
+        this(name, email, ++userCount);
     }
 
     @Override
@@ -75,6 +78,8 @@ public class User implements Account {
         isBanned = !isBanned;
     }
     @Override
+    public void setBanned(boolean ban) {isBanned = ban;}
+    @Override
     public boolean getIsBlocked() {
         return isBlocked;
     }
@@ -82,6 +87,8 @@ public class User implements Account {
     public void setIsBlocked() {
         isBlocked = !isBlocked;
     }
+    @Override
+    public void setBlocked(boolean block) {isBlocked = block;}
 
 
     @SuppressWarnings("SimplifiableIfStatement")
@@ -101,5 +108,9 @@ public class User implements Account {
     @Override
     public int hashCode() {
         return getUserID();
+    }
+    @Override
+    public String toString() {
+        return name + ", " + email + ", " + getAuthLevel().name();
     }
 }

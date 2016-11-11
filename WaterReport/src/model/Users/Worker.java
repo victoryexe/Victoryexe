@@ -6,6 +6,10 @@ package model.Users;
 */
 public class Worker extends User {
 
+    public Worker(String name, String email, int uID) {
+        super(name, email, uID);
+    }
+
     /**
      * Creates a Worker with the given name and email
      * @param name the Worker's name

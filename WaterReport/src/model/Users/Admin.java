@@ -14,16 +14,19 @@ public class Admin implements Account {
     private boolean isBanned;
     private boolean isBlocked;
 
+    public Admin(String name, String email, int userID) {
+        this.name = name;
+        this.email = email;
+        this.userID = userID;
+    }
+
     /**
      * Creates an Admin with the given name and email
      * @param name the Admin's name
      * @param email the Admin's email
      */
     public Admin(String name, String email) {
-        this.name = name;
-        this.email = email;
-        this.userID = ++adminCount;
-
+        this(name, email, ++adminCount);
     }
     @Override
     public String getName() {
@@ -74,6 +77,8 @@ public class Admin implements Account {
         isBanned = !isBanned;
     }
     @Override
+    public void setBanned(boolean ban) {isBanned = ban;}
+    @Override
     public boolean getIsBlocked() {
         return isBlocked;
     }
@@ -81,6 +86,9 @@ public class Admin implements Account {
     public void setIsBlocked() {
         isBlocked = !isBlocked;
     }
+    @Override
+    public void setBlocked(boolean block) {isBlocked = block;}
+
 
 
     @SuppressWarnings("SimplifiableIfStatement")
@@ -100,5 +108,9 @@ public class Admin implements Account {
     @Override
     public int hashCode() {
         return getUserID();
+    }
+    @Override
+    public String toString() {
+        return name + ", " + email + ", " + getAuthLevel().name();
     }
 }

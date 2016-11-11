@@ -1,11 +1,13 @@
 package model.login;
 
+import fxapp.persistance.PersistenceHandler;
 import model.Users.Account;
 import model.Users.Admin;
 import model.Users.AuthLevel;
 import model.log.LogList;
 import model.registration.UserFactory;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +24,7 @@ public class UserList {
      * Gets the set of users
      * @return a Set containing usernames as Strings
      */
-    public Set<String> getUserList() {
+    public static Set<String> getUserList() {
         return userMap.keySet();
     }
 
@@ -154,5 +156,20 @@ public class UserList {
      */
     public static boolean containsUserID(String userid) {
         return userMap.containsKey(userid);
+    }
+
+    /**
+     * Used for creating the users gathered from a saved file
+     * @param users the users being added
+     * @param pass the passwords for the users being added
+     */
+
+    public static void addAccounts(List<Account> users, List<CharSequence> pass) {
+        if (users.size() == pass.size()) {
+            for(int i = 0; i < users.size(); i++) {
+                Authentication.addNewAccount(users.get(i).getEmail(), pass.get(i).toString(), pass.get(i).toString());
+                userMap.put(users.get(i).getEmail(), users.get(i));
+            }
+        }
     }
 }

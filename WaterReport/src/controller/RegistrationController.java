@@ -53,7 +53,7 @@ public class RegistrationController {
         ArrayList<AuthLevel> auth = new ArrayList<>();
         Collections.addAll(auth, AuthLevel.values());
         MainController.populateComboBox(authLevels, auth);
-        regCancel.setOnAction(event -> mainApp.showLogin((Stage) regCancel.getScene().getWindow()));
+        regCancel.setOnAction(event -> mainApp.showLogin());
 
         regSubmit.setOnAction(event -> {
             first = firstName.getText();
@@ -67,8 +67,12 @@ public class RegistrationController {
             if (isInputValid(first, last, mail, pass, pass2)) {
                 Registration.createAccount(first, last, mail, pass, pass2, authLevel);
                 user = UserList.getUserAccount(mail);
-                LoginScreenController.currUser = user;
-                mainApp.showMain((Stage) regSubmit.getScene().getWindow());
+                LoginScreenController.setCurrUser(user);
+                if (authLevel == AuthLevel.ADMIN) {
+                    mainApp.showAdmin();
+                } else {
+                    mainApp.showMain();
+                }
             }
         });
 

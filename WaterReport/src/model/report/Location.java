@@ -5,6 +5,8 @@ package model.report;
  * Represents a Location
  */
 public class Location implements Comparable<Location> {
+    public static final double VALID_LATITUDE = 90.0;
+    public static final double VALID_LONGITUDE = 180;
     private static final double EARTH_RADIUS = 6373; // kilometers
     private static final double KM_TO_MI =  0.621371;
     private final double latitude;

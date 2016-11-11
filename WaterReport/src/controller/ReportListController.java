@@ -20,9 +20,9 @@ import java.util.List;
  */
 public class ReportListController {
 
-    private static ListView reportlist;
+    private static ListView<Report> reportlist;
     //must be static in order to be used by updateList() which is called by other classes
-    private static List reports;
+    private static List<Report> reports;
     private FXMLLoader loader;
 
     private Main mainApp;

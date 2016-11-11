@@ -2,6 +2,8 @@ package model.report;
 
 import model.Users.User;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by Alexandra on 10/12/2016.
  * Represents a Water Availability Report
@@ -11,6 +13,21 @@ public class WaterReport extends Report {
     private final int rID;
     private final WaterType waterType;
     private final WaterCondition waterCondition;
+
+    /**
+     * Creates a report using a given date and time, user responsible
+     * for the report, water's location
+     * @param submitter the User who created this report
+     * @param location the location of this source
+     * @param timestamp the date and time of submission for report
+     */
+    public WaterReport(User submitter, Location location, WaterType waterType,
+                       WaterCondition waterCondition, int rID, LocalDateTime timestamp) {
+        super(submitter, location, timestamp);
+        this.waterType = waterType;
+        this.waterCondition = waterCondition;
+        this.rID = rID;
+    }
 
     /**
      * Creates a WaterReport with the given parameters and a timestamp

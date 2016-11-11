@@ -79,7 +79,7 @@
                               </ImageView>
                               <TextField fx:id="searchLat" layoutX="28.0" layoutY="2.0" prefHeight="25.0" prefWidth="221.0" promptText="Latitude" />
                               <TextField fx:id="searchLon" layoutX="277.0" layoutY="2.0" prefHeight="25.0" prefWidth="220.0" promptText="Longitude" />
-                              <Button layoutX="534.0" layoutY="2.0" mnemonicParsing="false" text="Search" />
+                              <Button fx:id="searchBut" layoutX="534.0" layoutY="2.0" mnemonicParsing="false" text="Search" />
                            </children>
                         </AnchorPane>
                         <GoogleMapView fx:id="GmapsViewPane" layoutX="246.0" layoutY="29.0" prefHeight="340.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0" />

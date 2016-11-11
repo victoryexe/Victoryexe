@@ -59,10 +59,22 @@ public interface Account {
     void setIsBanned();
 
     /**
+     * method used in Account Loading setting the Account as banned or not banned
+     * @param ban whether or not the Account is banned
+     */
+    void setBanned(boolean ban);
+
+    /**
      * Gets this Account's blocked status
      * @return true if this Account is blocked, otherwise false
      */
     boolean getIsBlocked();
+
+    /**
+     * Method used in Account Loading setting the Account as blocked or not blocked
+     * @param block whether or not the Account is blocked
+     */
+    void setBlocked(boolean block);
 
     /**
      * Flips this Account's blocked status

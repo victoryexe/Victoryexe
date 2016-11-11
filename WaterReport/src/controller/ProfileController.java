@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.Users.Account;
 import model.Users.Address;
 import model.Users.Profile;
 import model.login.UserList;
@@ -32,7 +33,7 @@ public class ProfileController {
 
     public ProfileController(TextField lastnametextbox, TextField firstnametextbox, TextField streetaddresstextbox,
                    TextField statetextbox, TextField countrytextbox, TextField citytextbox, TextField aptnumtextbox,
-                   TextField zipcodetextbox, TextField emailtextbox, ComboBox salutationcombobox,
+                   TextField zipcodetextbox, TextField emailtextbox, ComboBox<String> salutationcombobox,
                    Button salutationedit, Button submit, Label currsalutation) {
         this.lastnametextbox = lastnametextbox;
         this.firstnametextbox = firstnametextbox;
@@ -56,7 +57,7 @@ public class ProfileController {
         populateComboBox(salutationcombobox, salutation);
         salutationcombobox.setVisible(false);
         salutationcombobox.setOnMousePressed(event -> salutationcombobox.requestFocus());
-        currProfile = new Profile(LoginScreenController.currUser);
+        currProfile = new Profile(LoginScreenController.getCurrUser());
         if (currProfile.getTitle() != null) {
             currsalutation.setText(currProfile.getTitle());
         }

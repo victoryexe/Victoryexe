@@ -5,6 +5,10 @@ import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.*;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import model.report.*;
 import netscape.javascript.JSObject;
 
@@ -27,12 +31,43 @@ public class MapController implements Initializable, MapComponentInitializedList
 
     private final List<Location> locations = new ArrayList<>();
 
-    public MapController(GoogleMapView mapView) {
+    public MapController(GoogleMapView mapView, TextField lat, TextField lon, Button search) {
         this.mapView = mapView;
         List<Report> qreports = ReportsList.getQualityReportsList();
         List<Report> wreports = ReportsList.getWaterReportsList();
         locations.addAll(wreports.stream().map(Report::getLocation).collect(Collectors.toList()));
         qreports.stream().filter(rep -> !locations.contains(rep.getLocation())).forEach(rep -> locations.add(rep.getLocation()));
+        MainController.restrictToNums(lat);
+        MainController.restrictToNums(lon);
+        search.setOnAction((ActionEvent) -> {
+            if (!lat.getText().equals("") && !lon.getText().equals("")) {
+                if (Double.valueOf(lat.getText()) > 90.0
+                        || Double.valueOf(lat.getText()) < -90.0
+                        || Double.valueOf(lon.getText()) > 180.0
+                        || Double.valueOf(lon.getText()) < -180.0) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,
+                            "Invalid Latitude or Longitude, please enter a valid location.", ButtonType.CLOSE);
+                    alert.show();
+                } else {
+                    MapOptions options = new MapOptions();
+
+                    //set up the center location for the map
+                    LatLong center = new LatLong(Double.valueOf(lat.getText()), Double.valueOf(lon.getText()));
+
+                    options.center(center)
+                            .zoom(9)
+                            .overviewMapControl(false)
+                            .panControl(false)
+                            .rotateControl(false)
+                            .scaleControl(false)
+                            .streetViewControl(false)
+                            .zoomControl(false)
+                            .mapType(MapTypeIdEnum.TERRAIN);
+
+                    map = mapView.createMap(options);
+                }
+            }
+        });
     }
 
     @Override

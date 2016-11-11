@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import model.Users.Account;
 import model.Users.AuthLevel;
 import model.Users.User;
 import model.report.Location;
@@ -18,14 +19,13 @@ import model.report.WaterType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by grizz on 10/16/2016.
  * Handles adding Water Reports to the system.
  */
 public class AddReportController {
-    public static final double VALID_LATITUDE = 90.0;
-    public static final double VALID_LONGITUDE = 180;
 
     /**
      * Takes in the information from the Main Controller and handles the
@@ -43,38 +43,37 @@ public class AddReportController {
      * @param quality Tab where quality reports may be created
      */
     public AddReportController (TextField latitude, TextField longitude,
-                                ComboBox sourceBox, ComboBox conditionBox,
+                                ComboBox<WaterType> sourceBox, ComboBox<WaterCondition> conditionBox,
                                 Button submitRepBox, TextField other,
                                 Button avetoqual, TabPane pane, Tab quality) {
         //Initializes the water source and water condition ComboBoxes
         ArrayList<WaterType> source = new ArrayList<>();
         source.addAll(Arrays.asList(WaterType.values()));
 
-        ArrayList<WaterCondition> condition = new ArrayList<>();
+        List<WaterCondition> condition = new ArrayList<>();
         condition.addAll(Arrays.asList( WaterCondition.values()));
 
         MainController.populateComboBox(sourceBox, source);
         MainController.populateComboBox(conditionBox, condition);
         MainController.restrictToNums(latitude);
         MainController.restrictToNums(longitude);
+        Account currUser = LoginScreenController.getCurrUser();
 
         submitRepBox.setOnAction((ActionEvent event) -> {
                 // Checks for valid input before creating report
-                if (latitude.getText().equals("")
-                        || longitude.getText().equals("")) {
+                if ("".equals(latitude.getText())
+                        || "".equals(longitude.getText())) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Both Latitude and Longitude must be filled in.",
                             ButtonType.CLOSE);
                     alert.show();
-                } else if (sourceBox.getValue().equals(WaterType.OTHER)
-                        && other.getText().equals("")) {
+                } else if (WaterType.OTHER.equals(sourceBox.getValue())
+                        && "".equals(other.getText())) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Please Specify Water Source.", ButtonType.CLOSE);
                     alert.show();
-                } else if ((Double.valueOf(latitude.getText()) > 90.0)
-                        || (Double.valueOf(latitude.getText()) < -90.0)
-                        || (Double.valueOf(longitude.getText()) > 180.0)
-                        || (Double.valueOf(longitude.getText()) < -180.0)) {
+                } else if ((Math.abs(Double.valueOf(latitude.getText())) > Location.VALID_LATITUDE)
+                        || (Math.abs(Double.valueOf(longitude.getText())) > Location.VALID_LONGITUDE)) {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
                             "Invalid Latitude or Longitude, please"
                             + "enter a valid location.", ButtonType.CLOSE);
@@ -85,10 +84,8 @@ public class AddReportController {
                             new Location(Double.parseDouble(latitude.getText()),
                             Double.parseDouble(longitude.getText()));
                     Report report = ReportsList.makeReport(
-                            (User) LoginScreenController.currUser, loc,
-                            (WaterType) sourceBox.getValue(),
-                            (WaterCondition) conditionBox.getValue());
-                    if (sourceBox.getValue().equals(WaterType.OTHER)) {
+                            (User) currUser, loc, sourceBox.getValue(), conditionBox.getValue());
+                    if (WaterType.OTHER.equals(sourceBox.getValue())) {
                         String otherText = "";
                         if (other.getText() != null) {
                             otherText = other.getText();
@@ -113,7 +110,7 @@ public class AddReportController {
                     ReportListController.updateList();
                 }
             });
-        if (LoginScreenController.currUser.getAuthLevel() == AuthLevel.USER) {
+        if (AuthLevel.USER == currUser.getAuthLevel()) {
             avetoqual.setVisible(false);
         }
         avetoqual.setOnAction((ActionEvent event) -> {

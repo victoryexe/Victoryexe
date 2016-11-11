@@ -91,13 +91,13 @@ public class HistoricalReportController {
                         ButtonType.CLOSE);
                 alert.show();
             } else if ((Double.valueOf(hisLat.getText()) >
-                    AddReportController.VALID_LATITUDE)
+                    Location.VALID_LATITUDE)
                     || (Double.valueOf(hisLat.getText()) <
-                    -AddReportController.VALID_LATITUDE)
+                    -Location.VALID_LATITUDE)
                     || (Double.valueOf(hisLon.getText()) >
-                    AddReportController.VALID_LONGITUDE)
+                    Location.VALID_LONGITUDE)
                     || (Double.valueOf(hisLon.getText()) <
-                    -AddReportController.VALID_LONGITUDE)) {
+                    -Location.VALID_LONGITUDE)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                         "Invalid Latitude or Longitude, please enter"
                         + " a valid location.", ButtonType.CLOSE);
@@ -154,7 +154,7 @@ public class HistoricalReportController {
                     HistoricalChart.getData().setAll(series);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
-                            "No Reports listed around requested location.",
+                            "No Reports listed around requested location for requested date.",
                             ButtonType.CLOSE);
                     alert.show();
                 }

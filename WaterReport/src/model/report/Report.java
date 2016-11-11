@@ -18,15 +18,26 @@ public abstract class Report implements Comparable<Report> {
     private final Location location;
 
     /**
+     * Creates a report using a given date and time, user responsible
+     * for the report, water's location
+     * @param submitter the User who created this report
+     * @param location the location of this source
+     * @param timestamp the date and time of submission for report
+     */
+    Report(User submitter, Location location, LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+        submitterID = submitter;
+        this.location = location;
+    }
+
+    /**
      * Creates a report, using the local machine's date and time, the user
      * responsible for the report, and the water's location
      * @param submitter the User who created this report
      * @param location the location of this source
      */
     Report(User submitter, Location location) {
-        timestamp = LocalDateTime.now();
-        submitterID = submitter;
-        this.location = location;
+        this(submitter, location, LocalDateTime.now());
     }
 
     /**

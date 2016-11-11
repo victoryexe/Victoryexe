@@ -1,5 +1,7 @@
 package model.login;
 
+import fxapp.persistance.PersistenceHandler;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -11,6 +13,14 @@ import java.util.HashMap;
  */
 public class Authentication {
     private static final Map<String, CharSequence> userMap = new HashMap<>();
+
+    /**
+     * calls the Persistence handler to save the passwords to a file
+     * (not safe but used in desperation)
+     */
+    public static void savePass() {
+        PersistenceHandler.savePass(userMap.values());
+    }
 
     /**
      * Verifies that the user exists

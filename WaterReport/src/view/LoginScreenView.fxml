@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginScreenController">
    <children>
-      <Pane prefHeight="400.0" prefWidth="601.0" style="-fx-background-image: url(&quot;http://www.pearson5.com/wp-content/uploads/2012/11/water_drop.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 900 506;    -fx-background-position: center center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane prefHeight="400.0" prefWidth="601.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="400.0" fitWidth="642.0" layoutX="-24.0" pickOnBounds="true" preserveRatio="true">
                <image>

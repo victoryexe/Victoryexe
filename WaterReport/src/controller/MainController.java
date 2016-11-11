@@ -1,19 +1,28 @@
 package controller;
 
 import com.lynden.gmapsfx.GoogleMapView;
+import com.lynden.gmapsfx.MapComponentInitializedListener;
 import fxapp.Main;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextFormatter;
 import model.Users.Account;
-import model.Users.AuthLevel;
-import model.Users.Profile;
+import model.report.OverallCondition;
+import model.report.WaterCondition;
+import model.report.WaterType;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The controller for the root/main window
@@ -54,11 +63,11 @@ public class MainController {
     @FXML
     private TextField longitude;
     @FXML
-    private ComboBox sourceBox;
+    private ComboBox<WaterType> sourceBox;
     @FXML
     private Button submitRepBox;
     @FXML
-    private ComboBox conditionBox;
+    private ComboBox<WaterCondition> conditionBox;
     @FXML
     private ListView reportlist;
     @FXML
@@ -82,7 +91,7 @@ public class MainController {
     @FXML
     private TextField ContamPPM;
     @FXML
-    private ComboBox purityCond;
+    private ComboBox<OverallCondition> purityCond;
     @FXML
     private Button SubmitPurity;
     @FXML
@@ -91,6 +100,12 @@ public class MainController {
     private Button qualtoave;
     @FXML
     private Button hisreportTransition;
+    @FXML
+    private TextField searchLat;
+    @FXML
+    private TextField searchLon;
+    @FXML
+    private Button searchBut;
 
     /** reference back to mainApplication if needed */
     private Main mainApp;
@@ -105,17 +120,13 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        Logout.setOnAction(event -> {
-            Stage stage;
-            stage = (Stage) Logout.getScene().getWindow();
-            LoginScreenController.currUser = null;
-            mainApp.showLogin(stage);
-        });
+        Account currUser = LoginScreenController.getCurrUser();
+        Logout.setOnAction(event -> mainApp.showLogin());
 
         // Delegates control of the profile view to ProfileController
         ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
-                statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox, emailtextbox, salutationcombobox,
-                salutationedit, submit, currsalutation);
+                statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox,
+                emailtextbox, salutationcombobox, salutationedit, submit, currsalutation);
 
         // Delegates control of report submission to AddReportController
         AddReportController addReport = new AddReportController(latitude,
@@ -132,23 +143,26 @@ public class MainController {
         reportList.setMainApp(mainApp);
 
         // Delegates control of the Google Map to MapController
-        MapController map = new MapController(GmapsViewPane);
+        MapComponentInitializedListener map = new MapController(GmapsViewPane, searchLat, searchLon, searchBut);
         GmapsViewPane.addMapInializedListener(map);
-        applicationTabs.getTabs().remove(4);
-        if(LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.USER)) {
-            applicationTabs.getTabs().remove(3);
-
-        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.WORKER)) {
-            applicationTabs.getTabs().remove(3);
-
-        } else if (LoginScreenController.currUser.getAuthLevel().equals(AuthLevel.ADMIN)) {
-            for(int i = 0; i < 3; i++) {
-                applicationTabs.getTabs().remove(1);
-            }
-            //Empty else block in preparation for a later update
-        } else {
-
+        ObservableList<Tab> tabs = applicationTabs.getTabs();
+        tabs.remove(4);
+        switch(currUser.getAuthLevel()) {
+            case USER:
+                tabs.remove(3);
+                break;
+            case WORKER:
+                tabs.remove(3);
+                break;
+            case MANAGER:
+                break;
+            case ADMIN:
+                for(int i = 0; i < 3; i++) {
+                    tabs.remove(1);
+                }
+                break;
         }
+    //    applicationTabs.set = tabs;
     }
 
     /**
@@ -176,7 +190,7 @@ public class MainController {
             ParsePosition parsePosition = new ParsePosition( 0 );
             Object object = format.parse( c.getControlNewText(), parsePosition );
 
-            if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+            if ( (object == null) || ((parsePosition.getIndex()) < (c.getControlNewText().length())))
             {
                 return null;
             }
@@ -194,7 +208,7 @@ public class MainController {
      * @param box the ComboBox being populated
      * @param list the ArrayList being used to populate box
      */
-    protected static void populateComboBox(ComboBox box, ArrayList list) {
+    protected static void populateComboBox(ComboBox box, List list) {
         box.setItems(javafx.collections.FXCollections.observableList(list));
         box.setValue(list.get(0));
     }
