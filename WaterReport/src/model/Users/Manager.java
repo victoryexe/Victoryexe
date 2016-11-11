@@ -6,6 +6,11 @@ package model.Users;
 */
 public class Manager extends Worker {
 
+    /**
+     * Creates a Manager with the given name and email
+     * @param name the Manager's name
+     * @param email the Manager's email
+     */
     public Manager(String name, String email) {
         super(name, email);
     }

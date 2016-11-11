@@ -24,22 +24,6 @@ abstract class Log {
     }
 
     /**
-     * Gets the date of the log creation
-     * @return LocalDate representing the time this log was created
-     */
-    public LocalDate getDate() {
-        return timestamp.toLocalDate();
-    }
-
-    /**
-     * Gets the time of the log creation
-     * @return LocalTime representing the time this log was created
-     */
-    public LocalTime getTime() {
-        return timestamp.toLocalTime();
-    }
-
-    /**
      * Gets the complete timestamp of this log creation
      * @return LocalDateTime representing the time this log was created
      */

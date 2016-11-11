@@ -9,19 +9,20 @@ public class Admin implements Account {
     private String email;
     private Address homeAddress;
     private String title;
-    private int userID;
+    private final int userID;
     private static int adminCount;
     private boolean isBanned;
     private boolean isBlocked;
-    public Admin(String name, String email, int id) {
-        this(name, email);
-        this.userID = id;
-    }
+
+    /**
+     * Creates an Admin with the given name and email
+     * @param name the Admin's name
+     * @param email the Admin's email
+     */
     public Admin(String name, String email) {
         this.name = name;
         this.email = email;
-        adminCount++;
-        this.userID = adminCount;
+        this.userID = ++adminCount;
 
     }
     @Override

@@ -7,25 +7,22 @@ package model.Users;
 public class User implements Account {
     private String name;
     private String email;
-    private int userID;
+    private final int userID;
     private Address homeAddress;
     private String title;
-    static int userCount;
+    private static int userCount;
     private boolean isBanned;
     private boolean isBlocked;
 
-    public User(String name, String email, int id) {
-        this(name, email);
-        this.userID = id;
-    }
+    /**
+     * Creates a new User with the given name and email
+     * @param name the User's name
+     * @param email the User's email
+     */
     public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.userCount++;
-        this.userID = userCount;
-
-    }
-    public User() {
+        this.userID = ++userCount;
 
     }
 

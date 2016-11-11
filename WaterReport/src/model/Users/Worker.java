@@ -6,10 +6,13 @@ package model.Users;
 */
 public class Worker extends User {
 
+    /**
+     * Creates a Worker with the given name and email
+     * @param name the Worker's name
+     * @param email the Worker's email
+     */
     public Worker(String name, String email) {
         super(name, email);
-    }
-    public Worker() {
     }
 
     @Override
