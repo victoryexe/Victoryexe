@@ -42,11 +42,13 @@ public class Main extends Application {
     public Stage getScreen() { return screen;}
 
     private void initRootLayout(Stage mainScreen) {
+    /*  Used in a desperate attempt at a shitty persistence handler.
         PersistenceHandler.loadUsers(new File("D:\\GitHub\\Victoryexe\\WaterReport\\src" +
                         "\\fxapp\\persistance\\Users.txt"),
                 new File("D:\\GitHub\\Victoryexe\\WaterReport\\src\\fxapp\\persistance\\Passwords.txt"));
-    //    PersistenceHandler.loadQualityReports(new File("../persistance/QualityReports.txt"));
-    //    PersistenceHandler.loadWaterReports(new File("../persistance/WaterReports.txt"));
+          PersistenceHandler.loadQualityReports(new File("../persistance/QualityReports.txt"));
+          PersistenceHandler.loadWaterReports(new File("../persistance/WaterReports.txt"));
+    */
         try {
             // Load root layout from fxml file.
             loader = new FXMLLoader();
@@ -152,10 +154,12 @@ public class Main extends Application {
         launch(args);
     }
 
-    @Override
+/* Used in a desperate attempt at a shitty persistence handler.
+   @Override
     public void stop() {
         PersistenceHandler.saveUsers(UserList.getUserList());
         Authentication.savePass();
         Platform.exit();
-    }
+   }
+*/
 }
