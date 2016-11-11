@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backPane" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane fx:id="backPane" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <TabPane fx:id="applicationTabs" layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
         <tabs>
@@ -69,7 +69,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="424.0" fitWidth="832.0" layoutX="-59.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="903.0" fitWidth="868.0" layoutX="-1.0" layoutY="-68.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@water_splash_people.jpg" />
                            </image>
