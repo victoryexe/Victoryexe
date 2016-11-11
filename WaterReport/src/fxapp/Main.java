@@ -5,17 +5,12 @@ import controller.LoginScreenController;
 import controller.MainController;
 import controller.RegistrationController;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import fxapp.persistance.PersistenceHandler;
-import model.login.Authentication;
-import model.login.UserList;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
