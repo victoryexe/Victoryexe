@@ -91,7 +91,7 @@ public class ReportsList {
      */
     public static boolean deleteWaterReport(Manager manager, int rID) {
         WaterReport deleted = waterReportMap.get(rID);
-        if (deleted == null || deleted.getIsDeleted()) {
+        if ((deleted == null) || deleted.getIsDeleted()) {
             throw new java.util.NoSuchElementException("No WaterReport with "
                     + "the ID " + rID +" exists.");
         }
@@ -110,7 +110,7 @@ public class ReportsList {
      */
     public static boolean deleteQualityReport(Manager manager, int rID) {
         Report deleted = qualityReportMap.get(rID);
-        if (deleted == null || deleted.getIsDeleted()) {
+        if ((deleted == null) || deleted.getIsDeleted()) {
             throw new java.util.NoSuchElementException("No QualityReport with "
                     + "the ID " + rID +" exists.");
         }
@@ -127,7 +127,7 @@ public class ReportsList {
      */
     public static boolean restoreWaterReport(Manager manager, int rID) {
         WaterReport deleted = waterReportMap.get(rID);
-        if (deleted == null || !deleted.getIsDeleted()) {
+        if ((deleted == null) || !deleted.getIsDeleted()) {
             throw new java.util.NoSuchElementException("No WaterReport with "
                     + "the ID " + rID + " has been deleted.");
         }
@@ -143,7 +143,7 @@ public class ReportsList {
      */
     public static boolean restoreQualityReport(Manager manager, int rID) {
         QualityReport deleted = qualityReportMap.get(rID);
-        if (deleted == null || !deleted.getIsDeleted()) {
+        if ((deleted == null) || !deleted.getIsDeleted()) {
             throw new java.util.NoSuchElementException("No WaterReport with "
                     + "the ID " + rID + " has been deleted.");
         }

@@ -71,8 +71,8 @@ public class QualityReport extends Report {
         if (obj == null) {
             return false;
         }
-        return obj instanceof QualityReport
-                && ((QualityReport) obj).getReportID() == this.getReportID();
+        return (obj instanceof QualityReport)
+                && (((QualityReport) obj).getReportID() == this.getReportID());
     }
 
     @Override

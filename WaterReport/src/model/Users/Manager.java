@@ -7,21 +7,10 @@ package model.Users;
 public class Manager extends Worker {
 
     public Manager(String name, String email) {
-        this.name = name;
-        this.email = email;
-        super.userCount++;
-        this.userID = userCount;
+        super(name, email);
     }
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.MANAGER;
-    }
-    public void viewHistoricalReports() {
-
-    }
-    public void viewPurityTrends() {
-
-    }
-    public void deleteReports() {
-        
     }
 }

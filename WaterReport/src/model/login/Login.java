@@ -31,7 +31,7 @@ public class Login {
                 List<UnblockAccountLog> log = LogList.getUnblockAccountLog();
                 int attempts = 0;
                 boolean windowActive = true;
-                for (int i = log.size() - 1; i >= 0 && windowActive; i--) {
+                for (int i = log.size() - 1; (i >= 0) && windowActive; i--) {
                     // checks for recent attempts
                     if (LocalDateTime.now().minusMinutes(BLOCK_ACCOUNT_WINDOW)
                             .isBefore(log.get(i).getTimestamp())) {

@@ -39,7 +39,7 @@ public class Authentication {
      * @param password2 the confirmed password
      * @return true if the user was successfully added to the map
      */
-    static boolean addNewAccount(String subject, String password,
+    static boolean addNewAccount(String subject, CharSequence password,
                                  String password2) {
         if (userMap.containsKey(subject)) {
             return false;
@@ -62,7 +62,7 @@ public class Authentication {
      * @return true iff the map was updated, false otherwise
      */
     private static boolean updateAccount(String oldEmail, String newEmail,
-                                           String pass1, String pass2) {
+                                         CharSequence pass1, String pass2) {
         CharSequence oldPass = userMap.remove(oldEmail);
         if (oldPass == null) {
             throw new java.util.NoSuchElementException("No existing user"

@@ -30,7 +30,4 @@ public class Profile {
         acc.setEmail(email);
     }
     public void changeName(String name) { acc.setName(name); }
-    public void changePassword(String pw) {
-        //TODO: PasswordRemapping
-    }
 }

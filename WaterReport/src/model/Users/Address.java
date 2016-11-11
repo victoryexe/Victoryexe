@@ -158,11 +158,11 @@ public class Address {
     public String toString() {
         String str = "";
         str += (street == null) ? "" : street;
-        str += (apt == -1) ? "" : " " + apt;
-        str += (city == null) ? "" : " " + city;
-        str += (state == null) ? "" : " " + state;
-        str += (zip == -1) ? "" : " " + zip;
-        str += (country == null) ? "" : " " + country;
+        str += (apt == -1) ? "" : (" " + apt);
+        str += (city == null) ? "" : (" " + city);
+        str += (state == null) ? "" : (" " + state);
+        str += (zip == -1) ? "" : (" " + zip);
+        str += (country == null) ? "" : (" " + country);
         return str;
     }
 }

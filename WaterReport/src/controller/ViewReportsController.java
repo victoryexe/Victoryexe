@@ -1,6 +1,5 @@
 package controller;
 
-import fxapp.Main;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -71,27 +70,36 @@ public class ViewReportsController {
         if (report instanceof WaterReport) {
             dateedit.setText(String.valueOf(report.getDate()));
             timeedit.setText(String.valueOf(report.getTime()));
-            reportnumberedit.setText("W" + String.valueOf(report.getReportID()));
+            reportnumberedit.setText("W"
+                    + String.valueOf(report.getReportID()));
             nameofreporteredit.setText(report.getSubmitterID().getName());
-            locationofwateredit.setText(String.valueOf(report.getLocation().getLatitude())
-                    + ", " + String.valueOf(report.getLocation().getLongitude()));
+            locationofwateredit.setText(String.valueOf(
+                    report.getLocation().getLatitude()) + ", "
+                    + String.valueOf(report.getLocation().getLongitude()));
             if (((WaterReport)report).getWaterType().equals(WaterType.OTHER)) {
-                typeofwateredit.setText(((WaterReport)report).getWaterType().name() + ": "
-                        + report.getOther());
+                typeofwateredit.setText(((WaterReport)report)
+                        .getWaterType().name() + ": " + report.getOther());
             } else {
-                typeofwateredit.setText(((WaterReport)report).getWaterType().name());
+                typeofwateredit.setText(((WaterReport)report)
+                        .getWaterType().name());
             }
-            conditionofwateredit.setText(((WaterReport)report).getWaterCondition().name());
+            conditionofwateredit.setText(((WaterReport)report).
+                    getWaterCondition().name());
         } else if (report instanceof QualityReport) {
             qdateedit.setText(String.valueOf(report.getDate()));
             qtimeedit.setText(String.valueOf(report.getTime()));
-            qreportnumberedit.setText("Q" + String.valueOf(report.getReportID()));
+            qreportnumberedit.setText("Q"
+                    + String.valueOf(report.getReportID()));
             qnameofworkeredit.setText(report.getSubmitterID().getName());
-            qlocationofwateredit.setText(String.valueOf(report.getLocation().getLatitude())
-                    + ", " + String.valueOf(report.getLocation().getLongitude()));
-            qoverallconditionedit.setText(((QualityReport)report).getWaterCondition().name());
-            qvirusppmedit.setText("" + ((QualityReport)report).getVirusPPM() + "ppm");
-            qcontaminantppmedit.setText("" + ((QualityReport)report).getContaminantPPM() + "ppm");
+            qlocationofwateredit.setText(String.valueOf(
+                    report.getLocation().getLatitude()) + ", "
+                    + String.valueOf(report.getLocation().getLongitude()));
+            qoverallconditionedit.setText(
+                    ((QualityReport)report).getWaterCondition().name());
+            qvirusppmedit.setText(""
+                    + ((QualityReport)report).getVirusPPM() + "ppm");
+            qcontaminantppmedit.setText(""
+                    + ((QualityReport)report).getContaminantPPM() + "ppm");
         }
     }
 }

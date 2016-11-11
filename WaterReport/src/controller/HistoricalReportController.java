@@ -5,7 +5,11 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.report.Location;
 import model.report.SortReports;
@@ -37,7 +41,9 @@ public class HistoricalReportController {
 
     private final ArrayList<String> type = new ArrayList<>();
 
-    private double[] data = new double[12];
+    private double[] data;
+    private static final int MIN_YEAR = 2016;
+    private static final int MAX_YEAR = 3016;
 
     /**
      * Sets the stage for the dialog
@@ -51,7 +57,7 @@ public class HistoricalReportController {
 
     @FXML
     private void initialize() {
-        for(int i = 2016; i < 3016; i++) {
+        for(int i = MIN_YEAR; i < MAX_YEAR; i++) {
             years.add(String.valueOf(i));
         }
         MainController.populateComboBox(Year, years);
@@ -63,39 +69,47 @@ public class HistoricalReportController {
         final CategoryAxis xAxis = (CategoryAxis)HistoricalChart.getXAxis();
         final NumberAxis yAxis = (NumberAxis)HistoricalChart.getYAxis();
         xAxis.setLabel("Month");
-        XYChart.Series series = new XYChart.Series();
-        series.getData().add(new XYChart.Data("January", 0));
-        series.getData().add(new XYChart.Data("February", 0));
-        series.getData().add(new XYChart.Data("March", 0));
-        series.getData().add(new XYChart.Data("April", 0));
-        series.getData().add(new XYChart.Data("May", 0));
-        series.getData().add(new XYChart.Data("June", 0));
-        series.getData().add(new XYChart.Data("July", 0));
-        series.getData().add(new XYChart.Data("August", 0));
-        series.getData().add(new XYChart.Data("September", 0));
-        series.getData().add(new XYChart.Data("October", 0));
-        series.getData().add(new XYChart.Data("November", 0));
-        series.getData().add(new XYChart.Data("December", 0));
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+        series.getData().add(new XYChart.Data<>("January", 0.0));
+        series.getData().add(new XYChart.Data<>("February", 0.0));
+        series.getData().add(new XYChart.Data<>("March", 0.0));
+        series.getData().add(new XYChart.Data<>("April", 0.0));
+        series.getData().add(new XYChart.Data<>("May", 0.0));
+        series.getData().add(new XYChart.Data<>("June", 0.0));
+        series.getData().add(new XYChart.Data<>("July", 0.0));
+        series.getData().add(new XYChart.Data<>("August", 0.0));
+        series.getData().add(new XYChart.Data<>("September", 0.0));
+        series.getData().add(new XYChart.Data<>("October", 0.0));
+        series.getData().add(new XYChart.Data<>("November", 0.0));
+        series.getData().add(new XYChart.Data<>("December", 0.0));
         HistoricalChart.getData().addAll(series);
 
         searchBar.setOnAction((ActionEvent) -> {
             if(hisLat.getText().equals("") || hisLon.getText().equals("")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
-                        "Both Latitude and Longitude must be filled in.", ButtonType.CLOSE);
+                        "Both Latitude and Longitude must be filled in.",
+                        ButtonType.CLOSE);
                 alert.show();
-            } else if(Double.valueOf(hisLat.getText()) > 90.0
-                    || Double.valueOf(hisLat.getText()) < -90.0
-                    || Double.valueOf(hisLon.getText()) > 180.0
-                    || Double.valueOf(hisLon.getText()) < -180.0) {
+            } else if ((Double.valueOf(hisLat.getText()) >
+                    AddReportController.VALID_LATITUDE)
+                    || (Double.valueOf(hisLat.getText()) <
+                    -AddReportController.VALID_LATITUDE)
+                    || (Double.valueOf(hisLon.getText()) >
+                    AddReportController.VALID_LONGITUDE)
+                    || (Double.valueOf(hisLon.getText()) <
+                    -AddReportController.VALID_LONGITUDE)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
-                        "Invalid Latitude or Longitude, please enter a valid location.", ButtonType.CLOSE);
+                        "Invalid Latitude or Longitude, please enter"
+                        + " a valid location.", ButtonType.CLOSE);
                 alert.show();
             } else {
-                Location loc = new Location(Double.parseDouble(hisLat.getText()),
+                Location loc = new Location(
+                        Double.parseDouble(hisLat.getText()),
                         Double.parseDouble(hisLon.getText()));
                 if ((Ptype.getValue()).equals(Ptype.getItems().get(0))) {
-                    data = SortReports.generateHistoricalReportByContaminantPPM(loc,
-                            50, Integer.parseInt((String) Year.getValue()));
+                    data = SortReports.
+                            generateHistoricalReportByContaminantPPM(loc, 50,
+                                    Integer.parseInt((String) Year.getValue()));
                     yAxis.setLabel("ContaminantPPM");
                     series.setName("Contaminant");
 
@@ -106,29 +120,42 @@ public class HistoricalReportController {
                     series.setName("Virus");
                 }
                 boolean exists = false;
-                for (int i = 0; i < data.length; i++) {
-                    if (data[i] != 0) {
+                for (double aData : data) {
+                    if (aData != 0) {
                         exists = true;
                     }
                 }
                 if (exists) {
-                    series.getData().set(0, new XYChart.Data("January", data[0]));
-                    series.getData().set(1, new XYChart.Data("February", data[1]));
-                    series.getData().set(2, new XYChart.Data("March", data[2]));
-                    series.getData().set(3, new XYChart.Data("April", data[3]));
-                    series.getData().set(4, new XYChart.Data("May", data[4]));
-                    series.getData().set(5, new XYChart.Data("June", data[5]));
-                    series.getData().set(6, new XYChart.Data("July", data[6]));
-                    series.getData().set(7, new XYChart.Data("August", data[7]));
-                    series.getData().set(8, new XYChart.Data("September", data[8]));
-                    series.getData().set(9, new XYChart.Data("October", data[9]));
-                    series.getData().set(10, new XYChart.Data("November", data[10]));
-                    series.getData().set(11, new XYChart.Data("December", data[11]));
+                    series.getData().set(
+                            0, new XYChart.Data<>("January", data[0]));
+                    series.getData().set(
+                            1, new XYChart.Data<>("February", data[1]));
+                    series.getData().set(
+                            2, new XYChart.Data<>("March", data[2]));
+                    series.getData().set(
+                            3, new XYChart.Data<>("April", data[3]));
+                    series.getData().set(
+                            4, new XYChart.Data<>("May", data[4]));
+                    series.getData().set(
+                            5, new XYChart.Data<>("June", data[5]));
+                    series.getData().set(
+                            6, new XYChart.Data<>("July", data[6]));
+                    series.getData().set(
+                            7, new XYChart.Data<>("August", data[7]));
+                    series.getData().set(
+                            8, new XYChart.Data<>("September", data[8]));
+                    series.getData().set(
+                            9, new XYChart.Data<>("October", data[9]));
+                    series.getData().set(
+                            10, new XYChart.Data<>("November", data[10]));
+                    series.getData().set(
+                            11, new XYChart.Data<>("December", data[11]));
 
                     HistoricalChart.getData().setAll(series);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR,
-                            "No Reports listed around requested location.", ButtonType.CLOSE);
+                            "No Reports listed around requested location.",
+                            ButtonType.CLOSE);
                     alert.show();
                 }
             }

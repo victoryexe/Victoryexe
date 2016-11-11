@@ -13,7 +13,7 @@ public class Admin implements Account {
     private static int adminCount;
     private boolean isBanned;
     private boolean isBlocked;
-    public Adming(String name, String email, int id) {
+    public Admin(String name, String email, int id) {
         this(name, email);
         this.userID = id;
     }
@@ -45,7 +45,9 @@ public class Admin implements Account {
         return this.userID;
     }
     @Override
-    public void setHomeAddress(Address homeAddress) { this.homeAddress = homeAddress; }
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
     @Override
     public Address getHomeAddress() {
         return this.homeAddress;
@@ -98,18 +100,4 @@ public class Admin implements Account {
     public int hashCode() {
         return getUserID();
     }
-
-    public boolean deleteAccount() {
-        return true;
-    }
-    public boolean banUserFromSubmittingReports() {
-        return true;
-    }
-    public boolean unblockAccount() {
-        return true;
-    }
-    public void viewSecurityLog() {
-
-    }
-
 }

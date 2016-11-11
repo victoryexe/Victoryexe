@@ -18,8 +18,10 @@ public class LogList {
             new LinkedList<>();
     private static final List<DeletedAccountLog> deletedAccountLog =
             new LinkedList<>();
-    private static final List<DeletedReportLog> deletedReportLog = new LinkedList<>();
-    private static final List<LoginAttemptLog> loginAttemptLog = new LinkedList<>();
+    private static final List<DeletedReportLog> deletedReportLog =
+            new LinkedList<>();
+    private static final List<LoginAttemptLog> loginAttemptLog =
+            new LinkedList<>();
     private static final List<UnblockAccountLog> unblockAccountLog =
             new LinkedList<>();
 

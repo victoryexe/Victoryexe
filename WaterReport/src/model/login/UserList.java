@@ -49,10 +49,12 @@ public class UserList {
      * could not be added
      */
     public static Account makeNewUser(String firstName, String lastName,
-                                      String userid, String pass1, String pass2, AuthLevel auth) {
-        Account account = UserFactory.makeAccount(firstName, lastName, userid, auth);
-        if (userMap.containsKey(account.getEmail())
-                || Authentication.verifySubject(account.getEmail())) {
+                                      String userid, String pass1,
+                                      String pass2, AuthLevel auth) {
+        Account account = UserFactory.makeAccount(firstName, lastName,
+                userid, auth);
+        if (userMap.containsKey(userid)
+                || Authentication.verifySubject(userid)) {
             return null;
         }
         if (Authentication.addNewAccount(userid, pass1, pass2)) {
@@ -97,7 +99,7 @@ public class UserList {
      */
     public static boolean deleteAccount(Admin admin, String userid) {
         Account deleted = userMap.remove(userid);
-        if (deleted == null || !Authentication.deleteAccount(userid)) {
+        if ((deleted == null) || !Authentication.deleteAccount(userid)) {
             throw new java.util.NoSuchElementException("No account is"
                     + "associated with the userid " + userid);
         }

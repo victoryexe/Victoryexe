@@ -50,8 +50,8 @@ public class Location implements Comparable<Location> {
         double latDiff = lat1 - lat2;
         double longDiff = long1 - long2;
 
-        double a = Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(lat1)
-                * Math.cos(lat2) * Math.pow(Math.sin((longDiff / 2)), 2);
+        double a = Math.pow(Math.sin(latDiff / 2), 2) + (Math.cos(lat1)
+                * Math.cos(lat2) * Math.pow(Math.sin((longDiff / 2)), 2));
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return EARTH_RADIUS * KM_TO_MI * c;
     }
@@ -67,15 +67,15 @@ public class Location implements Comparable<Location> {
         if (obj == null) {
             return false;
         }
-        return obj instanceof Location
-                && this.latitude == ((Location) obj).latitude
-                && this.longitude == ((Location) obj).longitude;
+        return (obj instanceof Location)
+                && (this.latitude == ((Location) obj).latitude)
+                && (this.longitude == ((Location) obj).longitude);
     }
 
     @Override
     public int hashCode() {
-        return 97 * ((Double) latitude).hashCode()
-                + 211 * ((Double) longitude).hashCode();
+        return (97 * ((Double) latitude).hashCode())
+                + (211 * ((Double) longitude).hashCode());
     }
 
     @Override

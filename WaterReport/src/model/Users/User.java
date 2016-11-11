@@ -5,12 +5,12 @@ package model.Users;
 * Date:  9/30/2016
 */
 public class User implements Account {
-    protected String name;
-    protected String email;
-    protected int userID;
-    protected Address homeAddress;
-    protected String title;
-    protected static int userCount;
+    private String name;
+    private String email;
+    private int userID;
+    private Address homeAddress;
+    private String title;
+    static int userCount;
     private boolean isBanned;
     private boolean isBlocked;
 
@@ -26,10 +26,9 @@ public class User implements Account {
 
     }
     public User() {
-        name = null;
-        email = null;
-        userID = 0;
+
     }
+
     @Override
     public String getName() {
         return name;
@@ -43,7 +42,9 @@ public class User implements Account {
         return this.homeAddress;
     }
     @Override
-    public void setHomeAddress(Address homeAddress) { this.homeAddress = homeAddress; }
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
     @Override
     public void setTitle(String title) {
         this.title = title;
@@ -103,15 +104,5 @@ public class User implements Account {
     @Override
     public int hashCode() {
         return getUserID();
-    }
-
-    /**
-    *@return returns if reporting was succesful;
-    */
-    public boolean reportWaterAvailibility() {
-        return true;
-    }
-    public void viewWaterSources() {
-
     }
 }

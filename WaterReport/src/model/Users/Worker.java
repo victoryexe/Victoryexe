@@ -7,16 +7,13 @@ package model.Users;
 public class Worker extends User {
 
     public Worker(String name, String email) {
-        this.name = name;
-        this.email = email;
-        super.userCount++;
-        this.userID = userCount;
+        super(name, email);
     }
-    public Worker(){}
+    public Worker() {
+    }
+
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.WORKER;
-    }
-    public boolean reportWaterPurity() {
-        return true;
     }
 }
