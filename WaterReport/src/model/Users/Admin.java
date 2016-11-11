@@ -13,7 +13,7 @@ public class Admin implements Account {
     private static int adminCount;
     private boolean isBanned;
     private boolean isBlocked;
-    public Adming(String name, String email, int id) {
+    public Admin(String name, String email, int id) {
         this(name, email);
         this.userID = id;
     }
