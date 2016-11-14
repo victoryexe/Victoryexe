@@ -15,7 +15,7 @@ class DeletedReportLog extends Log {
      * @param responsibleAccount the Manager that deleted the report
      * @param report the report that is being deleted
      */
-    DeletedReportLog(Manager responsibleAccount, Report report) {
+    public DeletedReportLog(Manager responsibleAccount, Report report) {
         super(responsibleAccount);
         reportID = report.toString();
     }
@@ -26,5 +26,15 @@ class DeletedReportLog extends Log {
      */
     public String getReportID() {
         return reportID;
+    }
+    @Override
+    public String toString() {
+        if(reportID != null) {
+            return "'" + getTimestamp().toString() + "','"
+                    + getResponsibleAccount().getEmail() + "','"
+                    + reportID + "'";
+        } else {
+            return "EMPTY LOG";
+        }
     }
 }

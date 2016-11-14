@@ -14,7 +14,7 @@ class DeletedAccountLog extends Log {
      * @param responsibleAccount the Admin that deleted the account
      * @param deletedAccountID the Account that was deleted
      */
-    DeletedAccountLog(Admin responsibleAccount, String deletedAccountID)
+    public DeletedAccountLog(Admin responsibleAccount, String deletedAccountID)
     {
         super(responsibleAccount);
         this.deletedAccountID = deletedAccountID;
@@ -26,5 +26,15 @@ class DeletedAccountLog extends Log {
      */
     public String getDeletedAccountID() {
         return deletedAccountID;
+    }
+
+    public String toString() {
+        if(deletedAccountID != null) {
+            return "'" + getTimestamp().toString() + "','"
+                    + getResponsibleAccount().getEmail() + "','"
+                    + deletedAccountID + "'";
+        } else {
+            return "EMPTY LOG";
+        }
     }
 }

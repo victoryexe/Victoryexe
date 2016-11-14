@@ -14,7 +14,7 @@ public class UnblockAccountLog extends Log {
      * @param responsibleAccount the Admin that unblocked the account
      * @param unblockedAccountID the Account that was unblocked
      */
-    UnblockAccountLog(Admin responsibleAccount,
+    public UnblockAccountLog(Admin responsibleAccount,
                              String unblockedAccountID) {
         super(responsibleAccount);
         this.unbannedAccountID = unblockedAccountID;
@@ -26,5 +26,15 @@ public class UnblockAccountLog extends Log {
      */
     public String getUnbannedAccountID() {
         return unbannedAccountID;
+    }
+    @Override
+    public String toString() {
+        if(unbannedAccountID != null) {
+            return "'" + getTimestamp().toString() + "','"
+                    + getResponsibleAccount().getEmail() + "','"
+                    + unbannedAccountID + "'";
+        } else {
+            return "EMPTY LOG";
+        }
     }
 }

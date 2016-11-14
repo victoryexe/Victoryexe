@@ -14,7 +14,7 @@ class BannedAccountLog extends Log {
      * @param responsibleAccount the Admin that banned the account
      * @param bannedAccountID the userid of the Account being banned account
      */
-    BannedAccountLog(Admin responsibleAccount, String bannedAccountID) {
+    public BannedAccountLog(Admin responsibleAccount, String bannedAccountID) {
         super(responsibleAccount);
         this.bannedAccountID = bannedAccountID;
     }
@@ -25,5 +25,14 @@ class BannedAccountLog extends Log {
      */
     public String getBannedAccountID() {
         return bannedAccountID;
+    }
+    public String toString() {
+        if(bannedAccountID != null) {
+            return "'" + getTimestamp().toString() + "','"
+                    + getResponsibleAccount().getEmail() + "','"
+                    + bannedAccountID + "'";
+        } else {
+            return "EMPTY LOG";
+        }
     }
 }

@@ -14,7 +14,7 @@ class LoginAttemptLog extends Log {
      * @param responsibleAccount the account logging in
      * @param successStatus whether the user's login succeeded
      */
-    LoginAttemptLog(Account responsibleAccount, boolean successStatus) {
+    public LoginAttemptLog(Account responsibleAccount, boolean successStatus) {
         super(responsibleAccount);
         this.successStatus = successStatus;
     }
@@ -25,5 +25,10 @@ class LoginAttemptLog extends Log {
      */
     public boolean getSuccessStatus() {
         return successStatus;
+    }
+    public String toString() {
+        return "'" + getTimestamp().toString() + "','"
+                + getResponsibleAccount().getEmail() + "','"
+                + successStatus + "'";
     }
 }

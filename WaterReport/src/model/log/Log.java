@@ -18,7 +18,7 @@ abstract class Log {
      * Makes a new Log with a timestamp and the responsible account
      * @param responsibleAccount the Account that initiated the action
      */
-    Log(Account responsibleAccount) {
+    public Log(Account responsibleAccount) {
         timestamp = LocalDateTime.now();
         this.responsibleAccount = responsibleAccount;
     }
@@ -37,5 +37,9 @@ abstract class Log {
      */
     public Account getResponsibleAccount() {
         return responsibleAccount;
+    }
+    @Override
+    public String toString() {
+        return timestamp.toString() + responsibleAccount.getEmail();
     }
 }
