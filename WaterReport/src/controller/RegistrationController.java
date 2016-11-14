@@ -2,14 +2,23 @@ package controller;
 
 import fxapp.Main;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import model.Users.*;
+
+import model.Users.Account;
+import model.Users.AuthLevel;
 import model.login.UserList;
 import model.registration.Registration;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -33,7 +42,7 @@ public class RegistrationController {
     @FXML
     private Button regCancel;
     @FXML
-    private ComboBox authLevels;
+    private ComboBox<AuthLevel> authLevels;
 
 
     private String first;
@@ -50,7 +59,7 @@ public class RegistrationController {
 
     @FXML
     public void initialize() {
-        ArrayList<AuthLevel> auth = new ArrayList<>();
+        List<AuthLevel> auth = new ArrayList<>();
         Collections.addAll(auth, AuthLevel.values());
         MainController.populateComboBox(authLevels, auth);
         regCancel.setOnAction(event -> mainApp.showLogin());
@@ -61,7 +70,7 @@ public class RegistrationController {
             mail = email.getText();
             pass = passwordSet.getText();
             pass2 = passwordConfirm.getText();
-            authLevel = (AuthLevel) authLevels.getValue();
+            authLevel = authLevels.getValue();
             Account user;
 
             if (isInputValid(first, last, mail, pass, pass2)) {
@@ -99,8 +108,8 @@ System.out.println(results[0].formattedAddress);*/
      */
     private boolean isInputValid(String firstName, String lastName, String userid,
                                        String password1, String password2) {
-        if (firstName.equals("") || lastName.equals("")|| userid.equals("")
-                || password1.equals("")|| password2.equals("")) { // null checks
+        if ("".equals(firstName) || "".equals(lastName) || "".equals(userid)
+                || "".equals(password1) || "".equals(password2)) { // null checks
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "All fields must be filled in.", ButtonType.CLOSE);
             alert.show();

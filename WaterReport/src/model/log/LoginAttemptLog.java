@@ -6,7 +6,7 @@ import model.Users.Account;
  * Created by Alexandra on 10/27/2016.
  * A Log that holds information specific to login attempts
  */
-class LoginAttemptLog extends Log {
+public class LoginAttemptLog extends Log {
     private final boolean successStatus;
 
     /**

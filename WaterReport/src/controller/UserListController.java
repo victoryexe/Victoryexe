@@ -7,19 +7,18 @@ import javafx.scene.control.ListView;
 import model.Users.Account;
 import model.login.UserList;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by grizz on 11/11/2016.
+ * Handles the functions of the User list
  */
-public class UserListController {
+class UserListController {
 
     public UserListController(ListView<Account> userlist, Button deleteuser, Button banuser, Button unblockuser) {
-        List<Account> users = new ArrayList<>();
-        for(String user: UserList.getUserList()) {
-            users.add(UserList.getUserAccount(user));
-        }
+        List<Account> users =
+                UserList.getUserList().stream().map(UserList::getUserAccount).collect(Collectors.toList());
         userlist.setItems(javafx.collections.FXCollections.observableList(users));
         deleteuser.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.ERROR,

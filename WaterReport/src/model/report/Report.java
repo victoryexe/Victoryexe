@@ -54,6 +54,8 @@ public abstract class Report implements Comparable<Report> {
         return submitterID;
     }
 
+    public String getSubmitterName() { return submitterID.getName();}
+
     /**
      * Gets the location which this report corresponds to
      * @return the location of the water source
@@ -61,6 +63,8 @@ public abstract class Report implements Comparable<Report> {
     public Location getLocation() {
         return location;
     }
+
+    public String getCoordinates() { return location.toString();}
 
     /**
      * Gets the date this report was submitted on

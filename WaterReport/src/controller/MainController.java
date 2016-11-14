@@ -17,11 +17,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextFormatter;
 import model.Users.Account;
 import model.report.OverallCondition;
+import model.report.Report;
 import model.report.WaterCondition;
 import model.report.WaterType;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class MainController {
     @FXML
     private TextField emailtextbox;
     @FXML
-    private ComboBox salutationcombobox;
+    private ComboBox<String> salutationcombobox;
     @FXML
     private Button salutationedit;
     @FXML
@@ -69,7 +71,7 @@ public class MainController {
     @FXML
     private ComboBox<WaterCondition> conditionBox;
     @FXML
-    private ListView reportlist;
+    private ListView<Report> reportlist;
     @FXML
     private Button viewreport;
     @FXML
@@ -120,7 +122,6 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        Account currUser = LoginScreenController.getCurrUser();
         Logout.setOnAction(event -> mainApp.showLogin());
 
         // Delegates control of the profile view to ProfileController
@@ -129,40 +130,20 @@ public class MainController {
                 emailtextbox, salutationcombobox, salutationedit, submit, currsalutation);
 
         // Delegates control of report submission to AddReportController
-        AddReportController addReport = new AddReportController(latitude,
-                longitude, sourceBox, conditionBox, submitRepBox, othertype, avetoqual,
-                applicationTabs, Purity);
+        setUpReportController();
 
         // Delegates control of QualityReport submission to AddQualityController
-        AddQualityController qualReport = new AddQualityController(purityLat,
-                purityLon, VirusPPM, ContamPPM, purityCond, SubmitPurity, qualtoave,
-                applicationTabs, submitTab);
+        setUpQualityController();
 
         // Delegates control of the View Report screen to ReportListController
-        ReportListController reportList = new ReportListController(reportlist, viewreport, hisreportTransition);
-        reportList.setMainApp(mainApp);
+        ReportListController reportList =
+                new ReportListController(reportlist, viewreport, hisreportTransition, mainApp);
 
         // Delegates control of the Google Map to MapController
         MapComponentInitializedListener map = new MapController(GmapsViewPane, searchLat, searchLon, searchBut);
         GmapsViewPane.addMapInializedListener(map);
-        ObservableList<Tab> tabs = applicationTabs.getTabs();
-        tabs.remove(4);
-        switch(currUser.getAuthLevel()) {
-            case USER:
-                tabs.remove(3);
-                break;
-            case WORKER:
-                tabs.remove(3);
-                break;
-            case MANAGER:
-                break;
-            case ADMIN:
-                for(int i = 0; i < 3; i++) {
-                    tabs.remove(1);
-                }
-                break;
-        }
-    //    applicationTabs.set = tabs;
+        Account currUser = LoginScreenController.getCurrUser();
+        setUserAccess(currUser);
     }
 
     /**
@@ -178,7 +159,7 @@ public class MainController {
      * TextField
      */
 
-    protected static void restrictToNums(TextField field) {
+    static void restrictToNums(TextField field) {
         DecimalFormat format = new DecimalFormat( "#" );
         field.setTextFormatter( new TextFormatter<>(c ->
         {
@@ -208,8 +189,54 @@ public class MainController {
      * @param box the ComboBox being populated
      * @param list the ArrayList being used to populate box
      */
-    protected static void populateComboBox(ComboBox box, List list) {
+    static void populateComboBox(ComboBox box, List list) {
         box.setItems(javafx.collections.FXCollections.observableList(list));
         box.setValue(list.get(0));
+    }
+
+    private void setUserAccess(Account user) {
+        ObservableList<Tab> tabs = applicationTabs.getTabs();
+        tabs.remove(4);
+        switch(user.getAuthLevel()) {
+            case USER:
+                tabs.remove(3);
+                break;
+            case WORKER:
+                tabs.remove(3);
+                break;
+            case MANAGER:
+                break;
+            case ADMIN:
+                for(int i = 0; i < 3; i++) {
+                    tabs.remove(1);
+                }
+                break;
+        }
+    }
+
+    private void setUpQualityController() {
+        restrictToNums(purityLat);
+        restrictToNums(purityLon);
+        restrictToNums(VirusPPM);
+        restrictToNums(ContamPPM);
+        List<OverallCondition> conditions = Arrays.asList(OverallCondition.values());
+        MainController.populateComboBox(purityCond, conditions);
+        AddQualityController qualReport = new AddQualityController(purityLat,
+                purityLon, VirusPPM, ContamPPM, purityCond);
+        qualReport.setPurityButton(conditions, SubmitPurity);
+        qualReport.setSwitchButton(conditions, applicationTabs, submitTab, qualtoave);
+    }
+
+    private void setUpReportController() {
+        List<WaterType> source = Arrays.asList(WaterType.values());
+        List<WaterCondition> condition = Arrays.asList(WaterCondition.values());
+        populateComboBox(sourceBox, source);
+        populateComboBox(conditionBox, condition);
+        restrictToNums(latitude);
+        restrictToNums(longitude);
+        AddReportController addReport = new AddReportController(latitude,
+                longitude, sourceBox, conditionBox, avetoqual);
+        addReport.setReportButton(submitRepBox, othertype, source, condition);
+        addReport.switchToQual(applicationTabs, Purity, source, condition);
     }
 }

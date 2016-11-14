@@ -10,10 +10,7 @@ import javafx.scene.control.ButtonType;
 import model.Users.Account;
 import fxapp.Main;
 import javafx.fxml.FXML;
-import fxapp.persistance.PersistenceHandler;
-import model.Users.Admin;
-import model.Users.User;
-import model.login.Authentication;
+import model.Users.AuthLevel;
 import model.login.Login;
 import model.login.UserList;
 
@@ -58,7 +55,7 @@ public class LoginScreenController {
                     alert.show();
                 } else if (Login.login(subject, pass)) {
                     setCurrUser(UserList.getUserAccount(subject));
-                    if (getCurrUser() instanceof Admin) {
+                    if (AuthLevel.ADMIN == currUser.getAuthLevel()) {
                         mainApp.showAdmin();
                     } else {
                         mainApp.showMain();
@@ -77,7 +74,7 @@ public class LoginScreenController {
      * sets the account of the current user
      * @param acc the Account of the current user
      */
-    protected static void setCurrUser(Account acc) {
+    static void setCurrUser(Account acc) {
         currUser = acc;
     }
 
@@ -86,7 +83,7 @@ public class LoginScreenController {
      * @return the Account currently using the application
      */
 
-    protected static Account getCurrUser() {
+    static Account getCurrUser() {
         return currUser;
     }
 
@@ -95,8 +92,8 @@ public class LoginScreenController {
      */
     @FXML
     private void handleCloseMenu() {
-        PersistenceHandler.saveUsers(UserList.getUserList());
-        Authentication.savePass();
+    //    PersistenceHandler.saveUsers(UserList.getUserList());
+    //    Authentication.savePass();
     //    PersistenceHandler.saveWaterReports(ReportsList.getWaterReportsList());
     //    PersistenceHandler.saveQualityReports(ReportsList.getQualityReportsList());
         System.exit(0);

@@ -1,21 +1,15 @@
 package fxapp;
 
-import controller.AdminController;
-import controller.LoginScreenController;
-import controller.MainController;
-import controller.RegistrationController;
+import controller.*;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import fxapp.persistance.PersistenceHandler;
-import model.login.Authentication;
-import model.login.UserList;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -99,7 +93,7 @@ public class Main extends Application {
         Parent root;
         try {
             loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/Registration.fxml"));
+            loader.setLocation(Main.class.getResource("../view/Registration.fxml"));
             root = loader.load();
             RegistrationController controller = loader.getController();
             controller.setMainApp(this);
@@ -137,13 +131,39 @@ public class Main extends Application {
         Parent root;
         try {
             loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/LoginScreenView.fxml"));
+            loader.setLocation(Main.class.getResource("../view/LoginScreenView.fxml"));
             root = loader.load();
             LoginScreenController controller = loader.getController();
             controller.setMainApp(this);
             Scene scene = new Scene(root);
             screen.setScene(scene);
             screen.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showHistReport() {
+        try {
+            loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("../view/historicalReport.fxml"));
+            SplitPane page = loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Historical Report");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(screen);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            HistoricalReportController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();

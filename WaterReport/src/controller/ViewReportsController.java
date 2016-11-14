@@ -45,16 +45,29 @@ public class ViewReportsController {
     @FXML
     private Text qcontaminantppmedit;
 
-    private Stage dialogStage;
+    private static int reportType;
 
     private static Report report;
 
     /**
-     * Used to acquire the report being displayed
+     * Used to acquire the Water report being displayed
      *
      * @param nreport the water report currently being displayed
      */
-    public static void setReport(Report nreport) {report = nreport;}
+    public static void setReport(WaterReport nreport) {
+        report = nreport;
+        reportType = 0;
+    }
+
+    /**
+     * Used to acquire the Quality report being displayed
+     *
+     * @param nreport the quality report currently being displayed
+     */
+    public static void setReport(QualityReport nreport) {
+        report = nreport;
+        reportType = 1;
+    }
 
     /**
      * Sets the stage for the dialog
@@ -62,44 +75,42 @@ public class ViewReportsController {
      * @param dialogStage the stage for the dialog
      */
     public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
     }
 
     @FXML
     private void initialize() {
-        if (report instanceof WaterReport) {
-            dateedit.setText(String.valueOf(report.getDate()));
-            timeedit.setText(String.valueOf(report.getTime()));
-            reportnumberedit.setText("W"
-                    + String.valueOf(report.getReportID()));
-            nameofreporteredit.setText(report.getSubmitterID().getName());
-            locationofwateredit.setText(String.valueOf(
-                    report.getLocation().getLatitude()) + ", "
-                    + String.valueOf(report.getLocation().getLongitude()));
-            if (((WaterReport)report).getWaterType().equals(WaterType.OTHER)) {
-                typeofwateredit.setText(((WaterReport)report)
-                        .getWaterType().name() + ": " + report.getOther());
-            } else {
-                typeofwateredit.setText(((WaterReport)report)
-                        .getWaterType().name());
-            }
-            conditionofwateredit.setText(((WaterReport)report).
-                    getWaterCondition().name());
-        } else if (report instanceof QualityReport) {
-            qdateedit.setText(String.valueOf(report.getDate()));
-            qtimeedit.setText(String.valueOf(report.getTime()));
-            qreportnumberedit.setText("Q"
-                    + String.valueOf(report.getReportID()));
-            qnameofworkeredit.setText(report.getSubmitterID().getName());
-            qlocationofwateredit.setText(String.valueOf(
-                    report.getLocation().getLatitude()) + ", "
-                    + String.valueOf(report.getLocation().getLongitude()));
-            qoverallconditionedit.setText(
-                    ((QualityReport)report).getWaterCondition().name());
-            qvirusppmedit.setText(""
-                    + ((QualityReport)report).getVirusPPM() + "ppm");
-            qcontaminantppmedit.setText(""
-                    + ((QualityReport)report).getContaminantPPM() + "ppm");
+        if (reportType == 0) {
+            showWaterReport((WaterReport)report);
+        } else if (reportType == 1) {
+            showQualityReport((QualityReport) report);
         }
+    }
+    private void showWaterReport(WaterReport report) {
+        dateedit.setText(String.valueOf(report.getDate()));
+        timeedit.setText(String.valueOf(report.getTime()));
+        reportnumberedit.setText("W"
+                + String.valueOf(report.getReportID()));
+        nameofreporteredit.setText(report.getSubmitterName());
+        locationofwateredit.setText(report.getCoordinates());
+        if (WaterType.OTHER.equals(report.getWaterType())) {
+            typeofwateredit.setText("" + report.getWaterType() + ": " + report.getOther());
+        } else {
+            typeofwateredit.setText("" + report.getWaterType());
+        }
+        conditionofwateredit.setText("" + report.getWaterCondition());
+    }
+    private void showQualityReport(QualityReport report) {
+        qdateedit.setText(String.valueOf(report.getDate()));
+        qtimeedit.setText(String.valueOf(report.getTime()));
+        qreportnumberedit.setText("Q"
+                + String.valueOf(report.getReportID()));
+        qnameofworkeredit.setText(report.getSubmitterName());
+        qlocationofwateredit.setText(report.getCoordinates());
+        qoverallconditionedit.setText(
+                ("" + report.getWaterCondition()));
+        qvirusppmedit.setText(""
+                + report.getVirusPPM() + "ppm");
+        qcontaminantppmedit.setText(""
+                + report.getContaminantPPM() + "ppm");
     }
 }

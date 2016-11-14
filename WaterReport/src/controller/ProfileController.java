@@ -4,12 +4,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.Users.Account;
 import model.Users.Address;
 import model.Users.Profile;
 import model.login.UserList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static controller.MainController.populateComboBox;
 import static controller.MainController.restrictToNums;
@@ -18,7 +18,7 @@ import static controller.MainController.restrictToNums;
  * Created by grizz on 9/27/2016.
  * Handles User Profiles
  */
-public class ProfileController {
+class ProfileController {
 
     private final TextField lastnametextbox;
     private final TextField firstnametextbox;
@@ -48,7 +48,7 @@ public class ProfileController {
         restrictToNums(aptnumtextbox);
         restrictToNums(zipcodetextbox);
 
-        ArrayList<String> salutation = new ArrayList<>();
+        List<String> salutation = new ArrayList<>();
         salutation.add("");
         salutation.add("Mr.");
         salutation.add("Ms.");
@@ -68,6 +68,7 @@ public class ProfileController {
         lastnametextbox.setText(name.substring(name.indexOf(" ")));
         emailtextbox.setText(currProfile.getEmail());
         if (currProfile.getAddress() != null) {
+
             streetaddresstextbox.setText(currProfile.getAddress().getStreet());
             if (currProfile.getAddress().apartmentNumber() != -1) {
                 aptnumtextbox.setText("" + currProfile.getAddress().apartmentNumber());
@@ -111,7 +112,7 @@ public class ProfileController {
         submit.setOnAction(event -> {
             submit.setVisible(false);
             salutationedit.setVisible(true);
-            currProfile.changeTitle((String) salutationcombobox.getValue());
+            currProfile.changeTitle(salutationcombobox.getValue());
             currsalutation.setText(currProfile.getTitle());
             currsalutation.setVisible(true);
             salutationcombobox.setVisible(false);
@@ -124,12 +125,12 @@ public class ProfileController {
                 currProfile.changeEmail(emailtextbox.getText());
             }
             if (currProfile.getAddress() == null) {
-                if (zipcodetextbox.getText().equals("")) {
+                if ("".equals(zipcodetextbox.getText())) {
                     zip = -1;
                 } else {
                     zip = Integer.valueOf(zipcodetextbox.getText());
                 }
-                if (aptnumtextbox.getText().equals("")) {
+                if ("".equals(aptnumtextbox.getText())) {
                     apt = -1;
                 } else {
                     apt = Integer.valueOf(aptnumtextbox.getText());
@@ -140,12 +141,12 @@ public class ProfileController {
                 currProfile.getAddress().setStreet(streetaddresstextbox.getText());
                 currProfile.getAddress().setCity(citytextbox.getText());
                 currProfile.getAddress().setState(statetextbox.getText());
-                if (zipcodetextbox.getText().equals("")) {
+                if ("".equals(zipcodetextbox.getText())) {
                     currProfile.getAddress().setZip(-1);
                 } else {
                     currProfile.getAddress().setZip(Integer.valueOf(zipcodetextbox.getText()));
                 }
-                if (aptnumtextbox.getText().equals("")) {
+                if ("".equals(aptnumtextbox.getText())) {
                     currProfile.getAddress().setApartmentNum(-1);
                 } else {
                     currProfile.getAddress().setApartmentNum(Integer.valueOf(aptnumtextbox.getText()));

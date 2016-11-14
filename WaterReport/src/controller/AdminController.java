@@ -8,23 +8,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
 import model.Users.Account;
-import model.Users.User;
 
 /**
  * Created by grizz on 11/11/2016.
+ * Handles delegation of tasks for the main Admin screen to the
+ * appropriate Controllers;
  */
 public class AdminController {
 
-    @FXML
-    private Text adminname;
-    @FXML
-    private Text adminemail;
-    @FXML
-    private Text adminaddress;
-    @FXML
-    private Text adminaptnum;
     @FXML
     private TextField adminlastnametextbox;
     @FXML

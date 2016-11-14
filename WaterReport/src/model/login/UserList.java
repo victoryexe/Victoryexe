@@ -1,6 +1,5 @@
 package model.login;
 
-import fxapp.persistance.PersistenceHandler;
 import model.Users.Account;
 import model.Users.Admin;
 import model.Users.AuthLevel;

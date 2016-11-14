@@ -88,4 +88,8 @@ public class Location implements Comparable<Location> {
             return Double.compare(this.longitude, loc.longitude);
         }
     }
+    @Override
+    public String toString() {
+        return "" + latitude + ", " + longitude;
+    }
 }

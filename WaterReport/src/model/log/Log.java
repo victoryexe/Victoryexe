@@ -10,7 +10,7 @@ import java.time.LocalTime;
  * Created by Alexandra on 10/27/2016.
  * A representation of a Log
  */
-abstract class Log {
+public abstract class Log {
     private final LocalDateTime timestamp;
     private final Account responsibleAccount;
 

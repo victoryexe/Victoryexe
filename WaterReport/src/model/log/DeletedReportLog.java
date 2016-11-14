@@ -7,7 +7,7 @@ import model.report.Report;
  * Created by Alexandra on 10/27/2016.
  * A Log that holds information specific to Report deletion
  */
-class DeletedReportLog extends Log {
+public class DeletedReportLog extends Log {
     private final String reportID;
 
     /**

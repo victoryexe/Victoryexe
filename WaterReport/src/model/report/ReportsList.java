@@ -68,17 +68,17 @@ public class ReportsList {
      * @param contaminantPPM the contaminantPPM of the water
      * @return the QualityReport made or null if none was made
      */
-    public static QualityReport makeReport(Worker worker, Location location,
+    public static int makeReport(Worker worker, Location location,
                                            OverallCondition condition,
                                            double virusPPM,
                                            double contaminantPPM) {
         QualityReport report = new QualityReport(worker, location, condition,
                 virusPPM, contaminantPPM);
         if (qualityReportMap.containsKey(report.getReportID())) {
-            return null;
+            return -1;
         }
         qualityReportMap.put(report.getReportID(), report);
-        return report;
+        return report.getReportID();
     }
 
     /**

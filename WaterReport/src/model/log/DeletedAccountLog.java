@@ -6,7 +6,7 @@ import model.Users.Admin;
  * Created by Alexandra on 10/27/2016.
  * A Log that holds data specific to account deletion
  */
-class DeletedAccountLog extends Log {
+public class DeletedAccountLog extends Log {
     private final String deletedAccountID;
 
     /**
