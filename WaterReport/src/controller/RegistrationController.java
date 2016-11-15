@@ -9,11 +9,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
 
 import model.Users.Account;
 import model.Users.AuthLevel;
-import model.login.UserList;
+import model.registration.UserList;
 import model.registration.Registration;
 
 import java.util.ArrayList;

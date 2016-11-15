@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import model.Users.Account;
-import model.login.UserList;
+import model.registration.UserList;
 
 import java.util.List;
 import java.util.stream.Collectors;

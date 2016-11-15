@@ -11,8 +11,8 @@ import model.Users.Account;
 import fxapp.Main;
 import javafx.fxml.FXML;
 import model.Users.AuthLevel;
-import model.login.Login;
-import model.login.UserList;
+import model.registration.Login;
+import model.registration.UserList;
 
 /**
  * Created by grizz on 09/24/2016
