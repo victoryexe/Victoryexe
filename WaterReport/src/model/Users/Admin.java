@@ -14,6 +14,12 @@ public class Admin implements Account {
     private boolean isBanned;
     private boolean isBlocked;
 
+    /**
+     * Constructor used to load data from the DB
+     * @param name the Admin's name
+     * @param email the Admin's email
+     * @param userID the Admin's userID
+     */
     public Admin(String name, String email, int userID) {
         this.name = name;
         this.email = email;

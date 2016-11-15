@@ -1,14 +1,14 @@
-package model.login;
+package model.registration;
 
 import model.Users.Account;
 import model.Users.Admin;
 import model.Users.AuthLevel;
 import model.log.LogList;
-import model.registration.UserFactory;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Alexandra on 9/28/2016.
@@ -23,7 +23,7 @@ public class UserList {
      * Gets the set of users
      * @return a Set containing usernames as Strings
      */
-    public static Set<String> getUserList() {
+    public static Collection<String> getUserList() {
         return userMap.keySet();
     }
 
@@ -50,7 +50,7 @@ public class UserList {
      * could not be added
      */
     public static Account makeNewUser(String firstName, String lastName,
-                                      String userid, String pass1,
+                                      String userid, CharSequence pass1,
                                       String pass2, AuthLevel auth) {
         Account account = UserFactory.makeAccount(firstName, lastName,
                 userid, auth);
@@ -163,10 +163,12 @@ public class UserList {
      * @param pass the passwords for the users being added
      */
 
-    public static void addAccounts(List<Account> users, List<CharSequence> pass) {
+    public static void addAccounts(List<Account> users,
+                                   List<CharSequence> pass) {
         if (users.size() == pass.size()) {
-            for(int i = 0; i < users.size(); i++) {
-                Authentication.addNewAccount(users.get(i).getEmail(), pass.get(i).toString(), pass.get(i).toString());
+            for (int i = 0; i < users.size(); i++) {
+                Authentication.addNewAccount(users.get(i).getEmail(),
+                        pass.get(i).toString(), pass.get(i).toString());
                 userMap.put(users.get(i).getEmail(), users.get(i));
             }
         }

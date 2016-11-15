@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.Users.Address;
 import model.Users.Profile;
-import model.login.UserList;
+import model.registration.UserList;
 
 import java.util.ArrayList;
 import java.util.List;

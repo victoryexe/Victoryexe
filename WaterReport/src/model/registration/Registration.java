@@ -1,6 +1,5 @@
 package model.registration;
 
-import model.login.UserList;
 import model.Users.AuthLevel;
 import model.Users.Account;
 
@@ -22,7 +21,7 @@ public class Registration {
      */
     public static Account createAccount(String first, String last,
                                         String userid,
-                                        String pass1, String pass2,
+                                        CharSequence pass1, String pass2,
                                         AuthLevel auth) {
         return UserList.makeNewUser(first, last, userid, pass1, pass2, auth);
     }

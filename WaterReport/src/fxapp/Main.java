@@ -144,32 +144,6 @@ public class Main extends Application {
         }
     }
 
-    public void showHistReport() {
-        try {
-            loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("../view/historicalReport.fxml"));
-            SplitPane page = loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Historical Report");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(screen);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the person into the controller.
-            HistoricalReportController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) {
         launch(args);
     }

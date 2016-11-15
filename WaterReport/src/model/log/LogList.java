@@ -25,6 +25,9 @@ public class LogList {
     private static final List<UnblockAccountLog> unblockAccountLog =
             new LinkedList<>();
 
+    // All unused methods in this class are only because those features
+    // have not yet been implemented.
+
     /**
      * Gets the List of all BannedAccountLogs
      * @return a List of all BannedAccountLogs

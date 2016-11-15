@@ -19,13 +19,7 @@ public class LoginAttemptLog extends Log {
         this.successStatus = successStatus;
     }
 
-    /**
-     * Gets whether the login attempt was successful or not
-     * @return true iff the login attempt succeeded
-     */
-    public boolean getSuccessStatus() {
-        return successStatus;
-    }
+    @Override
     public String toString() {
         return "'" + getTimestamp().toString() + "','"
                 + getResponsibleAccount().getEmail() + "','"
