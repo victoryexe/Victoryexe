@@ -222,32 +222,35 @@ public class SortReports {
     public static double[] generateHistoricalReportByVirusPPM(
             Location loc, double radius, int year) {
         updateQualityReports();
-        List<List<Double>> reportsByMonth = new ArrayList<>();
-        //instantiate list
-        for (int i = 0; i < 12; i++) {
-            reportsByMonth.add(new LinkedList<>());
-        }
+        // There is no way to resolve this unchecked cast since Java
+        // does not allow instantiation of generic arrays.
+        // The "magic number" 12 is because there are 12 months in a year.
+        List<Double>[] reportsByMonth = (List<Double>[]) new List[12];
+
         //noinspection Convert2streamapi
         for (Report r : reports) {
             if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
                     && (r.getTimestamp().getYear() == year)) {
                 // check against params
                 int index = r.getTimestamp().getMonthValue() - 1;
-                reportsByMonth.get(index).add(((QualityReport) r)
+                if (reportsByMonth[index] == null) {
+                    reportsByMonth[index] = new ArrayList<>();
+                }
+                reportsByMonth[index].add(((QualityReport) r)
                         .getVirusPPM());
             }
         }
 
-        double[] virusPPMByMonth = new double[12];
-        for (int i = 0; i < reportsByMonth.size(); i++) {
+        double[] virusPPMByMonth = new double[reportsByMonth.length];
+        for (int i = 0; i < reportsByMonth.length; i++) {
             double sum = 0;
-            for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
-                sum += reportsByMonth.get(i).get(j);
-            }
-            if (!reportsByMonth.get(i).isEmpty()) {
-                virusPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+            if (reportsByMonth[i] == null) {
+                virusPPMByMonth[i] = sum;
             } else {
-                virusPPMByMonth[i] = 0;
+                for (int j = 0; j < reportsByMonth[i].size(); j++) {
+                    sum += reportsByMonth[i].get(j);
+                }
+                virusPPMByMonth[i] = sum / reportsByMonth[i].size();
             }
         }
         return virusPPMByMonth;
@@ -266,32 +269,35 @@ public class SortReports {
     public static double[] generateHistoricalReportByContaminantPPM(
             Location loc, double radius, int year) {
         updateQualityReports();
-        List<List<Double>> reportsByMonth = new ArrayList<>();
-        //instantiate list
-        for (int i = 0; i < 12; i++) {
-            reportsByMonth.add(new LinkedList<>());
-        }
+        // There is no way to resolve this unchecked cast since Java
+        // does not allow instantiation of generic arrays.
+        // The "magic number" 12 is because there are 12 months in a year.
+        List<Double>[] reportsByMonth = (List<Double>[]) new List[12];
+
         //noinspection Convert2streamapi
         for (Report r : reports) {
             if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
                     && (r.getTimestamp().getYear() == year)) {
                 // check against params
                 int index = r.getTimestamp().getMonthValue() - 1;
-                reportsByMonth.get(index).add(((QualityReport) r)
+                if (reportsByMonth[index] == null) {
+                    reportsByMonth[index] = new ArrayList<>();
+                }
+                reportsByMonth[index].add(((QualityReport) r)
                         .getContaminantPPM());
             }
         }
 
-        double[] contaminantPPMByMonth = new double[12];
-        for (int i = 0; i < reportsByMonth.size(); i++) {
+        double[] contaminantPPMByMonth = new double[reportsByMonth.length];
+        for (int i = 0; i < reportsByMonth.length; i++) {
             double sum = 0;
-            for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
-                sum += reportsByMonth.get(i).get(j);
-            }
-            if (!reportsByMonth.get(i).isEmpty()) {
-                contaminantPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+            if (reportsByMonth[i] == null) {
+                contaminantPPMByMonth[i] = sum;
             } else {
-                contaminantPPMByMonth[i] = 0;
+                for (int j = 0; j < reportsByMonth[i].size(); j++) {
+                    sum += reportsByMonth[i].get(j);
+                }
+                contaminantPPMByMonth[i] = sum / reportsByMonth[i].size();
             }
         }
         return contaminantPPMByMonth;

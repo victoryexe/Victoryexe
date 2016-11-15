@@ -1,4 +1,4 @@
-package model.login;
+package model.registration;
 
 import model.Users.Account;
 import model.log.LogList;

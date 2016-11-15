@@ -82,6 +82,9 @@ public class ReportsList {
         return report.getReportID();
     }
 
+    // Delete Report functionality has not been added yet, so IntelliJ
+    // flags these as unused.
+
     /**
      * "Deletes" a WaterReport by setting its isRemoved marker to true
      * @param manager the Manager deleting a WaterReport

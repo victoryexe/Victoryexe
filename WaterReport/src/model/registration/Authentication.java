@@ -1,4 +1,4 @@
-package model.login;
+package model.registration;
 
 import java.util.Map;
 import java.util.HashMap;

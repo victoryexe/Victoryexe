@@ -1,12 +1,14 @@
-package model.login;
+package model.registration;
 
 import model.Users.Account;
 import model.Users.Admin;
 import model.Users.AuthLevel;
 import model.log.LogList;
-import model.registration.UserFactory;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Alexandra on 9/28/2016.
@@ -161,7 +163,8 @@ public class UserList {
      * @param pass the passwords for the users being added
      */
 
-    public static void addAccounts(List<Account> users, List<CharSequence> pass) {
+    public static void addAccounts(List<Account> users,
+                                   List<CharSequence> pass) {
         if (users.size() == pass.size()) {
             for (int i = 0; i < users.size(); i++) {
                 Authentication.addNewAccount(users.get(i).getEmail(),
