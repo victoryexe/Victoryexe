@@ -3,6 +3,7 @@ package model.report;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -22,10 +23,38 @@ public class SortReports {
         reports = ReportsList.getWaterReportsList();
         reports.addAll(ReportsList.getQualityReportsList());
 
-        for (int i = 0; i < reports.size(); i++) {
-            // don't sort reports that have been marked as deleted
-            if (reports.get(i).getIsDeleted()) {
-                reports.remove(i--);
+        Iterator itr = reports.iterator();
+        while (itr.hasNext()) { // remove reports marked as delete
+            if (((Report) itr.next()).getIsDeleted()) {
+                itr.remove();
+            }
+        }
+    }
+
+    /**
+     * Updates @code reports with non-deleted WaterReports
+     */
+    private static void updateWaterReports() {
+        reports = ReportsList.getWaterReportsList();
+
+        Iterator itr = reports.iterator();
+        while (itr.hasNext()) { // don't sort reports that are deleted
+            if (((Report) itr.next()).getIsDeleted()) {
+                itr.remove();
+            }
+        }
+    }
+
+    /**
+     * Updates @code reports with non-deleted QualityReports
+     */
+    private static void updateQualityReports() {
+        reports = ReportsList.getWaterReportsList();
+
+        Iterator itr = reports.iterator();
+        while (itr.hasNext()) { // remove deleted reports
+            if (((Report) itr.next()).getIsDeleted()) {
+                itr.remove();
             }
         }
     }
@@ -61,16 +90,15 @@ public class SortReports {
      * empty set if no WaterReports match
      */
     public static Set<WaterReport> filterByWaterType(WaterType ... type) {
-        updateReports();
+        updateWaterReports();
         Set<WaterReport> reportSet = new HashSet<>();
         for (Report r : reports) {
-            if (r instanceof WaterReport) { // type check
-                for (int i = 0; i < type.length; i++) {
-                    // checks if the report's water type is a param
-                    if (((WaterReport) r).getWaterType().equals(type[i])) {
-                        reportSet.add((WaterReport) r);
-                        i = type.length; // exit array check
-                    }
+            boolean added = false;
+            for (int i = 0; (i < type.length) && !added; i++) {
+                // checks if the report's water type is a param
+                if (((WaterReport) r).getWaterType().equals(type[i])) {
+                    reportSet.add((WaterReport) r);
+                    added = true;
                 }
             }
         }
@@ -86,17 +114,16 @@ public class SortReports {
      */
     public static Set<WaterReport> filterByWaterCondition(WaterCondition ...
                                                                   condition) {
-        updateReports();
+        updateWaterReports();
         Set<WaterReport> reportSet = new HashSet<>();
         for (Report r : reports) {
-            if (r instanceof WaterReport) { // type check
-                for (int i = 0; i < condition.length; i++) {
-                    // checks if the report's water condition is a param
-                    if (((WaterReport) r).getWaterCondition()
-                            .equals(condition[i])) {
-                        reportSet.add((WaterReport) r);
-                        i = condition.length; // exit array check
-                    }
+            boolean added = false;
+            for (int i = 0; (i < condition.length) && !added; i++) {
+                // checks if the report's water condition is a param
+                if (((WaterReport) r).getWaterCondition()
+                        .equals(condition[i])) {
+                    reportSet.add((WaterReport) r);
+                    added = true; // exit innermost loop early
                 }
             }
         }
@@ -112,16 +139,15 @@ public class SortReports {
      */
     public static Set<QualityReport> filterByOverallCondition(
             OverallCondition ... condition) {
-        updateReports();
+        updateQualityReports();
         Set<QualityReport> reportSet = new HashSet<>();
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                for (int i = 0; i < condition.length; i++) {
-                    if (((QualityReport) r).getWaterCondition()
-                            .equals(condition[i])) {
-                        reportSet.add((QualityReport) r);
-                        i = condition.length; // exit param check
-                    }
+            boolean added = false;
+            for (int i = 0; (i < condition.length) && !added; i++) {
+                if (((QualityReport) r).getWaterCondition()
+                        .equals(condition[i])) {
+                    reportSet.add((QualityReport) r);
+                    added = true;
                 }
             }
         }
@@ -135,16 +161,14 @@ public class SortReports {
      */
     public static List<WaterReport> filterWaterReportsByLocation(
             Location ... loc) {
-        updateReports();
+        updateWaterReports();
         List<WaterReport> waterReports = new ArrayList<>();
         for (Report r : reports) {
-            if (r instanceof WaterReport) {
-                boolean added = false;
-                for (int i = 0; (i < loc.length) && !added; i++) {
-                    if (r.getLocation().equals(loc[i])) {
-                        waterReports.add((WaterReport) r);
-                        added = true; // prevents duplicates and exits
-                    }
+            boolean added = false;
+            for (int i = 0; (i < loc.length) && !added; i++) {
+                if (r.getLocation().equals(loc[i])) {
+                    waterReports.add((WaterReport) r);
+                    added = true; // prevents duplicates and exits
                 }
             }
         }
@@ -158,16 +182,14 @@ public class SortReports {
      */
     public static List<QualityReport> filterQualityReportsByLocation(
             Location ... loc) {
-        updateReports();
+        updateQualityReports();
         List<QualityReport> qualityReports = new ArrayList<>();
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                boolean added = false;
-                for (int i = 0; (i < loc.length) && !added; i++) {
-                    if (r.getLocation().equals(loc[i])) {
-                        qualityReports.add((QualityReport) r);
-                        added = true; // prevents duplicates and exits
-                    }
+            boolean added = false;
+            for (int i = 0; (i < loc.length) && !added; i++) {
+                if (r.getLocation().equals(loc[i])) {
+                    qualityReports.add((QualityReport) r);
+                    added = true; // prevents duplicates and exits
                 }
             }
         }
@@ -199,7 +221,7 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByVirusPPM(
             Location loc, double radius, int year) {
-        updateReports();
+        updateQualityReports();
         List<List<Double>> reportsByMonth = new ArrayList<>();
         //instantiate list
         for (int i = 0; i < 12; i++) {
@@ -207,14 +229,12 @@ public class SortReports {
         }
         //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
-                        && (r.getTimestamp().getYear() == year)) {
-                    // check against params
-                    int index = r.getTimestamp().getMonthValue() - 1;
-                    reportsByMonth.get(index).add(((QualityReport) r)
-                            .getVirusPPM());
-                }
+            if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
+                    && (r.getTimestamp().getYear() == year)) {
+                // check against params
+                int index = r.getTimestamp().getMonthValue() - 1;
+                reportsByMonth.get(index).add(((QualityReport) r)
+                        .getVirusPPM());
             }
         }
 
@@ -245,7 +265,7 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByContaminantPPM(
             Location loc, double radius, int year) {
-        updateReports();
+        updateQualityReports();
         List<List<Double>> reportsByMonth = new ArrayList<>();
         //instantiate list
         for (int i = 0; i < 12; i++) {
@@ -253,14 +273,12 @@ public class SortReports {
         }
         //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
-                        && (r.getTimestamp().getYear() == year)) {
-                    // check against params
-                    int index = r.getTimestamp().getMonthValue() - 1;
-                    reportsByMonth.get(index).add(((QualityReport) r)
-                            .getContaminantPPM());
-                }
+            if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
+                    && (r.getTimestamp().getYear() == year)) {
+                // check against params
+                int index = r.getTimestamp().getMonthValue() - 1;
+                reportsByMonth.get(index).add(((QualityReport) r)
+                        .getContaminantPPM());
             }
         }
 

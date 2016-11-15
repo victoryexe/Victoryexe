@@ -9,6 +9,10 @@ import model.Users.Admin;
 public class DeletedAccountLog extends Log {
     private final String deletedAccountID;
 
+    // For all logs, we kept the responsibleAccount specific as possible
+    // because not all user types can initiate actions. For example, a
+    // regular User should not be able to ban an account; only an admin can.
+
     /**
      * Makes a DeletedAccountLog with a timestamp and given params
      * @param responsibleAccount the Admin that deleted the account
@@ -20,16 +24,9 @@ public class DeletedAccountLog extends Log {
         this.deletedAccountID = deletedAccountID;
     }
 
-    /**
-     * Gets the deleted account's userid
-     * @return the deleted account's userid
-     */
-    public String getDeletedAccountID() {
-        return deletedAccountID;
-    }
-
+    @Override
     public String toString() {
-        if(deletedAccountID != null) {
+        if (deletedAccountID != null) {
             return "'" + getTimestamp().toString() + "','"
                     + getResponsibleAccount().getEmail() + "','"
                     + deletedAccountID + "'";

@@ -47,13 +47,9 @@ public abstract class Report implements Comparable<Report> {
     public abstract int getReportID();
 
     /**
-     * Gets the User that submitted this report
-     * @return the User that submitted this report
+     * Gets the name of the User who submitted this report
+     * @return the name of the User who submitted this report
      */
-    public User getSubmitterID() {
-        return submitterID;
-    }
-
     public String getSubmitterName() { return submitterID.getName();}
 
     /**
@@ -64,6 +60,10 @@ public abstract class Report implements Comparable<Report> {
         return location;
     }
 
+    /**
+     * Returns the coordinates of this Location
+     * @return the coordinates as a String
+     */
     public String getCoordinates() { return location.toString();}
 
     /**

@@ -14,15 +14,21 @@ public class WaterReport extends Report {
     private final WaterType waterType;
     private final WaterCondition waterCondition;
 
+    // Constructor is used to load data from the DB
+
     /**
      * Creates a report using a given date and time, user responsible
      * for the report, water's location
      * @param submitter the User who created this report
      * @param location the location of this source
+     * @param waterType the WaterType of this source
+     * @param waterCondition the WaterCondition of this report
+     * @param rID this report's ID number
      * @param timestamp the date and time of submission for report
      */
     public WaterReport(User submitter, Location location, WaterType waterType,
-                       WaterCondition waterCondition, int rID, LocalDateTime timestamp) {
+                       WaterCondition waterCondition, int rID,
+                       LocalDateTime timestamp) {
         super(submitter, location, timestamp);
         this.waterType = waterType;
         this.waterCondition = waterCondition;

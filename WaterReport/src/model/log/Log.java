@@ -2,9 +2,8 @@ package model.log;
 
 import model.Users.Account;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
 
 /**
  * Created by Alexandra on 10/27/2016.
@@ -13,6 +12,8 @@ import java.time.LocalTime;
 public abstract class Log {
     private final LocalDateTime timestamp;
     private final Account responsibleAccount;
+
+    // Class must be public for DB to correctly load data.
 
     /**
      * Makes a new Log with a timestamp and the responsible account
@@ -27,7 +28,7 @@ public abstract class Log {
      * Gets the complete timestamp of this log creation
      * @return LocalDateTime representing the time this log was created
      */
-    public LocalDateTime getTimestamp() {
+    public ChronoLocalDateTime getTimestamp() {
         return timestamp;
     }
 
@@ -38,6 +39,8 @@ public abstract class Log {
     public Account getResponsibleAccount() {
         return responsibleAccount;
     }
+
+
     @Override
     public String toString() {
         return timestamp.toString() + responsibleAccount.getEmail();

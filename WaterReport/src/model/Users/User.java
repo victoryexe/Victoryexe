@@ -14,6 +14,12 @@ public class User implements Account {
     private boolean isBanned;
     private boolean isBlocked;
 
+    /**
+     * Constructor used to load data from the DB
+     * @param name the User's name
+     * @param email the User's email
+     * @param userID the User's userID
+     */
     public User(String name, String email, int userID) {
         this.name = name;
         this.email = email;
