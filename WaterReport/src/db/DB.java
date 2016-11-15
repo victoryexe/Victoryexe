@@ -1,8 +1,9 @@
-package db.DB;
+package db;
 import java.sql.*;
 import javax.sql.*;
 import model.Users.*;
 import model.log.*;
+import model.report.*;
 import java.util.*;
 /*STRUCTURE  OF DATABASE
 DB Info: 
@@ -381,4 +382,11 @@ public class DB {
         }
         return null;
     }
+    public static void addReport(Report report) {
+
+    }
+    public static void loadAllReports() {
+
+    }
+
 }
