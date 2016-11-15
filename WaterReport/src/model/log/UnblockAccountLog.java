@@ -9,6 +9,10 @@ import model.Users.Admin;
 public class UnblockAccountLog extends Log {
     private final String unbannedAccountID;
 
+    // For all logs, we kept the responsibleAccount specific as possible
+    // because not all user types can initiate actions. For example, a
+    // regular User should not be able to ban an account; only an admin can.
+
     /**
      * Makes an UnblockAccount Log with a timestamp anf given params
      * @param responsibleAccount the Admin that unblocked the account
@@ -20,16 +24,9 @@ public class UnblockAccountLog extends Log {
         this.unbannedAccountID = unblockedAccountID;
     }
 
-    /**
-     * Gets the unblocked account's userid
-     * @return String representing the unbanned account's userid
-     */
-    public String getUnbannedAccountID() {
-        return unbannedAccountID;
-    }
     @Override
     public String toString() {
-        if(unbannedAccountID != null) {
+        if (unbannedAccountID != null) {
             return "'" + getTimestamp().toString() + "','"
                     + getResponsibleAccount().getEmail() + "','"
                     + unbannedAccountID + "'";

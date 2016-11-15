@@ -9,6 +9,10 @@ import model.Users.Admin;
 public class BannedAccountLog extends Log {
     private final String bannedAccountID;
 
+    // For all logs, we kept the responsibleAccount specific as possible
+    // because not all user types can initiate actions. For example, a
+    // regular User should not be able to ban an account; only an admin can.
+
     /**
      * Makes a BannedAccount log with a timestamp ang given params
      * @param responsibleAccount the Admin that banned the account
@@ -19,15 +23,9 @@ public class BannedAccountLog extends Log {
         this.bannedAccountID = bannedAccountID;
     }
 
-    /**
-     * Gets the the bannedAccountID of this BannedAccountLog
-     * @return the userid of the account that was banned
-     */
-    public String getBannedAccountID() {
-        return bannedAccountID;
-    }
+    @Override
     public String toString() {
-        if(bannedAccountID != null) {
+        if (bannedAccountID != null) {
             return "'" + getTimestamp().toString() + "','"
                     + getResponsibleAccount().getEmail() + "','"
                     + bannedAccountID + "'";

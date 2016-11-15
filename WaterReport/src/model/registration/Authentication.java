@@ -1,7 +1,9 @@
-package model.login;
+package model.registration;
 
 import java.util.Map;
 import java.util.HashMap;
+
+// All classes flagged as utility classes were designed to be utility classes.
 
 /**
  * Created by Alexandra on 9/24/2016.
@@ -12,13 +14,13 @@ import java.util.HashMap;
 public class Authentication {
     private static final Map<String, CharSequence> userMap = new HashMap<>();
 
-    /**
-     * calls the Persistence handler to save the passwords to a file
-     * (not safe but used in desperation)
-     */
+//    /**
+//     * calls the Persistence handler to save the passwords to a file
+//     * (not safe but used in desperation)
+//     */
 //    public static void savePass() {
 //        PersistenceHandler.savePass(userMap.values());
-  //  }
+//    }
 
     /**
      * Verifies that the user exists

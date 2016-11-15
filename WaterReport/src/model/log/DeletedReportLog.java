@@ -10,6 +10,10 @@ import model.report.Report;
 public class DeletedReportLog extends Log {
     private final String reportID;
 
+    // For all logs, we kept the responsibleAccount specific as possible
+    // because not all user types can initiate actions. For example, a
+    // regular User should not be able to ban an account; only an admin can.
+
     /**
      * Makes a DeletedReport log with a timestamp and reportID
      * @param responsibleAccount the Manager that deleted the report
@@ -20,16 +24,9 @@ public class DeletedReportLog extends Log {
         reportID = report.toString();
     }
 
-    /**
-     * Gets the deleted report, type and id
-     * @return String containing this log's report type and ID
-     */
-    public String getReportID() {
-        return reportID;
-    }
     @Override
     public String toString() {
-        if(reportID != null) {
+        if (reportID != null) {
             return "'" + getTimestamp().toString() + "','"
                     + getResponsibleAccount().getEmail() + "','"
                     + reportID + "'";
