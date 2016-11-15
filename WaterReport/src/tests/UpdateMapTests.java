@@ -1,12 +1,11 @@
 package tests;
 
 import model.Users.AuthLevel;
-import model.login.Authentication;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.login.Login;
-import model.login.UserList;
+import model.registration.Login;
+import model.registration.UserList;
 import model.Users.Account;
 
 import java.lang.reflect.Field;
