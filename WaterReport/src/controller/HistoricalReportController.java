@@ -29,7 +29,7 @@ public class HistoricalReportController {
     @FXML
     private TextField hisLon;
     @FXML
-    private ComboBox Year;
+    private ComboBox<String> Year;
     @FXML
     private ComboBox Ptype;
     @FXML

@@ -62,22 +62,7 @@ class MapController implements Initializable, MapComponentInitializedListener {
                             "Invalid Latitude or Longitude, please enter a valid location.", ButtonType.CLOSE);
                     alert.show();
                 } else {
-                    MapOptions options = new MapOptions();
-
-                    //set up the center location for the map
-                    LatLong center = new LatLong(Double.valueOf(lat.getText()), Double.valueOf(lon.getText()));
-
-                    options.center(center)
-                            .zoom(9)
-                            .overviewMapControl(false)
-                            .panControl(false)
-                            .rotateControl(false)
-                            .scaleControl(false)
-                            .streetViewControl(false)
-                            .zoomControl(false)
-                            .mapType(MapTypeIdEnum.TERRAIN);
-
-                    map = mapView.createMap(options);
+                    setMapLocation(Double.valueOf(lat.getText()), Double.valueOf(lon.getText()));
                 }
             }
         });
@@ -90,25 +75,12 @@ class MapController implements Initializable, MapComponentInitializedListener {
 
     @Override
     public void mapInitialized() {
-        MapOptions options = new MapOptions();
-
-        //set up the center location for the map
-        LatLong center = new LatLong(33.777553, -84.396112);
-
-        options.center(center)
-                .zoom(9)
-                .overviewMapControl(false)
-                .panControl(false)
-                .rotateControl(false)
-                .scaleControl(false)
-                .streetViewControl(false)
-                .zoomControl(false)
-                .mapType(MapTypeIdEnum.TERRAIN);
-
-        map = mapView.createMap(options);
-
+        final double DEFAULT_LON = -84.396112;
+        final double DEFAULT_LAT = 33.777553;
+        setMapLocation(DEFAULT_LAT, DEFAULT_LON);
         locations.forEach(MapController::addMarker);
     }
+
     public static void addMarker(Location location) {
         String message = "";
         List<WaterReport> wrep = SortReports.filterWaterReportsByLocation(location);
@@ -151,5 +123,24 @@ class MapController implements Initializable, MapComponentInitializedListener {
                  });
 
         map.addMarker(marker);
+    }
+
+    private void setMapLocation(double lat, double lon) {
+        MapOptions options = new MapOptions();
+
+        //set up the center location for the map
+        LatLong center = new LatLong(lat, lon);
+
+        options.center(center)
+                .zoom(9)
+                .overviewMapControl(false)
+                .panControl(false)
+                .rotateControl(false)
+                .scaleControl(false)
+                .streetViewControl(false)
+                .zoomControl(false)
+                .mapType(MapTypeIdEnum.TERRAIN);
+
+        map = mapView.createMap(options);
     }
 }
