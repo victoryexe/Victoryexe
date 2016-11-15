@@ -7,7 +7,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -18,14 +17,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backPane" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane fx:id="backPane" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <TabPane fx:id="applicationTabs" layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
         <tabs>
             <Tab fx:id="profiletab" text="Profile">
               <content>
-                <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://poolwizardswi.com/wp-content/uploads/2014/04/Water-Backgrounds.jpg&quot;);" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000;    -fx-background-position: center center;">
+                <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000;    -fx-background-position: center center;">
                     <children>
+                        <ImageView fitHeight="518.0" fitWidth="786.0" layoutX="-117.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Water-Backgrounds.jpg" />
+                           </image>
+                        </ImageView>
                         <Text fx:id="profiletabtitle" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER PROFILE">
                            <font>
                               <Font name="System Bold Italic" size="20.0" />
@@ -66,21 +70,19 @@
             <content>
               <AnchorPane fx:id="sourcePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.29797979797979796" layoutX="94.0" layoutY="63.0" prefHeight="369.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="177.0">
-                                 <children>
-                                    <ListView fx:id="reportInfo" fixedCellSize="1.0" layoutY="63.0" prefHeight="367.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="227.0" prefWidth="136.0">
-                                 <children>
-                                    <GoogleMapView fx:id="GmapsViewPane" layoutX="21.0" layoutY="32.0" prefHeight="335.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0" />
-                                    <TextField layoutX="4.0" layoutY="2.0" prefHeight="25.0" prefWidth="409.0" promptText="Search Location" />
-                                 </children>
-                              </AnchorPane>
-                          </items>
-                        </SplitPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.91" prefHeight="369.0" prefWidth="600.0" style="-fx-background-color: Black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <ImageView pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@water-background-20.jpg" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="searchLat" layoutX="28.0" layoutY="2.0" prefHeight="25.0" prefWidth="221.0" promptText="Latitude" />
+                              <TextField fx:id="searchLon" layoutX="277.0" layoutY="2.0" prefHeight="25.0" prefWidth="220.0" promptText="Longitude" />
+                              <Button fx:id="searchBut" layoutX="534.0" layoutY="2.0" mnemonicParsing="false" text="Search" />
+                           </children>
+                        </AnchorPane>
+                        <GoogleMapView fx:id="GmapsViewPane" layoutX="246.0" layoutY="29.0" prefHeight="340.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -128,18 +130,24 @@
           </Tab>
             <Tab fx:id="View" text="View Water Report">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-image: url(&quot;http://andrew-wittman.com/wp-content/uploads/2013/07/Status-Quo.jpg&quot;);" styleClass="-fx-background-size: 600 506;    -fx-background-position: center center;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="-fx-background-size: 600 506;    -fx-background-position: center center;">
                      <children>
+                        <ImageView fitHeight="382.0" fitWidth="740.0" layoutX="-6.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Status-Quo.jpg" />
+                           </image>
+                        </ImageView>
                         <ScrollPane layoutY="44.0" prefHeight="258.0" prefWidth="500.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="44.0">
                           <content>
-                            <AnchorPane prefHeight="515.0" prefWidth="482.0">
+                            <AnchorPane prefHeight="260.0" prefWidth="482.0">
                                  <children>
-                                    <ListView fx:id="reportlist" layoutX="66.0" layoutY="25.0" prefHeight="515.0" prefWidth="482.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <ListView fx:id="reportlist" layoutX="-14.0" layoutY="42.0" prefHeight="537.0" prefWidth="482.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                           </content>
                         </ScrollPane>
-                        <Button fx:id="viewreport" contentDisplay="CENTER" mnemonicParsing="false" text="View Report" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="250.0" />
+                        <Button fx:id="hisreportTransition" layoutX="232.0" layoutY="14.0" mnemonicParsing="false" text="Chart Historical Report" />
+                        <Button fx:id="viewreport" contentDisplay="CENTER" layoutX="260.0" layoutY="317.0" mnemonicParsing="false" text="View Report" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="260.0" />
                      </children>
                   </AnchorPane>
               </content>
