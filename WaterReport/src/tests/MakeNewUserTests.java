@@ -15,8 +15,8 @@ import java.util.Map;
 
 import model.Users.Account;
 import model.Users.AuthLevel;
-import model.login.UserList;
-import model.login.Authentication;
+import model.registration.UserList;
+import model.registration.Authentication;
 
 
 /**
