@@ -49,7 +49,7 @@ public class SortReports {
      * Updates @code reports with non-deleted QualityReports
      */
     private static void updateQualityReports() {
-        reports = ReportsList.getWaterReportsList();
+        reports = ReportsList.getQualityReportsList();
 
         Iterator itr = reports.iterator();
         while (itr.hasNext()) { // remove deleted reports
