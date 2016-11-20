@@ -103,9 +103,21 @@ public class DB {
             }
         }
     }
-    /** loads all accounts
-     *
-     *
+    /*
+            Account Description:
+            +-----------+-------------+------+-----+---------+-------+
+            | Field     | Type        | Null | Key | Default | Extra |
+            +-----------+-------------+------+-----+---------+-------+
+            | name      | varchar(20) | NO   |     | NULL    |       |
+            | id        | int(11)     | NO   |     | NULL    |       |
+            | address   | varchar(50) | NO   |     | NULL    |       |
+            | title     | varchar(10) | NO   |     | NULL    |       |
+            | authLevel | varchar(10) | NO   |     | NULL    |       |
+            | isBlocked | tinyint(1)  | NO   |     | NULL    |       |
+            | isBanned  | tinyint(1)  | NO   |     | NULL    |       |
+            | email     | varchar(50) | NO   |     | NULL    |       |
+            +-----------+-------------+------+-----+---------+-------+
+
      */
     public static ArrayList<Account> loadAllAccounts() {
         if(connect()) {
@@ -174,11 +186,13 @@ public class DB {
         }
     }
     /*
-    * Finds user based on email then changes that users email
-    * Commands to Execute
-    * UPDATE maps SET email=new@email.com WHERE email=old@email.com
-    * UPDATE accounts SET email=new@email.com WHERE email=old@email.com
-    *
+            Maps Description:
+            +-------+-------------+------+-----+---------+-------+
+            | Field | Type        | Null | Key | Default | Extra |
+            +-------+-------------+------+-----+---------+-------+
+            | email | varchar(30) | NO   | PRI | NULL    |       |
+            | pass  | varchar(50) | NO   |     | NULL    |       |
+            +-------+-------------+------+-----+---------+-------+
     */
     public static void changeEmail(String newEmail, String oldEmail) {
         if(connect()) {
@@ -652,5 +666,44 @@ public class DB {
             }
 
         }
+    }
+    public boolean deleteReport(Report report) {
+        if (connect()) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            try {
+                if (report instanceof QualityReport) {
+                    stmt = conn.createStatement();
+                    rs = stmt.executeQuery("DELETE FROM qualityReport WHERE reportID='" +
+                            report.getReportID() + "'");
+                    return true;
+                } else if (report instanceof WaterReport) {
+                    stmt = conn.createStatement();
+                    rs = stmt.executeQuery("DELETE FROM waterReport WHERE reportID='" +
+                            report.getReportID() + "'");
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+    public boolean deleteAccount(Account account) {
+        if (connect()) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("DELETE FROM accounts WHERE email='" +
+                        account.getEmail() + "'");
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 }
