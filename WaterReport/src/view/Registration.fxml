@@ -20,6 +20,8 @@
     <TextField fx:id="firstName" layoutX="242.0" layoutY="125.0"/>
     <TextField fx:id="lastName" layoutX="242.0" layoutY="169.0"/>
     <TextField fx:id="email" layoutX="242.0" layoutY="210.0"/>
+    <PasswordField fx:id="passwordSet" layoutX="242.0" layoutY="253.0"/>
+    <PasswordField fx:id="passwordConfirm" layoutX="242.0" layoutY="293.0"/>
     <Button fx:id="regSubmit" layoutX="157.0" layoutY="416.0" mnemonicParsing="false" text="Submit">
         <font>
           <Font name="System Bold" size="18.0"/>
@@ -30,8 +32,6 @@
           <Font name="System Bold" size="18.0"/>
         </font>
     </Button>
-    <PasswordField fx:id="passwordSet" layoutX="242.0" layoutY="253.0"/>
-    <PasswordField fx:id="passwordConfirm" layoutX="242.0" layoutY="293.0"/>
     <ComboBox fx:id="authLevels" layoutX="242.0" layoutY="331.0" prefWidth="150.0"/>
     <Label layoutX="157.0" layoutY="129.0" text="First Name:">
         <font>

@@ -58,18 +58,10 @@
                            promptText="username@domain.com" AnchorPane.rightAnchor="43.0"/>
                 <TextField fx:id="streetaddresstextbox" layoutX="97.0" layoutY="135.0" prefHeight="31.0"
                            prefWidth="327.0" promptText="Street Address"/>
-                <Button fx:id="salutationedit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false"
-                        prefHeight="27.0" prefWidth="157.0" text="Edit Profile"/>
-                <Button fx:id="submit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false" prefHeight="27.0"
-                        prefWidth="157.0" text="Submit"/>
-                <ComboBox fx:id="salutationcombobox" layoutX="96.0" layoutY="55.0" prefHeight="31.0"
-                          prefWidth="85.0"/>
                 <TextField fx:id="citytextbox" layoutX="97.0" layoutY="175.0" prefHeight="31.0" prefWidth="170.0"
                            promptText="City"/>
                 <TextField fx:id="statetextbox" layoutX="279.0" layoutY="175.0" prefHeight="31.0" prefWidth="55.0"
                            promptText="State"/>
-                <Text layoutX="434.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Apt #:"/>
                 <TextField fx:id="aptnumtextbox" layoutX="477.0" layoutY="135.0" prefHeight="27.0"
                            prefWidth="80.0" AnchorPane.rightAnchor="43.0"/>
                 <TextField fx:id="firstnametextbox" layoutX="356.0" layoutY="55.0" prefHeight="27.0"
@@ -78,6 +70,14 @@
                            prefWidth="84.0" promptText="Zip Code"/>
                 <TextField fx:id="countrytextbox" layoutX="436.0" layoutY="175.0" prefHeight="27.0"
                            prefWidth="121.0" promptText="Country" AnchorPane.rightAnchor="43.0"/>
+                <Button fx:id="salutationedit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false"
+                        prefHeight="27.0" prefWidth="157.0" text="Edit Profile"/>
+                <Button fx:id="submit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false" prefHeight="27.0"
+                        prefWidth="157.0" text="Submit"/>
+                <ComboBox fx:id="salutationcombobox" layoutX="96.0" layoutY="55.0" prefHeight="31.0"
+                          prefWidth="85.0"/>
+                <Text layoutX="434.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="Apt #:"/>
                 <Label fx:id="currsalutation" layoutX="136.0" layoutY="60.0"/>
                 <Separator prefWidth="200.0"/>
             </AnchorPane>
