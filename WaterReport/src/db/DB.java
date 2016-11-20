@@ -3,6 +3,7 @@ import java.sql.*;
 import javax.sql.*;
 import model.Users.*;
 import model.log.*;
+import model.registration.UserList;
 import model.report.*;
 import java.util.*;
 /*STRUCTURE  OF DATABASE
@@ -62,7 +63,6 @@ public class DB {
             if(!connected) {
                 String url = "jdbc:mysql://104.131.110.247:3306/water_report";
                 conn = DriverManager.getConnection (url, "Victoryexe", "PwD");
-                System.out.println("Database connection established");
                 connected = true;
             }
             return connected;
@@ -75,11 +75,11 @@ public class DB {
      *
      *
      */
-    public static boolean addAccount(String name, String email,
-        int id, String address, String title, String authLevel,
-        boolean isBlocked, boolean isBanned) {
-        String userDef = "('" + name + "'," + id  + ",'" + address  + "','"
-             + title  + "','" +  authLevel  + "'," + isBlocked  + ",'" + isBanned + "','"+ email + "')";
+    public static boolean addAccount(Account acc) {
+        String userDef = "('" + acc.getName() + "'," + acc.getUserID()  + ",'"
+                + acc.getHomeAddress()
+                + "','"+ acc.getTitle() + "','" +  acc.getAuthLevel()  + "'," + acc.getIsBlocked()
+                + ",'" + acc.getIsBanned() + "','"+ acc.getEmail() + "')";
         if(connected) {
             Statement stmt = null;
             ResultSet rs = null;
@@ -96,7 +96,7 @@ public class DB {
             ResultSet rs = null;
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("INSERT INTO account " + userDef);
+                rs = stmt.executeQuery("INSERT INTO account VALUES" + userDef);
                 return true;
             } catch (Exception e) {
                 return false;
@@ -238,6 +238,34 @@ public class DB {
             }
         }
     }
+    public static void unban(String email) {
+        if(connect()) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            ArrayList<Account> accountList = new ArrayList<>();
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("UPDATE accounts SET isBanned=" + 0
+                        + " WHERE email='" + email + "'");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void unblock(String email) {
+        if(connect()) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            ArrayList<Account> accountList = new ArrayList<>();
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("UPDATE accounts SET isBlocked=" + 0
+                        + " WHERE email='" + email + "'");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public static void addLog(Log log) {
         if (log instanceof DeletedReportLog) {
             if(connect()) {
@@ -294,11 +322,52 @@ public class DB {
             }
         }
     }
-    // Get Log data from DB:
-    // Email, Time Stamp, Respective ID
-    // Use Email and ID data Log List to create adequate logs.
-    public static ArrayList<String>[] loadLogData() {
-        ArrayList<String>[] logData = new ArrayList[5];
+/*
+            Banned Account Log Description:
+            +--------------------+-------------+------+-----+---------+-------+
+            | Field              | Type        | Null | Key | Default | Extra |
+            +--------------------+-------------+------+-----+---------+-------+
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       |
+            | bannedAccountID    | varchar(50) | NO   |     | NULL    |       |
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       |
+            +--------------------+-------------+------+-----+---------+-------+
+            Deleted Account Log Description:
+            +--------------------+-------------+------+-----+---------+-------+
+            | Field              | Type        | Null | Key | Default | Extra |
+            +--------------------+-------------+------+-----+---------+-------+
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       |
+            | deletedAccountID   | varchar(50) | NO   |     | NULL    |       |
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       |
+            +--------------------+-------------+------+-----+---------+-------+
+            Deleted Report Log Description:
+            +--------------------+-------------+------+-----+---------+-------+
+            | Field              | Type        | Null | Key | Default | Extra |
+            +--------------------+-------------+------+-----+---------+-------+
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       |
+            | reportID           | varchar(50) | NO   |     | NULL    |       |
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       |
+            +--------------------+-------------+------+-----+---------+-------+
+            Login Attempt Log Description:
+            +--------------------+-------------+------+-----+---------+-------+
+            | Field              | Type        | Null | Key | Default | Extra |
+            +--------------------+-------------+------+-----+---------+-------+
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       |
+            | sucessStatus       | tinyint(1)  | NO   |     | NULL    |       |
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       |
+            +--------------------+-------------+------+-----+---------+-------+
+            Unblock Account Log Description:
+            +--------------------+-------------+------+-----+---------+-------+
+            | Field              | Type        | Null | Key | Default | Extra |
+            +--------------------+-------------+------+-----+---------+-------+
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       |
+            | unblockAccountID   | varchar(50) | NO   |     | NULL    |       |
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       |
+            +--------------------+-------------+------+-----+---------+-------+
+
+
+*/
+    public static ArrayList<Log>[] loadLogData() {
+        ArrayList<Log>[] logData = new ArrayList[5];
         if (connect()) {
             Statement stmt = null;
             ResultSet rs = null;
@@ -307,12 +376,15 @@ public class DB {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM bannedAccountLog");
                 rs.first();
+                String tStamp;
+                Account resAccount;// = UserList.getUserAccount(rs.getString(1));
+                String bannedAccountID;
+                Log log;
                 while (!rs.isAfterLast()) {
-                    String log = "";
-                    log = rs.getString(1);
-                    log = log + " " + rs.getString(2);
-                    log = log + " " + rs.getString(3);
-                    rs.next();
+                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    bannedAccountID = rs.getString(2);
+                    tStamp = rs.getString(3);
+                    log = new BannedAccountLog((Admin) resAccount, bannedAccountID, tStamp);
                     logData[0].add(log);
                 }
             } catch (Exception e) {
@@ -322,12 +394,15 @@ public class DB {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM deletedAccountLog");
                 rs.first();
+                String tStamp;
+                Account resAccount;// = UserList.getUserAccount(rs.getString(1));
+                String deletedAccountID;
+                Log log;
                 while (!rs.isAfterLast()) {
-                    String log = "";
-                    log = rs.getString(1);
-                    log = log + " " + rs.getString(2);
-                    log = log + " " + rs.getString(3);
-                    rs.next();
+                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    deletedAccountID = rs.getString(2);
+                    tStamp = rs.getString(3);
+                    log = new DeletedAccountLog((Admin) resAccount, deletedAccountID, tStamp);
                     logData[1].add(log);
                 }
             } catch (Exception e) {
@@ -337,12 +412,15 @@ public class DB {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM deletedReportLog");
                 rs.first();
+                String tStamp;
+                Account resAccount;// = UserList.getUserAccount(rs.getString(1));
+                String deletedReportID;
+                Log log;
                 while (!rs.isAfterLast()) {
-                    String log = "";
-                    log = rs.getString(1);
-                    log = log + " " + rs.getString(2);
-                    log = log + " " + rs.getString(3);
-                    rs.next();
+                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    deletedReportID = rs.getString(2);
+                    tStamp = rs.getString(3);
+                    log = new DeletedReportLog((Manager) resAccount, deletedReportID, tStamp);
                     logData[2].add(log);
                 }
             } catch (Exception e) {
@@ -352,12 +430,15 @@ public class DB {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM loginAttemptLog");
                 rs.first();
+                String tStamp;
+                Account resAccount;// = UserList.getUserAccount(rs.getString(1));
+                boolean successStatus;
+                Log log;
                 while (!rs.isAfterLast()) {
-                    String log = "";
-                    log = rs.getString(1);
-                    log = log + " " + rs.getString(2);
-                    log = log + " " + rs.getString(3);
-                    rs.next();
+                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    successStatus = rs.getBoolean(2);
+                    tStamp = rs.getString(3);
+                    log = new LoginAttemptLog(resAccount, successStatus, tStamp);
                     logData[3].add(log);
                 }
             } catch (Exception e) {
@@ -367,12 +448,15 @@ public class DB {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM unblockAccountLog");
                 rs.first();
+                String tStamp;
+                Account resAccount;// = UserList.getUserAccount(rs.getString(1));
+                String bannedAccountID;
+                Log log;
                 while (!rs.isAfterLast()) {
-                    String log = "";
-                    log = rs.getString(1);
-                    log = log + " " + rs.getString(2);
-                    log = log + " " + rs.getString(3);
-                    rs.next();
+                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    bannedAccountID = rs.getString(2);
+                    tStamp = rs.getString(3);
+                    log = new UnblockAccountLog((Admin) resAccount, bannedAccountID, tStamp);
                     logData[4].add(log);
                 }
             } catch (Exception e) {
@@ -382,11 +466,191 @@ public class DB {
         }
         return null;
     }
+
+    /*
+           Quality Report Description:
+           +---------------------+--------------+------+-----+---------+-------+
+           | Field               | Type         | Null | Key | Default | Extra |
+           +---------------------+--------------+------+-----+---------+-------+
+           | submitterID         | varchar(30)  | YES  |     | NULL    |       |
+           | other               | varchar(100) | YES  |     | NULL    |       |
+           | location            | varchar(50)  | NO   |     | NULL    |       |
+           | reportID            | int(11)      | NO   |     | NULL    |       |
+           | virusPPM            | double       | NO   |     | NULL    |       |
+           | waterCondition      | varchar(50)  | YES  |     | NULL    |       |
+           | waterContaminantPPM | double       | NO   |     | NULL    |       |
+           | timeStamp           | varchar(30)  | NO   |     | NULL    |       |
+           +---------------------+--------------+------+-----+---------+-------+
+    */
+    /*
+            Water Report Description
+            +----------------+--------------+------+-----+---------+-------+
+            | Field          | Type         | Null | Key | Default | Extra |
+            +----------------+--------------+------+-----+---------+-------+
+            | submitterID    | varchar(30)  | YES  |     | NULL    |       |
+            | other          | varchar(100) | YES  |     | NULL    |       |
+            | location       | varchar(50)  | NO   |     | NULL    |       |
+            | reportID       | int(11)      | NO   |     | NULL    |       |
+            | waterType      | varchar(30)  | NO   |     | NULL    |       |
+            | waterCondition | varchar(30)  | NO   |     | NULL    |       |
+            | timeStamp      | varchar(30)  | NO   |     | NULL    |       |
+            +----------------+--------------+------+-----+---------+-------+
+   */
     public static void addReport(Report report) {
-
+        if(connect()) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            try {
+                if (report instanceof QualityReport) {
+                    String reportDef = "("
+                            + Timestamp.valueOf(report.getTimestamp()) + ",'"
+                            + report.getSubmitterID() + "','"
+                            + report.getOther() + "','"
+                            + report.getLocation() + "','"
+                            + report.getReportID() + "',"
+                            + ((QualityReport) report).getVirusPPM() + "',"
+                            + ((QualityReport) report).getWaterCondition() + "',"
+                            + ((QualityReport) report).getContaminantPPM()
+                            + ")";
+                    stmt = conn.createStatement();
+                    rs = stmt.executeQuery("INSERT INTO qualityReports VALUES " + reportDef);
+                } else if (report instanceof WaterReport) {
+                    String reportDef = "("
+                            + report.getTime() + ",'"
+                            + report.getSubmitterID() + "','"
+                            + report.getOther() + "','"
+                            + report.getLocation() + "','"
+                            + report.getReportID() + "','"
+                            + ((WaterReport) report).getWaterType() + "','"
+                            + ((WaterReport) report).getWaterCondition() + "'"
+                            + ")";
+                    stmt = conn.createStatement();
+                    rs = stmt.executeQuery("INSERT INTO waterReports VALUES " + reportDef);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
+
     public static void loadAllReports() {
+        if (connect()) {
 
+            //ReportsList.makeWaterReport(report);
+            Statement stmt = null;
+            ResultSet rs = null;
+            /*
+            Quality Report Description:
+            +---------------------+--------------+------+-----+---------+-------+
+            | Field               | Type         | Null | Key | Default | Extra |
+            +---------------------+--------------+------+-----+---------+-------+
+            | submitterID         | varchar(30)  | YES  |     | NULL    |       |
+            | other               | varchar(100) | YES  |     | NULL    |       |
+            | location            | varchar(50)  | NO   |     | NULL    |       |
+            | reportID            | int(11)      | NO   |     | NULL    |       |
+            | virusPPM            | double       | NO   |     | NULL    |       |
+            | waterCondition      | varchar(50)  | YES  |     | NULL    |       |
+            | waterContaminantPPM | double       | NO   |     | NULL    |       |
+            | timeStamp           | varchar(30)  | NO   |     | NULL    |       |
+            +---------------------+--------------+------+-----+---------+-------+
+            */
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("SELECT * FROM qualityReport");
+                rs.first();
+                while (!rs.isAfterLast()) {
+                    String timeStamp = rs.getString(8);
+                    Account acc = UserList.getUserAccount(rs.getString(1));
+                    Location loc = new Location(rs.getString(3));
+                    OverallCondition condition;
+                    if (rs.getString(6).equals("SAFE")) {
+                        condition = OverallCondition.SAFE;
+
+                    } else if (rs.getString(6).equals("TREATABLE")) {
+                        condition = OverallCondition.TREATABLE;
+
+                    } else if (rs.getString(6).equals("UNSAFE")) {
+                        condition = OverallCondition.UNSAFE;
+                    } else { //Default to Unsafe if Unknown
+                        condition = OverallCondition.UNSAFE;
+                    }
+                    Double virusPpm = rs.getDouble(5);
+                    Double waterContaminantPpm = rs.getDouble(7);
+                    QualityReport report = new QualityReport(
+                            timeStamp,
+                            (Worker) acc,
+                            loc,
+                            condition,
+                            virusPpm,
+                            waterContaminantPpm
+                    );
+                    ReportsList.makeQualityReport(report);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            /*      Water Report Description
+            +----------------+--------------+------+-----+---------+-------+
+            | Field          | Type         | Null | Key | Default | Extra |
+            +----------------+--------------+------+-----+---------+-------+
+            | submitterID    | varchar(30)  | YES  |     | NULL    |       |
+            | other          | varchar(100) | YES  |     | NULL    |       |
+            | location       | varchar(50)  | NO   |     | NULL    |       |
+            | reportID       | int(11)      | NO   |     | NULL    |       |
+            | waterType      | varchar(30)  | NO   |     | NULL    |       |
+            | waterCondition | varchar(30)  | NO   |     | NULL    |       |
+            | timeStamp      | varchar(30)  | NO   |     | NULL    |       |
+            +----------------+--------------+------+-----+---------+-------+
+            */
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("SELECT * FROM waterReport");
+                rs.first();
+                while (!rs.isAfterLast()) {
+                    String timeStamp = rs.getString(7);
+                    Account acc = UserList.getUserAccount(rs.getString(1));
+                    Location loc = new Location(rs.getString(3));
+                    WaterCondition condition;
+                    WaterType waterType;
+                    if (rs.getString(5).equals("BOTTLED")) {
+                        waterType = WaterType.BOTTLED;
+                    } else if (rs.getString(5).equals("LAKE")) {
+                        waterType = WaterType.LAKE;
+                    } else if (rs.getString(5).equals("OTHER")) {
+                        waterType = WaterType.OTHER;
+                    } else if (rs.getString(5).equals("STREAM")) { //Default to Unsafe if Unknown
+                        waterType = WaterType.STREAM;
+                    } else if (rs.getString(5).equals("WELL")) {
+                        waterType = WaterType.WELL;
+                    } else { //Default Other if unknown
+                        waterType = WaterType.OTHER;
+                    }
+                    if (rs.getString(6).equals("POTABLE")) {
+                        condition = WaterCondition.POTABLE;
+
+                    } else if (rs.getString(6).equals("TREATABLE_CLEAR")) {
+                        condition = WaterCondition.TREATABLE_CLEAR;
+
+                    } else if (rs.getString(6).equals("TREATABLE_MUDDY")) {
+                        condition = WaterCondition.TREATABLE_MUDDY;
+                    } else if (rs.getString(6).equals("WASTE")) {
+                        condition = WaterCondition.WASTE;
+                    } else { //Default to Waste if Unknown
+                        condition = WaterCondition.WASTE;
+                    }
+                    WaterReport report = new WaterReport(
+                            timeStamp,
+                            (User) acc,
+                            loc,
+                            waterType,
+                            condition
+                    );
+                    ReportsList.makeWaterReport(report);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
-
 }
