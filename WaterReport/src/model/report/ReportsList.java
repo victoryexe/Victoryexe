@@ -81,7 +81,21 @@ public class ReportsList {
         qualityReportMap.put(report.getReportID(), report);
         return report.getReportID();
     }
-
+    public static int makeQualityReport(QualityReport report) {
+        int rID = report.getReportID();
+        if (qualityReportMap.containsKey(rID)) {
+            return -1;
+        }
+        qualityReportMap.put(report.getReportID(), report);
+        return report.getReportID();
+    }
+    public static WaterReport makeWaterReport(WaterReport report) {
+        if (waterReportMap.containsKey(report.getReportID())) {
+            return null;
+        }
+        waterReportMap.put(report.getReportID(), report);
+        return report;
+    }
     // Delete Report functionality has not been added yet, so IntelliJ
     // flags these as unused.
 

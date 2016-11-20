@@ -5,6 +5,7 @@ import model.Users.User;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.sql.Timestamp;
 
 /**
  * Created by Alexandra on 10/12/2016.
@@ -26,6 +27,11 @@ public abstract class Report implements Comparable<Report> {
      */
     Report(User submitter, Location location, LocalDateTime timestamp) {
         this.timestamp = timestamp;
+        submitterID = submitter;
+        this.location = location;
+    }
+    Report(User submitter, Location location, String timestamp) {
+        this.timestamp = LocalDateTime.parse(timestamp);
         submitterID = submitter;
         this.location = location;
     }
@@ -51,6 +57,11 @@ public abstract class Report implements Comparable<Report> {
      * @return the name of the User who submitted this report
      */
     public String getSubmitterName() { return submitterID.getName();}
+    /**
+     * Gets the name of the User who submitted this report
+     * @return the email of the User who submitted this report
+     */
+    public String getSubmitterID() { return submitterID.getEmail();}
 
     /**
      * Gets the location which this report corresponds to
