@@ -23,7 +23,16 @@ public class UnblockAccountLog extends Log {
         super(responsibleAccount);
         this.unbannedAccountID = unblockedAccountID;
     }
-
+    /**
+     * @param responsibleAccount The Adming that banned the account
+     * @param unbannedAccountID the userID of the banned account
+     * @param timeStamp the String format of the timestamp
+     */
+    public UnblockAccountLog(Admin responsibleAccount, String unbannedAccountID,
+                            String timeStamp) {
+        super(timeStamp, responsibleAccount);
+        this.unbannedAccountID = unbannedAccountID;
+    }
     @Override
     public String toString() {
         if (unbannedAccountID != null) {

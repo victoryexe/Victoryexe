@@ -23,6 +23,15 @@ public abstract class Log {
         timestamp = LocalDateTime.now();
         this.responsibleAccount = responsibleAccount;
     }
+    /**
+     * Makes a new Log with a timestamp and the responsible account
+     * @param timeStamp String formatted Time Stamp
+     * @param responsibleAccount the Account that initiated the action
+     */
+    public Log(String timeStamp, Account responsibleAccount) {
+        this.timestamp = LocalDateTime.parse(timeStamp);
+        this.responsibleAccount = responsibleAccount;
+    }
 
     /**
      * Gets the complete timestamp of this log creation

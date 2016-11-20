@@ -23,6 +23,16 @@ public class BannedAccountLog extends Log {
         this.bannedAccountID = bannedAccountID;
     }
 
+    /**
+     * @param responsibleAccount The Adming that banned the account
+     * @param bannedAccountID the userID of the banned account
+     * @param timeStamp the String format of the timestamp
+     */
+    public BannedAccountLog(Admin responsibleAccount, String bannedAccountID,
+                            String timeStamp) {
+        super(timeStamp, responsibleAccount);
+        this.bannedAccountID = bannedAccountID;
+    }
     @Override
     public String toString() {
         if (bannedAccountID != null) {

@@ -23,7 +23,16 @@ public class DeletedReportLog extends Log {
         super(responsibleAccount);
         reportID = report.toString();
     }
-
+    /**
+     * @param responsibleAccount The Adming that banned the account
+     * @param reportID the userID of the banned account
+     * @param timeStamp the String format of the timestamp
+     */
+    public DeletedReportLog(Manager responsibleAccount, String reportID,
+                             String timeStamp) {
+        super(timeStamp, responsibleAccount);
+        this.reportID = reportID;
+    }
     @Override
     public String toString() {
         if (reportID != null) {

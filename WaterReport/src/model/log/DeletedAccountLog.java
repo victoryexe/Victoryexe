@@ -24,6 +24,16 @@ public class DeletedAccountLog extends Log {
         this.deletedAccountID = deletedAccountID;
     }
 
+    /**
+     * @param responsibleAccount The Adming that banned the account
+     * @param deletedAccountID the userID of the banned account
+     * @param timeStamp the String format of the timestamp
+     */
+    public DeletedAccountLog(Admin responsibleAccount, String deletedAccountID,
+                            String timeStamp) {
+        super(timeStamp, responsibleAccount);
+        this.deletedAccountID = deletedAccountID;
+    }
     @Override
     public String toString() {
         if (deletedAccountID != null) {

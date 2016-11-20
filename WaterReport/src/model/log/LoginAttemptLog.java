@@ -19,6 +19,16 @@ public class LoginAttemptLog extends Log {
         this.successStatus = successStatus;
     }
 
+    /**
+     * @param responsibleAccount The Adming that banned the account
+     * @param reportID the userID of the banned account
+     * @param timeStamp the String format of the timestamp
+     */
+    public LoginAttemptLog(Account responsibleAccount, boolean successStatus,
+                            String timeStamp) {
+        super(timeStamp, responsibleAccount);
+        this.successStatus = successStatus;
+    }
     @Override
     public String toString() {
         return "'" + getTimestamp().toString() + "','"
