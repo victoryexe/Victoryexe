@@ -6,28 +6,14 @@ import model.log.*;
 import model.registration.UserList;
 import model.report.*;
 import java.util.*;
+
+
 /*STRUCTURE  OF DATABASE
 DB Info: 
 mysql server @ ozzyarmas.net
 port 3306
 database name: water_report
 
-CLASSES THAT USE THIS DATABASE
-Authentication
-UserList DONE
-LogList
-UserFactory
-ReportsList
-
-TABLES
-Accounts
-Logs
-Reports
-Maps (Auth and UseList)
-
-TABLE STRUCTURES
-
-----------------------------------------
 Actual Tables:
 +-------------------------+
 | Tables_in_water_report  |
@@ -43,13 +29,6 @@ Actual Tables:
 | waterReports            |
 +-------------------------+
 
-ACCOUNT TABLE
-
-
-Missing:
-Report List Stuff
-Fixing Some stuff with other class
-    
 */
 public class DB {
     private static boolean connected;
