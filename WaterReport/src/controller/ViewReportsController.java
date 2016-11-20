@@ -47,6 +47,8 @@ public class ViewReportsController {
 
     private static int reportType;
 
+    private Stage dialogStage;
+
     private static Report report;
 
     /**
@@ -59,6 +61,8 @@ public class ViewReportsController {
         reportType = 0;
     }
 
+    public void setDialogStage(Stage dialogStage) { this.dialogStage = dialogStage;}
+
     /**
      * Used to acquire the Quality report being displayed
      *
@@ -67,14 +71,6 @@ public class ViewReportsController {
     public static void setReport(QualityReport nreport) {
         report = nreport;
         reportType = 1;
-    }
-
-    /**
-     * Sets the stage for the dialog
-     *
-     * @param dialogStage the stage for the dialog
-     */
-    public void setDialogStage(Stage dialogStage) {
     }
 
     @FXML

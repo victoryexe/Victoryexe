@@ -35,7 +35,7 @@ public class Login {
                     // checks for recent attempts
                     if (LocalDateTime.now().minusMinutes(BLOCK_ACCOUNT_WINDOW)
                             .isBefore(log.get(i).getTimestamp())) {
-                        if (log.get(i).getResponsibleAccount().equals(account))
+                        if (account.equals(log.get(i).getResponsibleAccount()))
                         {
                             attempts++;
                         }

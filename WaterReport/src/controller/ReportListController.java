@@ -30,7 +30,7 @@ class ReportListController {
     private static ListView<Report> reportlist;
     private FXMLLoader loader;
 
-    ReportListController(ListView<Report> reportlist, Button viewreport, Button histReport, Main main) {
+    ReportListController(ListView<Report> reportlist, Button viewreport, Button histReport) {
         setList(reportlist);
         updateList();
 

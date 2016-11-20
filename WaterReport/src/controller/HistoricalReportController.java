@@ -39,6 +39,8 @@ public class HistoricalReportController {
 
     private Stage dialogStage;
 
+    private final int DEFAULT_RADIUS = 50;
+
     private ObservableList<XYChart.Data<String, Double>> sdata;
 
     private XYChart.Series<String, Double> series;
@@ -53,15 +55,7 @@ public class HistoricalReportController {
     private static final int MIN_YEAR = 2016;
     private static final int MAX_YEAR = 3016;
 
-    /**
-     * Sets the stage for the dialog
-     *
-     * @param dialogStage the stage for the dialog
-     */
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-
+    public void setDialogStage(Stage dialogStage) { this.dialogStage = dialogStage;}
 
     @FXML
     private void initialize() {
@@ -117,14 +111,14 @@ public class HistoricalReportController {
                         Double.parseDouble(hisLon.getText()));
                 if ((Ptype.getValue()).equals(Ptype.getItems().get(0))) {
                     data = SortReports.
-                            generateHistoricalReportByContaminantPPM(loc, 50,
-                                    Integer.parseInt((String) Year.getValue()));
+                            generateHistoricalReportByContaminantPPM(loc, DEFAULT_RADIUS,
+                                    Integer.parseInt(Year.getValue()));
                     yAxis.setLabel("ContaminantPPM");
                     series.setName("Contaminant");
 
                 } else {
                     data = SortReports.generateHistoricalReportByVirusPPM(loc,
-                            50, Integer.parseInt((String) Year.getValue()));
+                            DEFAULT_RADIUS, Integer.parseInt(Year.getValue()));
                     yAxis.setLabel("VirusPPM");
                     series.setName("Virus");
                 }
@@ -148,6 +142,7 @@ public class HistoricalReportController {
     }
 
     private void setData() {
+        final int DECEMBER = 11;
         sdata.set(0, new XYChart.Data<>("January", data[0]));
         sdata.set(1, new XYChart.Data<>("February", data[1]));
         sdata.set(2, new XYChart.Data<>("March", data[2]));
@@ -159,7 +154,7 @@ public class HistoricalReportController {
         sdata.set(8, new XYChart.Data<>("September", data[8]));
         sdata.set(9, new XYChart.Data<>("October", data[9]));
         sdata.set(10, new XYChart.Data<>("November", data[10]));
-        sdata.set(11, new XYChart.Data<>("December", data[11]));
+        sdata.set(DECEMBER, new XYChart.Data<>("December", data[DECEMBER]));
         series.setData(sdata);
         HistoricalChart.getData().setAll(series);
     }

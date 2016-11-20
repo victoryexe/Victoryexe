@@ -1,13 +1,15 @@
 package fxapp;
 
-import controller.*;
+
+import controller.AdminController;
+import controller.LoginScreenController;
+import controller.MainController;
+import controller.RegistrationController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,7 +35,9 @@ public class Main extends Application {
         initRootLayout(screen);
     }
 
-    public Stage getScreen() { return screen;}
+    public Stage getScreen() {
+        return screen;
+    }
 
     private void initRootLayout(Stage mainScreen) {
     /*  Used in a desperate attempt at a shitty persistence handler.
@@ -67,6 +71,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Switches from whatever screen the program is currently on to the Main screen
+     */
+
     public void showMain() {
         try {
             // Load main screen.
@@ -89,6 +97,10 @@ public class Main extends Application {
         }
 
     }
+
+    /**
+     * Switches from whatever screen the program is currently on to the Registration screen
+     */
     public void showRegistration() {
         Parent root;
         try {
@@ -106,6 +118,9 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Switches from whatever screen the program is on to the Admin version of the Main screen
+     */
     public void showAdmin() {
         try {
             // Load Admin screen.
@@ -127,6 +142,10 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Switches from whatever screen the program is currently on to the Login screen
+     */
     public void showLogin() {
         Parent root;
         try {
@@ -144,6 +163,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Starts the program
+     * @param args args
+     */
     public static void main(String[] args) {
         launch(args);
     }

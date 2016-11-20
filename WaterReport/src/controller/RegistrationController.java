@@ -52,6 +52,10 @@ public class RegistrationController {
     private AuthLevel authLevel;
     private Main mainApp;
 
+    /**
+     * sets up a reference back to Main
+     * @param main the reference back to main
+     */
     public void setMainApp(Main main) {
         mainApp = main;
     }

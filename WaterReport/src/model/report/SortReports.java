@@ -96,7 +96,7 @@ public class SortReports {
             boolean added = false;
             for (int i = 0; (i < type.length) && !added; i++) {
                 // checks if the report's water type is a param
-                if (((WaterReport) r).getWaterType().equals(type[i])) {
+                if (type[i].equals(((WaterReport)r).getWaterType())) {
                     reportSet.add((WaterReport) r);
                     added = true;
                 }
@@ -120,8 +120,7 @@ public class SortReports {
             boolean added = false;
             for (int i = 0; (i < condition.length) && !added; i++) {
                 // checks if the report's water condition is a param
-                if (((WaterReport) r).getWaterCondition()
-                        .equals(condition[i])) {
+                if (condition[i].equals(((WaterReport) r).getWaterCondition())) {
                     reportSet.add((WaterReport) r);
                     added = true; // exit innermost loop early
                 }
@@ -144,8 +143,7 @@ public class SortReports {
         for (Report r : reports) {
             boolean added = false;
             for (int i = 0; (i < condition.length) && !added; i++) {
-                if (((QualityReport) r).getWaterCondition()
-                        .equals(condition[i])) {
+                if (condition[i].equals(((QualityReport) r).getWaterCondition())) {
                     reportSet.add((QualityReport) r);
                     added = true;
                 }
@@ -166,7 +164,7 @@ public class SortReports {
         for (Report r : reports) {
             boolean added = false;
             for (int i = 0; (i < loc.length) && !added; i++) {
-                if (r.getLocation().equals(loc[i])) {
+                if (loc[i].equals(r.getLocation())) {
                     waterReports.add((WaterReport) r);
                     added = true; // prevents duplicates and exits
                 }
@@ -187,7 +185,7 @@ public class SortReports {
         for (Report r : reports) {
             boolean added = false;
             for (int i = 0; (i < loc.length) && !added; i++) {
-                if (r.getLocation().equals(loc[i])) {
+                if (loc[i].equals(r.getLocation())) {
                     qualityReports.add((QualityReport) r);
                     added = true; // prevents duplicates and exits
                 }
@@ -222,10 +220,11 @@ public class SortReports {
     public static double[] generateHistoricalReportByVirusPPM(
             Location loc, double radius, int year) {
         updateQualityReports();
+        final int MONTHS = 12;
         // There is no way to resolve this unchecked cast since Java
         // does not allow instantiation of generic arrays.
         // The "magic number" 12 is because there are 12 months in a year.
-        List<Double>[] reportsByMonth = (List<Double>[]) new List[12];
+        List<Double>[] reportsByMonth = (List<Double>[]) new List[MONTHS];
 
         //noinspection Convert2streamapi
         for (Report r : reports) {
@@ -241,19 +240,7 @@ public class SortReports {
             }
         }
 
-        double[] virusPPMByMonth = new double[reportsByMonth.length];
-        for (int i = 0; i < reportsByMonth.length; i++) {
-            double sum = 0;
-            if (reportsByMonth[i] == null) {
-                virusPPMByMonth[i] = sum;
-            } else {
-                for (int j = 0; j < reportsByMonth[i].size(); j++) {
-                    sum += reportsByMonth[i].get(j);
-                }
-                virusPPMByMonth[i] = sum / reportsByMonth[i].size();
-            }
-        }
-        return virusPPMByMonth;
+        return getAverage(reportsByMonth);
     }
 
     /**
@@ -269,10 +256,11 @@ public class SortReports {
     public static double[] generateHistoricalReportByContaminantPPM(
             Location loc, double radius, int year) {
         updateQualityReports();
+        final int MONTHS = 12;
         // There is no way to resolve this unchecked cast since Java
         // does not allow instantiation of generic arrays.
         // The "magic number" 12 is because there are 12 months in a year.
-        List<Double>[] reportsByMonth = (List<Double>[]) new List[12];
+        List<Double>[] reportsByMonth = (List<Double>[]) new List[MONTHS];
 
         //noinspection Convert2streamapi
         for (Report r : reports) {
@@ -288,18 +276,22 @@ public class SortReports {
             }
         }
 
-        double[] contaminantPPMByMonth = new double[reportsByMonth.length];
+        return getAverage(reportsByMonth);
+    }
+
+    private static double[] getAverage(List<Double>[] reportsByMonth) {
+        double[] AveragePPMByMonth = new double[reportsByMonth.length];
         for (int i = 0; i < reportsByMonth.length; i++) {
             double sum = 0;
             if (reportsByMonth[i] == null) {
-                contaminantPPMByMonth[i] = sum;
+                AveragePPMByMonth[i] = sum;
             } else {
                 for (int j = 0; j < reportsByMonth[i].size(); j++) {
                     sum += reportsByMonth[i].get(j);
                 }
-                contaminantPPMByMonth[i] = sum / reportsByMonth[i].size();
+                AveragePPMByMonth[i] = sum / reportsByMonth[i].size();
             }
         }
-        return contaminantPPMByMonth;
+        return AveragePPMByMonth;
     }
 }

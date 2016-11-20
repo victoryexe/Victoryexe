@@ -39,7 +39,7 @@ public class Authentication {
      */
     static boolean verifyPassword(String userid, String password) {
         // TODO currently plain text string matching
-        return userMap.get(userid).equals(password);
+        return password.equals(userMap.get(userid));
     }
 
     /**

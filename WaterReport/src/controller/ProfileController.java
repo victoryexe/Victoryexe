@@ -8,12 +8,6 @@ import model.Users.Address;
 import model.Users.Profile;
 import model.registration.UserList;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static controller.MainController.populateComboBox;
-import static controller.MainController.restrictToNums;
-
 /**
  * Created by grizz on 9/27/2016.
  * Handles User Profiles
@@ -45,16 +39,6 @@ class ProfileController {
         this.zipcodetextbox = zipcodetextbox;
         this.emailtextbox = emailtextbox;
 
-        restrictToNums(aptnumtextbox);
-        restrictToNums(zipcodetextbox);
-
-        List<String> salutation = new ArrayList<>();
-        salutation.add("");
-        salutation.add("Mr.");
-        salutation.add("Ms.");
-        salutation.add("Mrs.");
-        salutation.add("Dr.");
-        populateComboBox(salutationcombobox, salutation);
         salutationcombobox.setVisible(false);
         salutationcombobox.setOnMousePressed(event -> salutationcombobox.requestFocus());
         currProfile = new Profile(LoginScreenController.getCurrUser());
@@ -68,47 +52,19 @@ class ProfileController {
         lastnametextbox.setText(name.substring(name.indexOf(" ")));
         emailtextbox.setText(currProfile.getEmail());
         if (currProfile.getAddress() != null) {
-
-            streetaddresstextbox.setText(currProfile.getAddress().getStreet());
-            if (currProfile.getAddress().apartmentNumber() != -1) {
-                aptnumtextbox.setText("" + currProfile.getAddress().apartmentNumber());
+            Address add = currProfile.getAddress();
+            streetaddresstextbox.setText(add.getStreet());
+            if (add.apartmentNumber() != -1) {
+                aptnumtextbox.setText("" + add.apartmentNumber());
             }
-            citytextbox.setText(currProfile.getAddress().getCity());
-            statetextbox.setText(currProfile.getAddress().getState());
-            countrytextbox.setText(currProfile.getAddress().getCountry());
-            if (currProfile.getAddress().getZip() != -1) {
-                zipcodetextbox.setText("" + currProfile.getAddress().getZip());
+            citytextbox.setText(add.getCity());
+            statetextbox.setText(add.getState());
+            countrytextbox.setText(add.getCountry());
+            if (add.getZip() != -1) {
+                zipcodetextbox.setText("" + add.getZip());
             }
         }
-        salutationedit.setOnAction(event -> {
-            salutationedit.setVisible(false);
-            submit.setVisible(true);
-            currsalutation.setVisible(false);
-            salutationcombobox.setVisible(true);
-            if (currProfile.getTitle() != null) {
-                switch (currProfile.getTitle()) {
-                    case "":
-                        salutationcombobox.setValue(salutation.get(0));
-                        break;
-                    case "Mr.":
-                        salutationcombobox.setValue(salutation.get(1));
-                        break;
-                    case "Ms.":
-                        salutationcombobox.setValue(salutation.get(2));
-                        break;
-                    case "Mrs.":
-                        salutationcombobox.setValue(salutation.get(3));
-                        break;
-                    case "Dr.":
-                        salutationcombobox.setValue(salutation.get(4));
-                        break;
-                    default:
-                        salutationcombobox.setValue(salutation.get(0));
-                        break;
-                }
-            }
-            setAllEditable(true);
-        });
+
         submit.setOnAction(event -> {
             submit.setVisible(false);
             salutationedit.setVisible(true);
@@ -124,7 +80,8 @@ class ProfileController {
                 UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
                 currProfile.changeEmail(emailtextbox.getText());
             }
-            if (currProfile.getAddress() == null) {
+            Address add = currProfile.getAddress();
+            if (add == null) {
                 if ("".equals(zipcodetextbox.getText())) {
                     zip = -1;
                 } else {
@@ -135,23 +92,25 @@ class ProfileController {
                 } else {
                     apt = Integer.valueOf(aptnumtextbox.getText());
                 }
-                currProfile.changeAddress(new Address(streetaddresstextbox.getText(), apt,
-                        citytextbox.getText(), statetextbox.getText(), zip, countrytextbox.getText()));
+                add = new Address(streetaddresstextbox.getText(), apt,
+                        citytextbox.getText(), statetextbox.getText(), zip, countrytextbox.getText());
             } else {
-                currProfile.getAddress().setStreet(streetaddresstextbox.getText());
-                currProfile.getAddress().setCity(citytextbox.getText());
-                currProfile.getAddress().setState(statetextbox.getText());
+                add.setStreet(streetaddresstextbox.getText());
+                add.setCity(citytextbox.getText());
+                add.setState(statetextbox.getText());
+                add.setCountry(countrytextbox.getText());
                 if ("".equals(zipcodetextbox.getText())) {
-                    currProfile.getAddress().setZip(-1);
+                    add.setZip(-1);
                 } else {
-                    currProfile.getAddress().setZip(Integer.valueOf(zipcodetextbox.getText()));
+                    add.setZip(Integer.valueOf(zipcodetextbox.getText()));
                 }
                 if ("".equals(aptnumtextbox.getText())) {
-                    currProfile.getAddress().setApartmentNum(-1);
+                    add.setApartmentNum(-1);
                 } else {
-                    currProfile.getAddress().setApartmentNum(Integer.valueOf(aptnumtextbox.getText()));
+                    add.setApartmentNum(Integer.valueOf(aptnumtextbox.getText()));
                 }
             }
+            currProfile.changeAddress(add);
         });
 
     }
