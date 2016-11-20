@@ -1,5 +1,6 @@
 package model.registration;
 
+import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import model.log.LogList;
 import model.log.UnblockAccountLog;
@@ -21,7 +22,9 @@ public class Login {
      * @param password the password entered
      * @return true if login is successful, else false
      */
-    public static boolean login(String subject, String password) {
+    public static boolean login(String subject, String password)
+            throws PasswordStorage.CannotPerformOperationException,
+            PasswordStorage.InvalidHashException {
         boolean success = Authentication.verifySubject(subject)
                 && Authentication.verifyPassword(subject, password);
         Account account = UserList.getUserAccount(subject);

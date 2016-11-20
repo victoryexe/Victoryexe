@@ -1,5 +1,6 @@
 package model.registration;
 
+import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import model.Users.Admin;
 import model.Users.AuthLevel;
@@ -50,8 +51,9 @@ public class UserList {
      * could not be added
      */
     public static Account makeNewUser(String firstName, String lastName,
-                                      String userid, CharSequence pass1,
-                                      String pass2, AuthLevel auth) {
+                                      String userid, String pass1,
+                                      String pass2, AuthLevel auth)
+            throws PasswordStorage.CannotPerformOperationException {
         Account account = UserFactory.makeAccount(firstName, lastName,
                 userid, auth);
         if (userMap.containsKey(userid)
@@ -73,7 +75,8 @@ public class UserList {
      * with the given oldEmail
      * @return true iff the map was updated, false otherwise
      */
-    public static boolean updateMap(String oldEmail, String newEmail) {
+    public static boolean updateMap(String oldEmail, String newEmail)
+            throws PasswordStorage.CannotPerformOperationException {
         Account account = userMap.remove(oldEmail);
         if (account == null) {
             throw new java.util.NoSuchElementException("No account is"
@@ -164,7 +167,8 @@ public class UserList {
      */
 
     public static void addAccounts(List<Account> users,
-                                   List<CharSequence> pass) {
+                                   List<CharSequence> pass)
+            throws PasswordStorage.CannotPerformOperationException {
         if (users.size() == pass.size()) {
             for (int i = 0; i < users.size(); i++) {
                 Authentication.addNewAccount(users.get(i).getEmail(),

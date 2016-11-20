@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import lib.password_hashing.PasswordStorage;
 import model.Users.Address;
 import model.Users.Profile;
 import model.registration.UserList;
@@ -77,8 +78,12 @@ class ProfileController {
             int zip;
             int apt;
             if (!currProfile.getEmail().equals(emailtextbox.getText())) {
-                UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
-                currProfile.changeEmail(emailtextbox.getText());
+                try {
+                    UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
+                    currProfile.changeEmail(emailtextbox.getText());
+                } catch (PasswordStorage.CannotPerformOperationException e) {
+                    throw new RuntimeException(e);
+                }
             }
             Address add = currProfile.getAddress();
             if (add == null) {

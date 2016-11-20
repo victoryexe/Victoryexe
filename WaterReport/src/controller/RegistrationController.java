@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import model.Users.AuthLevel;
 import model.registration.UserList;
@@ -77,13 +78,17 @@ public class RegistrationController {
             Account user;
 
             if (isInputValid(first, last, mail, pass, pass2)) {
-                Registration.createAccount(first, last, mail, pass, pass2, authLevel);
-                user = UserList.getUserAccount(mail);
-                LoginScreenController.setCurrUser(user);
-                if (authLevel == AuthLevel.ADMIN) {
-                    mainApp.showAdmin();
-                } else {
-                    mainApp.showMain();
+                try {
+                    Registration.createAccount(first, last, mail, pass, pass2, authLevel);
+                    user = UserList.getUserAccount(mail);
+                    LoginScreenController.setCurrUser(user);
+                    if (authLevel == AuthLevel.ADMIN) {
+                        mainApp.showAdmin();
+                    } else {
+                        mainApp.showMain();
+                    }
+                } catch (PasswordStorage.CannotPerformOperationException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
