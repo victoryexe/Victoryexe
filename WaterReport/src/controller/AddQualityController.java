@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import model.Users.Worker;
 import model.report.Location;
 import model.report.OverallCondition;
+import model.report.QualityReport;
 import model.report.ReportsList;
 
 import java.util.List;
@@ -75,7 +76,7 @@ class AddQualityController {
             } else {
                 Location loc = new Location(Double.parseDouble(purityLat.getText()),
                         Double.parseDouble(purityLon.getText()));
-                int reportID = ReportsList.makeReport((Worker) LoginScreenController.getCurrUser(), loc,
+                QualityReport report = ReportsList.makeReport((Worker) LoginScreenController.getCurrUser(), loc,
                         purityCond.getValue(), Double.parseDouble(VirusPPM.getText()),
                         Double.parseDouble(ContamPPM.getText()));
                 purityLat.setText("");
@@ -84,11 +85,11 @@ class AddQualityController {
                 VirusPPM.setText("");
                 ContamPPM.setText("");
                 MapController.addMarker(loc);
-                if (reportID > -1) {
+                if (report != null) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION,
                             //This will only ever have a problem if we have 2^32 reports and have reports with dulpicate
                             //ID's
-                            "Report #Q" + reportID + " has been submitted.\n" +
+                            "Report #Q" + report.getReportID() + " has been submitted.\n" +
                                     "Thank you for your contribution.", ButtonType.CLOSE);
                     alert.show();
                     // updates the View Reports ListView

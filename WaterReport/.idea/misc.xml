@@ -12,6 +12,7 @@
       <entry_point TYPE="method" FQNAME="controller.MainController void initialize()" />
       <entry_point TYPE="method" FQNAME="controller.MainController void handleCloseMenu()" />
       <entry_point TYPE="method" FQNAME="controller.RegistrationController void initialize()" />
+      <entry_point TYPE="method" FQNAME="controller.AdminController void initialize()" />
     </entry_points>
   </component>
   <component name="ProjectKey">

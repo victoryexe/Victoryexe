@@ -15,6 +15,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextFormatter;
+import javafx.stage.Stage;
 import model.Users.Account;
 import model.report.OverallCondition;
 import model.report.Report;
@@ -23,6 +24,7 @@ import model.report.WaterType;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -125,9 +127,7 @@ public class MainController {
         Logout.setOnAction(event -> mainApp.showLogin());
 
         // Delegates control of the profile view to ProfileController
-        ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
-                statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox,
-                emailtextbox, salutationcombobox, salutationedit, submit, currsalutation);
+        setUpProfileController();
 
         // Delegates control of report submission to AddReportController
         setUpReportController();
@@ -137,7 +137,7 @@ public class MainController {
 
         // Delegates control of the View Report screen to ReportListController
         ReportListController reportList =
-                new ReportListController(reportlist, viewreport, hisreportTransition, mainApp);
+                new ReportListController(reportlist, viewreport, hisreportTransition);
 
         // Delegates control of the Google Map to MapController
         MapComponentInitializedListener map = new MapController(GmapsViewPane, searchLat, searchLon, searchBut);
@@ -238,5 +238,20 @@ public class MainController {
                 longitude, sourceBox, conditionBox, avetoqual);
         addReport.setReportButton(submitRepBox, othertype, source, condition);
         addReport.switchToQual(applicationTabs, Purity, source, condition);
+    }
+
+    private void setUpProfileController() {
+        restrictToNums(aptnumtextbox);
+        restrictToNums(zipcodetextbox);
+        List<String> salutation = new ArrayList<>();
+        salutation.add("");
+        salutation.add("Mr.");
+        salutation.add("Ms.");
+        salutation.add("Mrs.");
+        salutation.add("Dr.");
+        populateComboBox(salutationcombobox, salutation);
+        ProfileController profile = new ProfileController(lastnametextbox, firstnametextbox, streetaddresstextbox,
+                statetextbox, countrytextbox, citytextbox, aptnumtextbox, zipcodetextbox,
+                emailtextbox, salutationcombobox, salutationedit, submit, currsalutation);
     }
 }

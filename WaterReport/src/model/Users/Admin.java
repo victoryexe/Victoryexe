@@ -117,6 +117,6 @@ public class Admin implements Account {
     }
     @Override
     public String toString() {
-        return name + ", " + email + ", " + getAuthLevel().name();
+        return name + ", " + email + ", " + getAuthLevel();
     }
 }

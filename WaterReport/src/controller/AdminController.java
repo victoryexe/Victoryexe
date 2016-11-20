@@ -56,6 +56,10 @@ public class AdminController {
 
     private Main mainApp;
 
+    /**
+     * Provides a reference back to Main  mostly for switching screens
+     * @param mainApp the reference back to Main
+     */
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
