@@ -25,6 +25,20 @@ public class Authentication {
 //    }
 
     /**
+     * Gets the hashed password associated with the given account
+     * @param userid the Account for which to get the hashed password
+     * @return the hashed password or null if the user doesn't exist
+     */
+    public static String getHash(String userid) {
+        String hash = (String) userMap.get(userid);
+        if (userid == null || hash == null) {
+            return null;
+        }
+        return hash;
+    }
+
+
+    /**
      * Verifies that the user exists
      * @param userid The username
      * @return true iff the userid exists
