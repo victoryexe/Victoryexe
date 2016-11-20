@@ -1,6 +1,6 @@
 package tests;
 import db.DB;
-//import java.sql.Connection;
+import java.sql.Connection;
 import model.Users.Account;
 import model.Users.Address;
 import model.Users.User;
@@ -18,7 +18,6 @@ public class AddUserToDatabaseTest {
     boolean connected;
     Account acc1 = new User("User1","user@email.com");
     Account acc2 = new User("User2","user@email.com");
-
     @Before
     public void setUp() {
         acc1.setHomeAddress(new Address("123 Stree", 123,"Miami","FL",33144,"USA"));
@@ -27,8 +26,8 @@ public class AddUserToDatabaseTest {
     @Test(timeout = 200)
     public void testAddUser() {
         try {
-            assertTrue(DB.addAccount(acc1.getName(),acc1.getEmail(),acc1.getUserID(),acc1.getHomeAddress().toString(),
-                    acc1.getTitle(),"USER",true,true));
+            assertTrue(DB.addAccount(acc1));
+            assertTrue(DB.addAccount(acc2));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
