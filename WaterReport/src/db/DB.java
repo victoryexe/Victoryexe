@@ -30,12 +30,18 @@ Actual Tables:
 +-------------------------+
 
 */
+
+/**
+ * @author Osvaldo Armas
+ * @version 1.0
+ * Finalized Date 11/20/2016
+ */
 public class DB {
     private static boolean connected;
     private static Connection conn = null;
-    /** Connect to DB
-    *
-    *
+    /**
+     * Connect to DB
+     *@return if the connection was succesful
      */
     public static boolean connect() {
         try {
@@ -50,9 +56,10 @@ public class DB {
             return connected;
         }
     }
-    /** Creates Accounts
-     *
-     *
+    /**
+     * Creates Accounts
+     * @param acc Account to create
+     * @return if adding Account was successful
      */
     public static boolean addAccount(Account acc) {
         String userDef = "('" + acc.getName() + "'," + acc.getUserID()  + ",'"
@@ -97,6 +104,11 @@ public class DB {
             | email     | varchar(50) | NO   |     | NULL    |       |
             +-----------+-------------+------+-----+---------+-------+
 
+    */
+
+    /**
+     * Loads all accounts from DB
+     * @return ArrayList containing all accounts
      */
     public static ArrayList<Account> loadAllAccounts() {
         if(connect()) {
@@ -173,6 +185,12 @@ public class DB {
             | pass  | varchar(50) | NO   |     | NULL    |       |
             +-------+-------------+------+-----+---------+-------+
     */
+
+    /**
+     * Changes Emails in DB for account and maps tables
+     * @param newEmail new email
+     * @param oldEmail old email
+     */
     public static void changeEmail(String newEmail, String oldEmail) {
         if(connect()) {
             Statement stmt = null;
@@ -189,6 +207,12 @@ public class DB {
             }
         }
     }
+
+    /**
+     * changes password in maps
+     * @param newPass new password
+     * @param email email the password is linked to
+     */
     public static void changePassword(String newPass, String email) {
         if(connect()) {
             Statement stmt = null;
@@ -203,6 +227,11 @@ public class DB {
             }
         }
     }
+
+    /**
+     * Bans account based on email information
+     * @param email of account to ban
+     */
     public static void ban(String email) {
         if(connect()) {
             Statement stmt = null;
@@ -217,6 +246,11 @@ public class DB {
             }
         }
     }
+
+    /**
+     * blocks account based on email information
+     * @param email of account to ban
+     */
     public static void block(String email) {
         if(connect()) {
             Statement stmt = null;
@@ -231,6 +265,11 @@ public class DB {
             }
         }
     }
+
+    /**
+     * Unbans account based on email
+     * @param email of account to ublock
+     */
     public static void unban(String email) {
         if(connect()) {
             Statement stmt = null;
@@ -245,6 +284,11 @@ public class DB {
             }
         }
     }
+
+    /**
+     * unbloacks account based on email
+     * @param email of account to unblock
+     */
     public static void unblock(String email) {
         if(connect()) {
             Statement stmt = null;
@@ -259,6 +303,11 @@ public class DB {
             }
         }
     }
+
+    /**
+     * Adds Log to DB
+     * @param log to add
+     */
     public static void addLog(Log log) {
         if (log instanceof DeletedReportLog) {
             if(connect()) {
@@ -315,7 +364,7 @@ public class DB {
             }
         }
     }
-/*
+    /*
             Banned Account Log Description:
             +--------------------+-------------+------+-----+---------+-------+
             | Field              | Type        | Null | Key | Default | Extra |
@@ -358,7 +407,17 @@ public class DB {
             +--------------------+-------------+------+-----+---------+-------+
 
 
-*/
+    */
+
+    /**
+     * Loads all log data in an Array of ArrayLists of Length 5
+     * Index-0 represents BannedAccountLog
+     * Index-1 represents DeletedAccountLog
+     * Index-2 represents DeletedReportLog
+     * Index-3 represents LoginAttemptLog
+     * Index-4 represents unblockAccountLog
+     * @return the ArrayList that fits the description above
+     */
     public static ArrayList<Log>[] loadLogData() {
         ArrayList<Log>[] logData = new ArrayList[5];
         if (connect()) {
@@ -474,21 +533,24 @@ public class DB {
            | waterContaminantPPM | double       | NO   |     | NULL    |       |
            | timeStamp           | varchar(30)  | NO   |     | NULL    |       |
            +---------------------+--------------+------+-----+---------+-------+
-    */
-    /*
-            Water Report Description
-            +----------------+--------------+------+-----+---------+-------+
-            | Field          | Type         | Null | Key | Default | Extra |
-            +----------------+--------------+------+-----+---------+-------+
-            | submitterID    | varchar(30)  | YES  |     | NULL    |       |
-            | other          | varchar(100) | YES  |     | NULL    |       |
-            | location       | varchar(50)  | NO   |     | NULL    |       |
-            | reportID       | int(11)      | NO   |     | NULL    |       |
-            | waterType      | varchar(30)  | NO   |     | NULL    |       |
-            | waterCondition | varchar(30)  | NO   |     | NULL    |       |
-            | timeStamp      | varchar(30)  | NO   |     | NULL    |       |
-            +----------------+--------------+------+-----+---------+-------+
+           Water Report Description
+           +----------------+--------------+------+-----+---------+-------+
+           | Field          | Type         | Null | Key | Default | Extra |
+           +----------------+--------------+------+-----+---------+-------+
+           | submitterID    | varchar(30)  | YES  |     | NULL    |       |
+           | other          | varchar(100) | YES  |     | NULL    |       |
+           | location       | varchar(50)  | NO   |     | NULL    |       |
+           | reportID       | int(11)      | NO   |     | NULL    |       |
+           | waterType      | varchar(30)  | NO   |     | NULL    |       |
+           | waterCondition | varchar(30)  | NO   |     | NULL    |       |
+           | timeStamp      | varchar(30)  | NO   |     | NULL    |       |
+           +----------------+--------------+------+-----+---------+-------+
    */
+
+    /**
+     * Adds Report to Database
+     * @param report report to Add to Database
+     */
     public static void addReport(Report report) {
         if(connect()) {
             Statement stmt = null;
@@ -526,6 +588,10 @@ public class DB {
         }
     }
 
+    /**
+     * I think I broke some rules on this one
+     * Loads all reports and directly accesses ReportsList to the reports to it
+     */
     public static void loadAllReports() {
         if (connect()) {
 
@@ -646,6 +712,12 @@ public class DB {
 
         }
     }
+
+    /**
+     * Deletes Reports from DB
+     * @param report to delete from DB
+     * @return success status of report deletion
+     */
     public boolean deleteReport(Report report) {
         if (connect()) {
             Statement stmt = null;
@@ -669,6 +741,12 @@ public class DB {
         }
         return false;
     }
+
+    /**
+     * Deletes Account from DB
+     * @param account
+     * @return success status of account deletion
+     */
     public boolean deleteAccount(Account account) {
         if (connect()) {
             Statement stmt = null;
