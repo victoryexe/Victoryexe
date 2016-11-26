@@ -89,10 +89,6 @@ public class Admin implements Account {
         return isBlocked;
     }
     @Override
-    public void setIsBlocked() {
-        isBlocked = !isBlocked;
-    }
-    @Override
     public void setBlocked(boolean block) {isBlocked = block;}
 
 

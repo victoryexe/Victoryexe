@@ -146,7 +146,7 @@ public class UserList {
             throw new java.util.NoSuchElementException("No account is +"
                     + "associated with the userid " + userid);
         }
-        account.setIsBlocked();
+        account.setBlocked(false);
         LogList.makeUnblockAccountEntry(admin, userid);
         return true;
     }
