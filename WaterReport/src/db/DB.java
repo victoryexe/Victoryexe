@@ -3,6 +3,7 @@ import java.sql.*;
 import javax.sql.*;
 import model.Users.*;
 import model.log.*;
+import model.registration.Authentication;
 import model.registration.UserList;
 import model.report.*;
 import java.util.*;
@@ -52,7 +53,7 @@ public class DB {
             }
             return connected;
         } catch(Exception e) {
-            connected = false;
+            e.printStackTrace();
             return connected;
         }
     }
@@ -62,18 +63,29 @@ public class DB {
      * @return if adding Account was successful
      */
     public static boolean addAccount(Account acc) {
-        String userDef = "('" + acc.getName() + "'," + acc.getUserID()  + ",'"
-                + acc.getHomeAddress()
-                + "','"+ acc.getTitle() + "','" +  acc.getAuthLevel()  + "'," + acc.getIsBlocked()
-                + ",'" + acc.getIsBanned() + "','"+ acc.getEmail() + "')";
+        String userDef;
+        if(acc.getHomeAddress()!= null) {
+            userDef = "('" + acc.getName() + "'," + acc.getUserID() + ",'"
+                    + acc.getHomeAddress()
+                    + "','" + acc.getTitle() + "','" + acc.getAuthLevel() + "'," + acc.getIsBlocked()
+                    + ",'" + acc.getIsBanned() + "','" + acc.getEmail() + "')";
+        } else {
+            userDef = "('" + acc.getName() + "'," + acc.getUserID() + ",'"
+                    + "','" + "','" + acc.getAuthLevel() + "'," + acc.getIsBlocked()
+                    + "," + acc.getIsBanned() + ",'" + acc.getEmail() + "')";
+        }
         if(connected) {
             Statement stmt = null;
             ResultSet rs = null;
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("INSERT INTO account VALUES " + userDef);
+                stmt.executeUpdate("INSERT INTO account VALUES " + userDef);
+                stmt.executeUpdate("INSERT INTO maps VALUES " + "('" + acc.getEmail() +
+                        "','')");
+                changePassword(Authentication.getHash(acc.getEmail()), acc.getEmail());
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 return false;
             }
         } else {
@@ -82,9 +94,13 @@ public class DB {
             ResultSet rs = null;
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("INSERT INTO account VALUES" + userDef);
+                stmt.executeUpdate("INSERT INTO maps VALUES " + "('" + acc.getEmail() +
+                        "','')");
+                stmt.executeUpdate("INSERT INTO account VALUES " + userDef);
+                changePassword(Authentication.getHash(acc.getEmail()), acc.getEmail());
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 return false;
             }
         }
@@ -220,7 +236,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("UPDATE maps SET pass='" + newPass
+                stmt.executeUpdate("UPDATE maps SET pass='" + newPass
                         + "' WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -258,7 +274,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("UPDATE accounts SET isBlocked=" + 1
+                stmt.executeUpdate("UPDATE accounts SET isBlocked=" + 1
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -277,7 +293,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("UPDATE accounts SET isBanned=" + 0
+                stmt.executeUpdate("UPDATE accounts SET isBanned=" + 0
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -296,7 +312,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("UPDATE accounts SET isBlocked=" + 0
+                stmt.executeUpdate("UPDATE accounts SET isBlocked=" + 0
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -316,7 +332,7 @@ public class DB {
                 ArrayList<Account> accountList = new ArrayList<>();
                 try {
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("INSERT INTO deletedReportLogs VALUES ("
+                    stmt.executeUpdate("INSERT INTO deletedReportLogs VALUES ("
                             + log.toString() + ")");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -329,7 +345,7 @@ public class DB {
                 ArrayList<Account> accountList = new ArrayList<>();
                 try {
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("INSERT INTO bannedAccountLog VALUES ("
+                    stmt.executeUpdate("INSERT INTO bannedAccountLog VALUES ("
                             + log.toString() + ")");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -343,7 +359,7 @@ public class DB {
                 ArrayList<Account> accountList = new ArrayList<>();
                 try {
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("INSERT INTO loginAttemptLog VALUES ("
+                    stmt.executeUpdate("INSERT INTO loginAttemptLog VALUES ("
                             + log.toString() + ")");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -356,7 +372,7 @@ public class DB {
                 ArrayList<Account> accountList = new ArrayList<>();
                 try {
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("INSERT INTO unblockAccountLog VALUES ("
+                    stmt.executeUpdate("INSERT INTO unblockAccountLog VALUES ("
                             + log.toString() + ")");
                 } catch (Exception e) {
                     e.printStackTrace();
