@@ -760,16 +760,16 @@ public class DB {
     public static boolean deleteReport(Report report) {
         if (connect()) {
             Statement stmt = null;
-            ResultSet rers = null;
+            ResultSet rs = null;
             try {
                 if (report instanceof QualityReport) {
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("DELETE FROM qualityReport WHERE reportID='" +
+                    stmt.executeUpdate("DELETE FROM qualityReport WHERE reportID='" +
                             report.getReportID() + "'");
                     return true;
                 } else if (report instanceof WaterReport) {
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("DELETE FROM waterReport WHERE reportID='" +
+                    stmt.executeUpdate("DELETE FROM waterReport WHERE reportID='" +
                             report.getReportID() + "'");
                     return true;
                 }
@@ -792,10 +792,10 @@ public class DB {
             ResultSet rs = null;
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("DELETE FROM accounts WHERE email='" +
+                stmt.executeUpdate("DELETE FROM accounts WHERE email='" +
                         account.getEmail() + "'");
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("DELETE FROM maps WHERE email='" +
+                stmt.executeUpdate("DELETE FROM maps WHERE email='" +
                         account.getEmail() + "'");
                 return true;
             } catch (Exception e) {
