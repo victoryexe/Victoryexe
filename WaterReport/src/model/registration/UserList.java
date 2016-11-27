@@ -113,6 +113,7 @@ public class UserList {
      */
     public static boolean deleteAccount(Admin admin, String userid) {
         Account deleted = userMap.remove(userid);
+        DB.deleteAccount(deleted);
         if ((deleted == null) || !Authentication.deleteAccount(userid)) {
             throw new java.util.NoSuchElementException("No account is"
                     + "associated with the userid " + userid);
