@@ -134,11 +134,15 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM account");
-                rs.first();
-                while(!rs.isAfterLast()) {
+                while(rs.next() && !rs.isAfterLast()) {
                     String name = rs.getString(1);
                     int id = rs.getInt(2);
                     String fullAddress = rs.getString(3);
+                    String title = rs.getString(4);
+                    String authLevel = rs.getString(5);
+                    boolean isBlocked = rs.getBoolean(6);
+                    boolean isBanned = rs.getBoolean(7);
+                    String email = rs.getString(8);
                     fullAddress = fullAddress.trim();
                     String[] address = fullAddress.split(" ");
                     Address add;
@@ -152,25 +156,19 @@ public class DB {
                     } else {
                         add = null;
                     }
-                    String title = rs.getString(5);
-                    String authLevel = rs.getString(6);
-                    boolean isBlocked = rs.getBoolean(7);
-                    boolean isBanned = rs.getBoolean(8);
-                    String email = rs.getString(9);
-                    String domain = rs.getString(10);
                     Account acc;
-                    if (authLevel == "USER") {
-                        acc = new User(name, email + "@" + domain, id);
-                    } else if (authLevel == "ADMIN") {
-                        acc = new Admin(name, email + "@" + domain, id);
-                    } else if (authLevel == "WORKER") {
-                        acc = new Worker(name, email + "@" + domain, id);
-                    } else if (authLevel == "MANAGER") {
-                        acc = new Manager(name, email + "@" + domain, id);
+                    if (authLevel.equals("USER")) {
+                        acc = new User(name, email, id);
+                    } else if (authLevel.equals("ADMIN")) {
+                        acc = new Admin(name, email, id);
+                    } else if (authLevel.equals("WORKER")) {
+                        acc = new Worker(name, email, id);
+                    } else if (authLevel.equals("MANAGER")) {
+                        acc = new Manager(name, email, id);
                     } else {
                         acc = null;
                     }
-                    if((add != null) && (acc !=null)) {
+                    if (acc != null) {
                         acc.setHomeAddress(add);
                         acc.setTitle(title);
                         if (isBlocked) {
@@ -181,8 +179,7 @@ public class DB {
                         }
                         accountList.add(acc);
                     }
-                    rs.next();
-
+                    //rs.next();
                 }
                 return accountList;
             } catch (Exception e) {
@@ -251,12 +248,11 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM map");
-                rs.first();
-                while(!rs.isAfterLast()) {
+                while(rs.next() && !rs.isAfterLast()) {
                     String email = rs.getString(1);
                     CharSequence pw = (CharSequence) rs.getString(2);
                     map.put(email, pw);
-                    rs.next();
+                    //rs.next();
                 }
                 return map;
             } catch (Exception e) {
@@ -466,12 +462,11 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM bannedAccountLog");
-                rs.first();
                 String tStamp;
                 Account resAccount;// = UserList.getUserAccount(rs.getString(1));
                 String bannedAccountID;
                 Log log;
-                while (!rs.isAfterLast()) {
+                while (rs.next() && !rs.isAfterLast()) {
                     resAccount = UserList.getUserAccount(rs.getString(1));
                     bannedAccountID = rs.getString(2);
                     tStamp = rs.getString(3);
@@ -484,12 +479,11 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM deletedAccountLog");
-                rs.first();
                 String tStamp;
                 Account resAccount;// = UserList.getUserAccount(rs.getString(1));
                 String deletedAccountID;
                 Log log;
-                while (!rs.isAfterLast()) {
+                while (rs.next() && !rs.isAfterLast()) {
                     resAccount = UserList.getUserAccount(rs.getString(1));
                     deletedAccountID = rs.getString(2);
                     tStamp = rs.getString(3);
@@ -502,12 +496,11 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM deletedReportLog");
-                rs.first();
                 String tStamp;
                 Account resAccount;// = UserList.getUserAccount(rs.getString(1));
                 String deletedReportID;
                 Log log;
-                while (!rs.isAfterLast()) {
+                while (rs.next() && !rs.isAfterLast()) {
                     resAccount = UserList.getUserAccount(rs.getString(1));
                     deletedReportID = rs.getString(2);
                     tStamp = rs.getString(3);
@@ -520,12 +513,11 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM loginAttemptLog");
-                rs.first();
                 String tStamp;
                 Account resAccount;// = UserList.getUserAccount(rs.getString(1));
                 boolean successStatus;
                 Log log;
-                while (!rs.isAfterLast()) {
+                while (rs.next() && !rs.isAfterLast()) {
                     resAccount = UserList.getUserAccount(rs.getString(1));
                     successStatus = rs.getBoolean(2);
                     tStamp = rs.getString(3);
@@ -538,12 +530,11 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM unblockAccountLog");
-                rs.first();
                 String tStamp;
                 Account resAccount;// = UserList.getUserAccount(rs.getString(1));
                 String bannedAccountID;
                 Log log;
-                while (!rs.isAfterLast()) {
+                while (rs.next() && !rs.isAfterLast()) {
                     resAccount = UserList.getUserAccount(rs.getString(1));
                     bannedAccountID = rs.getString(2);
                     tStamp = rs.getString(3);
@@ -655,8 +646,7 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM qualityReport");
-                rs.first();
-                while (!rs.isAfterLast()) {
+                while (rs.next() && !rs.isAfterLast()) {
                     String timeStamp = rs.getString(8);
                     Account acc = UserList.getUserAccount(rs.getString(1));
                     Location loc = new Location(rs.getString(3));
@@ -703,8 +693,7 @@ public class DB {
             try {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery("SELECT * FROM waterReport");
-                rs.first();
-                while (!rs.isAfterLast()) {
+                while (rs.next() && !rs.isAfterLast()) {
                     String timeStamp = rs.getString(7);
                     Account acc = UserList.getUserAccount(rs.getString(1));
                     Location loc = new Location(rs.getString(3));
