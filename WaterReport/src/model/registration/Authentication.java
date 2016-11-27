@@ -42,10 +42,12 @@ public class Authentication {
      * @param emailMap
      */
     public static void loadMap(HashMap<String, CharSequence> emailMap) {
-        HashSet<String> emails = (HashSet<String>) emailMap.keySet();
-        for(String email: emails) {
-            if(!userMap.containsKey(email)) {
-                userMap.put(email, emailMap.get(email));
+        if (emailMap != null) {
+            HashSet<String> emails = (HashSet<String>) emailMap.keySet();
+            for (String email : emails) {
+                if (!userMap.containsKey(email)) {
+                    userMap.put(email, emailMap.get(email));
+                }
             }
         }
     }

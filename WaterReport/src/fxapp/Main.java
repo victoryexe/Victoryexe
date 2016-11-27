@@ -5,12 +5,16 @@ import controller.AdminController;
 import controller.LoginScreenController;
 import controller.MainController;
 import controller.RegistrationController;
+import db.DB;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.log.LogList;
+import model.registration.Authentication;
+import model.registration.UserList;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -40,13 +44,9 @@ public class Main extends Application {
     }
 
     private void initRootLayout(Stage mainScreen) {
-    /*  Used in a desperate attempt at a shitty persistence handler.
-        PersistenceHandler.loadUsers(new File("D:\\GitHub\\Victoryexe\\WaterReport\\src" +
-                        "\\fxapp\\persistance\\Users.txt"),
-                new File("D:\\GitHub\\Victoryexe\\WaterReport\\src\\fxapp\\persistance\\Passwords.txt"));
-          PersistenceHandler.loadQualityReports(new File("../persistance/QualityReports.txt"));
-          PersistenceHandler.loadWaterReports(new File("../persistance/WaterReports.txt"));
-    */
+        UserList.mapAllAccounts(DB.loadAllAccounts());
+        Authentication.loadMap(DB.loadMap());
+        LogList.addNewLogs(DB.loadLogData());
         try {
             // Load root layout from fxml file.
             loader = new FXMLLoader();

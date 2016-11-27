@@ -40,9 +40,11 @@ public class UserList {
      * @param accounts List of Accounts that need to be added to the userMap
      */
     public static void mapAllAccounts(List<Account> accounts) {
-        for(Account acc: accounts) {
-            if (!userMap.containsValue(acc)) {
-                userMap.put(acc.getName(), acc);
+        if (accounts != null) {
+            for (Account acc : accounts) {
+                if (!userMap.containsValue(acc)) {
+                    userMap.put(acc.getName(), acc);
+                }
             }
         }
     }
