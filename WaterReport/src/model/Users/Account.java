@@ -77,9 +77,4 @@ public interface Account {
      * @param block whether or not the Account is blocked
      */
     void setBlocked(boolean block);
-
-    /**
-     * Flips this Account's blocked status
-     */
-    void setIsBlocked();
 }

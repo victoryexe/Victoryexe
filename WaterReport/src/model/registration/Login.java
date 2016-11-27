@@ -3,6 +3,7 @@ package model.registration;
 import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import model.log.LogList;
+import model.log.LoginAttemptLog;
 import model.log.UnblockAccountLog;
 
 import java.time.LocalDateTime;
@@ -25,13 +26,14 @@ public class Login {
     public static boolean login(String subject, String password)
             throws PasswordStorage.CannotPerformOperationException,
             PasswordStorage.InvalidHashException {
-        boolean success = Authentication.verifySubject(subject)
-                && Authentication.verifyPassword(subject, password);
         Account account = UserList.getUserAccount(subject);
+        boolean success = Authentication.verifySubject(subject)
+                && Authentication.verifyPassword(subject, password)
+                && !account.getIsBlocked();
         if (account != null) {
             LogList.makeLoginAttemptEntry(account, success);
             if (!success) { // block account if necessary
-                List<UnblockAccountLog> log = LogList.getUnblockAccountLog();
+                List<LoginAttemptLog> log = LogList.getLoginAttemptLog();
                 int attempts = 0;
                 boolean windowActive = true;
                 for (int i = log.size() - 1; (i >= 0) && windowActive; i--) {
@@ -45,9 +47,9 @@ public class Login {
                     } else { // if Log is outside BLOCK_ACCOUNT_WINDOW, exit
                         windowActive = false;
                     }
-                    if (attempts >= MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS) {
-                        account.setIsBlocked();
-                    }
+                }
+                if (attempts >= MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS) {
+                    account.setBlocked(true);
                 }
             }
         }

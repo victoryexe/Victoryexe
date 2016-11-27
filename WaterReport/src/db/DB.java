@@ -174,7 +174,7 @@ public class DB {
                         acc.setHomeAddress(add);
                         acc.setTitle(title);
                         if (isBlocked) {
-                            acc.setIsBlocked();
+                            acc.setBlocked(true);
                         }
                         if (isBanned) {
                             acc.setIsBanned();
