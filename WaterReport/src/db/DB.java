@@ -48,7 +48,7 @@ public class DB {
         try {
             if(!connected) {
                 String url = "jdbc:mysql://104.131.110.247:3306/water_report";
-                conn = DriverManager.getConnection (url, "Victoryexe", "PwD");
+                conn = DriverManager.getConnection(url, "Victoryexe", "PwD");
                 connected = true;
             }
             return connected;
@@ -68,7 +68,7 @@ public class DB {
             userDef = "('" + acc.getName() + "'," + acc.getUserID() + ",'"
                     + acc.getHomeAddress()
                     + "','" + acc.getTitle() + "','" + acc.getAuthLevel() + "'," + acc.getIsBlocked()
-                    + ",'" + acc.getIsBanned() + "','" + acc.getEmail() + "')";
+                    + "," + acc.getIsBanned() + ",'" + acc.getEmail() + "')";
         } else {
             userDef = "('" + acc.getName() + "'," + acc.getUserID() + ",'"
                     + "','" + "','" + acc.getAuthLevel() + "'," + acc.getIsBlocked()
@@ -792,7 +792,7 @@ public class DB {
             ResultSet rs = null;
             try {
                 stmt = conn.createStatement();
-                stmt.executeUpdate("DELETE FROM accounts WHERE email='" +
+                stmt.executeUpdate("DELETE FROM account WHERE email='" +
                         account.getEmail() + "'");
                 stmt = conn.createStatement();
                 stmt.executeUpdate("DELETE FROM maps WHERE email='" +
