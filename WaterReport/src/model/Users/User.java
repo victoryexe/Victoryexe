@@ -113,6 +113,13 @@ public class User implements Account {
     }
     @Override
     public String toString() {
-        return name + ", " + email + ", " + getAuthLevel();
+        String msg = name + ", " + email + ", " + getAuthLevel();
+        if (isBanned) {
+            msg += ", BANNED";
+        }
+        if (isBlocked) {
+            msg += ", BLOCKED";
+        }
+        return msg;
     }
 }

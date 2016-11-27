@@ -99,20 +99,22 @@ public class LogList {
      * @param logs
      */
     public static void addNewLogs(List<Log>[] logs) {
-        for(Log log: logs[0]) {
-            bannedAccountLog.add((BannedAccountLog) log);
-        }
-        for(Log log: logs[1]) {
-            deletedAccountLog.add((DeletedAccountLog) log);
-        }
-        for(Log log: logs[2]) {
-            deletedReportLog.add((DeletedReportLog) log);
-        }
-        for(Log log: logs[3]) {
-            loginAttemptLog.add((LoginAttemptLog) log);
-        }
-        for(Log log: logs[4]) {
-            unblockAccountLog.add((UnblockAccountLog) log);
+        if (logs[0] != null) {
+            for (Log log : logs[0]) {
+                bannedAccountLog.add((BannedAccountLog) log);
+            }
+            for (Log log : logs[1]) {
+                deletedAccountLog.add((DeletedAccountLog) log);
+            }
+            for (Log log : logs[2]) {
+                deletedReportLog.add((DeletedReportLog) log);
+            }
+            for (Log log : logs[3]) {
+                loginAttemptLog.add((LoginAttemptLog) log);
+            }
+            for (Log log : logs[4]) {
+                unblockAccountLog.add((UnblockAccountLog) log);
+            }
         }
     }
     /**
