@@ -1,5 +1,6 @@
 package model.report;
 
+import db.DB;
 import model.Users.Manager;
 import model.Users.User;
 import model.Users.Worker;
@@ -109,6 +110,7 @@ public class ReportsList {
      */
     public static boolean deleteWaterReport(Manager manager, int rID) {
         WaterReport deleted = waterReportMap.get(rID);
+        DB.deleteReport(deleted);
         if ((deleted == null) || deleted.getIsDeleted()) {
             throw new java.util.NoSuchElementException("No WaterReport with "
                     + "the ID " + rID +" exists.");
@@ -128,6 +130,7 @@ public class ReportsList {
      */
     public static boolean deleteQualityReport(Manager manager, int rID) {
         Report deleted = qualityReportMap.get(rID);
+        DB.deleteReport(deleted);
         if ((deleted == null) || deleted.getIsDeleted()) {
             throw new java.util.NoSuchElementException("No QualityReport with "
                     + "the ID " + rID +" exists.");
