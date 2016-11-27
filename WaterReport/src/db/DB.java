@@ -243,6 +243,29 @@ public class DB {
             }
         }
     }
+    public static HashMap<String, CharSequence> loadMap() {
+        if(connect()) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            HashMap<String, CharSequence> map = new HashMap<>();
+            try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("SELECT * FROM map");
+                rs.first();
+                while(!rs.isAfterLast()) {
+                    String email = rs.getString(1);
+                    CharSequence pw = (CharSequence) rs.getString(2);
+                    map.put(email, pw);
+                    rs.next();
+                }
+                return map;
+            } catch (Exception e) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Bans account based on email information

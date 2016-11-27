@@ -2,8 +2,8 @@ package model.registration;
 
 import jdk.internal.org.objectweb.asm.util.CheckAnnotationAdapter;
 import lib.password_hashing.PasswordStorage;
-import java.util.Map;
-import java.util.HashMap;
+
+import java.util.*;
 
 // All classes flagged as utility classes were designed to be utility classes.
 
@@ -37,7 +37,18 @@ public class Authentication {
         return hash;
     }
 
-
+    /**
+     * Creates Mapping from email Map
+     * @param emailMap
+     */
+    public static void loadMap(HashMap<String, CharSequence> emailMap) {
+        HashSet<String> emails = (HashSet<String>) emailMap.keySet();
+        for(String email: emails) {
+            if(!userMap.containsKey(email)) {
+                userMap.put(email, emailMap.get(email));
+            }
+        }
+    }
     /**
      * Verifies that the user exists
      * @param userid The username

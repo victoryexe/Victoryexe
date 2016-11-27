@@ -5,11 +5,9 @@ import model.Users.Account;
 import model.Users.Admin;
 import model.Users.AuthLevel;
 import model.log.LogList;
+import db.DB;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Alexandra on 9/28/2016.
@@ -37,7 +35,17 @@ public class UserList {
         return userMap.get(userid);
     }
 
-
+    /**
+     * Expands User Map from a given List of Accounts
+     * @param accounts List of Accounts that need to be added to the userMap
+     */
+    public static void mapAllAccounts(List<Account> accounts) {
+        for(Account acc: accounts) {
+            if (!userMap.containsValue(acc)) {
+                userMap.put(acc.getName(), acc);
+            }
+        }
+    }
     /**
      * If input is valid, makes a new Account and updates Authentication and
      * UserList's maps.
@@ -127,6 +135,7 @@ public class UserList {
                     + "associated with the userid " + userid);
         }
         account.setIsBanned();
+        DB.ban(userid);
         LogList.makeBannedAccountEntry(admin, userid);
         return true;
     }
@@ -147,6 +156,7 @@ public class UserList {
                     + "associated with the userid " + userid);
         }
         account.setBlocked(false);
+        DB.unblock(userid);
         LogList.makeUnblockAccountEntry(admin, userid);
         return true;
     }

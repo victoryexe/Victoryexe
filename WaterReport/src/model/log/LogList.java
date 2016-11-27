@@ -95,6 +95,27 @@ public class LogList {
     }
 
     /**
+     * Logs to be added to all Logs
+     * @param logs
+     */
+    public static void addNewLogs(List<Log>[] logs) {
+        for(Log log: logs[0]) {
+            bannedAccountLog.add((BannedAccountLog) log);
+        }
+        for(Log log: logs[1]) {
+            deletedAccountLog.add((DeletedAccountLog) log);
+        }
+        for(Log log: logs[2]) {
+            deletedReportLog.add((DeletedReportLog) log);
+        }
+        for(Log log: logs[3]) {
+            loginAttemptLog.add((LoginAttemptLog) log);
+        }
+        for(Log log: logs[4]) {
+            unblockAccountLog.add((UnblockAccountLog) log);
+        }
+    }
+    /**
      * Makes a new DeletedReportLog with the given params and adds it to the
      * appropriate list
      * @param responsibleAccount the Manager deleting an account
