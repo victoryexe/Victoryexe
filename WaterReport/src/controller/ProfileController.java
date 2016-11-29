@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -118,6 +119,14 @@ class ProfileController {
             currProfile.changeAddress(add);
         });
 
+        salutationedit.setOnAction((ActionEvent) -> {
+            setAllEditable(true);
+            salutationedit.setVisible(false);
+            submit.setVisible(true);
+            salutationcombobox.setVisible(true);
+            salutationcombobox.setValue(currProfile.getTitle());
+            currsalutation.setVisible(false);
+        });
     }
     /**
      * Sets all texts fields as either editable or non-editable
