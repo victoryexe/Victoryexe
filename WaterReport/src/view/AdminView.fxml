@@ -83,7 +83,7 @@
     </TabPane>
     <Pane layoutX="462.0" layoutY="6.0" prefHeight="25.0" prefWidth="130.0">
         <Button fx:id="Logout" layoutX="65.0" mnemonicParsing="false" text="Log Out" />
-      <Button layoutX="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="26.0">
+      <Button fx:id="refreshAdmin" layoutX="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="26.0">
          <graphic>
             <ImageView fitHeight="14.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
