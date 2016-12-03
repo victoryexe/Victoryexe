@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="wateravereportpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="369.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewReportsController">
+   <children>
+      <ImageView fitHeight="420.0" fitWidth="571.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@tsunami2.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="wateravereporttitle" layoutX="24.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WATER AVAILABILITY REPORT" wrappingWidth="385.14453125">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="24.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" />
+      <Text layoutX="24.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" />
+      <Text layoutX="24.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report Number:" />
+      <Text layoutX="24.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Reporter:" />
+      <Text layoutX="24.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location of Water:" />
+      <Text layoutX="24.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of Water:" />
+      <Text layoutX="24.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condition of Water:" />
+      <Text fx:id="dateedit" layoutX="164.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="timeedit" layoutX="164.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="reportnumberedit" layoutX="164.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="nameofreporteredit" layoutX="164.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="locationofwateredit" layoutX="164.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="typeofwateredit" layoutX="164.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="conditionofwateredit" layoutX="164.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+   </children>
+</AnchorPane>
