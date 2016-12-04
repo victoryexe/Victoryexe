@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>MapController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MapController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">controller; 
+ 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.GoogleMapView; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.MapComponentInitializedListener; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.event.UIEventType; 
+ 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.GoogleMap; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.LatLong; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.MapOptions; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.MapTypeIdEnum; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.MarkerOptions; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.Marker; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.InfoWindow; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.InfoWindowOptions; 
+</span><span class="s0">import </span><span class="s1">javafx.fxml.Initializable; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Alert; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Button; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.ButtonType; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.TextField; 
+ 
+</span><span class="s0">import </span><span class="s1">model.report.Location; 
+</span><span class="s0">import </span><span class="s1">model.report.Report; 
+</span><span class="s0">import </span><span class="s1">model.report.ReportsList; 
+</span><span class="s0">import </span><span class="s1">model.report.WaterReport; 
+</span><span class="s0">import </span><span class="s1">model.report.QualityReport; 
+</span><span class="s0">import </span><span class="s1">model.report.SortReports; 
+</span><span class="s0">import </span><span class="s1">netscape.javascript.JSObject; 
+ 
+</span><span class="s0">import </span><span class="s1">java.net.URL; 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList; 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+</span><span class="s0">import </span><span class="s1">java.util.ResourceBundle; 
+</span><span class="s0">import </span><span class="s1">java.util.stream.Collectors; 
+ 
+</span><span class="s2">/** 
+ * Created by grizz on 10/19/2016. 
+ * Handles the Map View. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s0">class </span><span class="s1">MapController </span><span class="s0">implements </span><span class="s1">Initializable, MapComponentInitializedListener { 
+ 
+    </span><span class="s0">private final </span><span class="s1">GoogleMapView mapView; 
+ 
+    </span><span class="s0">private static </span><span class="s1">GoogleMap map; 
+ 
+    </span><span class="s0">private final </span><span class="s1">List&lt;Location&gt; locations = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+ 
+    </span><span class="s0">public </span><span class="s1">MapController(GoogleMapView mapView, TextField lat, TextField lon, Button search) { 
+        </span><span class="s0">this</span><span class="s1">.mapView = mapView; 
+        List&lt;Report&gt; qreports = ReportsList.getQualityReportsList(); 
+        List&lt;Report&gt; wreports = ReportsList.getWaterReportsList(); 
+        locations.addAll(wreports.stream().map(Report::getLocation).collect(Collectors.toList())); 
+        qreports.stream().filter(rep -&gt; !locations.contains( 
+                rep.getLocation())).forEach(rep -&gt; locations.add(rep.getLocation())); 
+        MainController.restrictToNums(lat); 
+        MainController.restrictToNums(lon); 
+        search.setOnAction((ActionEvent) -&gt; { 
+            </span><span class="s0">if </span><span class="s1">(!</span><span class="s3">&quot;&quot;</span><span class="s1">.equals(lat.getText()) &amp;&amp; !</span><span class="s3">&quot;&quot;</span><span class="s1">.equals(lon.getText())) { 
+                </span><span class="s0">if </span><span class="s1">((Math.abs(Double.valueOf(lat.getText())) &gt; Location.VALID_LATITUDE) 
+                        || (Math.abs(Double.valueOf(lon.getText())) &gt; Location.VALID_LONGITUDE)) { 
+                    Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                            </span><span class="s3">&quot;Invalid Latitude or Longitude, please enter a valid location.&quot;</span><span class="s1">, ButtonType.CLOSE); 
+                    alert.show(); 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    setMapLocation(Double.valueOf(lat.getText()), Double.valueOf(lon.getText())); 
+                } 
+            } 
+        }); 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">initialize(URL location, ResourceBundle resources) { 
+        mapView.addMapInializedListener(</span><span class="s0">this</span><span class="s1">); 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">mapInitialized() { 
+        </span><span class="s0">final double </span><span class="s1">DEFAULT_LON = -</span><span class="s4">84.396112</span><span class="s1">; 
+        </span><span class="s0">final double </span><span class="s1">DEFAULT_LAT = </span><span class="s4">33.777553</span><span class="s1">; 
+        setMapLocation(DEFAULT_LAT, DEFAULT_LON); 
+        locations.forEach(MapController::addMarker); 
+    } 
+ 
+    </span><span class="s0">public static void </span><span class="s1">addMarker(Location location) { 
+        String message = </span><span class="s3">&quot;&quot;</span><span class="s1">; 
+        List&lt;WaterReport&gt; wrep = SortReports.filterWaterReportsByLocation(location); 
+        </span><span class="s0">if </span><span class="s1">(!wrep.isEmpty()) { 
+            WaterReport watRep = wrep.get(</span><span class="s4">0</span><span class="s1">); 
+            message += </span><span class="s3">&quot;Water Type: &quot; </span><span class="s1">+ watRep.getWaterType() 
+                    + </span><span class="s3">&quot;&lt;br /&gt; Water Condition: &quot; </span><span class="s1">+ watRep.getWaterCondition() 
+                    + </span><span class="s3">&quot;&lt;br /&gt;&quot;</span><span class="s1">; 
+        } </span><span class="s0">else </span><span class="s1">{ 
+                message += </span><span class="s3">&quot;Water Type: Information Unavailable.&quot; </span><span class="s1">+ 
+                        </span><span class="s3">&quot;&lt;br /&gt; Water Condition: Information Unavailable.&lt;br /&gt;&quot;</span><span class="s1">; 
+        } 
+        List&lt;QualityReport&gt; qrep = SortReports.filterQualityReportsByLocation(location); 
+        </span><span class="s0">if </span><span class="s1">(!qrep.isEmpty()) { 
+            QualityReport quaRep = qrep.get(</span><span class="s4">0</span><span class="s1">); 
+            message += </span><span class="s3">&quot;Overall Condition: &quot; </span><span class="s1">+ quaRep.getWaterCondition() 
+                    + </span><span class="s3">&quot;&lt;br /&gt; Virus PPM: &quot; </span><span class="s1">+ quaRep.getVirusPPM() 
+                    + </span><span class="s3">&quot;&lt;br /&gt; Contaminant PPM: &quot; </span><span class="s1">+ quaRep.getContaminantPPM(); 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            message += </span><span class="s3">&quot;Overall Condition: Information Unavailable.&quot;</span><span class="s1"> 
+                    + </span><span class="s3">&quot;&lt;br /&gt; Virus PPM: Information Unavailable.&quot;</span><span class="s1"> 
+                    + </span><span class="s3">&quot;&lt;br /&gt; Contaminant PPM: Information Unavailable.&quot;</span><span class="s1">; 
+        } 
+ 
+        MarkerOptions markerOptions = </span><span class="s0">new </span><span class="s1">MarkerOptions(); 
+        LatLong loc = </span><span class="s0">new </span><span class="s1">LatLong(location.getLatitude(), location.getLongitude()); 
+        markerOptions.position(loc) 
+                .visible(Boolean.TRUE); 
+ 
+        Marker marker = </span><span class="s0">new </span><span class="s1">Marker(markerOptions); 
+        String finalMessage = message; 
+        map.addUIEventHandler(marker, 
+                 UIEventType.click, 
+                 (JSObject obj) -&gt; { 
+                     InfoWindowOptions infoWindowOptions = </span><span class="s0">new </span><span class="s1">InfoWindowOptions(); 
+                     infoWindowOptions.content(finalMessage); 
+ 
+                     InfoWindow window = </span><span class="s0">new </span><span class="s1">InfoWindow(infoWindowOptions); 
+                     window.open(map, marker); 
+                 }); 
+ 
+        map.addMarker(marker); 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setMapLocation(</span><span class="s0">double </span><span class="s1">lat, </span><span class="s0">double </span><span class="s1">lon) { 
+        MapOptions options = </span><span class="s0">new </span><span class="s1">MapOptions(); 
+ 
+        </span><span class="s2">//set up the center location for the map</span><span class="s1"> 
+        LatLong center = </span><span class="s0">new </span><span class="s1">LatLong(lat, lon); 
+ 
+        options.center(center) 
+                .zoom(</span><span class="s4">9</span><span class="s1">) 
+                .overviewMapControl(</span><span class="s0">false</span><span class="s1">) 
+                .panControl(</span><span class="s0">false</span><span class="s1">) 
+                .rotateControl(</span><span class="s0">false</span><span class="s1">) 
+                .scaleControl(</span><span class="s0">false</span><span class="s1">) 
+                .streetViewControl(</span><span class="s0">false</span><span class="s1">) 
+                .zoomControl(</span><span class="s0">false</span><span class="s1">) 
+                .mapType(MapTypeIdEnum.TERRAIN); 
+ 
+        map = mapView.createMap(options); 
+    } 
+} 
+</span></pre>
+</body>
+</html>

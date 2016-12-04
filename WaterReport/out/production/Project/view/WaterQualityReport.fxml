@@ -6,33 +6,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="waterqualityreportpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="369.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewReportsController">
-   <children>
-      <ImageView fitHeight="708.0" fitWidth="1077.0" layoutX="-176.0" layoutY="-1.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@DNVPS.jpg" />
-         </image>
-      </ImageView>
-      <Text fx:id="waterqualityreporttitle" layoutX="24.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WATER QUALITY REPORT" wrappingWidth="385.14453125">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Text>
-      <Text layoutX="24.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" />
-      <Text layoutX="24.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" />
-      <Text layoutX="24.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report Number:" />
-      <Text layoutX="24.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Worker:" />
-      <Text layoutX="24.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location of Water:" />
-      <Text layoutX="24.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overall Condition:" />
-      <Text layoutX="24.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Virus PPM:" />
-      <Text layoutX="24.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contaminant PPM:" />
-      <Text fx:id="qdateedit" layoutX="164.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="qtimeedit" layoutX="164.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="qreportnumberedit" layoutX="164.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="qnameofworkeredit" layoutX="164.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="qlocationofwateredit" layoutX="164.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="qoverallconditionedit" layoutX="164.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="qvirusppmedit" layoutX="164.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="qcontaminantppmedit" layoutX="164.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" opacity="0.91" prefHeight="369.0" prefWidth="560.0"
+            xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.ViewReportsController">
+    <ImageView fitHeight="708.0" fitWidth="1077.0" layoutX="-176.0" layoutY="-1.0" opacity="0.5" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@DNVPS.jpg"/>
+    </ImageView>
+    <Text layoutX="24.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="WATER QUALITY REPORT" wrappingWidth="385.14453125">
+        <font>
+          <Font name="System Bold" size="24.0"/>
+        </font>
+    </Text>
+    <Text layoutX="24.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:"/>
+    <Text layoutX="24.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:"/>
+    <Text layoutX="24.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report Number:"/>
+    <Text layoutX="24.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Worker:"/>
+    <Text layoutX="24.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location of Water:"/>
+    <Text layoutX="24.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overall Condition:"/>
+    <Text layoutX="24.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Virus PPM:"/>
+    <Text layoutX="24.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contaminant PPM:"/>
+    <Text fx:id="qdateedit" layoutX="164.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    <Text fx:id="qtimeedit" layoutX="164.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    <Text fx:id="qreportnumberedit" layoutX="164.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    <Text fx:id="qnameofworkeredit" layoutX="164.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    <Text fx:id="qlocationofwateredit" layoutX="164.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    <Text fx:id="qoverallconditionedit" layoutX="164.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    <Text fx:id="qvirusppmedit" layoutX="164.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+    <Text fx:id="qcontaminantppmedit" layoutX="164.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
 </AnchorPane>

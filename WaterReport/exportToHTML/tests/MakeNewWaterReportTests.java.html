@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>MakeNewWaterReportTests.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MakeNewWaterReportTests.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">tests; 
+ 
+</span><span class="s0">import </span><span class="s1">model.Users.User; 
+</span><span class="s0">import </span><span class="s1">model.report.*; 
+</span><span class="s0">import </span><span class="s1">org.junit.Before; 
+</span><span class="s0">import </span><span class="s1">org.junit.Test; 
+ 
+</span><span class="s0">import </span><span class="s1">java.lang.reflect.Field; 
+</span><span class="s0">import </span><span class="s1">java.util.HashMap; 
+</span><span class="s0">import </span><span class="s1">java.util.LinkedList; 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+</span><span class="s0">import </span><span class="s1">java.util.Map; 
+ 
+</span><span class="s0">import static </span><span class="s1">org.junit.Assert.*; 
+ 
+</span><span class="s2">/** 
+ * Tests ReportsList.makeReport 
+ * Created by grizz on 11/9/2016. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">MakeNewWaterReportTests { 
+ 
+    </span><span class="s0">private </span><span class="s1">Map&lt;Integer, WaterReport&gt; reportsReflect; 
+    </span><span class="s0">private </span><span class="s1">User user = </span><span class="s0">new </span><span class="s1">User(</span><span class="s3">&quot;Owen Brahms&quot;</span><span class="s1">, </span><span class="s3">&quot;O@B.com&quot;</span><span class="s1">); 
+ 
+    @Before 
+    </span><span class="s0">public void </span><span class="s1">setUp() { 
+        reportsReflect = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;(); 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            Field field; 
+            field = ReportsList.</span><span class="s0">class</span><span class="s1">.getDeclaredField(</span><span class="s3">&quot;waterReportMap&quot;</span><span class="s1">); 
+            field.setAccessible(</span><span class="s0">true</span><span class="s1">); 
+            ((HashMap&lt;Integer, WaterReport&gt;) field.get(</span><span class="s3">&quot;&quot;</span><span class="s1">)).clear(); 
+        } </span><span class="s0">catch</span><span class="s1">(Exception e) { 
+            </span><span class="s0">throw new </span><span class="s1">RuntimeException(e); 
+        } 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setMaps() { 
+        </span><span class="s0">try </span><span class="s1">{ 
+            Field field; 
+            field = ReportsList.</span><span class="s0">class</span><span class="s1">.getDeclaredField(</span><span class="s3">&quot;waterReportMap&quot;</span><span class="s1">); 
+            field.setAccessible(</span><span class="s0">true</span><span class="s1">); 
+            reportsReflect = (HashMap&lt;Integer, WaterReport&gt;) field.get(</span><span class="s3">&quot;&quot;</span><span class="s1">); 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            </span><span class="s0">throw new </span><span class="s1">RuntimeException(e); 
+        } 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">checkMaps(List&lt;WaterReport&gt; expected) { 
+        </span><span class="s0">for </span><span class="s1">(WaterReport r : expected) { 
+            </span><span class="s0">int </span><span class="s1">key = r.getReportID(); 
+            assertEquals(</span><span class="s3">&quot;ReportsList does not contain WaterReport &quot; </span><span class="s1">+ key, 
+                    </span><span class="s0">true</span><span class="s1">, reportsReflect.containsKey(key)); 
+            assertSame(</span><span class="s3">&quot;ReportsList WaterReport mapping incorrect for user &quot; </span><span class="s1">+ r.getReportID(), 
+                    r, reportsReflect.get(key)); 
+        } 
+    } 
+    </span><span class="s2">// This test fails since makeReport() does not do input checking.</span><span class="s1"> 
+    </span><span class="s2">// All input checking is done in the controller, so this scenario will</span><span class="s1"> 
+    </span><span class="s2">// never occur in the actual running of the application</span><span class="s1"> 
+    @Test(timeout = </span><span class="s4">200</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testNullData() { 
+        assertNull(</span><span class="s0">null</span><span class="s1">, ReportsList.makeReport(</span><span class="s0">null</span><span class="s1">, </span><span class="s0">null</span><span class="s1">, </span><span class="s0">null</span><span class="s1">, </span><span class="s0">null</span><span class="s1">)); 
+ 
+        setMaps(); 
+        assertEquals(</span><span class="s4">0</span><span class="s1">, reportsReflect.size()); 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">200</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testGeneralOnce() { 
+        WaterReport report = ReportsList.makeReport(user, </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">23</span><span class="s1">, </span><span class="s4">32</span><span class="s1">), 
+                WaterType.BOTTLED, WaterCondition.POTABLE); 
+        assertNotNull(report); 
+ 
+        setMaps(); 
+        assertEquals(</span><span class="s4">1</span><span class="s1">, reportsReflect.size()); 
+ 
+        List&lt;WaterReport&gt; expected = </span><span class="s0">new </span><span class="s1">LinkedList&lt;&gt;(); 
+        expected.add(report); 
+        checkMaps(expected); 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">200</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testGeneralMultiple() { 
+        List&lt;WaterReport&gt; expected = </span><span class="s0">new </span><span class="s1">LinkedList&lt;&gt;(); 
+        expected.add(ReportsList.makeReport(user, </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">23</span><span class="s1">, </span><span class="s4">32</span><span class="s1">), 
+                WaterType.BOTTLED, WaterCondition.POTABLE)); 
+        expected.add(ReportsList.makeReport(user, </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">33</span><span class="s1">, </span><span class="s4">32</span><span class="s1">), 
+                WaterType.BOTTLED, WaterCondition.POTABLE)); 
+        expected.add(ReportsList.makeReport(user, </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">23</span><span class="s1">, </span><span class="s4">52</span><span class="s1">), 
+                WaterType.BOTTLED, WaterCondition.POTABLE)); 
+        expected.add(ReportsList.makeReport(user, </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">27</span><span class="s1">, </span><span class="s4">32</span><span class="s1">), 
+                WaterType.BOTTLED, WaterCondition.POTABLE)); 
+        </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt; expected.size(); i++) { 
+            assertNotNull(</span><span class="s3">&quot;Expected non-null element at index &quot; </span><span class="s1">+ i, expected.get(i)); 
+        } 
+ 
+        setMaps(); 
+        assertEquals(</span><span class="s4">4</span><span class="s1">, reportsReflect.size()); 
+        checkMaps(expected); 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">200</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testGeneralHeavy() { 
+        List&lt;WaterReport&gt; expected = </span><span class="s0">new </span><span class="s1">LinkedList&lt;&gt;(); 
+        </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt; </span><span class="s4">40</span><span class="s1">; i++) { 
+            expected.add(ReportsList.makeReport(user, </span><span class="s0">new </span><span class="s1">Location(i + </span><span class="s4">5</span><span class="s1">, i + </span><span class="s4">10</span><span class="s1">), 
+                    WaterType.BOTTLED, WaterCondition.POTABLE)); 
+        } 
+        </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt; expected.size(); i++) { 
+            assertNotNull(</span><span class="s3">&quot;Expected non-null element at index &quot; </span><span class="s1">+ i, expected.get(i)); 
+        } 
+        setMaps(); 
+        assertEquals(</span><span class="s4">40</span><span class="s1">, reportsReflect.size()); 
+        checkMaps(expected); 
+ 
+    } 
+} 
+</span></pre>
+</body>
+</html>

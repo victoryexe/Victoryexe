@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>Registration.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Registration.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model.registration; 
+ 
+</span><span class="s0">import </span><span class="s1">lib.password_hashing.PasswordStorage; 
+</span><span class="s0">import </span><span class="s1">model.Users.AuthLevel; 
+</span><span class="s0">import </span><span class="s1">model.Users.Account; 
+ 
+</span><span class="s2">/** 
+ * Created by Alexandra on 9/29/2016. 
+ * A class that oversees Account registration 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">Registration { 
+ 
+    </span><span class="s2">/** 
+     * Creates a new account with the given data 
+     * </span><span class="s3">@param </span><span class="s2">first the user's first name 
+     * </span><span class="s3">@param </span><span class="s2">last the user's last name 
+     * </span><span class="s3">@param </span><span class="s2">userid the user's email 
+     * </span><span class="s3">@param </span><span class="s2">pass1 the user's password 
+     * </span><span class="s3">@param </span><span class="s2">pass2 confirm password 
+     * </span><span class="s3">@param </span><span class="s2">auth the AuthLevel of the account 
+     * </span><span class="s3">@return </span><span class="s2">the newly made Account or null if no account was created 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">Account createAccount(String first, String last, 
+                                        String userid, 
+                                        String pass1, String pass2, 
+                                        AuthLevel auth) 
+            </span><span class="s0">throws </span><span class="s1">PasswordStorage.CannotPerformOperationException { 
+        </span><span class="s0">return </span><span class="s1">UserList.makeNewUser(first, last, userid, pass1, pass2, auth); 
+    } 
+} 
+</span></pre>
+</body>
+</html>

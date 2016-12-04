@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>ReportListController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ReportListController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">controller; 
+ 
+</span><span class="s0">import </span><span class="s1">fxapp.Main; 
+</span><span class="s0">import </span><span class="s1">javafx.fxml.FXMLLoader; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.Scene; 
+ 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Alert; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Button; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.ButtonType; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.ListView; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.SplitPane; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.layout.AnchorPane; 
+</span><span class="s0">import </span><span class="s1">javafx.stage.Modality; 
+</span><span class="s0">import </span><span class="s1">javafx.stage.Stage; 
+</span><span class="s0">import </span><span class="s1">model.report.QualityReport; 
+</span><span class="s0">import </span><span class="s1">model.report.Report; 
+</span><span class="s0">import </span><span class="s1">model.report.SortReports; 
+</span><span class="s0">import </span><span class="s1">model.report.WaterReport; 
+ 
+ 
+</span><span class="s0">import </span><span class="s1">java.io.IOException; 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+ 
+</span><span class="s2">/** 
+ * Created by grizz on 10/17/2016. 
+ * Handles the Report List View 
+ */</span><span class="s1"> 
+</span><span class="s0">class </span><span class="s1">ReportListController { 
+ 
+    </span><span class="s0">private static </span><span class="s1">ListView&lt;Report&gt; reportlist; 
+    </span><span class="s0">private </span><span class="s1">FXMLLoader loader; 
+ 
+    ReportListController(ListView&lt;Report&gt; reportlist, Button viewreport, Button histReport) { 
+        setList(reportlist); 
+        updateList(); 
+ 
+        viewreport.setOnAction(event -&gt; { 
+            Report report = reportlist.getSelectionModel().getSelectedItem(); 
+            </span><span class="s0">if </span><span class="s1">(report == </span><span class="s0">null</span><span class="s1">) { 
+                Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                        </span><span class="s3">&quot;No Report Selected.&quot;</span><span class="s1">, ButtonType.CLOSE); 
+                alert.show(); 
+            } </span><span class="s0">else if </span><span class="s1">(report </span><span class="s0">instanceof </span><span class="s1">WaterReport){ 
+                ViewReportsController.setReport((WaterReport) report); 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    loader = </span><span class="s0">new </span><span class="s1">FXMLLoader(); 
+                    loader.setLocation(Main.</span><span class="s0">class</span><span class="s1">.getResource(</span><span class="s3">&quot;../view/WaterAveReport.fxml&quot;</span><span class="s1">)); 
+                    AnchorPane page = loader.load(); 
+ 
+                    </span><span class="s2">// Create the dialog Stage.</span><span class="s1"> 
+                    Stage dialogStage = </span><span class="s0">new </span><span class="s1">Stage(); 
+                    dialogStage.setTitle(</span><span class="s3">&quot;Water Report&quot;</span><span class="s1">); 
+                    dialogStage.initModality(Modality.WINDOW_MODAL); 
+                    dialogStage.initOwner(viewreport.getScene().getWindow()); 
+                    Scene scene = </span><span class="s0">new </span><span class="s1">Scene(page); 
+                    dialogStage.setScene(scene); 
+ 
+                    </span><span class="s2">// Set the person into the controller.</span><span class="s1"> 
+                    ViewReportsController controller = loader.getController(); 
+                    controller.setDialogStage(dialogStage); 
+ 
+                    </span><span class="s2">// Show the dialog and wait until the user closes it</span><span class="s1"> 
+                    dialogStage.showAndWait(); 
+ 
+                } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+                    e.printStackTrace(); 
+                } 
+            } </span><span class="s0">else if</span><span class="s1">(report </span><span class="s0">instanceof </span><span class="s1">QualityReport) { 
+                ViewReportsController.setReport((QualityReport) report); 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    loader = </span><span class="s0">new </span><span class="s1">FXMLLoader(); 
+                    loader.setLocation(Main.</span><span class="s0">class</span><span class="s1">.getResource(</span><span class="s3">&quot;../view/WaterQualityReport.fxml&quot;</span><span class="s1">)); 
+                    AnchorPane page = loader.load(); 
+ 
+                    </span><span class="s2">// Create the dialog Stage.</span><span class="s1"> 
+                    Stage dialogStage = </span><span class="s0">new </span><span class="s1">Stage(); 
+                    dialogStage.setTitle(</span><span class="s3">&quot;Quality Report&quot;</span><span class="s1">); 
+                    dialogStage.initModality(Modality.WINDOW_MODAL); 
+                    dialogStage.initOwner(viewreport.getScene().getWindow()); 
+                    Scene scene = </span><span class="s0">new </span><span class="s1">Scene(page); 
+                    dialogStage.setScene(scene); 
+ 
+                    </span><span class="s2">// Set the person into the controller.</span><span class="s1"> 
+                    ViewReportsController controller = loader.getController(); 
+                    controller.setDialogStage(dialogStage); 
+ 
+                    </span><span class="s2">// Show the dialog and wait until the user closes it</span><span class="s1"> 
+                    dialogStage.showAndWait(); 
+ 
+                } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+                    e.printStackTrace(); 
+                } 
+            } 
+        }); 
+ 
+        histReport.setOnAction((ActionEvent) -&gt;{</span><span class="s0">try </span><span class="s1">{ 
+            loader = </span><span class="s0">new </span><span class="s1">FXMLLoader(); 
+            loader.setLocation(Main.</span><span class="s0">class</span><span class="s1">.getResource(</span><span class="s3">&quot;../view/historicalReport.fxml&quot;</span><span class="s1">)); 
+            SplitPane page = loader.load(); 
+ 
+            </span><span class="s2">// Create the dialog Stage.</span><span class="s1"> 
+            Stage dialogStage = </span><span class="s0">new </span><span class="s1">Stage(); 
+            dialogStage.setTitle(</span><span class="s3">&quot;Historical Report&quot;</span><span class="s1">); 
+            dialogStage.initModality(Modality.WINDOW_MODAL); 
+            dialogStage.initOwner(histReport.getScene().getWindow()); 
+            Scene scene = </span><span class="s0">new </span><span class="s1">Scene(page); 
+            dialogStage.setScene(scene); 
+ 
+            </span><span class="s2">// Set the person into the controller.</span><span class="s1"> 
+            HistoricalReportController controller = loader.getController(); 
+            controller.setDialogStage(dialogStage); 
+ 
+            </span><span class="s2">// Show the dialog and wait until the user closes it</span><span class="s1"> 
+            dialogStage.showAndWait(); 
+ 
+        } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+            e.printStackTrace(); 
+        }}); 
+    } 
+ 
+ 
+    </span><span class="s0">static void </span><span class="s1">updateList() { 
+        List&lt;Report&gt; reports = SortReports.sortByMostRecent(); 
+        reportlist.setItems(javafx.collections.FXCollections.observableList(reports)); 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setList(ListView&lt;Report&gt; repo) { 
+        reportlist = repo; 
+    } 
+} 
+</span></pre>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<html>
+<head>
+<title>ReportsList.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(0,0,255); }
+.s5 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ReportsList.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model.report; 
+ 
+</span><span class="s0">import </span><span class="s1">db.DB; 
+</span><span class="s0">import </span><span class="s1">model.Users.Manager; 
+</span><span class="s0">import </span><span class="s1">model.Users.User; 
+</span><span class="s0">import </span><span class="s1">model.Users.Worker; 
+</span><span class="s0">import </span><span class="s1">model.log.LogList; 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList; 
+</span><span class="s0">import </span><span class="s1">java.util.HashMap; 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+</span><span class="s0">import </span><span class="s1">java.util.Map; 
+ 
+</span><span class="s2">/** 
+ * Created by Alexandra on 10/12/2016. 
+ * A helper class that stores all Reports in the system as ReportID - Report 
+ * entries. Also contains helper methods for making, updating, deleting, and 
+ * check for existence of Reports. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">ReportsList { 
+ 
+    </span><span class="s0">private static final </span><span class="s1">Map&lt;Integer, WaterReport&gt; waterReportMap = 
+            </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;(); 
+    </span><span class="s0">private static final </span><span class="s1">Map&lt;Integer, QualityReport&gt; qualityReportMap = 
+            </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;(); 
+ 
+    </span><span class="s2">/** 
+     * Returns a List of all reports in waterReportMap 
+     * </span><span class="s3">@return </span><span class="s2">a List copy of all reports in the map 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">List&lt;Report&gt; getWaterReportsList() { 
+        </span><span class="s0">return new </span><span class="s1">ArrayList&lt;&gt;(waterReportMap.values()); 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Makes a new WaterReport and adds it to the map 
+     * </span><span class="s3">@param </span><span class="s2">user the user who submitted the report 
+     * </span><span class="s3">@param </span><span class="s2">location the location of the water source 
+     * </span><span class="s3">@param </span><span class="s2">waterType the type of the water 
+     * </span><span class="s3">@param </span><span class="s2">waterCondition the condition of the water 
+     * </span><span class="s3">@return </span><span class="s2">the WaterReport made, or null if none was made 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">WaterReport makeReport(User user, Location location, 
+                                         WaterType waterType, 
+                                         WaterCondition waterCondition) { 
+        WaterReport report = </span><span class="s0">new </span><span class="s1">WaterReport(user, location, waterType, 
+                waterCondition); 
+        </span><span class="s0">if </span><span class="s1">(waterReportMap.containsKey(report.getReportID())) { 
+            </span><span class="s0">return null</span><span class="s1">; 
+        } 
+        waterReportMap.put(report.getReportID(), report); 
+        </span><span class="s0">return </span><span class="s1">report; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Returns a List of all QualityReports 
+     * </span><span class="s3">@return </span><span class="s2">a List copy of all QualityReports 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">List&lt;Report&gt; getQualityReportsList() { 
+        </span><span class="s0">return new </span><span class="s1">ArrayList&lt;&gt;(qualityReportMap.values()); 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Makes a new QualityReport and adds it to the map 
+     * </span><span class="s3">@param </span><span class="s2">worker the worker submitting the report 
+     * </span><span class="s3">@param </span><span class="s2">location the location of the water 
+     * </span><span class="s3">@param </span><span class="s2">condition the condition of the water 
+     * </span><span class="s3">@param </span><span class="s2">virusPPM the virusPPM of the water 
+     * </span><span class="s3">@param </span><span class="s2">contaminantPPM the contaminantPPM of the water 
+     * </span><span class="s3">@return </span><span class="s2">the QualityReport made or null if none was made 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">QualityReport makeReport(Worker worker, Location location, 
+                                           OverallCondition condition, 
+                                           </span><span class="s0">double </span><span class="s1">virusPPM, 
+                                           </span><span class="s0">double </span><span class="s1">contaminantPPM) { 
+        QualityReport report = </span><span class="s0">new </span><span class="s1">QualityReport(worker, location, condition, 
+                virusPPM, contaminantPPM); 
+        </span><span class="s0">int </span><span class="s1">rID = report.getReportID(); 
+        </span><span class="s0">if </span><span class="s1">(qualityReportMap.containsKey(rID)) { 
+            </span><span class="s0">return null</span><span class="s1">; 
+        } 
+        qualityReportMap.put(report.getReportID(), report); 
+        </span><span class="s0">return </span><span class="s1">report; 
+    } 
+    </span><span class="s0">public static int </span><span class="s1">makeQualityReport(QualityReport report) { 
+        </span><span class="s0">int </span><span class="s1">rID = report.getReportID(); 
+        </span><span class="s0">if </span><span class="s1">(qualityReportMap.containsKey(rID)) { 
+            </span><span class="s0">return </span><span class="s1">-</span><span class="s4">1</span><span class="s1">; 
+        } 
+        qualityReportMap.put(report.getReportID(), report); 
+        </span><span class="s0">return </span><span class="s1">report.getReportID(); 
+    } 
+    </span><span class="s0">public static </span><span class="s1">WaterReport makeWaterReport(WaterReport report) { 
+        </span><span class="s0">if </span><span class="s1">(waterReportMap.containsKey(report.getReportID())) { 
+            </span><span class="s0">return null</span><span class="s1">; 
+        } 
+        waterReportMap.put(report.getReportID(), report); 
+        </span><span class="s0">return </span><span class="s1">report; 
+    } 
+    </span><span class="s2">// Delete Report functionality has not been added yet, so IntelliJ</span><span class="s1"> 
+    </span><span class="s2">// flags these as unused.</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * &quot;Deletes&quot; a WaterReport by setting its isRemoved marker to true 
+     * </span><span class="s3">@param </span><span class="s2">manager the Manager deleting a WaterReport 
+     * </span><span class="s3">@param </span><span class="s2">rID the report ID of the WaterReport to be deleted 
+     * </span><span class="s3">@throws </span><span class="s2">java.util.NoSuchElementException if the desired Report does 
+     * not exist or had previously been deleted 
+     * </span><span class="s3">@return </span><span class="s2">true iff the WaterReport was successfully deleted 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static boolean </span><span class="s1">deleteWaterReport(Manager manager, </span><span class="s0">int </span><span class="s1">rID) { 
+        WaterReport deleted = waterReportMap.get(rID); 
+        DB.deleteReport(deleted); 
+        </span><span class="s0">if </span><span class="s1">((deleted == </span><span class="s0">null</span><span class="s1">) || deleted.getIsDeleted()) { 
+            </span><span class="s0">throw new </span><span class="s1">java.util.NoSuchElementException(</span><span class="s5">&quot;No WaterReport with &quot;</span><span class="s1"> 
+                    + </span><span class="s5">&quot;the ID &quot; </span><span class="s1">+ rID +</span><span class="s5">&quot; exists.&quot;</span><span class="s1">); 
+        } 
+        LogList.makeDeletedReportEntry(manager, deleted); 
+        deleted.setIsDeleted(); 
+        </span><span class="s0">return true</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * &quot;Deletes&quot; a QualityReport by setting its isRemoved marker to true 
+     * </span><span class="s3">@param </span><span class="s2">manager the Manager deleting a WaterReport 
+     * </span><span class="s3">@param </span><span class="s2">rID the report ID of the QualityReport to be deleted 
+     * </span><span class="s3">@throws </span><span class="s2">java.util.NoSuchElementException if the desired Report does 
+     * not exist or had previously been deleted 
+     * </span><span class="s3">@return </span><span class="s2">true iff the QualityReport was successfully deleted 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static boolean </span><span class="s1">deleteQualityReport(Manager manager, </span><span class="s0">int </span><span class="s1">rID) { 
+        Report deleted = qualityReportMap.get(rID); 
+        DB.deleteReport(deleted); 
+        </span><span class="s0">if </span><span class="s1">((deleted == </span><span class="s0">null</span><span class="s1">) || deleted.getIsDeleted()) { 
+            </span><span class="s0">throw new </span><span class="s1">java.util.NoSuchElementException(</span><span class="s5">&quot;No QualityReport with &quot;</span><span class="s1"> 
+                    + </span><span class="s5">&quot;the ID &quot; </span><span class="s1">+ rID +</span><span class="s5">&quot; exists.&quot;</span><span class="s1">); 
+        } 
+        LogList.makeDeletedReportEntry(manager, deleted); 
+        deleted.setIsDeleted(); 
+        </span><span class="s0">return true</span><span class="s1">; 
+    } 
+ 
+</span><span class="s2">//    /**</span><span class="s1"> 
+</span><span class="s2">//     * Restores a previously deleted WaterReport</span><span class="s1"> 
+</span><span class="s2">//     * @param manager the manager restoring the Report</span><span class="s1"> 
+</span><span class="s2">//     * @param rID the ID of the WaterReport to restore</span><span class="s1"> 
+</span><span class="s2">//     * @return true iff the Report was successfully restored</span><span class="s1"> 
+</span><span class="s2">//     */</span><span class="s1"> 
+</span><span class="s2">//    public static boolean restoreWaterReport(Manager manager, int rID) {</span><span class="s1"> 
+</span><span class="s2">//        WaterReport deleted = waterReportMap.get(rID);</span><span class="s1"> 
+</span><span class="s2">//        if ((deleted == null) || !deleted.getIsDeleted()) {</span><span class="s1"> 
+</span><span class="s2">//            throw new java.util.NoSuchElementException(&quot;No WaterReport with &quot;</span><span class="s1"> 
+</span><span class="s2">//                    + &quot;the ID &quot; + rID + &quot; has been deleted.&quot;);</span><span class="s1"> 
+</span><span class="s2">//        }</span><span class="s1"> 
+</span><span class="s2">//        deleted.setIsDeleted();</span><span class="s1"> 
+</span><span class="s2">//        return true;</span><span class="s1"> 
+</span><span class="s2">//    }</span><span class="s1"> 
+ 
+</span><span class="s2">//    /**</span><span class="s1"> 
+</span><span class="s2">//     * Restores a previously deleted QualityReport</span><span class="s1"> 
+</span><span class="s2">//     * @param manager the manager restoring the Report</span><span class="s1"> 
+</span><span class="s2">//     * @param rID the ID of the WaterReport to restore</span><span class="s1"> 
+</span><span class="s2">//     * @return true iff the Report was successfully restored</span><span class="s1"> 
+</span><span class="s2">//     */</span><span class="s1"> 
+</span><span class="s2">//    public static boolean restoreQualityReport(Manager manager, int rID) {</span><span class="s1"> 
+</span><span class="s2">//        QualityReport deleted = qualityReportMap.get(rID);</span><span class="s1"> 
+</span><span class="s2">//        if ((deleted == null) || !deleted.getIsDeleted()) {</span><span class="s1"> 
+</span><span class="s2">//            throw new java.util.NoSuchElementException(&quot;No WaterReport with &quot;</span><span class="s1"> 
+</span><span class="s2">//                    + &quot;the ID &quot; + rID + &quot; has been deleted.&quot;);</span><span class="s1"> 
+</span><span class="s2">//        }</span><span class="s1"> 
+</span><span class="s2">//        deleted.setIsDeleted();</span><span class="s1"> 
+</span><span class="s2">//        return true;</span><span class="s1"> 
+</span><span class="s2">//    }</span><span class="s1"> 
+} 
+</span></pre>
+</body>
+</html>

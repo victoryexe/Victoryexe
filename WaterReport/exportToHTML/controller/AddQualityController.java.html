@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>AddQualityController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+.s5 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+AddQualityController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">controller; 
+ 
+</span><span class="s0">import </span><span class="s1">javafx.event.ActionEvent; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Button; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Tab; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.TabPane; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.TextField; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.ComboBox; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Alert; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.ButtonType; 
+</span><span class="s0">import </span><span class="s1">model.Users.Worker; 
+</span><span class="s0">import </span><span class="s1">model.report.Location; 
+</span><span class="s0">import </span><span class="s1">model.report.OverallCondition; 
+</span><span class="s0">import </span><span class="s1">model.report.QualityReport; 
+</span><span class="s0">import </span><span class="s1">model.report.ReportsList; 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+ 
+</span><span class="s2">/** 
+ * Created by grizz on 10/24/2016. 
+ * Handles adding Quality Reports to the system. 
+ */</span><span class="s1"> 
+</span><span class="s0">class </span><span class="s1">AddQualityController { 
+ 
+    </span><span class="s0">private final </span><span class="s1">TextField purityLat; 
+    </span><span class="s0">private final </span><span class="s1">TextField purityLon; 
+    </span><span class="s0">private final </span><span class="s1">TextField VirusPPM; 
+    </span><span class="s0">private final </span><span class="s1">TextField ContamPPM; 
+    </span><span class="s0">private final </span><span class="s1">ComboBox&lt;OverallCondition&gt; purityCond; 
+ 
+    </span><span class="s2">/** 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">purityLat TextField where user submits the latitude of water location 
+     * </span><span class="s3">@param </span><span class="s2">purityLon TextField where user submits the longitude of water location 
+     * </span><span class="s3">@param </span><span class="s2">VirusPPM TextField where user submits the VirusPPM 
+     * </span><span class="s3">@param </span><span class="s2">ContamPPM TextField where user submits the Contaminant PPM 
+     * </span><span class="s3">@param </span><span class="s2">purityCond ComboBox where user selects the overall condition of the water 
+     */</span><span class="s1"> 
+ 
+    </span><span class="s0">public  </span><span class="s1">AddQualityController(TextField purityLat, TextField purityLon, TextField VirusPPM, 
+                                TextField ContamPPM, ComboBox&lt;OverallCondition&gt; purityCond) { 
+        </span><span class="s0">this</span><span class="s1">.purityLat = purityLat; 
+        </span><span class="s0">this</span><span class="s1">.purityLon = purityLon; 
+        </span><span class="s0">this</span><span class="s1">.VirusPPM = VirusPPM; 
+        </span><span class="s0">this</span><span class="s1">.ContamPPM = ContamPPM; 
+        </span><span class="s0">this</span><span class="s1">.purityCond = purityCond; 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setSwitchButton(List&lt;OverallCondition&gt; conditions, TabPane pane, Tab water, Button qualtoave) { 
+        qualtoave.setOnAction((ActionEvent event) -&gt; { 
+ 
+            purityLat.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+            purityLon.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+            purityCond.setValue(conditions.get(</span><span class="s5">0</span><span class="s1">)); 
+            VirusPPM.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+            ContamPPM.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+            pane.getTabs().set(</span><span class="s5">2</span><span class="s1">, water); 
+            pane.getSelectionModel().select(water); 
+        }); 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setPurityButton(List&lt;OverallCondition&gt; conditions, Button SubmitPurity) { 
+        SubmitPurity.setOnAction((ActionEvent event) -&gt; { 
+ 
+            </span><span class="s2">// Checks for valid input before creating report</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(</span><span class="s4">&quot;&quot;</span><span class="s1">.equals(purityLat.getText()) || </span><span class="s4">&quot;&quot;</span><span class="s1">.equals(purityLon.getText()) 
+                    || </span><span class="s4">&quot;&quot;</span><span class="s1">.equals(VirusPPM.getText()) || </span><span class="s4">&quot;&quot;</span><span class="s1">.equals(ContamPPM.getText())) { 
+                Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                        </span><span class="s4">&quot;All Fields must be filled in.&quot;</span><span class="s1">, ButtonType.CLOSE); 
+                alert.show(); 
+            } </span><span class="s0">else if </span><span class="s1">((Math.abs(Double.valueOf(purityLat.getText())) &gt; Location.VALID_LATITUDE) 
+                    || (Math.abs(Double.valueOf(purityLon.getText())) &gt; Location.VALID_LONGITUDE)) { 
+                Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                        </span><span class="s4">&quot;Invalid Latitude or Longitude, please enter a valid location.&quot;</span><span class="s1">, ButtonType.CLOSE); 
+                alert.show(); 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                Location loc = </span><span class="s0">new </span><span class="s1">Location(Double.parseDouble(purityLat.getText()), 
+                        Double.parseDouble(purityLon.getText())); 
+                QualityReport report = ReportsList.makeReport((Worker) LoginScreenController.getCurrUser(), loc, 
+                        purityCond.getValue(), Double.parseDouble(VirusPPM.getText()), 
+                        Double.parseDouble(ContamPPM.getText())); 
+                purityLat.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+                purityLon.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+                purityCond.setValue(conditions.get(</span><span class="s5">0</span><span class="s1">)); 
+                VirusPPM.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+                ContamPPM.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+                MapController.addMarker(loc); 
+                </span><span class="s0">if </span><span class="s1">(report != </span><span class="s0">null</span><span class="s1">) { 
+                    Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.INFORMATION, 
+                            </span><span class="s2">//This will only ever have a problem if we have 2^32 reports and have reports with dulpicate</span><span class="s1"> 
+                            </span><span class="s2">//ID's</span><span class="s1"> 
+                            </span><span class="s4">&quot;Report #Q&quot; </span><span class="s1">+ report.getReportID() + </span><span class="s4">&quot; has been submitted.</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                                    </span><span class="s4">&quot;Thank you for your contribution.&quot;</span><span class="s1">, ButtonType.CLOSE); 
+                    alert.show(); 
+                    </span><span class="s2">// updates the View Reports ListView</span><span class="s1"> 
+                    ReportListController.updateList(); 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                            </span><span class="s4">&quot;Failed to submit Report.&quot;</span><span class="s1">, ButtonType.CLOSE); 
+                    alert.show(); 
+                } 
+            } 
+        }); 
+    } 
+} 
+</span></pre>
+</body>
+</html>

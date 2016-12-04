@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>Admin.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Admin.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model.Users; 
+</span><span class="s2">/** 
+ * Author Osvaldo Armas 
+ * Version 2.0 
+ * Date:  9/30/2016 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">Admin </span><span class="s0">implements </span><span class="s1">Account { 
+    </span><span class="s0">private </span><span class="s1">String name; 
+    </span><span class="s0">private </span><span class="s1">String email; 
+    </span><span class="s0">private </span><span class="s1">Address homeAddress; 
+    </span><span class="s0">private </span><span class="s1">String title; 
+    </span><span class="s0">private final int </span><span class="s1">userID; 
+    </span><span class="s0">private static int </span><span class="s1">adminCount; 
+    </span><span class="s0">private boolean </span><span class="s1">isBanned; 
+    </span><span class="s0">private boolean </span><span class="s1">isBlocked; 
+ 
+    </span><span class="s2">/** 
+     * Constructor used to load data from the DB 
+     * </span><span class="s3">@param </span><span class="s2">name the Admin's name 
+     * </span><span class="s3">@param </span><span class="s2">email the Admin's email 
+     * </span><span class="s3">@param </span><span class="s2">userID the Admin's userID 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Admin(String name, String email, </span><span class="s0">int </span><span class="s1">userID) { 
+        </span><span class="s0">this</span><span class="s1">.name = name; 
+        </span><span class="s0">this</span><span class="s1">.email = email; 
+        </span><span class="s0">this</span><span class="s1">.userID = userID; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Creates an Admin with the given name and email 
+     * </span><span class="s3">@param </span><span class="s2">name the Admin's name 
+     * </span><span class="s3">@param </span><span class="s2">email the Admin's email 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Admin(String name, String email) { 
+        </span><span class="s0">this</span><span class="s1">(name, email, ++adminCount); 
+    } 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">String getName() { 
+        </span><span class="s0">return </span><span class="s1">name; 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setName(String name) { 
+        </span><span class="s0">this</span><span class="s1">.name = name; 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setEmail(String email) { 
+        </span><span class="s0">this</span><span class="s1">.email = email; 
+    } 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">String getEmail() { 
+        </span><span class="s0">return this</span><span class="s1">.email; 
+    } 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getUserID() { 
+        </span><span class="s0">return this</span><span class="s1">.userID; 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setHomeAddress(Address homeAddress) { 
+        </span><span class="s0">this</span><span class="s1">.homeAddress = homeAddress; 
+    } 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">Address getHomeAddress() { 
+        </span><span class="s0">return this</span><span class="s1">.homeAddress; 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setTitle(String title) { 
+        </span><span class="s0">this</span><span class="s1">.title = title; 
+    } 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">String getTitle() { 
+        </span><span class="s0">return this</span><span class="s1">.title; 
+    } 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">AuthLevel getAuthLevel() { 
+        </span><span class="s0">return </span><span class="s1">AuthLevel.ADMIN; 
+    } 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">getIsBanned() { 
+        </span><span class="s0">return </span><span class="s1">isBanned; 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setIsBanned() { 
+        isBanned = !isBanned; 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setBanned(</span><span class="s0">boolean </span><span class="s1">ban) {isBanned = ban;} 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">getIsBlocked() { 
+        </span><span class="s0">return </span><span class="s1">isBlocked; 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">setBlocked(</span><span class="s0">boolean </span><span class="s1">block) {isBlocked = block;} 
+ 
+ 
+ 
+    @SuppressWarnings(</span><span class="s4">&quot;SimplifiableIfStatement&quot;</span><span class="s1">) 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">equals(Object obj) { 
+        </span><span class="s0">if </span><span class="s1">(</span><span class="s0">this </span><span class="s1">== obj) { 
+            </span><span class="s0">return true</span><span class="s1">; 
+        } 
+        </span><span class="s0">if </span><span class="s1">(obj == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return false</span><span class="s1">; 
+        } 
+        </span><span class="s0">if </span><span class="s1">(!(obj </span><span class="s0">instanceof </span><span class="s1">Admin)) { 
+            </span><span class="s0">return false</span><span class="s1">; 
+        } 
+        </span><span class="s0">return </span><span class="s1">((Admin) obj).hashCode() == </span><span class="s0">this</span><span class="s1">.hashCode(); 
+    } 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">hashCode() { 
+        </span><span class="s0">return </span><span class="s1">getEmail().hashCode(); 
+    } 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">String toString() { 
+        String msg = name + </span><span class="s4">&quot;, &quot; </span><span class="s1">+ email + </span><span class="s4">&quot;, &quot; </span><span class="s1">+ getAuthLevel(); 
+        </span><span class="s0">if </span><span class="s1">(isBlocked) { 
+            msg += </span><span class="s4">&quot;, BLOCKED&quot;</span><span class="s1">; 
+        } 
+        </span><span class="s0">return </span><span class="s1">msg; 
+    } 
+}</span></pre>
+</body>
+</html>

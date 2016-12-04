@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>MainFXApplication.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(0,128,0); font-weight: bold; }
+.s3 { color: rgb(128,128,128); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MainFXApplication.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">fxapp; 
+ 
+</span><span class="s0">import </span><span class="s1">controllers.MapController; 
+</span><span class="s0">import </span><span class="s1">javafx.application.Application; 
+</span><span class="s0">import </span><span class="s1">javafx.fxml.FXMLLoader; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.Scene; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.layout.BorderPane; 
+</span><span class="s0">import </span><span class="s1">javafx.stage.Stage; 
+</span><span class="s0">import </span><span class="s1">model.Facade; 
+ 
+</span><span class="s0">public class </span><span class="s1">MainFXApplication </span><span class="s0">extends </span><span class="s1">Application { 
+ 
+    </span><span class="s0">private </span><span class="s1">Stage mainStage; 
+    </span><span class="s0">private </span><span class="s1">Scene mapScene; 
+    MapController controller; 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">start(Stage stage) </span><span class="s0">throws </span><span class="s1">Exception{ 
+        stage.setTitle(</span><span class="s2">&quot;Map and Persistence Demo&quot;</span><span class="s1">); 
+ 
+        FXMLLoader loader = </span><span class="s0">new </span><span class="s1">FXMLLoader(); 
+        loader.setLocation(MainFXApplication.</span><span class="s0">class</span><span class="s1">.getResource(</span><span class="s2">&quot;../mapview.fxml&quot;</span><span class="s1">)); 
+        BorderPane root = loader.load(); 
+ 
+        mapScene = </span><span class="s0">new </span><span class="s1">Scene(root); 
+        controller = loader.getController(); 
+        controller.setCallbacks(stage, </span><span class="s0">this</span><span class="s1">); 
+ 
+        stage.setScene(mapScene); 
+ 
+ 
+        mainStage = stage; 
+ 
+        </span><span class="s3">//at this point the controller has made the window, setup the map and set it as the scene for the stage</span><span class="s1"> 
+        stage.show(); 
+ 
+    } 
+ 
+    </span><span class="s0">public static void </span><span class="s1">main(String[] args) { 
+        System.setProperty(</span><span class="s2">&quot;java.net.useSystemProxies&quot;</span><span class="s1">, </span><span class="s2">&quot;true&quot;</span><span class="s1">); 
+        launch(args); 
+    } 
+ 
+    </span><span class="s3">/** 
+     * dummy method to simulate a callback from the map view 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">closeMapView() { 
+        Facade fc = Facade.getInstance(); 
+        fc.addLocations(); 
+        controller.mapInitialized(); 
+        mainStage.setScene(mapScene); 
+    } 
+ 
+} 
+</span></pre>
+</body>
+</html>
