@@ -47,6 +47,7 @@ public class Main extends Application {
         UserList.mapAllAccounts(DB.loadAllAccounts());
         Authentication.loadMap(DB.loadMap());
         LogList.addNewLogs(DB.loadLogData());
+        DB.loadAllReports();
         try {
             // Load root layout from fxml file.
             loader = new FXMLLoader();

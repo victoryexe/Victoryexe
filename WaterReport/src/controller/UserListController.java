@@ -1,5 +1,6 @@
 package controller;
 
+import db.DB;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
  * Handles the functions of the User list
  */
 class UserListController {
-    private final ListView<Account> userlist;
+    private static ListView<Account> userlist;
 
     public UserListController(ListView<Account> userlist, Button deleteuser, Button banuser, Button unblockuser) {
         this.userlist = userlist;
@@ -87,6 +88,7 @@ class UserListController {
     private void deleteAccount(Account acc) {
         UserList.deleteAccount((Admin) LoginScreenController.getCurrUser(),
                 acc.getEmail());
+        DB.deleteAccount(acc);
         updateUserList();
     }
 
@@ -102,7 +104,7 @@ class UserListController {
         updateUserList();
     }
 
-    private void updateUserList() {
+    public static void updateUserList() {
         List<Account> users =
                 UserList.getUserList().stream().map(UserList::getUserAccount).collect(Collectors.toList());
         userlist.setItems(javafx.collections.FXCollections.observableList(users));

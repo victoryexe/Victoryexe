@@ -2,9 +2,11 @@ package controller;
 
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
+import db.DB;
 import fxapp.Main;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
@@ -17,6 +19,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import model.Users.Account;
+import model.log.LogList;
+import model.registration.Authentication;
+import model.registration.UserList;
 import model.report.OverallCondition;
 import model.report.Report;
 import model.report.WaterCondition;
@@ -110,6 +115,8 @@ public class MainController {
     private TextField searchLon;
     @FXML
     private Button searchBut;
+    @FXML
+    private Button refresh;
 
     /** reference back to mainApplication if needed */
     private Main mainApp;
@@ -144,6 +151,14 @@ public class MainController {
         GmapsViewPane.addMapInializedListener(map);
         Account currUser = LoginScreenController.getCurrUser();
         setUserAccess(currUser);
+
+        refresh.setOnAction((ActionEvent) -> {
+            UserList.mapAllAccounts(DB.loadAllAccounts());
+            Authentication.loadMap(DB.loadMap());
+            LogList.addNewLogs(DB.loadLogData());
+            DB.loadAllReports();
+            ReportListController.updateList();
+        });
     }
 
     /**

@@ -1,5 +1,6 @@
 package controller;
 
+import db.DB;
 import fxapp.Main;
 import javafx.fxml.FXML;
 
@@ -9,6 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import model.Users.Account;
+import model.log.LogList;
+import model.registration.Authentication;
+import model.registration.UserList;
 
 /**
  * Created by grizz on 11/11/2016.
@@ -48,6 +52,8 @@ public class AdminController {
     @FXML
     private Button unblockuser;
     @FXML
+    private Button refreshAdmin;
+    @FXML
     private ComboBox<String> adminsalutationcombobox;
     @FXML
     private Label currsalutation;
@@ -74,5 +80,12 @@ public class AdminController {
         UserListController userList = new UserListController(userlist, deleteuser, banuser, unblockuser);
 
         Logout.setOnAction(event -> mainApp.showLogin());
+        refreshAdmin.setOnAction((ActionEvent) -> {
+            UserList.mapAllAccounts(DB.loadAllAccounts());
+            Authentication.loadMap(DB.loadMap());
+            LogList.addNewLogs(DB.loadLogData());
+            DB.loadAllReports();
+            UserListController.updateUserList();
+        });
     }
 }
