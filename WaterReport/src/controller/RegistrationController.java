@@ -1,5 +1,6 @@
 package controller;
 
+import db.DB;
 import fxapp.Main;
 import javafx.fxml.FXML;
 
@@ -81,6 +82,7 @@ public class RegistrationController {
                 try {
                     Registration.createAccount(first, last, mail, pass, pass2, authLevel);
                     user = UserList.getUserAccount(mail);
+                    DB.addAccount(user);
                     LoginScreenController.setCurrUser(user);
                     if (authLevel == AuthLevel.ADMIN) {
                         mainApp.showAdmin();
