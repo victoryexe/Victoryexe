@@ -34,7 +34,7 @@ public class Authentication {
         if (userid == null || hash == null) {
             return null;
         }
-        return hash.substring(13);
+        return hash;
     }
 
     /**
@@ -43,9 +43,10 @@ public class Authentication {
      */
     public static void loadMap(HashMap<String, CharSequence> emailMap) {
         if (emailMap != null) {
-            HashSet<String> emails = (HashSet<String>) emailMap.keySet();
+            Set<String> emails = new HashSet<>(emailMap.keySet());
             for (String email : emails) {
                 System.out.println(email);
+                System.out.println(emailMap.get(email));
                 if (!userMap.containsKey(email)) {
                     userMap.put(email, emailMap.get(email));
                 }

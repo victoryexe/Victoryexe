@@ -105,11 +105,11 @@ public class User implements Account {
         if (!(obj instanceof User)) {
             return false;
         }
-        return ((User) obj).getUserID() == this.getUserID();
+        return ((User) obj).hashCode() == this.hashCode();
     }
     @Override
     public int hashCode() {
-        return getUserID();
+        return getEmail().hashCode();
     }
     @Override
     public String toString() {

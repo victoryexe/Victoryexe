@@ -29,6 +29,7 @@ public class Login {
         Account account = UserList.getUserAccount(subject);
         boolean success = Authentication.verifySubject(subject)
                 && Authentication.verifyPassword(subject, password)
+                && account != null
                 && !account.getIsBlocked();
         if (account != null) {
             LogList.makeLoginAttemptEntry(account, success);

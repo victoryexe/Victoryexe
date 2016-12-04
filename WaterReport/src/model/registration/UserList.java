@@ -42,9 +42,9 @@ public class UserList {
     public static void mapAllAccounts(List<Account> accounts) {
         if (accounts != null) {
             for (Account acc : accounts) {
-                System.out.println(acc.getName());
                 if (!userMap.containsValue(acc)) {
-                    userMap.put(acc.getName(), acc);
+                    System.out.println(acc.getName());
+                    userMap.put(acc.getEmail(), acc);
                 }
             }
         }

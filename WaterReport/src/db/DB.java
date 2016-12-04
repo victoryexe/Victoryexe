@@ -144,15 +144,15 @@ public class DB {
                     boolean isBanned = rs.getBoolean(7);
                     String email = rs.getString(8);
                     fullAddress = fullAddress.trim();
-                    String[] address = fullAddress.split(" ");
+                    String[] address = fullAddress.split("/");
                     Address add;
-                    if(address.length == 5) {
-                        add = new Address(address[0],address[1], address[2],
+                    if(address.length == 6) {
+                        add = new Address(address[0],
+                                Integer.parseInt(address[1]),
+                                address[2],
+                                address[4],
                                 Integer.parseInt(address[3]),
-                                address[4]);
-                    } else if (address.length == 6){
-                        add = new Address(address[0] + address[1], address[2], address[3],
-                                Integer.parseInt(address[3]) , address[5]);
+                                address[5]);
                     } else {
                         add = null;
                     }
@@ -211,10 +211,29 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("UPDATE maps SET email='" + newEmail
+                stmt.executeUpdate("UPDATE maps SET email='" + newEmail
                         + "' WHERE email='" + oldEmail + "'");
-                rs = stmt.executeQuery("UPDATE accounts SET email='" + newEmail
+                stmt.executeUpdate("UPDATE accounts SET email='" + newEmail
                         + "' WHERE email='" + oldEmail + "'");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    /**
+     * Changes Emails in DB for account and maps tables
+     * @param newAddress new email
+     * @param email old email
+     */
+    public static void changeAddress(String newAddress, String email) {
+        if(connect()) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            ArrayList<Account> accountList = new ArrayList<>();
+            try {
+                stmt = conn.createStatement();
+                stmt.executeUpdate("UPDATE accounts SET address='" + newAddress
+                        + "' WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -247,10 +266,11 @@ public class DB {
             HashMap<String, CharSequence> map = new HashMap<>();
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("SELECT * FROM map");
+                rs = stmt.executeQuery("SELECT * FROM maps");
                 while(rs.next() && !rs.isAfterLast()) {
                     String email = rs.getString(1);
                     CharSequence pw = (CharSequence) rs.getString(2);
+                    System.out.println(email + " --- " + pw);
                     map.put(email, pw);
                     //rs.next();
                 }
@@ -274,7 +294,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("UPDATE accounts SET isBanned=" + 1
+                stmt.executeUpdate("UPDATE accounts SET isBanned=" + 1
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -598,7 +618,7 @@ public class DB {
                             + ((QualityReport) report).getContaminantPPM()
                             + ")";
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("INSERT INTO qualityReports VALUES " + reportDef);
+                    stmt.executeUpdate("INSERT INTO qualityReports VALUES " + reportDef);
                 } else if (report instanceof WaterReport) {
                     String reportDef = "("
                             + report.getTime() + ",'"
