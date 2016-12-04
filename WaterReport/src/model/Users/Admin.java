@@ -105,11 +105,11 @@ public class Admin implements Account {
         if (!(obj instanceof Admin)) {
             return false;
         }
-        return ((Admin) obj).getUserID() == this.getUserID();
+        return ((Admin) obj).hashCode() == this.hashCode();
     }
     @Override
     public int hashCode() {
-        return getUserID();
+        return getEmail().hashCode();
     }
     @Override
     public String toString() {
