@@ -94,7 +94,7 @@ public class LogList {
                 deletedAccountID);
         deletedAccountLog.add(log);
         DB.addLog(log);
-        System.out.println("deletedAccount");
+        //System.out.println("deletedAccount");
 
     }
 

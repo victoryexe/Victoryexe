@@ -45,8 +45,8 @@ public class Authentication {
         if (emailMap != null) {
             Set<String> emails = new HashSet<>(emailMap.keySet());
             for (String email : emails) {
-                System.out.println(email);
-                System.out.println(emailMap.get(email));
+                //System.out.println(email);
+                //System.out.println(emailMap.get(email));
                 if (!userMap.containsKey(email)) {
                     userMap.put(email, emailMap.get(email));
                 }
