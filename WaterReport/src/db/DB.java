@@ -513,9 +513,9 @@ public class DB {
                 String bannedAccountID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(3));
+                    resAccount = UserList.getUserAccount(rs.getString(1));
                     bannedAccountID = rs.getString(2);
-                    tStamp = rs.getString(1);
+                    tStamp = rs.getString(3);
                     log = new BannedAccountLog((Admin) resAccount, bannedAccountID, tStamp);
                     logData[0].add(log);
                 }
@@ -530,9 +530,9 @@ public class DB {
                 String deletedAccountID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(3));
+                    resAccount = UserList.getUserAccount(rs.getString(1));
                     deletedAccountID = rs.getString(2);
-                    tStamp = rs.getString(1);
+                    tStamp = rs.getString(3);
                     log = new DeletedAccountLog((Admin) resAccount, deletedAccountID, tStamp);
                     logData[1].add(log);
                 }
@@ -547,9 +547,9 @@ public class DB {
                 String deletedReportID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(3));
+                    resAccount = UserList.getUserAccount(rs.getString(1));
                     deletedReportID = rs.getString(2);
-                    tStamp = rs.getString(1);
+                    tStamp = rs.getString(3);
                     log = new DeletedReportLog((Manager) resAccount, deletedReportID, tStamp);
                     logData[2].add(log);
                 }
@@ -564,9 +564,9 @@ public class DB {
                 boolean successStatus;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(3));
+                    resAccount = UserList.getUserAccount(rs.getString(1));
                     successStatus = rs.getBoolean(2);
-                    tStamp = rs.getString(1);
+                    tStamp = rs.getString(3);
                     log = new LoginAttemptLog(resAccount, successStatus, tStamp);
                     logData[3].add(log);
                 }
@@ -581,9 +581,9 @@ public class DB {
                 String bannedAccountID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(3));
+                    resAccount = UserList.getUserAccount(rs.getString(1));
                     bannedAccountID = rs.getString(2);
-                    tStamp = rs.getString(1);
+                    tStamp = rs.getString(3);
                     log = new UnblockAccountLog((Admin) resAccount, bannedAccountID, tStamp);
                     logData[4].add(log);
                 }
