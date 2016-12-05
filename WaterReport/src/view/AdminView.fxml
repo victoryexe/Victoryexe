@@ -89,7 +89,7 @@
                         <Image url="@BLOG-OGC-01.jpg" />
                      </image>
                   </ImageView>
-                  <ListView layoutX="53.0" layoutY="57.0" prefHeight="238.0" prefWidth="495.0" />
+                  <ListView fx:id="logList" layoutX="53.0" layoutY="57.0" prefHeight="238.0" prefWidth="495.0" />
                </children>
             </AnchorPane>
         </content>

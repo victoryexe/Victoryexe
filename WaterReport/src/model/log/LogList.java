@@ -68,6 +68,16 @@ public class LogList {
         return new LinkedList<>(unblockAccountLog);
     }
 
+    public static List<Log> getAllLogs() {
+        List<Log> logs = new LinkedList<>();
+        logs.addAll(getLoginAttemptLog());
+        logs.addAll(getDeletedReportLog());
+        logs.addAll(getDeletedAccountLog());
+        logs.addAll(getBannedAccountLog());
+        logs.addAll(getUnblockAccountLog());
+        return logs;
+    }
+
     /**
      * Makes a new BannedAccountLog with the given params and adds it to the
      * appropriate list
