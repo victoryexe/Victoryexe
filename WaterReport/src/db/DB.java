@@ -136,10 +136,12 @@ public class DB {
                 rs = stmt.executeQuery("SELECT * FROM account");
                 while(rs.next() && !rs.isAfterLast()) {
                     String name = rs.getString(1);
+                    //System.out.println(name);
                     int id = rs.getInt(2);
                     String fullAddress = rs.getString(3);
                     String title = rs.getString(4);
                     String authLevel = rs.getString(5);
+                    //System.out.println(authLevel);
                     boolean isBlocked = rs.getBoolean(6);
                     boolean isBanned = rs.getBoolean(7);
                     String email = rs.getString(8);
@@ -150,22 +152,27 @@ public class DB {
                         add = new Address(address[0],
                                 Integer.parseInt(address[1]),
                                 address[2],
-                                address[4],
-                                Integer.parseInt(address[3]),
+                                address[3],
+                                Integer.parseInt(address[4]),
                                 address[5]);
                     } else {
                         add = null;
                     }
                     Account acc;
                     if (authLevel.equals("USER")) {
+                        //System.out.println(name + email);
                         acc = new User(name, email, id);
                     } else if (authLevel.equals("ADMIN")) {
+                        //System.out.println(name + email);
                         acc = new Admin(name, email, id);
                     } else if (authLevel.equals("WORKER")) {
+                        //System.out.println(name + email);
                         acc = new Worker(name, email, id);
                     } else if (authLevel.equals("MANAGER")) {
+                        //System.out.println(name + email);
                         acc = new Manager(name, email, id);
                     } else {
+                        //System.out.println(name + email);
                         acc = null;
                     }
                     if (acc != null) {
@@ -178,12 +185,15 @@ public class DB {
                             acc.setIsBanned();
                         }
                         accountList.add(acc);
+                        //System.out.println(acc.getEmail());
+                        //System.out.println(acc.getHomeAddress());
+
                     }
-                    //rs.next();
                 }
                 return accountList;
             } catch (Exception e) {
-                return null;
+                e.printStackTrace();
+                return accountList;
             }
         } else {
             return null;
@@ -213,7 +223,7 @@ public class DB {
                 stmt = conn.createStatement();
                 stmt.executeUpdate("UPDATE maps SET email='" + newEmail
                         + "' WHERE email='" + oldEmail + "'");
-                stmt.executeUpdate("UPDATE accounts SET email='" + newEmail
+                stmt.executeUpdate("UPDATE account SET email='" + newEmail
                         + "' WHERE email='" + oldEmail + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -232,7 +242,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                stmt.executeUpdate("UPDATE accounts SET address='" + newAddress
+                stmt.executeUpdate("UPDATE account SET address='" + newAddress
                         + "' WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -270,7 +280,7 @@ public class DB {
                 while(rs.next() && !rs.isAfterLast()) {
                     String email = rs.getString(1);
                     CharSequence pw = (CharSequence) rs.getString(2);
-                    System.out.println(email + " --- " + pw);
+                    //System.out.println(email + " --- " + pw);
                     map.put(email, pw);
                     //rs.next();
                 }
@@ -294,7 +304,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                stmt.executeUpdate("UPDATE accounts SET isBanned=" + 1
+                stmt.executeUpdate("UPDATE account SET isBanned=" + 1
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -313,7 +323,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                stmt.executeUpdate("UPDATE accounts SET isBlocked=" + 1
+                stmt.executeUpdate("UPDATE account SET isBlocked=" + 1
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -332,7 +342,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                stmt.executeUpdate("UPDATE accounts SET isBanned=" + 0
+                stmt.executeUpdate("UPDATE account SET isBanned=" + 0
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -351,7 +361,7 @@ public class DB {
             ArrayList<Account> accountList = new ArrayList<>();
             try {
                 stmt = conn.createStatement();
-                stmt.executeUpdate("UPDATE accounts SET isBlocked=" + 0
+                stmt.executeUpdate("UPDATE account SET isBlocked=" + 0
                         + " WHERE email='" + email + "'");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -417,6 +427,17 @@ public class DB {
                     e.printStackTrace();
                 }
             }
+        } else if (log instanceof DeletedAccountLog) {
+            Statement stmt = null;
+            ResultSet rs = null;
+            ArrayList<Account> accountList = new ArrayList<>();
+            try {
+                stmt = conn.createStatement();
+                stmt.executeUpdate("INSERT INTO deletedAccountLog VALUES ("
+                        + log.toString() + ")");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     /*
@@ -475,6 +496,11 @@ public class DB {
      */
     public static ArrayList<Log>[] loadLogData() {
         ArrayList<Log>[] logData = new ArrayList[5];
+        logData[0] = new ArrayList<>();
+        logData[1] = new ArrayList<>();
+        logData[2] = new ArrayList<>();
+        logData[3] = new ArrayList<>();
+        logData[4] = new ArrayList<>();
         if (connect()) {
             Statement stmt = null;
             ResultSet rs = null;
@@ -665,7 +691,7 @@ public class DB {
             */
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("SELECT * FROM qualityReport");
+                rs = stmt.executeQuery("SELECT * FROM qualityReports");
                 while (rs.next() && !rs.isAfterLast()) {
                     String timeStamp = rs.getString(8);
                     Account acc = UserList.getUserAccount(rs.getString(1));
@@ -712,7 +738,7 @@ public class DB {
             */
             try {
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery("SELECT * FROM waterReport");
+                rs = stmt.executeQuery("SELECT * FROM waterReports");
                 while (rs.next() && !rs.isAfterLast()) {
                     String timeStamp = rs.getString(7);
                     Account acc = UserList.getUserAccount(rs.getString(1));

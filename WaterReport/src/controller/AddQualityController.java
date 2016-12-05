@@ -13,7 +13,7 @@ import model.report.Location;
 import model.report.OverallCondition;
 import model.report.QualityReport;
 import model.report.ReportsList;
-
+import db.DB;
 import java.util.List;
 
 /**
@@ -79,6 +79,7 @@ class AddQualityController {
                 QualityReport report = ReportsList.makeReport((Worker) LoginScreenController.getCurrUser(), loc,
                         purityCond.getValue(), Double.parseDouble(VirusPPM.getText()),
                         Double.parseDouble(ContamPPM.getText()));
+                DB.addReport(report);
                 purityLat.setText("");
                 purityLon.setText("");
                 purityCond.setValue(conditions.get(0));

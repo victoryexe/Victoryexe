@@ -80,8 +80,7 @@ public class RegistrationController {
 
             if (isInputValid(first, last, mail, pass, pass2)) {
                 try {
-                    Registration.createAccount(first, last, mail, pass, pass2, authLevel);
-                    user = UserList.getUserAccount(mail);
+                    user = Registration.createAccount(first, last, mail, pass, pass2, authLevel);
                     DB.addAccount(user);
                     LoginScreenController.setCurrUser(user);
                     if (authLevel == AuthLevel.ADMIN) {

@@ -1,5 +1,6 @@
 package controller;
 
+import db.DB;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -90,6 +91,7 @@ class AddReportController {
                                 Double.parseDouble(longitude.getText()));
                 Report report = ReportsList.makeReport(
                         (User) currUser, loc, sourceBox.getValue(), conditionBox.getValue());
+                DB.addReport(report);
                 if (WaterType.OTHER.equals(sourceBox.getValue())) {
                     String otherText = "";
                     if (other.getText() != null) {

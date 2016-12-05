@@ -43,7 +43,6 @@ public class UserList {
         if (accounts != null) {
             for (Account acc : accounts) {
                 if (!userMap.containsValue(acc)) {
-                    System.out.println(acc.getName());
                     userMap.put(acc.getEmail(), acc);
                 }
             }
@@ -73,7 +72,6 @@ public class UserList {
         }
         if (Authentication.addNewAccount(userid, pass1, pass2)) {
             userMap.put(userid, account);
-            System.out.println(account.getName());
             return account;
         }
         return null;
@@ -120,6 +118,7 @@ public class UserList {
             throw new java.util.NoSuchElementException("No account is"
                     + "associated with the userid " + userid);
         }
+        //System.out.println("deleteAccount called in UserList");
         LogList.makeDeletedAccountEntry(admin, userid);
         return true;
     }
