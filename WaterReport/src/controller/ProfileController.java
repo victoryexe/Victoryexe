@@ -1,5 +1,6 @@
 package controller;
 
+import db.DB;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -117,6 +118,7 @@ class ProfileController {
                 }
             }
             currProfile.changeAddress(add);
+            DB.changeAddress(add.toString() , currProfile.getEmail());
         });
 
         salutationedit.setOnAction((ActionEvent) -> {
