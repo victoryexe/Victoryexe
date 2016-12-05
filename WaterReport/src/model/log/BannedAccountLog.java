@@ -36,9 +36,9 @@ public class BannedAccountLog extends Log {
     @Override
     public String toString() {
         if (bannedAccountID != null) {
-            return "'" + getTimestamp().toString() + "','"
-                    + getResponsibleAccount().getEmail() + "','"
-                    + bannedAccountID + "'";
+            return "'" + getResponsibleAccount().getEmail() + "','"
+                    + bannedAccountID + "','"
+                    + getTimestamp().toString() + "'";
         } else {
             return "EMPTY LOG";
         }

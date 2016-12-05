@@ -37,9 +37,10 @@ public class DeletedAccountLog extends Log {
     @Override
     public String toString() {
         if (deletedAccountID != null) {
-            return "'" + getTimestamp().toString() + "','"
+            return "'"
                     + getResponsibleAccount().getEmail() + "','"
-                    + deletedAccountID + "'";
+                    + deletedAccountID + "','"
+                    + getTimestamp().toString() + "'";
         } else {
             return "EMPTY LOG";
         }

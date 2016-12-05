@@ -36,9 +36,10 @@ public class DeletedReportLog extends Log {
     @Override
     public String toString() {
         if (reportID != null) {
-            return "'" + getTimestamp().toString() + "','"
-                    + getResponsibleAccount().getEmail() + "','"
-                    + reportID + "'";
+            return "'" + getResponsibleAccount().getEmail() + "','"
+                    + reportID + "','"
+                    + getTimestamp().toString() + "'";
+
         } else {
             return "EMPTY LOG";
         }

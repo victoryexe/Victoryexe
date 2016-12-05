@@ -36,9 +36,10 @@ public class UnblockAccountLog extends Log {
     @Override
     public String toString() {
         if (unbannedAccountID != null) {
-            return "'" + getTimestamp().toString() + "','"
+            return "'"
                     + getResponsibleAccount().getEmail() + "','"
-                    + unbannedAccountID + "'";
+                    + unbannedAccountID + "','"
+                    + getTimestamp().toString() + "'";
         } else {
             return "EMPTY LOG";
         }

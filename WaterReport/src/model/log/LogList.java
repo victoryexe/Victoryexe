@@ -4,7 +4,7 @@ import model.Users.Account;
 import model.Users.Admin;
 import model.Users.Manager;
 import model.report.Report;
-
+import db.DB;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -79,6 +79,7 @@ public class LogList {
         BannedAccountLog log = new BannedAccountLog(responsibleAccount,
                 bannedAccountID);
         bannedAccountLog.add(log);
+        DB.addLog(log);
     }
 
     /**
@@ -92,6 +93,9 @@ public class LogList {
         DeletedAccountLog log = new DeletedAccountLog(responsibleAccount,
                 deletedAccountID);
         deletedAccountLog.add(log);
+        DB.addLog(log);
+        System.out.println("deletedAccount");
+
     }
 
     /**
@@ -127,6 +131,8 @@ public class LogList {
                                               Report report) {
         DeletedReportLog log = new DeletedReportLog(responsibleAccount, report);
         deletedReportLog.add(log);
+        DB.addLog(log);
+
     }
 
     /**
@@ -140,6 +146,8 @@ public class LogList {
         LoginAttemptLog log = new LoginAttemptLog(responsibleAccount,
                 successStatus);
         loginAttemptLog.add(log);
+        DB.addLog(log);
+
     }
 
     /**
@@ -153,5 +161,7 @@ public class LogList {
         UnblockAccountLog log = new UnblockAccountLog(responsibleAccount,
                 unblockedAccountID);
         unblockAccountLog.add(log);
+        DB.addLog(log);
+
     }
 }
