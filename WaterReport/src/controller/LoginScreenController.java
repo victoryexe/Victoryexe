@@ -1,12 +1,15 @@
 package controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import fxapp.Main;
@@ -46,34 +49,18 @@ public class LoginScreenController {
     @FXML
     private void initialize() {
         setCurrUser(null);
-
-        loginButton.setOnAction((ActionEvent event) -> {
-            String subject = username.getText();
-            String pass = password.getText();
-            if ("".equals(subject) || "".equals(pass)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR,
-                        "Username and Password fields cannot be empty", ButtonType.CLOSE);
-                alert.show();
-            } else {
-                try {
-                    if (Login.login(subject, pass)) {
-                        setCurrUser(UserList.getUserAccount(subject));
-                        if (AuthLevel.ADMIN == currUser.getAuthLevel()) {
-                            mainApp.showAdmin();
-                        } else {
-                            mainApp.showMain();
-                        }
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR,
-                                "Login failed.", ButtonType.CLOSE);
-                        alert.show();
-                    }
-                } catch (PasswordStorage.CannotPerformOperationException
-                        | PasswordStorage.InvalidHashException e) {
-                    throw new RuntimeException(e);
+        loginButton.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent ke)
+            {
+                if (ke.getCode().equals(KeyCode.ENTER))
+                {
+                    loginUser();
                 }
             }
         });
+        loginButton.setOnAction((ActionEvent event) -> loginUser());
 
         register.setOnAction((ActionEvent event) -> mainApp.showRegistration());
     }
@@ -93,6 +80,34 @@ public class LoginScreenController {
 
     static Account getCurrUser() {
         return currUser;
+    }
+
+    private void loginUser() {
+        String subject = username.getText();
+        String pass = password.getText();
+        if ("".equals(subject) || "".equals(pass)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Username and Password fields cannot be empty", ButtonType.CLOSE);
+            alert.show();
+        } else {
+            try {
+                if (Login.login(subject, pass)) {
+                    setCurrUser(UserList.getUserAccount(subject));
+                    if (AuthLevel.ADMIN == currUser.getAuthLevel()) {
+                        mainApp.showAdmin();
+                    } else {
+                        mainApp.showMain();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,
+                            "Login failed.", ButtonType.CLOSE);
+                    alert.show();
+                }
+            } catch (PasswordStorage.CannotPerformOperationException
+                    | PasswordStorage.InvalidHashException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
