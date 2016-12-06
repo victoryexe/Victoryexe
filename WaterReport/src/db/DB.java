@@ -633,30 +633,29 @@ public class DB {
             ResultSet rs = null;
             try {
                 if (report instanceof QualityReport) {
-                    String reportDef = "("
-                            + Timestamp.valueOf(report.getTimestamp()) + ",'"
+                    String reportDef = "('"
                             + report.getSubmitterID() + "','"
                             + report.getOther() + "','"
                             + report.getLocation() + "','"
                             + report.getReportID() + "',"
-                            + ((QualityReport) report).getVirusPPM() + "',"
+                            + ((QualityReport) report).getVirusPPM() + ",'"
                             + ((QualityReport) report).getWaterCondition() + "',"
-                            + ((QualityReport) report).getContaminantPPM()
+                            + ((QualityReport) report).getContaminantPPM() + ",'"
+                            + report.getTimestamp() + "'"
                             + ")";
                     stmt = conn.createStatement();
                     stmt.executeUpdate("INSERT INTO qualityReports VALUES " + reportDef);
                 } else if (report instanceof WaterReport) {
-                    String reportDef = "("
-                            + report.getTime() + ",'"
+                    String reportDef = "('"
                             + report.getSubmitterID() + "','"
                             + report.getOther() + "','"
-                            + report.getLocation() + "','"
-                            + report.getReportID() + "','"
+                            + report.getLocation() + "',"
+                            + report.getReportID() + ",'"
                             + ((WaterReport) report).getWaterType() + "','"
-                            + ((WaterReport) report).getWaterCondition() + "'"
-                            + ")";
+                            + ((WaterReport) report).getWaterCondition() + "','"
+                            + report.getTimestamp() + "')";
                     stmt = conn.createStatement();
-                    rs = stmt.executeQuery("INSERT INTO waterReports VALUES " + reportDef);
+                    stmt.executeUpdate("INSERT INTO waterReports VALUES " + reportDef);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

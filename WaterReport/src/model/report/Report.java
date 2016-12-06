@@ -30,10 +30,8 @@ public abstract class Report implements Comparable<Report> {
         submitterID = submitter;
         this.location = location;
     }
-    Report(User submitter, Location location, String timestamp) {
-        this.timestamp = LocalDateTime.parse(timestamp);
-        submitterID = submitter;
-        this.location = location;
+    Report(User submitter, Location location, String tStamp) {
+        this(submitter, location, LocalDateTime.parse(tStamp));
     }
 
     /**
@@ -45,7 +43,6 @@ public abstract class Report implements Comparable<Report> {
     Report(User submitter, Location location) {
         this(submitter, location, LocalDateTime.now());
     }
-
     /**
      * Gets the id of this report
      * @return the id of this report
