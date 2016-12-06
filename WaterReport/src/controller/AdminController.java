@@ -57,6 +57,8 @@ public class AdminController {
     @FXML
     private ComboBox<String> adminsalutationcombobox;
     @FXML
+    private ComboBox<String> reportType;
+    @FXML
     private Label currsalutation;
     @FXML
     private ListView<Account> userlist;
@@ -82,7 +84,7 @@ public class AdminController {
                 currsalutation);
         UserListController userList = new UserListController(userlist, deleteuser, banuser, unblockuser);
 
-        LogListController loglist = new LogListController(logList);
+        LogListController loglist = new LogListController(logList, reportType);
 
         Logout.setOnAction(event -> mainApp.showLogin());
         refreshAdmin.setOnAction((ActionEvent) -> {
@@ -91,7 +93,7 @@ public class AdminController {
             LogList.addNewLogs(DB.loadLogData());
             DB.loadAllReports();
             userList.updateUserList();
-            loglist.updateLogList();
+            loglist.updateLogList(loglist.getLogType());
         });
     }
 }
