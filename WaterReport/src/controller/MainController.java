@@ -68,6 +68,8 @@ public class MainController {
     @FXML
     private Label currsalutation;
     @FXML
+    private Label Banned;
+    @FXML
     private TextField latitude;
     @FXML
     private TextField longitude;
@@ -217,11 +219,23 @@ public class MainController {
         switch(user.getAuthLevel()) {
             case USER:
                 tabs.remove(3);
+                if(user.getIsBanned()) {
+                    tabs.remove(2);
+                    Banned.setText("User is banned from submitting reports");
+                }
                 break;
             case WORKER:
+                if(user.getIsBanned()) {
+                    tabs.remove(2);
+                    Banned.setText("User is banned from submitting reports");
+                }
                 tabs.remove(3);
                 break;
             case MANAGER:
+                if(user.getIsBanned()) {
+                    tabs.remove(2);
+                    Banned.setText("User is banned from submitting reports");
+                }
                 break;
             case ADMIN:
                 for(int i = 0; i < 3; i++) {
