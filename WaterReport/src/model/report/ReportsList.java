@@ -100,6 +100,14 @@ public class ReportsList {
     // Delete Report functionality has not been added yet, so IntelliJ
     // flags these as unused.
 
+    public static boolean deleteReport(Manager manager, Report report) {
+        if (report instanceof WaterReport) {
+            return deleteWaterReport(manager, report.getReportID());
+        } else {
+            return deleteQualityReport(manager, report.getReportID());
+        }
+    }
+
     /**
      * "Deletes" a WaterReport by setting its isRemoved marker to true
      * @param manager the Manager deleting a WaterReport
