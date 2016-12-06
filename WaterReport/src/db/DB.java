@@ -381,7 +381,7 @@ public class DB {
                 ArrayList<Account> accountList = new ArrayList<>();
                 try {
                     stmt = conn.createStatement();
-                    stmt.executeUpdate("INSERT INTO deletedReportLogs VALUES ("
+                    stmt.executeUpdate("INSERT INTO deletedReportLog VALUES ("
                             + log.toString() + ")");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -798,12 +798,12 @@ public class DB {
             try {
                 if (report instanceof QualityReport) {
                     stmt = conn.createStatement();
-                    stmt.executeUpdate("DELETE FROM qualityReport WHERE reportID='" +
+                    stmt.executeUpdate("DELETE FROM qualityReports WHERE reportID='" +
                             report.getReportID() + "'");
                     return true;
                 } else if (report instanceof WaterReport) {
                     stmt = conn.createStatement();
-                    stmt.executeUpdate("DELETE FROM waterReport WHERE reportID='" +
+                    stmt.executeUpdate("DELETE FROM waterReports WHERE reportID='" +
                             report.getReportID() + "'");
                     return true;
                 }

@@ -1,5 +1,6 @@
 package model.registration;
 
+import db.DB;
 import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import model.log.LogList;
@@ -51,6 +52,7 @@ public class Login {
                 }
                 if (attempts >= MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS) {
                     account.setBlocked(true);
+                    //DB.block(account.getEmail());
                 }
             }
         }
