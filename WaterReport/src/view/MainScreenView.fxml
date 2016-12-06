@@ -122,7 +122,7 @@
                 </ScrollPane>
                 <Button fx:id="hisreportTransition" layoutX="232.0" layoutY="14.0" mnemonicParsing="false" text="Chart Historical Report" />
                 <Button fx:id="viewreport" contentDisplay="CENTER" layoutX="192.0" layoutY="317.0" mnemonicParsing="false" text="View Report" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="192.0" />
-            <Button fx:id="deleteReport" layoutX="343.0" layoutY="317.0" mnemonicParsing="false" text="Delete Report" />
+            <Button fx:id="deleteReport" layoutX="338.0" layoutY="317.0" mnemonicParsing="false" text="Delete Report" />
             </AnchorPane>
         </Tab>
         <Tab fx:id="Purity" text="Submit Purity">
