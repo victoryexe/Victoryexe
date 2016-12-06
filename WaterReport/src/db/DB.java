@@ -513,7 +513,9 @@ public class DB {
                 String bannedAccountID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    Account tmp = UserList.getUserAccount(rs.getString(1));
+                    resAccount = new Admin(tmp.getName(),tmp.getEmail());
+                    //resAccount = UserList.getUserAccount(rs.getString(1));
                     bannedAccountID = rs.getString(2);
                     tStamp = rs.getString(3);
                     log = new BannedAccountLog((Admin) resAccount, bannedAccountID, tStamp);
@@ -530,7 +532,8 @@ public class DB {
                 String deletedAccountID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    Account tmp = UserList.getUserAccount(rs.getString(1));
+                    resAccount = new Admin(tmp.getName(),tmp.getEmail());
                     deletedAccountID = rs.getString(2);
                     tStamp = rs.getString(3);
                     log = new DeletedAccountLog((Admin) resAccount, deletedAccountID, tStamp);
@@ -547,7 +550,8 @@ public class DB {
                 String deletedReportID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    Account tmp = UserList.getUserAccount(rs.getString(1));
+                    resAccount = new Manager(tmp.getName(),tmp.getEmail());
                     deletedReportID = rs.getString(2);
                     tStamp = rs.getString(3);
                     log = new DeletedReportLog((Manager) resAccount, deletedReportID, tStamp);
@@ -581,7 +585,9 @@ public class DB {
                 String bannedAccountID;
                 Log log;
                 while (rs.next() && !rs.isAfterLast()) {
-                    resAccount = UserList.getUserAccount(rs.getString(1));
+                    //resAccount = UserList.getUserAccount(rs.getString(1));
+                    Account tmp = UserList.getUserAccount(rs.getString(1));
+                    resAccount = new Admin(tmp.getName(),tmp.getEmail());
                     bannedAccountID = rs.getString(2);
                     tStamp = rs.getString(3);
                     log = new UnblockAccountLog((Admin) resAccount, bannedAccountID, tStamp);

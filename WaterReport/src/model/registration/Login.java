@@ -51,8 +51,9 @@ public class Login {
                     }
                 }
                 if (attempts >= MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS) {
+                    DB.block(account.getEmail());
                     account.setBlocked(true);
-                    //DB.block(account.getEmail());
+
                 }
             }
         }
