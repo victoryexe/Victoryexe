@@ -1,6 +1,8 @@
 package controller;
 
+import db.DB;
 import fxapp.Main;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 
@@ -12,10 +14,8 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.report.QualityReport;
-import model.report.Report;
-import model.report.SortReports;
-import model.report.WaterReport;
+import model.Users.Manager;
+import model.report.*;
 
 
 import java.io.IOException;
@@ -30,9 +30,29 @@ class ReportListController {
     private static ListView<Report> reportlist;
     private FXMLLoader loader;
 
-    ReportListController(ListView<Report> reportlist, Button viewreport, Button histReport) {
+    ReportListController(ListView<Report> reportlist, Button viewreport, Button histReport, Button deleteReport) {
         setList(reportlist);
         updateList();
+
+        deleteReport.setOnAction(event -> {
+            Report report = reportlist.getSelectionModel().getSelectedItem();
+            if (report == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "No Report Selected.", ButtonType.CLOSE);
+                alert.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Are you sure you want to delete selected Report?");
+                alert.showAndWait()
+                        .filter(response -> response == ButtonType.OK)
+                        .ifPresent(response -> {
+                            ReportsList.deleteReport((Manager) LoginScreenController.getCurrUser(),
+                                    report);
+                            DB.deleteReport(report);
+                            updateList();
+                        });
+            }
+        });
 
         viewreport.setOnAction(event -> {
             Report report = reportlist.getSelectionModel().getSelectedItem();

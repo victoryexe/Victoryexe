@@ -117,6 +117,8 @@ public class MainController {
     private Button searchBut;
     @FXML
     private Button refresh;
+    @FXML
+    private Button deleteReport;
 
     /** reference back to mainApplication if needed */
     private Main mainApp;
@@ -144,7 +146,7 @@ public class MainController {
 
         // Delegates control of the View Report screen to ReportListController
         ReportListController reportList =
-                new ReportListController(reportlist, viewreport, hisreportTransition);
+                new ReportListController(reportlist, viewreport, hisreportTransition, deleteReport);
 
         // Delegates control of the Google Map to MapController
         MapComponentInitializedListener map = new MapController(GmapsViewPane, searchLat, searchLon, searchBut);
