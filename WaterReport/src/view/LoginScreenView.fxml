@@ -21,12 +21,12 @@
                 <Font name="Papyrus" size="72.0" />
             </font>
         </Label>
-       <Label layoutX="180.0" layoutY="146.0" text="Email:" textFill="WHITE">
+       <Label layoutX="177.0" layoutY="146.0" text="Email:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-       <Label layoutX="154.0" layoutY="190.0" text="Password:   " textFill="WHITE">
+       <Label layoutX="148.0" layoutY="190.0" text="Password:   " textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
