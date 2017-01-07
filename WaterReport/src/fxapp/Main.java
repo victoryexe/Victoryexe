@@ -171,13 +171,4 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-/* Used in a desperate attempt at a shitty persistence handler.
-   @Override
-    public void stop() {
-        PersistenceHandler.saveUsers(UserList.getUserList());
-        Authentication.savePass();
-        Platform.exit();
-   }
-*/
 }
