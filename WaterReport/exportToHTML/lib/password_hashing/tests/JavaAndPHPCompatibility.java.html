@@ -1,0 +1,195 @@
+<html>
+<head>
+<title>JavaAndPHPCompatibility.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(0,128,0); font-weight: bold; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(128,128,128); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+JavaAndPHPCompatibility.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">lib.password_hashing.tests; 
+ 
+</span><span class="s0">import </span><span class="s1">java.io.BufferedReader; 
+</span><span class="s0">import </span><span class="s1">java.io.File; 
+</span><span class="s0">import </span><span class="s1">java.io.IOException; 
+</span><span class="s0">import </span><span class="s1">java.io.InputStreamReader; 
+</span><span class="s0">import </span><span class="s1">lib.password_hashing.PasswordStorage; 
+ 
+</span><span class="s0">class </span><span class="s1">PasswordHashPair { 
+    </span><span class="s0">public </span><span class="s1">String password; 
+    </span><span class="s0">public </span><span class="s1">String hash; 
+} 
+ 
+</span><span class="s0">public class </span><span class="s1">JavaAndPHPCompatibility { 
+ 
+    </span><span class="s0">public static void </span><span class="s1">main(String[] args) 
+    { 
+        javaGoodHashTest(); 
+        javaBadHashTest(); 
+        testGoodPHPHash(); 
+        testBadPHPHash(); 
+    } 
+ 
+    </span><span class="s0">private static void </span><span class="s1">javaGoodHashTest() 
+    { 
+        String password = </span><span class="s2">&quot;test_password&quot;</span><span class="s1">; 
+        String javaHash = </span><span class="s2">&quot;&quot;</span><span class="s1">; 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            javaHash = PasswordStorage.createHash(password); 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            System.out.println(e.getMessage()); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(phpVerify(password, javaHash)) { 
+            System.out.println(</span><span class="s2">&quot;Java hash validating in PHP: pass&quot;</span><span class="s1">); 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            System.out.println(</span><span class="s2">&quot;Java hash validating in PHP: FAIL&quot;</span><span class="s1">); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+    } 
+ 
+    </span><span class="s0">private static void </span><span class="s1">javaBadHashTest() 
+    { 
+        String password = </span><span class="s2">&quot;test_password!&quot;</span><span class="s1">; 
+        String javaHash = </span><span class="s2">&quot;&quot;</span><span class="s1">; 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            javaHash = PasswordStorage.createHash(password); 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            System.out.println(e.getMessage()); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(phpVerify(</span><span class="s2">&quot;wrongPassword&quot;</span><span class="s1">, javaHash) == </span><span class="s0">false</span><span class="s1">) { 
+            System.out.println(</span><span class="s2">&quot;Java hash validating bad password in PHP: pass&quot;</span><span class="s1">); 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            System.out.println(</span><span class="s2">&quot;Java hash validating bad password in PHP: FAIL&quot;</span><span class="s1">); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+    } 
+ 
+    </span><span class="s0">private static void </span><span class="s1">testGoodPHPHash() 
+    { 
+        PasswordHashPair pair = getPHPHash(); 
+        </span><span class="s0">try </span><span class="s1">{ 
+            </span><span class="s0">if </span><span class="s1">(PasswordStorage.verifyPassword(pair.password, pair.hash)) { 
+                System.out.println(</span><span class="s2">&quot;PHP hash validating in Java: pass&quot;</span><span class="s1">); 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                System.out.println(</span><span class="s2">&quot;PHP hash validating in Java: FAIL&quot;</span><span class="s1">); 
+                System.exit(</span><span class="s3">1</span><span class="s1">); 
+            } 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                System.out.println(e.getMessage()); 
+                System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+    } 
+ 
+    </span><span class="s0">private static void </span><span class="s1">testBadPHPHash() 
+    { 
+        PasswordHashPair pair = getPHPHash(); 
+        </span><span class="s0">try </span><span class="s1">{ 
+            </span><span class="s0">if </span><span class="s1">(!PasswordStorage.verifyPassword(</span><span class="s2">&quot;wrongPassword&quot;</span><span class="s1">, pair.hash)) { 
+                System.out.println(</span><span class="s2">&quot;PHP hash validating bad password in Java: pass&quot;</span><span class="s1">); 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                System.out.println(</span><span class="s2">&quot;PHP hash validating bad password in Java: FAIL&quot;</span><span class="s1">); 
+                System.exit(</span><span class="s3">1</span><span class="s1">); 
+            } 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                System.out.println(e.getMessage()); 
+                System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+    } 
+ 
+    </span><span class="s0">private static boolean </span><span class="s1">phpVerify(String password, String hash) 
+    { 
+        Process phpTest = </span><span class="s0">null</span><span class="s1">; 
+        ProcessBuilder pb = </span><span class="s0">new </span><span class="s1">ProcessBuilder( 
+            </span><span class="s2">&quot;php&quot;</span><span class="s1">, 
+            </span><span class="s2">&quot;tests/phpVerify.php&quot;</span><span class="s1">, 
+            password, 
+            hash 
+        ); 
+ 
+        </span><span class="s4">// We're run with the cwd as tests/ by runtests.sh. Since PHP's require</span><span class="s1"> 
+        </span><span class="s4">// paths are relative to the cwd, we have to set it's cwd up one level:</span><span class="s1"> 
+        pb.directory(</span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;..&quot;</span><span class="s1">)); 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            phpTest = pb.start(); 
+        } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+            System.out.println(e.getMessage()); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            phpTest.waitFor(); 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            System.out.println(e.getMessage()); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        </span><span class="s0">return </span><span class="s1">phpTest.exitValue() == </span><span class="s3">0</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s0">private static </span><span class="s1">PasswordHashPair getPHPHash() 
+    { 
+        Process phpTest = </span><span class="s0">null</span><span class="s1">; 
+        ProcessBuilder pb = </span><span class="s0">new </span><span class="s1">ProcessBuilder( 
+            </span><span class="s2">&quot;php&quot;</span><span class="s1">, 
+            </span><span class="s2">&quot;tests/phpHashMaker.php&quot;</span><span class="s1"> 
+        ); 
+ 
+        pb.directory(</span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;..&quot;</span><span class="s1">)); 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            phpTest = pb.start(); 
+        } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+            System.out.println(e.getMessage()); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        BufferedReader stdInput = </span><span class="s0">new </span><span class="s1">BufferedReader(</span><span class="s0">new </span><span class="s1">InputStreamReader(phpTest.getInputStream())); 
+        String s = </span><span class="s0">null</span><span class="s1">; 
+        </span><span class="s0">try </span><span class="s1">{ 
+            s = stdInput.readLine(); 
+        } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+            System.out.println(e.getMessage()); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            phpTest.waitFor(); 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            System.out.println(e.getMessage()); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        String[] testData = s.split(</span><span class="s2">&quot; &quot;</span><span class="s1">); 
+        PasswordHashPair pair = </span><span class="s0">new </span><span class="s1">PasswordHashPair(); 
+        pair.password = testData[</span><span class="s3">1</span><span class="s1">]; 
+        pair.hash = testData[</span><span class="s3">2</span><span class="s1">]; 
+ 
+        </span><span class="s0">if </span><span class="s1">(testData[</span><span class="s3">1</span><span class="s1">].length() != Integer.parseInt(testData[</span><span class="s3">0</span><span class="s1">])) { 
+            System.out.println(</span><span class="s2">&quot;Unicode test is invalid.&quot;</span><span class="s1">); 
+            System.exit(</span><span class="s3">1</span><span class="s1">); 
+        } 
+ 
+        </span><span class="s0">return </span><span class="s1">pair; 
+    } 
+} 
+</span></pre>
+</body>
+</html>

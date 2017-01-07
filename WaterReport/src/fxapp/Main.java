@@ -1,15 +1,20 @@
 package fxapp;
 
+
 import controller.AdminController;
 import controller.LoginScreenController;
 import controller.MainController;
 import controller.RegistrationController;
+import db.DB;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.log.LogList;
+import model.registration.Authentication;
+import model.registration.UserList;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -34,16 +39,15 @@ public class Main extends Application {
         initRootLayout(screen);
     }
 
-    public Stage getScreen() { return screen;}
+    public Stage getScreen() {
+        return screen;
+    }
 
     private void initRootLayout(Stage mainScreen) {
-    /*  Used in a desperate attempt at a shitty persistence handler.
-        PersistenceHandler.loadUsers(new File("D:\\GitHub\\Victoryexe\\WaterReport\\src" +
-                        "\\fxapp\\persistance\\Users.txt"),
-                new File("D:\\GitHub\\Victoryexe\\WaterReport\\src\\fxapp\\persistance\\Passwords.txt"));
-          PersistenceHandler.loadQualityReports(new File("../persistance/QualityReports.txt"));
-          PersistenceHandler.loadWaterReports(new File("../persistance/WaterReports.txt"));
-    */
+        UserList.mapAllAccounts(DB.loadAllAccounts());
+        Authentication.loadMap(DB.loadMap());
+        LogList.addNewLogs(DB.loadLogData());
+        DB.loadAllReports();
         try {
             // Load root layout from fxml file.
             loader = new FXMLLoader();
@@ -68,6 +72,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Switches from whatever screen the program is currently on to the Main screen
+     */
+
     public void showMain() {
         try {
             // Load main screen.
@@ -90,11 +98,15 @@ public class Main extends Application {
         }
 
     }
+
+    /**
+     * Switches from whatever screen the program is currently on to the Registration screen
+     */
     public void showRegistration() {
         Parent root;
         try {
             loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/Registration.fxml"));
+            loader.setLocation(Main.class.getResource("../view/Registration.fxml"));
             root = loader.load();
             RegistrationController controller = loader.getController();
             controller.setMainApp(this);
@@ -107,6 +119,9 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Switches from whatever screen the program is on to the Admin version of the Main screen
+     */
     public void showAdmin() {
         try {
             // Load Admin screen.
@@ -128,11 +143,15 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Switches from whatever screen the program is currently on to the Login screen
+     */
     public void showLogin() {
         Parent root;
         try {
             loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/LoginScreenView.fxml"));
+            loader.setLocation(Main.class.getResource("../view/LoginScreenView.fxml"));
             root = loader.load();
             LoginScreenController controller = loader.getController();
             controller.setMainApp(this);
@@ -145,16 +164,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Starts the program
+     * @param args args
+     */
     public static void main(String[] args) {
         launch(args);
     }
-
-/* Used in a desperate attempt at a shitty persistence handler.
-   @Override
-    public void stop() {
-        PersistenceHandler.saveUsers(UserList.getUserList());
-        Authentication.savePass();
-        Platform.exit();
-   }
-*/
 }

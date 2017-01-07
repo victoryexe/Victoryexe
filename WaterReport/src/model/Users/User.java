@@ -14,6 +14,12 @@ public class User implements Account {
     private boolean isBanned;
     private boolean isBlocked;
 
+    /**
+     * Constructor used to load data from the DB
+     * @param name the User's name
+     * @param email the User's email
+     * @param userID the User's userID
+     */
     public User(String name, String email, int userID) {
         this.name = name;
         this.email = email;
@@ -84,10 +90,6 @@ public class User implements Account {
         return isBlocked;
     }
     @Override
-    public void setIsBlocked() {
-        isBlocked = !isBlocked;
-    }
-    @Override
     public void setBlocked(boolean block) {isBlocked = block;}
 
 
@@ -103,14 +105,21 @@ public class User implements Account {
         if (!(obj instanceof User)) {
             return false;
         }
-        return ((User) obj).getUserID() == this.getUserID();
+        return ((User) obj).hashCode() == this.hashCode();
     }
     @Override
     public int hashCode() {
-        return getUserID();
+        return getEmail().hashCode();
     }
     @Override
     public String toString() {
-        return name + ", " + email + ", " + getAuthLevel().name();
+        String msg = name + ", " + email + ", " + getAuthLevel();
+        if (isBanned) {
+            msg += ", BANNED";
+        }
+        if (isBlocked) {
+            msg += ", BLOCKED";
+        }
+        return msg;
     }
 }

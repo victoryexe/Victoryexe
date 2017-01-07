@@ -1,0 +1,184 @@
+<html>
+<head>
+<title>HistoricalReportController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+HistoricalReportController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">controller; 
+ 
+</span><span class="s0">import </span><span class="s1">javafx.collections.ObservableList; 
+</span><span class="s0">import </span><span class="s1">javafx.fxml.FXML; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.chart.BarChart; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.chart.CategoryAxis; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.chart.NumberAxis; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.chart.XYChart; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Alert; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Button; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.ButtonType; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.ComboBox; 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.TextField; 
+</span><span class="s0">import </span><span class="s1">javafx.stage.Stage; 
+</span><span class="s0">import </span><span class="s1">model.report.Location; 
+</span><span class="s0">import </span><span class="s1">model.report.SortReports; 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList; 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+ 
+</span><span class="s2">/** 
+ * Created by grizz on 11/1/2016. 
+ * Handles displaying of the Historical Report 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">HistoricalReportController { 
+ 
+    @FXML 
+    </span><span class="s0">private </span><span class="s1">TextField hisLat; 
+    @FXML 
+    </span><span class="s0">private </span><span class="s1">TextField hisLon; 
+    @FXML 
+    </span><span class="s0">private </span><span class="s1">ComboBox&lt;String&gt; Year; 
+    @FXML 
+    </span><span class="s0">private </span><span class="s1">ComboBox Ptype; 
+    @FXML 
+    </span><span class="s0">private </span><span class="s1">Button searchBar; 
+    @FXML 
+    </span><span class="s0">private </span><span class="s1">BarChart HistoricalChart; 
+ 
+    </span><span class="s0">private </span><span class="s1">Stage dialogStage; 
+ 
+    </span><span class="s0">private final int </span><span class="s1">DEFAULT_RADIUS = </span><span class="s3">50</span><span class="s1">; 
+ 
+    </span><span class="s0">private </span><span class="s1">ObservableList&lt;XYChart.Data&lt;String, Double&gt;&gt; sdata; 
+ 
+    </span><span class="s0">private </span><span class="s1">XYChart.Series&lt;String, Double&gt; series; 
+ 
+    </span><span class="s0">private final </span><span class="s1">List&lt;String&gt; years = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+ 
+    </span><span class="s0">private final </span><span class="s1">List&lt;String&gt; type = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+ 
+    </span><span class="s0">private </span><span class="s1">NumberAxis yAxis; 
+ 
+    </span><span class="s0">private double</span><span class="s1">[] data; 
+    </span><span class="s0">private static final int </span><span class="s1">MIN_YEAR = </span><span class="s3">2016</span><span class="s1">; 
+    </span><span class="s0">private static final int </span><span class="s1">MAX_YEAR = </span><span class="s3">3016</span><span class="s1">; 
+ 
+    </span><span class="s0">public void </span><span class="s1">setDialogStage(Stage dialogStage) { </span><span class="s0">this</span><span class="s1">.dialogStage = dialogStage;} 
+ 
+    @FXML 
+    </span><span class="s0">private void </span><span class="s1">initialize() { 
+        </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = MIN_YEAR; i &lt; MAX_YEAR; i++) { 
+            years.add(String.valueOf(i)); 
+        } 
+        MainController.populateComboBox(Year, years); 
+        MainController.restrictToNums(hisLat); 
+        MainController.restrictToNums(hisLon); 
+        type.add(</span><span class="s4">&quot;Contaminant&quot;</span><span class="s1">); 
+        type.add(</span><span class="s4">&quot;Virus&quot;</span><span class="s1">); 
+        MainController.populateComboBox(Ptype, type); 
+        CategoryAxis xAxis = (CategoryAxis) HistoricalChart.getXAxis(); 
+        yAxis = (NumberAxis)HistoricalChart.getYAxis(); 
+        xAxis.setLabel(</span><span class="s4">&quot;Month&quot;</span><span class="s1">); 
+        series = </span><span class="s0">new </span><span class="s1">XYChart.Series&lt;&gt;(); 
+        sdata = series.getData(); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;January&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;February&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;March&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;April&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;May&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;June&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;July&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;August&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;September&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;October&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;November&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        sdata.add(</span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;December&quot;</span><span class="s1">, </span><span class="s3">0.0</span><span class="s1">)); 
+        series.setData(sdata); 
+        HistoricalChart.getData().addAll(series); 
+ 
+        setUpSearch(); 
+ 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setUpSearch() { 
+        searchBar.setOnAction((ActionEvent) -&gt; { 
+            </span><span class="s0">if</span><span class="s1">(</span><span class="s4">&quot;&quot;</span><span class="s1">.equals(hisLat.getText()) || </span><span class="s4">&quot;&quot;</span><span class="s1">.equals(hisLon.getText())) { 
+                Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                        </span><span class="s4">&quot;Both Latitude and Longitude must be filled in.&quot;</span><span class="s1">, 
+                        ButtonType.CLOSE); 
+                alert.show(); 
+            } </span><span class="s0">else if </span><span class="s1">((Math.abs(Double.valueOf(hisLat.getText())) &gt; Location.VALID_LATITUDE) 
+                    || (Math.abs(Double.valueOf(hisLon.getText())) &gt; Location.VALID_LONGITUDE)) { 
+                Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                        </span><span class="s4">&quot;Invalid Latitude or Longitude, please enter&quot;</span><span class="s1"> 
+                                + </span><span class="s4">&quot; a valid location.&quot;</span><span class="s1">, ButtonType.CLOSE); 
+                alert.show(); 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                Location loc = </span><span class="s0">new </span><span class="s1">Location( 
+                        Double.parseDouble(hisLat.getText()), 
+                        Double.parseDouble(hisLon.getText())); 
+                </span><span class="s0">if </span><span class="s1">((Ptype.getValue()).equals(Ptype.getItems().get(</span><span class="s3">0</span><span class="s1">))) { 
+                    data = SortReports. 
+                            generateHistoricalReportByContaminantPPM(loc, DEFAULT_RADIUS, 
+                                    Integer.parseInt(Year.getValue())); 
+                    yAxis.setLabel(</span><span class="s4">&quot;ContaminantPPM&quot;</span><span class="s1">); 
+                    series.setName(</span><span class="s4">&quot;Contaminant&quot;</span><span class="s1">); 
+ 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    data = SortReports.generateHistoricalReportByVirusPPM(loc, 
+                            DEFAULT_RADIUS, Integer.parseInt(Year.getValue())); 
+                    yAxis.setLabel(</span><span class="s4">&quot;VirusPPM&quot;</span><span class="s1">); 
+                    series.setName(</span><span class="s4">&quot;Virus&quot;</span><span class="s1">); 
+                } 
+                </span><span class="s0">boolean </span><span class="s1">exists = </span><span class="s0">false</span><span class="s1">; 
+                </span><span class="s0">for </span><span class="s1">(</span><span class="s0">double </span><span class="s1">aData : data) { 
+                    </span><span class="s0">if </span><span class="s1">(aData != </span><span class="s3">0</span><span class="s1">) { 
+                        exists = </span><span class="s0">true</span><span class="s1">; 
+                    } 
+                } 
+                </span><span class="s0">if </span><span class="s1">(exists) { 
+                    setData(); 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    Alert alert = </span><span class="s0">new </span><span class="s1">Alert(Alert.AlertType.ERROR, 
+                            </span><span class="s4">&quot;No Reports listed around requested location for requested date.&quot;</span><span class="s1">, 
+                            ButtonType.CLOSE); 
+                    alert.show(); 
+                } 
+            } 
+        }); 
+ 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setData() { 
+        </span><span class="s0">final int </span><span class="s1">DECEMBER = </span><span class="s3">11</span><span class="s1">; 
+        sdata.set(</span><span class="s3">0</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;January&quot;</span><span class="s1">, data[</span><span class="s3">0</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">1</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;February&quot;</span><span class="s1">, data[</span><span class="s3">1</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">2</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;March&quot;</span><span class="s1">, data[</span><span class="s3">2</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">3</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;April&quot;</span><span class="s1">, data[</span><span class="s3">3</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">4</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;May&quot;</span><span class="s1">, data[</span><span class="s3">4</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">5</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;June&quot;</span><span class="s1">, data[</span><span class="s3">5</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">6</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;July&quot;</span><span class="s1">, data[</span><span class="s3">6</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">7</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;August&quot;</span><span class="s1">, data[</span><span class="s3">7</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">8</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;September&quot;</span><span class="s1">, data[</span><span class="s3">8</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">9</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;October&quot;</span><span class="s1">, data[</span><span class="s3">9</span><span class="s1">])); 
+        sdata.set(</span><span class="s3">10</span><span class="s1">, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;November&quot;</span><span class="s1">, data[</span><span class="s3">10</span><span class="s1">])); 
+        sdata.set(DECEMBER, </span><span class="s0">new </span><span class="s1">XYChart.Data&lt;&gt;(</span><span class="s4">&quot;December&quot;</span><span class="s1">, data[DECEMBER])); 
+        series.setData(sdata); 
+        HistoricalChart.getData().setAll(series); 
+    } 
+} 
+</span></pre>
+</body>
+</html>

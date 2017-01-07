@@ -1,0 +1,183 @@
+<html>
+<head>
+<title>Authentication.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Authentication.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model.registration; 
+ 
+</span><span class="s0">import </span><span class="s1">jdk.internal.org.objectweb.asm.util.CheckAnnotationAdapter; 
+</span><span class="s0">import </span><span class="s1">lib.password_hashing.PasswordStorage; 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.*; 
+ 
+</span><span class="s2">// All classes flagged as utility classes were designed to be utility classes.</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by Alexandra on 9/24/2016. 
+ * A helper class that contains a map of userids to passwords, methods 
+ * to update these entries, and methods to check whether users exist 
+ * in the map. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">Authentication { 
+    </span><span class="s0">private static final </span><span class="s1">Map&lt;String, CharSequence&gt; userMap = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;(); 
+ 
+</span><span class="s2">//    /**</span><span class="s1"> 
+</span><span class="s2">//     * calls the Persistence handler to save the passwords to a file</span><span class="s1"> 
+</span><span class="s2">//     * (not safe but used in desperation)</span><span class="s1"> 
+</span><span class="s2">//     */</span><span class="s1"> 
+</span><span class="s2">//    public static void savePass() {</span><span class="s1"> 
+</span><span class="s2">//        PersistenceHandler.savePass(userMap.values());</span><span class="s1"> 
+</span><span class="s2">//    }</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Gets the hashed password associated with the given account 
+     * </span><span class="s3">@param </span><span class="s2">userid the Account for which to get the hashed password 
+     * </span><span class="s3">@return </span><span class="s2">the hashed password or null if the user doesn't exist 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">String getHash(String userid) { 
+        String hash = (String) userMap.get(userid); 
+        </span><span class="s0">if </span><span class="s1">(userid == </span><span class="s0">null </span><span class="s1">|| hash == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return null</span><span class="s1">; 
+        } 
+        </span><span class="s0">return </span><span class="s1">hash; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Creates Mapping from email Map 
+     * </span><span class="s3">@param </span><span class="s2">emailMap 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">loadMap(HashMap&lt;String, CharSequence&gt; emailMap) { 
+        </span><span class="s0">if </span><span class="s1">(emailMap != </span><span class="s0">null</span><span class="s1">) { 
+            Set&lt;String&gt; emails = </span><span class="s0">new </span><span class="s1">HashSet&lt;&gt;(emailMap.keySet()); 
+            </span><span class="s0">for </span><span class="s1">(String email : emails) { 
+                System.out.println(email); 
+                System.out.println(emailMap.get(email)); 
+                </span><span class="s0">if </span><span class="s1">(!userMap.containsKey(email)) { 
+                    userMap.put(email, emailMap.get(email)); 
+                } 
+            } 
+        } 
+    } 
+    </span><span class="s2">/** 
+     * Verifies that the user exists 
+     * </span><span class="s3">@param </span><span class="s2">userid The username 
+     * </span><span class="s3">@return </span><span class="s2">true iff the userid exists 
+     */</span><span class="s1"> 
+    </span><span class="s0">static boolean </span><span class="s1">verifySubject(String userid) { 
+        </span><span class="s0">return </span><span class="s1">userMap.containsKey(userid); 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Verifies the entered password is correct 
+     * </span><span class="s3">@param </span><span class="s2">userid the userid the user entered 
+     * </span><span class="s3">@param </span><span class="s2">password The user-entered password 
+     * </span><span class="s3">@return </span><span class="s2">true iff the password is indeed the user's password 
+     */</span><span class="s1"> 
+    </span><span class="s0">static boolean </span><span class="s1">verifyPassword(String userid, String password) 
+            </span><span class="s0">throws </span><span class="s1">PasswordStorage.CannotPerformOperationException, 
+            PasswordStorage.InvalidHashException { 
+        </span><span class="s0">return </span><span class="s1">PasswordStorage.verifyPassword(password, 
+                (String) userMap.get(userid)); 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Adds a new password, userid entry to userMap 
+     * </span><span class="s3">@param </span><span class="s2">subject the userid of the new account 
+     * </span><span class="s3">@param </span><span class="s2">password the password associated with the account 
+     * </span><span class="s3">@param </span><span class="s2">password2 the confirmed password 
+     * </span><span class="s3">@return </span><span class="s2">true if the user was successfully added to the map 
+     */</span><span class="s1"> 
+    </span><span class="s0">static boolean </span><span class="s1">addNewAccount(String subject, String password, 
+                                 String password2) 
+            </span><span class="s0">throws </span><span class="s1">PasswordStorage.CannotPerformOperationException { 
+        </span><span class="s0">if </span><span class="s1">(userMap.containsKey(subject)) { 
+            </span><span class="s0">return false</span><span class="s1">; 
+        } 
+        </span><span class="s0">if </span><span class="s1">(password.equals(password2)) { 
+            userMap.put(subject, PasswordStorage.createHash(password)); 
+            </span><span class="s0">return true</span><span class="s1">; 
+        } 
+        </span><span class="s0">return false</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Deletes previous user-id: pass mapping and makes a new one 
+     * </span><span class="s3">@param </span><span class="s2">oldEmail the user's old email 
+     * </span><span class="s3">@param </span><span class="s2">newEmail the user's new email 
+     * </span><span class="s3">@param </span><span class="s2">pass1 the user's password 
+     * </span><span class="s3">@param </span><span class="s2">pass2 confirm password 
+     * </span><span class="s3">@throws </span><span class="s2">java.util.NoSuchElementException if no user is associated 
+     * with the given oldEmail 
+     * </span><span class="s3">@return </span><span class="s2">true iff the map was updated, false otherwise 
+     */</span><span class="s1"> 
+    </span><span class="s0">private static boolean </span><span class="s1">updateAccount(String oldEmail, String newEmail, 
+                                         String pass1, String pass2) 
+            </span><span class="s0">throws </span><span class="s1">PasswordStorage.CannotPerformOperationException { 
+        CharSequence oldPass = userMap.remove(oldEmail); 
+        </span><span class="s0">if </span><span class="s1">(oldPass == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">throw new </span><span class="s1">java.util.NoSuchElementException(</span><span class="s4">&quot;No existing user&quot;</span><span class="s1"> 
+                    + </span><span class="s4">&quot;with the email &quot; </span><span class="s1">+ oldEmail); 
+        } 
+        </span><span class="s0">if </span><span class="s1">(pass1.equals(pass2)) { 
+            userMap.put(newEmail, PasswordStorage.createHash(pass1)); 
+            </span><span class="s0">return true</span><span class="s1">; 
+        } 
+        </span><span class="s0">return false</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Deletes previous user-id: pass mapping and makes a new one 
+     * </span><span class="s3">@param </span><span class="s2">oldEmail the user's old email 
+     * </span><span class="s3">@param </span><span class="s2">newEmail the user's new email 
+     * </span><span class="s3">@throws </span><span class="s2">java.util.NoSuchElementException if no user is associated 
+     * with the given oldEmail 
+     * </span><span class="s3">@return </span><span class="s2">true iff the map was updated, false otherwise 
+     */</span><span class="s1"> 
+    </span><span class="s0">static boolean </span><span class="s1">updateEmail(String oldEmail, String newEmail) 
+            </span><span class="s0">throws </span><span class="s1">PasswordStorage.CannotPerformOperationException { 
+        String pass = (String) userMap.get(oldEmail); 
+        </span><span class="s0">if </span><span class="s1">(pass == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">throw new </span><span class="s1">java.util.NoSuchElementException(</span><span class="s4">&quot;No existing user&quot;</span><span class="s1"> 
+                    + </span><span class="s4">&quot;with the email &quot; </span><span class="s1">+ oldEmail); 
+        } 
+        </span><span class="s0">return </span><span class="s1">updateAccount(oldEmail, newEmail, pass, pass); 
+    } 
+ 
+    </span><span class="s2">// For methods such as deleteAccount, banAccount, and unblockAccount,</span><span class="s1"> 
+    </span><span class="s2">// we chose to adhere to previous design choice in that a successful</span><span class="s1"> 
+    </span><span class="s2">// action returns true, otherwise false. For these methods, these actions</span><span class="s1"> 
+    </span><span class="s2">// should always be true.</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Deletes the MapEntry associated with the given userid 
+     * </span><span class="s3">@param </span><span class="s2">userid the userid to delete 
+     * </span><span class="s3">@throws </span><span class="s2">java.util.NoSuchElementException if no user is associated 
+     * with the given userid 
+     * </span><span class="s3">@return </span><span class="s2">true if the Account was successfully deleted 
+     */</span><span class="s1"> 
+    </span><span class="s0">static boolean </span><span class="s1">deleteAccount(String userid) { 
+        CharSequence removed = userMap.remove(userid); 
+        </span><span class="s0">if </span><span class="s1">(removed == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">throw new </span><span class="s1">java.util.NoSuchElementException(</span><span class="s4">&quot;No existing user&quot;</span><span class="s1"> 
+                + </span><span class="s4">&quot;with the email &quot; </span><span class="s1">+ userid); 
+        } 
+        </span><span class="s0">return true</span><span class="s1">; 
+    } 
+}</span></pre>
+</body>
+</html>

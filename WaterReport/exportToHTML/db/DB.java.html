@@ -1,0 +1,840 @@
+<html>
+<head>
+<title>DB.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+.s5 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+DB.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">db; 
+</span><span class="s0">import </span><span class="s1">java.sql.*; 
+</span><span class="s0">import </span><span class="s1">javax.sql.*; 
+</span><span class="s0">import </span><span class="s1">model.Users.*; 
+</span><span class="s0">import </span><span class="s1">model.log.*; 
+</span><span class="s0">import </span><span class="s1">model.registration.Authentication; 
+</span><span class="s0">import </span><span class="s1">model.registration.UserList; 
+</span><span class="s0">import </span><span class="s1">model.report.*; 
+</span><span class="s0">import </span><span class="s1">java.util.*; 
+ 
+ 
+</span><span class="s2">/*STRUCTURE  OF DATABASE 
+DB Info:  
+mysql server @ ozzyarmas.net 
+port 3306 
+database name: water_report 
+ 
+Actual Tables: 
++-------------------------+ 
+| Tables_in_water_report  | 
++-------------------------+ 
+| account                 | 
+| maps                    | 
+| bannedAccountLog        | 
+| deletedAccountLog       | 
+| deletedReportAccountLog | 
+| loginAttmptLog          | 
+| qualityReports          | 
+| unblockAccountLog       | 
+| waterReports            | 
++-------------------------+ 
+ 
+*/</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * </span><span class="s3">@author </span><span class="s2">Osvaldo Armas 
+ * </span><span class="s3">@version </span><span class="s2">1.0 
+ * Finalized Date 11/20/2016 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">DB { 
+    </span><span class="s0">private static boolean </span><span class="s1">connected; 
+    </span><span class="s0">private static </span><span class="s1">Connection conn = </span><span class="s0">null</span><span class="s1">; 
+    </span><span class="s2">/** 
+     * Connect to DB 
+     *</span><span class="s3">@return </span><span class="s2">if the connection was succesful 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static boolean </span><span class="s1">connect() { 
+        </span><span class="s0">try </span><span class="s1">{ 
+            </span><span class="s0">if</span><span class="s1">(!connected) { 
+                String url = </span><span class="s4">&quot;jdbc:mysql://104.131.110.247:3306/water_report&quot;</span><span class="s1">; 
+                conn = DriverManager.getConnection(url, </span><span class="s4">&quot;Victoryexe&quot;</span><span class="s1">, </span><span class="s4">&quot;PwD&quot;</span><span class="s1">); 
+                connected = </span><span class="s0">true</span><span class="s1">; 
+            } 
+            </span><span class="s0">return </span><span class="s1">connected; 
+        } </span><span class="s0">catch</span><span class="s1">(Exception e) { 
+            e.printStackTrace(); 
+            </span><span class="s0">return </span><span class="s1">connected; 
+        } 
+    } 
+    </span><span class="s2">/** 
+     * Creates Accounts 
+     * </span><span class="s3">@param </span><span class="s2">acc Account to create 
+     * </span><span class="s3">@return </span><span class="s2">if adding Account was successful 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static boolean </span><span class="s1">addAccount(Account acc) { 
+        String userDef; 
+        </span><span class="s0">if</span><span class="s1">(acc.getHomeAddress()!= </span><span class="s0">null</span><span class="s1">) { 
+            userDef = </span><span class="s4">&quot;('&quot; </span><span class="s1">+ acc.getName() + </span><span class="s4">&quot;',&quot; </span><span class="s1">+ acc.getUserID() + </span><span class="s4">&quot;,'&quot;</span><span class="s1"> 
+                    + acc.getHomeAddress() 
+                    + </span><span class="s4">&quot;','&quot; </span><span class="s1">+ acc.getTitle() + </span><span class="s4">&quot;','&quot; </span><span class="s1">+ acc.getAuthLevel() + </span><span class="s4">&quot;',&quot; </span><span class="s1">+ acc.getIsBlocked() 
+                    + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ acc.getIsBanned() + </span><span class="s4">&quot;,'&quot; </span><span class="s1">+ acc.getEmail() + </span><span class="s4">&quot;')&quot;</span><span class="s1">; 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            userDef = </span><span class="s4">&quot;('&quot; </span><span class="s1">+ acc.getName() + </span><span class="s4">&quot;',&quot; </span><span class="s1">+ acc.getUserID() + </span><span class="s4">&quot;,'&quot;</span><span class="s1"> 
+                    + </span><span class="s4">&quot;','&quot; </span><span class="s1">+ </span><span class="s4">&quot;','&quot; </span><span class="s1">+ acc.getAuthLevel() + </span><span class="s4">&quot;',&quot; </span><span class="s1">+ acc.getIsBlocked() 
+                    + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ acc.getIsBanned() + </span><span class="s4">&quot;,'&quot; </span><span class="s1">+ acc.getEmail() + </span><span class="s4">&quot;')&quot;</span><span class="s1">; 
+        } 
+        </span><span class="s0">if</span><span class="s1">(connected) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO account VALUES &quot; </span><span class="s1">+ userDef); 
+                stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO maps VALUES &quot; </span><span class="s1">+ </span><span class="s4">&quot;('&quot; </span><span class="s1">+ acc.getEmail() + 
+                        </span><span class="s4">&quot;','')&quot;</span><span class="s1">); 
+                changePassword(Authentication.getHash(acc.getEmail()), acc.getEmail()); 
+                </span><span class="s0">return true</span><span class="s1">; 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+                </span><span class="s0">return false</span><span class="s1">; 
+            } 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            connect(); 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO maps VALUES &quot; </span><span class="s1">+ </span><span class="s4">&quot;('&quot; </span><span class="s1">+ acc.getEmail() + 
+                        </span><span class="s4">&quot;','')&quot;</span><span class="s1">); 
+                stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO account VALUES &quot; </span><span class="s1">+ userDef); 
+                changePassword(Authentication.getHash(acc.getEmail()), acc.getEmail()); 
+                </span><span class="s0">return true</span><span class="s1">; 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+                </span><span class="s0">return false</span><span class="s1">; 
+            } 
+        } 
+    } 
+    </span><span class="s2">/* 
+            Account Description: 
+            +-----------+-------------+------+-----+---------+-------+ 
+            | Field     | Type        | Null | Key | Default | Extra | 
+            +-----------+-------------+------+-----+---------+-------+ 
+            | name      | varchar(20) | NO   |     | NULL    |       | 
+            | id        | int(11)     | NO   |     | NULL    |       | 
+            | address   | varchar(50) | NO   |     | NULL    |       | 
+            | title     | varchar(10) | NO   |     | NULL    |       | 
+            | authLevel | varchar(10) | NO   |     | NULL    |       | 
+            | isBlocked | tinyint(1)  | NO   |     | NULL    |       | 
+            | isBanned  | tinyint(1)  | NO   |     | NULL    |       | 
+            | email     | varchar(50) | NO   |     | NULL    |       | 
+            +-----------+-------------+------+-----+---------+-------+ 
+ 
+    */</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Loads all accounts from DB 
+     * </span><span class="s3">@return </span><span class="s2">ArrayList containing all accounts 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">ArrayList&lt;Account&gt; loadAllAccounts() { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM account&quot;</span><span class="s1">); 
+                </span><span class="s0">while</span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    String name = rs.getString(</span><span class="s5">1</span><span class="s1">); 
+                    </span><span class="s0">int </span><span class="s1">id = rs.getInt(</span><span class="s5">2</span><span class="s1">); 
+                    String fullAddress = rs.getString(</span><span class="s5">3</span><span class="s1">); 
+                    String title = rs.getString(</span><span class="s5">4</span><span class="s1">); 
+                    String authLevel = rs.getString(</span><span class="s5">5</span><span class="s1">); 
+                    </span><span class="s0">boolean </span><span class="s1">isBlocked = rs.getBoolean(</span><span class="s5">6</span><span class="s1">); 
+                    </span><span class="s0">boolean </span><span class="s1">isBanned = rs.getBoolean(</span><span class="s5">7</span><span class="s1">); 
+                    String email = rs.getString(</span><span class="s5">8</span><span class="s1">); 
+                    fullAddress = fullAddress.trim(); 
+                    String[] address = fullAddress.split(</span><span class="s4">&quot;/&quot;</span><span class="s1">); 
+                    Address add; 
+                    </span><span class="s0">if</span><span class="s1">(address.length == </span><span class="s5">6</span><span class="s1">) { 
+                        add = </span><span class="s0">new </span><span class="s1">Address(address[</span><span class="s5">0</span><span class="s1">], 
+                                Integer.parseInt(address[</span><span class="s5">1</span><span class="s1">]), 
+                                address[</span><span class="s5">2</span><span class="s1">], 
+                                address[</span><span class="s5">4</span><span class="s1">], 
+                                Integer.parseInt(address[</span><span class="s5">3</span><span class="s1">]), 
+                                address[</span><span class="s5">5</span><span class="s1">]); 
+                    } </span><span class="s0">else </span><span class="s1">{ 
+                        add = </span><span class="s0">null</span><span class="s1">; 
+                    } 
+                    Account acc; 
+                    </span><span class="s0">if </span><span class="s1">(authLevel.equals(</span><span class="s4">&quot;USER&quot;</span><span class="s1">)) { 
+                        acc = </span><span class="s0">new </span><span class="s1">User(name, email, id); 
+                    } </span><span class="s0">else if </span><span class="s1">(authLevel.equals(</span><span class="s4">&quot;ADMIN&quot;</span><span class="s1">)) { 
+                        acc = </span><span class="s0">new </span><span class="s1">Admin(name, email, id); 
+                    } </span><span class="s0">else if </span><span class="s1">(authLevel.equals(</span><span class="s4">&quot;WORKER&quot;</span><span class="s1">)) { 
+                        acc = </span><span class="s0">new </span><span class="s1">Worker(name, email, id); 
+                    } </span><span class="s0">else if </span><span class="s1">(authLevel.equals(</span><span class="s4">&quot;MANAGER&quot;</span><span class="s1">)) { 
+                        acc = </span><span class="s0">new </span><span class="s1">Manager(name, email, id); 
+                    } </span><span class="s0">else </span><span class="s1">{ 
+                        acc = </span><span class="s0">null</span><span class="s1">; 
+                    } 
+                    </span><span class="s0">if </span><span class="s1">(acc != </span><span class="s0">null</span><span class="s1">) { 
+                        acc.setHomeAddress(add); 
+                        acc.setTitle(title); 
+                        </span><span class="s0">if </span><span class="s1">(isBlocked) { 
+                            acc.setBlocked(</span><span class="s0">true</span><span class="s1">); 
+                        } 
+                        </span><span class="s0">if </span><span class="s1">(isBanned) { 
+                            acc.setIsBanned(); 
+                        } 
+                        accountList.add(acc); 
+                    } 
+                    </span><span class="s2">//rs.next();</span><span class="s1"> 
+                } 
+                </span><span class="s0">return </span><span class="s1">accountList; 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                </span><span class="s0">return null</span><span class="s1">; 
+            } 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s0">return null</span><span class="s1">; 
+        } 
+    } 
+    </span><span class="s2">/* 
+            Maps Description: 
+            +-------+-------------+------+-----+---------+-------+ 
+            | Field | Type        | Null | Key | Default | Extra | 
+            +-------+-------------+------+-----+---------+-------+ 
+            | email | varchar(30) | NO   | PRI | NULL    |       | 
+            | pass  | varchar(50) | NO   |     | NULL    |       | 
+            +-------+-------------+------+-----+---------+-------+ 
+    */</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Changes Emails in DB for account and maps tables 
+     * </span><span class="s3">@param </span><span class="s2">newEmail new email 
+     * </span><span class="s3">@param </span><span class="s2">oldEmail old email 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">changeEmail(String newEmail, String oldEmail) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE maps SET email='&quot; </span><span class="s1">+ newEmail 
+                        + </span><span class="s4">&quot;' WHERE email='&quot; </span><span class="s1">+ oldEmail + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE accounts SET email='&quot; </span><span class="s1">+ newEmail 
+                        + </span><span class="s4">&quot;' WHERE email='&quot; </span><span class="s1">+ oldEmail + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+    </span><span class="s2">/** 
+     * Changes Emails in DB for account and maps tables 
+     * </span><span class="s3">@param </span><span class="s2">newAddress new email 
+     * </span><span class="s3">@param </span><span class="s2">email old email 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">changeAddress(String newAddress, String email) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE accounts SET address='&quot; </span><span class="s1">+ newAddress 
+                        + </span><span class="s4">&quot;' WHERE email='&quot; </span><span class="s1">+ email + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * changes password in maps 
+     * </span><span class="s3">@param </span><span class="s2">newPass new password 
+     * </span><span class="s3">@param </span><span class="s2">email email the password is linked to 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">changePassword(String newPass, String email) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE maps SET pass='&quot; </span><span class="s1">+ newPass 
+                        + </span><span class="s4">&quot;' WHERE email='&quot; </span><span class="s1">+ email + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+    </span><span class="s0">public static </span><span class="s1">HashMap&lt;String, CharSequence&gt; loadMap() { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            HashMap&lt;String, CharSequence&gt; map = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM maps&quot;</span><span class="s1">); 
+                </span><span class="s0">while</span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    String email = rs.getString(</span><span class="s5">1</span><span class="s1">); 
+                    CharSequence pw = (CharSequence) rs.getString(</span><span class="s5">2</span><span class="s1">); 
+                    System.out.println(email + </span><span class="s4">&quot; --- &quot; </span><span class="s1">+ pw); 
+                    map.put(email, pw); 
+                    </span><span class="s2">//rs.next();</span><span class="s1"> 
+                } 
+                </span><span class="s0">return </span><span class="s1">map; 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                </span><span class="s0">return null</span><span class="s1">; 
+            } 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s0">return null</span><span class="s1">; 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Bans account based on email information 
+     * </span><span class="s3">@param </span><span class="s2">email of account to ban 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">ban(String email) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE accounts SET isBanned=&quot; </span><span class="s1">+ </span><span class="s5">1</span><span class="s1"> 
+                        + </span><span class="s4">&quot; WHERE email='&quot; </span><span class="s1">+ email + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * blocks account based on email information 
+     * </span><span class="s3">@param </span><span class="s2">email of account to ban 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">block(String email) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE accounts SET isBlocked=&quot; </span><span class="s1">+ </span><span class="s5">1</span><span class="s1"> 
+                        + </span><span class="s4">&quot; WHERE email='&quot; </span><span class="s1">+ email + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Unbans account based on email 
+     * </span><span class="s3">@param </span><span class="s2">email of account to ublock 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">unban(String email) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE accounts SET isBanned=&quot; </span><span class="s1">+ </span><span class="s5">0</span><span class="s1"> 
+                        + </span><span class="s4">&quot; WHERE email='&quot; </span><span class="s1">+ email + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * unbloacks account based on email 
+     * </span><span class="s3">@param </span><span class="s2">email of account to unblock 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">unblock(String email) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;UPDATE accounts SET isBlocked=&quot; </span><span class="s1">+ </span><span class="s5">0</span><span class="s1"> 
+                        + </span><span class="s4">&quot; WHERE email='&quot; </span><span class="s1">+ email + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Adds Log to DB 
+     * </span><span class="s3">@param </span><span class="s2">log to add 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">addLog(Log log) { 
+        </span><span class="s0">if </span><span class="s1">(log </span><span class="s0">instanceof </span><span class="s1">DeletedReportLog) { 
+            </span><span class="s0">if</span><span class="s1">(connect()) { 
+                Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+                ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+                ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    stmt = conn.createStatement(); 
+                    stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO deletedReportLogs VALUES (&quot;</span><span class="s1"> 
+                            + log.toString() + </span><span class="s4">&quot;)&quot;</span><span class="s1">); 
+                } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                    e.printStackTrace(); 
+                } 
+            } 
+        } </span><span class="s0">else if </span><span class="s1">(log </span><span class="s0">instanceof </span><span class="s1">BannedAccountLog) { 
+            </span><span class="s0">if</span><span class="s1">(connect()) { 
+                Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+                ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+                ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    stmt = conn.createStatement(); 
+                    stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO bannedAccountLog VALUES (&quot;</span><span class="s1"> 
+                            + log.toString() + </span><span class="s4">&quot;)&quot;</span><span class="s1">); 
+                } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                    e.printStackTrace(); 
+                } 
+            } 
+ 
+        } </span><span class="s0">else if </span><span class="s1">(log </span><span class="s0">instanceof </span><span class="s1">LoginAttemptLog) { 
+            </span><span class="s0">if</span><span class="s1">(connect()) { 
+                Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+                ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+                ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    stmt = conn.createStatement(); 
+                    stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO loginAttemptLog VALUES (&quot;</span><span class="s1"> 
+                            + log.toString() + </span><span class="s4">&quot;)&quot;</span><span class="s1">); 
+                } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                    e.printStackTrace(); 
+                } 
+            } 
+        } </span><span class="s0">else if </span><span class="s1">(log </span><span class="s0">instanceof </span><span class="s1">UnblockAccountLog) { 
+            </span><span class="s0">if</span><span class="s1">(connect()) { 
+                Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+                ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+                ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    stmt = conn.createStatement(); 
+                    stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO unblockAccountLog VALUES (&quot;</span><span class="s1"> 
+                            + log.toString() + </span><span class="s4">&quot;)&quot;</span><span class="s1">); 
+                } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                    e.printStackTrace(); 
+                } 
+            } 
+        } 
+    } 
+    </span><span class="s2">/* 
+            Banned Account Log Description: 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | Field              | Type        | Null | Key | Default | Extra | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       | 
+            | bannedAccountID    | varchar(50) | NO   |     | NULL    |       | 
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            Deleted Account Log Description: 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | Field              | Type        | Null | Key | Default | Extra | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       | 
+            | deletedAccountID   | varchar(50) | NO   |     | NULL    |       | 
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            Deleted Report Log Description: 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | Field              | Type        | Null | Key | Default | Extra | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       | 
+            | reportID           | varchar(50) | NO   |     | NULL    |       | 
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            Login Attempt Log Description: 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | Field              | Type        | Null | Key | Default | Extra | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       | 
+            | sucessStatus       | tinyint(1)  | NO   |     | NULL    |       | 
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            Unblock Account Log Description: 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | Field              | Type        | Null | Key | Default | Extra | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+            | resposinbleAccount | varchar(50) | NO   |     | NULL    |       | 
+            | unblockAccountID   | varchar(50) | NO   |     | NULL    |       | 
+            | timeStamp          | varchar(30) | NO   |     | NULL    |       | 
+            +--------------------+-------------+------+-----+---------+-------+ 
+ 
+ 
+    */</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Loads all log data in an Array of ArrayLists of Length 5 
+     * Index-0 represents BannedAccountLog 
+     * Index-1 represents DeletedAccountLog 
+     * Index-2 represents DeletedReportLog 
+     * Index-3 represents LoginAttemptLog 
+     * Index-4 represents unblockAccountLog 
+     * </span><span class="s3">@return </span><span class="s2">the ArrayList that fits the description above 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">ArrayList&lt;Log&gt;[] loadLogData() { 
+        ArrayList&lt;Log&gt;[] logData = </span><span class="s0">new </span><span class="s1">ArrayList[</span><span class="s5">5</span><span class="s1">]; 
+        </span><span class="s0">if </span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            ArrayList&lt;Account&gt; accountList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM bannedAccountLog&quot;</span><span class="s1">); 
+                String tStamp; 
+                Account resAccount;</span><span class="s2">// = UserList.getUserAccount(rs.getString(1));</span><span class="s1"> 
+                String bannedAccountID; 
+                Log log; 
+                </span><span class="s0">while </span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    resAccount = UserList.getUserAccount(rs.getString(</span><span class="s5">1</span><span class="s1">)); 
+                    bannedAccountID = rs.getString(</span><span class="s5">2</span><span class="s1">); 
+                    tStamp = rs.getString(</span><span class="s5">3</span><span class="s1">); 
+                    log = </span><span class="s0">new </span><span class="s1">BannedAccountLog((Admin) resAccount, bannedAccountID, tStamp); 
+                    logData[</span><span class="s5">0</span><span class="s1">].add(log); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM deletedAccountLog&quot;</span><span class="s1">); 
+                String tStamp; 
+                Account resAccount;</span><span class="s2">// = UserList.getUserAccount(rs.getString(1));</span><span class="s1"> 
+                String deletedAccountID; 
+                Log log; 
+                </span><span class="s0">while </span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    resAccount = UserList.getUserAccount(rs.getString(</span><span class="s5">1</span><span class="s1">)); 
+                    deletedAccountID = rs.getString(</span><span class="s5">2</span><span class="s1">); 
+                    tStamp = rs.getString(</span><span class="s5">3</span><span class="s1">); 
+                    log = </span><span class="s0">new </span><span class="s1">DeletedAccountLog((Admin) resAccount, deletedAccountID, tStamp); 
+                    logData[</span><span class="s5">1</span><span class="s1">].add(log); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM deletedReportLog&quot;</span><span class="s1">); 
+                String tStamp; 
+                Account resAccount;</span><span class="s2">// = UserList.getUserAccount(rs.getString(1));</span><span class="s1"> 
+                String deletedReportID; 
+                Log log; 
+                </span><span class="s0">while </span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    resAccount = UserList.getUserAccount(rs.getString(</span><span class="s5">1</span><span class="s1">)); 
+                    deletedReportID = rs.getString(</span><span class="s5">2</span><span class="s1">); 
+                    tStamp = rs.getString(</span><span class="s5">3</span><span class="s1">); 
+                    log = </span><span class="s0">new </span><span class="s1">DeletedReportLog((Manager) resAccount, deletedReportID, tStamp); 
+                    logData[</span><span class="s5">2</span><span class="s1">].add(log); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM loginAttemptLog&quot;</span><span class="s1">); 
+                String tStamp; 
+                Account resAccount;</span><span class="s2">// = UserList.getUserAccount(rs.getString(1));</span><span class="s1"> 
+                </span><span class="s0">boolean </span><span class="s1">successStatus; 
+                Log log; 
+                </span><span class="s0">while </span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    resAccount = UserList.getUserAccount(rs.getString(</span><span class="s5">1</span><span class="s1">)); 
+                    successStatus = rs.getBoolean(</span><span class="s5">2</span><span class="s1">); 
+                    tStamp = rs.getString(</span><span class="s5">3</span><span class="s1">); 
+                    log = </span><span class="s0">new </span><span class="s1">LoginAttemptLog(resAccount, successStatus, tStamp); 
+                    logData[</span><span class="s5">3</span><span class="s1">].add(log); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM unblockAccountLog&quot;</span><span class="s1">); 
+                String tStamp; 
+                Account resAccount;</span><span class="s2">// = UserList.getUserAccount(rs.getString(1));</span><span class="s1"> 
+                String bannedAccountID; 
+                Log log; 
+                </span><span class="s0">while </span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    resAccount = UserList.getUserAccount(rs.getString(</span><span class="s5">1</span><span class="s1">)); 
+                    bannedAccountID = rs.getString(</span><span class="s5">2</span><span class="s1">); 
+                    tStamp = rs.getString(</span><span class="s5">3</span><span class="s1">); 
+                    log = </span><span class="s0">new </span><span class="s1">UnblockAccountLog((Admin) resAccount, bannedAccountID, tStamp); 
+                    logData[</span><span class="s5">4</span><span class="s1">].add(log); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+            </span><span class="s0">return </span><span class="s1">logData; 
+        } 
+        </span><span class="s0">return null</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s2">/* 
+           Quality Report Description: 
+           +---------------------+--------------+------+-----+---------+-------+ 
+           | Field               | Type         | Null | Key | Default | Extra | 
+           +---------------------+--------------+------+-----+---------+-------+ 
+           | submitterID         | varchar(30)  | YES  |     | NULL    |       | 
+           | other               | varchar(100) | YES  |     | NULL    |       | 
+           | location            | varchar(50)  | NO   |     | NULL    |       | 
+           | reportID            | int(11)      | NO   |     | NULL    |       | 
+           | virusPPM            | double       | NO   |     | NULL    |       | 
+           | waterCondition      | varchar(50)  | YES  |     | NULL    |       | 
+           | waterContaminantPPM | double       | NO   |     | NULL    |       | 
+           | timeStamp           | varchar(30)  | NO   |     | NULL    |       | 
+           +---------------------+--------------+------+-----+---------+-------+ 
+           Water Report Description 
+           +----------------+--------------+------+-----+---------+-------+ 
+           | Field          | Type         | Null | Key | Default | Extra | 
+           +----------------+--------------+------+-----+---------+-------+ 
+           | submitterID    | varchar(30)  | YES  |     | NULL    |       | 
+           | other          | varchar(100) | YES  |     | NULL    |       | 
+           | location       | varchar(50)  | NO   |     | NULL    |       | 
+           | reportID       | int(11)      | NO   |     | NULL    |       | 
+           | waterType      | varchar(30)  | NO   |     | NULL    |       | 
+           | waterCondition | varchar(30)  | NO   |     | NULL    |       | 
+           | timeStamp      | varchar(30)  | NO   |     | NULL    |       | 
+           +----------------+--------------+------+-----+---------+-------+ 
+   */</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Adds Report to Database 
+     * </span><span class="s3">@param </span><span class="s2">report report to Add to Database 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">addReport(Report report) { 
+        </span><span class="s0">if</span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            </span><span class="s0">try </span><span class="s1">{ 
+                </span><span class="s0">if </span><span class="s1">(report </span><span class="s0">instanceof </span><span class="s1">QualityReport) { 
+                    String reportDef = </span><span class="s4">&quot;(&quot;</span><span class="s1"> 
+                            + Timestamp.valueOf(report.getTimestamp()) + </span><span class="s4">&quot;,'&quot;</span><span class="s1"> 
+                            + report.getSubmitterID() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + report.getOther() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + report.getLocation() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + report.getReportID() + </span><span class="s4">&quot;',&quot;</span><span class="s1"> 
+                            + ((QualityReport) report).getVirusPPM() + </span><span class="s4">&quot;',&quot;</span><span class="s1"> 
+                            + ((QualityReport) report).getWaterCondition() + </span><span class="s4">&quot;',&quot;</span><span class="s1"> 
+                            + ((QualityReport) report).getContaminantPPM() 
+                            + </span><span class="s4">&quot;)&quot;</span><span class="s1">; 
+                    stmt = conn.createStatement(); 
+                    stmt.executeUpdate(</span><span class="s4">&quot;INSERT INTO qualityReports VALUES &quot; </span><span class="s1">+ reportDef); 
+                } </span><span class="s0">else if </span><span class="s1">(report </span><span class="s0">instanceof </span><span class="s1">WaterReport) { 
+                    String reportDef = </span><span class="s4">&quot;(&quot;</span><span class="s1"> 
+                            + report.getTime() + </span><span class="s4">&quot;,'&quot;</span><span class="s1"> 
+                            + report.getSubmitterID() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + report.getOther() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + report.getLocation() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + report.getReportID() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + ((WaterReport) report).getWaterType() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                            + ((WaterReport) report).getWaterCondition() + </span><span class="s4">&quot;'&quot;</span><span class="s1"> 
+                            + </span><span class="s4">&quot;)&quot;</span><span class="s1">; 
+                    stmt = conn.createStatement(); 
+                    rs = stmt.executeQuery(</span><span class="s4">&quot;INSERT INTO waterReports VALUES &quot; </span><span class="s1">+ reportDef); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * I think I broke some rules on this one 
+     * Loads all reports and directly accesses ReportsList to the reports to it 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">loadAllReports() { 
+        </span><span class="s0">if </span><span class="s1">(connect()) { 
+ 
+            </span><span class="s2">//ReportsList.makeWaterReport(report);</span><span class="s1"> 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            </span><span class="s2">/* 
+            Quality Report Description: 
+            +---------------------+--------------+------+-----+---------+-------+ 
+            | Field               | Type         | Null | Key | Default | Extra | 
+            +---------------------+--------------+------+-----+---------+-------+ 
+            | submitterID         | varchar(30)  | YES  |     | NULL    |       | 
+            | other               | varchar(100) | YES  |     | NULL    |       | 
+            | location            | varchar(50)  | NO   |     | NULL    |       | 
+            | reportID            | int(11)      | NO   |     | NULL    |       | 
+            | virusPPM            | double       | NO   |     | NULL    |       | 
+            | waterCondition      | varchar(50)  | YES  |     | NULL    |       | 
+            | waterContaminantPPM | double       | NO   |     | NULL    |       | 
+            | timeStamp           | varchar(30)  | NO   |     | NULL    |       | 
+            +---------------------+--------------+------+-----+---------+-------+ 
+            */</span><span class="s1"> 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM qualityReport&quot;</span><span class="s1">); 
+                </span><span class="s0">while </span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    String timeStamp = rs.getString(</span><span class="s5">8</span><span class="s1">); 
+                    Account acc = UserList.getUserAccount(rs.getString(</span><span class="s5">1</span><span class="s1">)); 
+                    Location loc = </span><span class="s0">new </span><span class="s1">Location(rs.getString(</span><span class="s5">3</span><span class="s1">)); 
+                    OverallCondition condition; 
+                    </span><span class="s0">if </span><span class="s1">(rs.getString(</span><span class="s5">6</span><span class="s1">).equals(</span><span class="s4">&quot;SAFE&quot;</span><span class="s1">)) { 
+                        condition = OverallCondition.SAFE; 
+ 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">6</span><span class="s1">).equals(</span><span class="s4">&quot;TREATABLE&quot;</span><span class="s1">)) { 
+                        condition = OverallCondition.TREATABLE; 
+ 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">6</span><span class="s1">).equals(</span><span class="s4">&quot;UNSAFE&quot;</span><span class="s1">)) { 
+                        condition = OverallCondition.UNSAFE; 
+                    } </span><span class="s0">else </span><span class="s1">{ </span><span class="s2">//Default to Unsafe if Unknown</span><span class="s1"> 
+                        condition = OverallCondition.UNSAFE; 
+                    } 
+                    Double virusPpm = rs.getDouble(</span><span class="s5">5</span><span class="s1">); 
+                    Double waterContaminantPpm = rs.getDouble(</span><span class="s5">7</span><span class="s1">); 
+                    QualityReport report = </span><span class="s0">new </span><span class="s1">QualityReport( 
+                            timeStamp, 
+                            (Worker) acc, 
+                            loc, 
+                            condition, 
+                            virusPpm, 
+                            waterContaminantPpm 
+                    ); 
+                    ReportsList.makeQualityReport(report); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+            </span><span class="s2">/*      Water Report Description 
+            +----------------+--------------+------+-----+---------+-------+ 
+            | Field          | Type         | Null | Key | Default | Extra | 
+            +----------------+--------------+------+-----+---------+-------+ 
+            | submitterID    | varchar(30)  | YES  |     | NULL    |       | 
+            | other          | varchar(100) | YES  |     | NULL    |       | 
+            | location       | varchar(50)  | NO   |     | NULL    |       | 
+            | reportID       | int(11)      | NO   |     | NULL    |       | 
+            | waterType      | varchar(30)  | NO   |     | NULL    |       | 
+            | waterCondition | varchar(30)  | NO   |     | NULL    |       | 
+            | timeStamp      | varchar(30)  | NO   |     | NULL    |       | 
+            +----------------+--------------+------+-----+---------+-------+ 
+            */</span><span class="s1"> 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                rs = stmt.executeQuery(</span><span class="s4">&quot;SELECT * FROM waterReport&quot;</span><span class="s1">); 
+                </span><span class="s0">while </span><span class="s1">(rs.next() &amp;&amp; !rs.isAfterLast()) { 
+                    String timeStamp = rs.getString(</span><span class="s5">7</span><span class="s1">); 
+                    Account acc = UserList.getUserAccount(rs.getString(</span><span class="s5">1</span><span class="s1">)); 
+                    Location loc = </span><span class="s0">new </span><span class="s1">Location(rs.getString(</span><span class="s5">3</span><span class="s1">)); 
+                    WaterCondition condition; 
+                    WaterType waterType; 
+                    </span><span class="s0">if </span><span class="s1">(rs.getString(</span><span class="s5">5</span><span class="s1">).equals(</span><span class="s4">&quot;BOTTLED&quot;</span><span class="s1">)) { 
+                        waterType = WaterType.BOTTLED; 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">5</span><span class="s1">).equals(</span><span class="s4">&quot;LAKE&quot;</span><span class="s1">)) { 
+                        waterType = WaterType.LAKE; 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">5</span><span class="s1">).equals(</span><span class="s4">&quot;OTHER&quot;</span><span class="s1">)) { 
+                        waterType = WaterType.OTHER; 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">5</span><span class="s1">).equals(</span><span class="s4">&quot;STREAM&quot;</span><span class="s1">)) { </span><span class="s2">//Default to Unsafe if Unknown</span><span class="s1"> 
+                        waterType = WaterType.STREAM; 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">5</span><span class="s1">).equals(</span><span class="s4">&quot;WELL&quot;</span><span class="s1">)) { 
+                        waterType = WaterType.WELL; 
+                    } </span><span class="s0">else </span><span class="s1">{ </span><span class="s2">//Default Other if unknown</span><span class="s1"> 
+                        waterType = WaterType.OTHER; 
+                    } 
+                    </span><span class="s0">if </span><span class="s1">(rs.getString(</span><span class="s5">6</span><span class="s1">).equals(</span><span class="s4">&quot;POTABLE&quot;</span><span class="s1">)) { 
+                        condition = WaterCondition.POTABLE; 
+ 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">6</span><span class="s1">).equals(</span><span class="s4">&quot;TREATABLE_CLEAR&quot;</span><span class="s1">)) { 
+                        condition = WaterCondition.TREATABLE_CLEAR; 
+ 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">6</span><span class="s1">).equals(</span><span class="s4">&quot;TREATABLE_MUDDY&quot;</span><span class="s1">)) { 
+                        condition = WaterCondition.TREATABLE_MUDDY; 
+                    } </span><span class="s0">else if </span><span class="s1">(rs.getString(</span><span class="s5">6</span><span class="s1">).equals(</span><span class="s4">&quot;WASTE&quot;</span><span class="s1">)) { 
+                        condition = WaterCondition.WASTE; 
+                    } </span><span class="s0">else </span><span class="s1">{ </span><span class="s2">//Default to Waste if Unknown</span><span class="s1"> 
+                        condition = WaterCondition.WASTE; 
+                    } 
+                    WaterReport report = </span><span class="s0">new </span><span class="s1">WaterReport( 
+                            timeStamp, 
+                            (User) acc, 
+                            loc, 
+                            waterType, 
+                            condition 
+                    ); 
+                    ReportsList.makeWaterReport(report); 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+            } 
+ 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Deletes Reports from DB 
+     * </span><span class="s3">@param </span><span class="s2">report to delete from DB 
+     * </span><span class="s3">@return </span><span class="s2">success status of report deletion 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static boolean </span><span class="s1">deleteReport(Report report) { 
+        </span><span class="s0">if </span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            </span><span class="s0">try </span><span class="s1">{ 
+                </span><span class="s0">if </span><span class="s1">(report </span><span class="s0">instanceof </span><span class="s1">QualityReport) { 
+                    stmt = conn.createStatement(); 
+                    stmt.executeUpdate(</span><span class="s4">&quot;DELETE FROM qualityReport WHERE reportID='&quot; </span><span class="s1">+ 
+                            report.getReportID() + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+                    </span><span class="s0">return true</span><span class="s1">; 
+                } </span><span class="s0">else if </span><span class="s1">(report </span><span class="s0">instanceof </span><span class="s1">WaterReport) { 
+                    stmt = conn.createStatement(); 
+                    stmt.executeUpdate(</span><span class="s4">&quot;DELETE FROM waterReport WHERE reportID='&quot; </span><span class="s1">+ 
+                            report.getReportID() + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+                    </span><span class="s0">return true</span><span class="s1">; 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+                </span><span class="s0">return false</span><span class="s1">; 
+            } 
+        } 
+        </span><span class="s0">return false</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Deletes Account from DB 
+     * </span><span class="s3">@param </span><span class="s2">account 
+     * </span><span class="s3">@return </span><span class="s2">success status of account deletion 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static boolean </span><span class="s1">deleteAccount(Account account) { 
+        </span><span class="s0">if </span><span class="s1">(connect()) { 
+            Statement stmt = </span><span class="s0">null</span><span class="s1">; 
+            ResultSet rs = </span><span class="s0">null</span><span class="s1">; 
+            </span><span class="s0">try </span><span class="s1">{ 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;DELETE FROM account WHERE email='&quot; </span><span class="s1">+ 
+                        account.getEmail() + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+                stmt = conn.createStatement(); 
+                stmt.executeUpdate(</span><span class="s4">&quot;DELETE FROM maps WHERE email='&quot; </span><span class="s1">+ 
+                        account.getEmail() + </span><span class="s4">&quot;'&quot;</span><span class="s1">); 
+                </span><span class="s0">return true</span><span class="s1">; 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                e.printStackTrace(); 
+                </span><span class="s0">return false</span><span class="s1">; 
+            } 
+        } 
+        </span><span class="s0">return false</span><span class="s1">; 
+    } 
+}</span></pre>
+</body>
+</html>

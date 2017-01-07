@@ -1,7 +1,10 @@
-package model.login;
+package model.registration;
 
+import db.DB;
+import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import model.log.LogList;
+import model.log.LoginAttemptLog;
 import model.log.UnblockAccountLog;
 
 import java.time.LocalDateTime;
@@ -21,30 +24,36 @@ public class Login {
      * @param password the password entered
      * @return true if login is successful, else false
      */
-    public static boolean login(String subject, String password) {
-        boolean success = Authentication.verifySubject(subject)
-                && Authentication.verifyPassword(subject, password);
+    public static boolean login(String subject, String password)
+            throws PasswordStorage.CannotPerformOperationException,
+            PasswordStorage.InvalidHashException {
         Account account = UserList.getUserAccount(subject);
+        boolean success = Authentication.verifySubject(subject)
+                && Authentication.verifyPassword(subject, password)
+                && account != null
+                && !account.getIsBlocked();
         if (account != null) {
             LogList.makeLoginAttemptEntry(account, success);
             if (!success) { // block account if necessary
-                List<UnblockAccountLog> log = LogList.getUnblockAccountLog();
+                List<LoginAttemptLog> log = LogList.getLoginAttemptLog();
                 int attempts = 0;
                 boolean windowActive = true;
                 for (int i = log.size() - 1; (i >= 0) && windowActive; i--) {
                     // checks for recent attempts
                     if (LocalDateTime.now().minusMinutes(BLOCK_ACCOUNT_WINDOW)
                             .isBefore(log.get(i).getTimestamp())) {
-                        if (log.get(i).getResponsibleAccount().equals(account))
+                        if (account.equals(log.get(i).getResponsibleAccount()))
                         {
                             attempts++;
                         }
                     } else { // if Log is outside BLOCK_ACCOUNT_WINDOW, exit
                         windowActive = false;
                     }
-                    if (attempts >= MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS) {
-                        account.setIsBlocked();
-                    }
+                }
+                if (attempts >= MAX_UNSUCCESSFUL_LOGIN_ATTEMPTS) {
+                    DB.block(account.getEmail());
+                    account.setBlocked(true);
+
                 }
             }
         }

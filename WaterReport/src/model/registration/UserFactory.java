@@ -11,7 +11,7 @@ import model.Users.AuthLevel;
  * Created by Alexandra on 10/3/2016.
  * A class that creates an Account given valid input and returns that Account
  */
-public class UserFactory {
+class UserFactory {
     /**
      * Creates an account of the appropriate auth type
      * @param firstName the user's first name

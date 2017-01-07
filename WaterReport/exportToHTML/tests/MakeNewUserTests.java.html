@@ -1,0 +1,308 @@
+<html>
+<head>
+<title>MakeNewUserTests.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); font-style: italic; }
+.s1 { color: rgb(0,0,0); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MakeNewUserTests.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">//package tests;</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//import org.junit.Before;</span><span class="s1"> 
+</span><span class="s0">//import org.junit.Test;</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//import static org.junit.Assert.assertEquals;</span><span class="s1"> 
+</span><span class="s0">//import static org.junit.Assert.assertSame;</span><span class="s1"> 
+</span><span class="s0">//import static org.junit.Assert.assertNull;</span><span class="s1"> 
+</span><span class="s0">//import static org.junit.Assert.assertNotNull;</span><span class="s1"> 
+</span><span class="s0">//import java.lang.reflect.Field;</span><span class="s1"> 
+</span><span class="s0">//import java.util.ArrayList;</span><span class="s1"> 
+</span><span class="s0">//import java.util.HashMap;</span><span class="s1"> 
+</span><span class="s0">//import java.util.LinkedList;</span><span class="s1"> 
+</span><span class="s0">//import java.util.List;</span><span class="s1"> 
+</span><span class="s0">//import java.util.Map;</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//import model.Users.Account;</span><span class="s1"> 
+</span><span class="s0">//import model.Users.AuthLevel;</span><span class="s1"> 
+</span><span class="s0">//import model.registration.UserList;</span><span class="s1"> 
+</span><span class="s0">//import model.registration.Authentication;</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">///**</span><span class="s1"> 
+</span><span class="s0">// * Tests UserList.makeNewUser</span><span class="s1"> 
+</span><span class="s0">// * @author Alexandra Durso</span><span class="s1"> 
+</span><span class="s0">// * @version Version 1.2</span><span class="s1"> 
+</span><span class="s0">// */</span><span class="s1"> 
+</span><span class="s0">//public class MakeNewUserTests {</span><span class="s1"> 
+</span><span class="s0">//    private Map&lt;String, Account&gt; usersReflect;</span><span class="s1"> 
+</span><span class="s0">//    private Map&lt;String, String&gt; credentialsReflect;</span><span class="s1"> 
+</span><span class="s0">//    private Map&lt;String, String&gt; credentials;</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Before</span><span class="s1"> 
+</span><span class="s0">//    public void setUp() {</span><span class="s1"> 
+</span><span class="s0">//        credentials = new HashMap&lt;&gt;();</span><span class="s1"> 
+</span><span class="s0">//        usersReflect = new HashMap&lt;&gt;();</span><span class="s1"> 
+</span><span class="s0">//        credentialsReflect = new HashMap&lt;&gt;();</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        try { // clear maps before each test</span><span class="s1"> 
+</span><span class="s0">//            Field field;</span><span class="s1"> 
+</span><span class="s0">//            field = UserList.class.getDeclaredField(&quot;userMap&quot;);</span><span class="s1"> 
+</span><span class="s0">//            field.setAccessible(true);</span><span class="s1"> 
+</span><span class="s0">//            ((HashMap&lt;String, Account&gt;) field.get(&quot;&quot;)).clear();</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//            field = Authentication.class.getDeclaredField(&quot;userMap&quot;);</span><span class="s1"> 
+</span><span class="s0">//            field.setAccessible(true);</span><span class="s1"> 
+</span><span class="s0">//            ((HashMap&lt;String, Account&gt;) field.get(&quot;&quot;)).clear();</span><span class="s1"> 
+</span><span class="s0">//        } catch (Exception e) {</span><span class="s1"> 
+</span><span class="s0">//            throw new RuntimeException(e);</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    private void setMaps() {</span><span class="s1"> 
+</span><span class="s0">//        try {</span><span class="s1"> 
+</span><span class="s0">//            Field field;</span><span class="s1"> 
+</span><span class="s0">//            field = UserList.class.getDeclaredField(&quot;userMap&quot;);</span><span class="s1"> 
+</span><span class="s0">//            field.setAccessible(true);</span><span class="s1"> 
+</span><span class="s0">//            usersReflect = (HashMap&lt;String, Account&gt;) field.get(&quot;&quot;);</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//            field = Authentication.class.getDeclaredField(&quot;userMap&quot;);</span><span class="s1"> 
+</span><span class="s0">//            field.setAccessible(true);</span><span class="s1"> 
+</span><span class="s0">//            credentialsReflect = (HashMap&lt;String, String&gt;) field.get(&quot;&quot;);</span><span class="s1"> 
+</span><span class="s0">//        } catch (Exception e) {</span><span class="s1"> 
+</span><span class="s0">//            throw new RuntimeException(e);</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    private void checkMaps(List&lt;Account&gt; expected) {</span><span class="s1"> 
+</span><span class="s0">//        for (Account a : expected) {</span><span class="s1"> 
+</span><span class="s0">//            String key = a.getEmail();</span><span class="s1"> 
+</span><span class="s0">//            assertEquals(&quot;UserList does not contain user &quot; + key,</span><span class="s1"> 
+</span><span class="s0">//                    true, usersReflect.containsKey(key));</span><span class="s1"> 
+</span><span class="s0">//            assertEquals(&quot;Authentication does not contain user &quot; + key,</span><span class="s1"> 
+</span><span class="s0">//                    true, credentialsReflect.containsKey(key));</span><span class="s1"> 
+</span><span class="s0">//            assertSame(&quot;UserList account mapping incorrect for user &quot; + a.getEmail(),</span><span class="s1"> 
+</span><span class="s0">//                    a, usersReflect.get(key));</span><span class="s1"> 
+</span><span class="s0">//            assertEquals(&quot;Authentication password incorrect for user &quot; + a.getEmail(),</span><span class="s1"> 
+</span><span class="s0">//                    credentials.get(key), credentialsReflect.get(key));</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    // All tests with null data fail since makeNewUser() does not do input checking.</span><span class="s1"> 
+</span><span class="s0">//    // All input checking is done in the controller, so this scenario will</span><span class="s1"> 
+</span><span class="s0">//    // never occur in the actual running of the application.</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testNullData() {</span><span class="s1"> 
+</span><span class="s0">//        assertNull(null, UserList.makeNewUser(null, null, null, null, null, null));</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">////    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">////    public void testNullLast() {</span><span class="s1"> 
+</span><span class="s0">////        assertNull(null, UserList.makeNewUser(&quot;First&quot;, null, &quot;user@gmail.com&quot;,</span><span class="s1"> 
+</span><span class="s0">////                &quot;pass&quot;, &quot;pass&quot;, AuthLevel.USER));</span><span class="s1"> 
+</span><span class="s0">////</span><span class="s1"> 
+</span><span class="s0">////        setMaps();</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">////    }</span><span class="s1"> 
+</span><span class="s0">////</span><span class="s1"> 
+</span><span class="s0">////    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">////    public void testNullEmail() {</span><span class="s1"> 
+</span><span class="s0">////        assertNull(null, UserList.makeNewUser(&quot;First&quot;, &quot;Last&quot;, null,</span><span class="s1"> 
+</span><span class="s0">////                &quot;pass&quot;, &quot;pass&quot;, AuthLevel.USER));</span><span class="s1"> 
+</span><span class="s0">////</span><span class="s1"> 
+</span><span class="s0">////        setMaps();</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">////    }</span><span class="s1"> 
+</span><span class="s0">////</span><span class="s1"> 
+</span><span class="s0">////    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">////    public void testNullPasswords() {</span><span class="s1"> 
+</span><span class="s0">////        assertNull(null, UserList.makeNewUser(&quot;First&quot;, &quot;Last&quot;,</span><span class="s1"> 
+</span><span class="s0">////                &quot;user@gmail.com&quot;, null, null, AuthLevel.USER));</span><span class="s1"> 
+</span><span class="s0">////</span><span class="s1"> 
+</span><span class="s0">////        setMaps();</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">////    }</span><span class="s1"> 
+</span><span class="s0">////</span><span class="s1"> 
+</span><span class="s0">////    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">////    public void testNullAuthLevel() {</span><span class="s1"> 
+</span><span class="s0">////        assertNull(null, UserList.makeNewUser(&quot;First&quot;, &quot;Last&quot;,</span><span class="s1"> 
+</span><span class="s0">////                &quot;user@gmail.com&quot;, &quot;pass&quot;, &quot;pass&quot;, null));</span><span class="s1"> 
+</span><span class="s0">////</span><span class="s1"> 
+</span><span class="s0">////        setMaps();</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">////        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">////    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    // Similarly, these methods do not behave as expected because the</span><span class="s1"> 
+</span><span class="s0">//    // controller does all input checking.</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testEmptyStrings() {</span><span class="s1"> 
+</span><span class="s0">//        Account user = UserList.makeNewUser(&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;,</span><span class="s1"> 
+</span><span class="s0">//                AuthLevel.USER);</span><span class="s1"> 
+</span><span class="s0">//        assertNull(user);</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testInvalidEmailFormat() {</span><span class="s1"> 
+</span><span class="s0">//        Account user = UserList.makeNewUser(&quot;First&quot;, &quot;Last&quot;, &quot;askjfpwehf&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;pass&quot;, &quot;pass&quot;, AuthLevel.USER);</span><span class="s1"> 
+</span><span class="s0">//        assertNull(user);</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    // -------------------------------------------------------------------</span><span class="s1"> 
+</span><span class="s0">//    // Things that should actually pass section!</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testInvalidPasswords() {</span><span class="s1"> 
+</span><span class="s0">//        Account user = UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;LOL&quot;, &quot;WAT&quot;, AuthLevel.USER);</span><span class="s1"> 
+</span><span class="s0">//        assertNull(user);</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(0, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testAddDuplicates() {</span><span class="s1"> 
+</span><span class="s0">//        Account user = UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;MEH&quot;, &quot;MEH&quot;, AuthLevel.USER);</span><span class="s1"> 
+</span><span class="s0">//        Account user2 = UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;MEH&quot;, &quot;MEH&quot;, AuthLevel.USER);</span><span class="s1"> 
+</span><span class="s0">//        Account user3 = UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;MEH&quot;, &quot;MEH&quot;, AuthLevel.WORKER);</span><span class="s1"> 
+</span><span class="s0">//        Account user4 = UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;MEH&quot;, &quot;MEH&quot;, AuthLevel.MANAGER);</span><span class="s1"> 
+</span><span class="s0">//        Account user5 = UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;MEH&quot;, &quot;MEH&quot;, AuthLevel.ADMIN);</span><span class="s1"> 
+</span><span class="s0">//        assertNotNull(user);</span><span class="s1"> 
+</span><span class="s0">//        assertNull(user2);</span><span class="s1"> 
+</span><span class="s0">//        assertNull(user3);</span><span class="s1"> 
+</span><span class="s0">//        assertNull(user4);</span><span class="s1"> 
+</span><span class="s0">//        assertNull(user5);</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(1, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(1, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        List&lt;Account&gt; expected = new LinkedList&lt;&gt;();</span><span class="s1"> 
+</span><span class="s0">//        expected.add(user);</span><span class="s1"> 
+</span><span class="s0">//        credentials.put(user.getEmail(), &quot;MEH&quot;);</span><span class="s1"> 
+</span><span class="s0">//        checkMaps(expected);</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testGeneralOnce() {</span><span class="s1"> 
+</span><span class="s0">//        Account user = UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;pass&quot;, &quot;pass&quot;, AuthLevel.USER);</span><span class="s1"> 
+</span><span class="s0">//        assertNotNull(user);</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(1, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(1, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        List&lt;Account&gt; expected = new LinkedList&lt;&gt;();</span><span class="s1"> 
+</span><span class="s0">//        expected.add(user);</span><span class="s1"> 
+</span><span class="s0">//        credentials.put(user.getEmail(), &quot;pass&quot;);</span><span class="s1"> 
+</span><span class="s0">//        checkMaps(expected);</span><span class="s1"> 
+</span><span class="s0">//}</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testGeneralMultiple() {</span><span class="s1"> 
+</span><span class="s0">//        List&lt;Account&gt; expected = new ArrayList&lt;&gt;(5);</span><span class="s1"> 
+</span><span class="s0">//        expected.add(UserList.makeNewUser(&quot;David&quot;, &quot;Arida&quot;, &quot;darida@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;1234&quot;, &quot;1234&quot;, AuthLevel.USER));</span><span class="s1"> 
+</span><span class="s0">//        expected.add(UserList.makeNewUser(&quot;Ozzy&quot;, &quot;Armas&quot;, &quot;oarmas@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;password&quot;, &quot;password&quot;, AuthLevel.WORKER));</span><span class="s1"> 
+</span><span class="s0">//        expected.add(UserList.makeNewUser(&quot;Dacorvyn&quot;, &quot;Young&quot;, &quot;dyoung@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;pass&quot;, &quot;pass&quot;, AuthLevel.MANAGER));</span><span class="s1"> 
+</span><span class="s0">//        expected.add(UserList.makeNewUser(&quot;Owen&quot;, &quot;Brahms&quot;, &quot;obrahms@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;123456&quot;, &quot;123456&quot;, AuthLevel.ADMIN));</span><span class="s1"> 
+</span><span class="s0">//        expected.add(UserList.makeNewUser(&quot;Alex&quot;, &quot;Durso&quot;, &quot;adurso3@gatech.edu&quot;,</span><span class="s1"> 
+</span><span class="s0">//                &quot;pass&quot;, &quot;pass&quot;, AuthLevel.USER));</span><span class="s1"> 
+</span><span class="s0">//        for (int i = 0; i &lt; expected.size(); i++) {</span><span class="s1"> 
+</span><span class="s0">//            assertNotNull(&quot;Expected non-null element at index &quot; + i, expected.get(i));</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(5, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(5, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        credentials.put(expected.get(0).getEmail(), &quot;1234&quot;);</span><span class="s1"> 
+</span><span class="s0">//        credentials.put(expected.get(1).getEmail(), &quot;password&quot;);</span><span class="s1"> 
+</span><span class="s0">//        credentials.put(expected.get(2).getEmail(), &quot;pass&quot;);</span><span class="s1"> 
+</span><span class="s0">//        credentials.put(expected.get(3).getEmail(), &quot;123456&quot;);</span><span class="s1"> 
+</span><span class="s0">//        credentials.put(expected.get(4).getEmail(), &quot;pass&quot;);</span><span class="s1"> 
+</span><span class="s0">//        checkMaps(expected);</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//    @Test(timeout = 200)</span><span class="s1"> 
+</span><span class="s0">//    public void testGeneralHeavy() {</span><span class="s1"> 
+</span><span class="s0">//        List&lt;Account&gt; expected = new ArrayList&lt;&gt;(40);</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        // Makes 40 accounts in the pattern User, Worker, Manager, Admin</span><span class="s1"> 
+</span><span class="s0">//        for (int i = 0; i &lt; 40; i++) {</span><span class="s1"> 
+</span><span class="s0">//            AuthLevel level;</span><span class="s1"> 
+</span><span class="s0">//            if (i % 4 == 0) {</span><span class="s1"> 
+</span><span class="s0">//                level = AuthLevel.USER;</span><span class="s1"> 
+</span><span class="s0">//            } else if (i % 4 == 1) {</span><span class="s1"> 
+</span><span class="s0">//                level = AuthLevel.WORKER;</span><span class="s1"> 
+</span><span class="s0">//            } else if (i % 4 == 2) {</span><span class="s1"> 
+</span><span class="s0">//                level = AuthLevel.MANAGER;</span><span class="s1"> 
+</span><span class="s0">//            } else {</span><span class="s1"> 
+</span><span class="s0">//                level = AuthLevel.ADMIN;</span><span class="s1"> 
+</span><span class="s0">//            }</span><span class="s1"> 
+</span><span class="s0">//            expected.add(UserList.makeNewUser(&quot;User&quot;, &quot;User&quot;,</span><span class="s1"> 
+</span><span class="s0">//                    &quot;user&quot; + i + &quot;@gatech.edu&quot;, &quot;1234&quot;, &quot;1234&quot;, level));</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        // Adds duplicates</span><span class="s1"> 
+</span><span class="s0">//        for (int i = 0; i &lt; 40; i++) {</span><span class="s1"> 
+</span><span class="s0">//            Account duplicate = UserList.makeNewUser(&quot;Ditto&quot;, &quot;&quot;,</span><span class="s1"> 
+</span><span class="s0">//                    &quot;user&quot; + i + &quot;@gatech.edu&quot;, &quot;1234&quot;, &quot;1234&quot;, AuthLevel.USER);</span><span class="s1"> 
+</span><span class="s0">//            assertNull(duplicate);</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        for (int i = 0; i &lt; expected.size(); i++) {</span><span class="s1"> 
+</span><span class="s0">//            assertNotNull(&quot;Expected non-null element at index &quot; + i, expected.get(i));</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        setMaps();</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(40, usersReflect.size());</span><span class="s1"> 
+</span><span class="s0">//        assertEquals(40, credentialsReflect.size());</span><span class="s1"> 
+</span><span class="s0">//</span><span class="s1"> 
+</span><span class="s0">//        for (int i = 0; i &lt; expected.size(); i++) {</span><span class="s1"> 
+</span><span class="s0">//            credentials.put(expected.get(i).getEmail(), &quot;1234&quot;);</span><span class="s1"> 
+</span><span class="s0">//        }</span><span class="s1"> 
+</span><span class="s0">//        checkMaps(expected);</span><span class="s1"> 
+</span><span class="s0">//    }</span><span class="s1"> 
+</span><span class="s0">//}</span><span class="s1"> 
+</span></pre>
+</body>
+</html>

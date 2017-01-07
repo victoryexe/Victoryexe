@@ -16,91 +16,96 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="backPane" prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
-   <children>
-      <TabPane fx:id="applicationTabs" layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
-        <tabs>
-            <Tab fx:id="adminprofiletab" text="Profile">
-              <content>
-                <AnchorPane fx:id="profiletabpane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="-fx-background-repeat: stretch;       -fx-background-size: 1000;    -fx-background-position: center center;">
-                    <children>
-                        <ImageView fitHeight="518.0" fitWidth="786.0" layoutX="-117.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Water-Backgrounds.jpg" />
-                           </image>
-                        </ImageView>
-                        <Text fx:id="adminprofiletabtitle" layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER PROFILE">
-                           <font>
-                              <Font name="System Bold Italic" size="20.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="adminname" layoutX="30.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" AnchorPane.leftAnchor="30.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font></Text>
-                        <Text fx:id="adminemail" layoutX="32.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" AnchorPane.leftAnchor="32.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font></Text>
-                        <Text fx:id="adminaddress" layoutX="32.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address:" AnchorPane.leftAnchor="32.0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font></Text>
-                        <TextField fx:id="adminlastnametextbox" layoutX="190.0" layoutY="55.0" prefHeight="27.0" prefWidth="180.0" promptText="Last Name" />
-                        <TextField fx:id="adminemailtextbox" layoutX="124.0" layoutY="95.0" prefHeight="31.0" prefWidth="461.0" promptText="username@domain.com" AnchorPane.rightAnchor="43.0" />
-                        <TextField fx:id="adminstreetaddresstextbox" layoutX="97.0" layoutY="135.0" prefHeight="31.0" prefWidth="327.0" promptText="Street Address" />
-                        <Button fx:id="salutationedit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="157.0" text="Edit Profile" />
-                        <Button fx:id="adminsubmit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="157.0" text="Submit" />
-                        <ComboBox fx:id="adminsalutationcombobox" layoutX="96.0" layoutY="55.0" prefHeight="31.0" prefWidth="85.0" />
-                        <TextField fx:id="admincitytextbox" layoutX="97.0" layoutY="175.0" prefHeight="31.0" prefWidth="170.0" promptText="City" />
-                        <TextField fx:id="adminstatetextbox" layoutX="279.0" layoutY="175.0" prefHeight="31.0" prefWidth="55.0" promptText="State" />
-                        <Text fx:id="adminaptnum" layoutX="434.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apt #:" />
-                        <TextField fx:id="adminaptnumtextbox" layoutX="477.0" layoutY="135.0" prefHeight="27.0" prefWidth="80.0" AnchorPane.rightAnchor="43.0" />
-                        <TextField fx:id="adminfirstnametextbox" layoutX="356.0" layoutY="55.0" prefHeight="27.0" prefWidth="180.0" promptText="First Name" AnchorPane.rightAnchor="43.0" />
-                        <TextField fx:id="adminzipcodetextbox" layoutX="344.0" layoutY="175.0" prefHeight="27.0" prefWidth="84.0" promptText="Zip Code" />
-                        <TextField fx:id="admincountrytextbox" layoutX="436.0" layoutY="175.0" prefHeight="27.0" prefWidth="121.0" promptText="Country" AnchorPane.rightAnchor="43.0" />
-                        <Label fx:id="currsalutation" layoutX="136.0" layoutY="60.0" />
-                        <Separator prefWidth="200.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab fx:id="View" text="Users">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fitHeight="903.0" fitWidth="868.0" layoutX="-1.0" layoutY="-68.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@water_splash_people.jpg" />
-                           </image>
-                        </ImageView>
-                        <Text fill="WHITE" layoutX="20.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERS" wrappingWidth="214.478515625">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                        <ScrollPane layoutX="50.0" layoutY="49.0" prefHeight="258.0" prefWidth="500.0" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="49.0">
-                          <content>
-                            <AnchorPane prefHeight="260.0" prefWidth="482.0">
-                                 <children>
-                                    <ListView fx:id="userlist" layoutX="-14.0" layoutY="42.0" prefHeight="537.0" prefWidth="482.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </ScrollPane>
-                        <Button fx:id="banuser" contentDisplay="CENTER" layoutX="103.0" layoutY="315.0" mnemonicParsing="false" text="Ban User" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="103.0" />
-                        <Button fx:id="deleteuser" contentDisplay="CENTER" layoutX="251.0" layoutY="315.0" mnemonicParsing="false" text="Delete User" />
-                        <Button fx:id="unblockuser" contentDisplay="CENTER" layoutX="407.0" layoutY="315.0" mnemonicParsing="false" text="Unblock User" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-      <Pane fx:id="logoutPane" layoutX="462.0" layoutY="6.0" prefHeight="25.0" prefWidth="130.0">
-         <children>
-            <Button fx:id="Logout" layoutX="65.0" mnemonicParsing="false" text="Log Out" />
-         </children>
-      </Pane>
-   </children>
+<AnchorPane prefHeight="398.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
+    <TabPane layoutY="4.0" prefHeight="402.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
+        <Tab text="Profile">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <ImageView fitHeight="518.0" fitWidth="786.0" layoutX="-117.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@Water-Backgrounds.jpg" />
+                </ImageView>
+                <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER PROFILE">
+                    <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                    </font>
+                </Text>
+                <Text layoutX="30.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" AnchorPane.leftAnchor="30.0">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Text>
+                <Text layoutX="32.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" AnchorPane.leftAnchor="32.0">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Text>
+                <Text layoutX="32.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address:" AnchorPane.leftAnchor="32.0">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Text>
+                <TextField fx:id="adminlastnametextbox" layoutX="376.0" layoutY="55.0" prefHeight="27.0" prefWidth="180.0" promptText="Last Name" />
+                <TextField fx:id="adminemailtextbox" layoutX="124.0" layoutY="95.0" prefHeight="31.0" prefWidth="461.0" promptText="username@domain.com" AnchorPane.rightAnchor="43.0" />
+                <TextField fx:id="adminstreetaddresstextbox" layoutX="97.0" layoutY="135.0" prefHeight="31.0" prefWidth="327.0" promptText="Street Address" />
+                <Button fx:id="salutationedit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="157.0" text="Edit Profile" />
+                <Button fx:id="adminsubmit" layoutX="222.0" layoutY="264.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="157.0" text="Submit" />
+                <ComboBox fx:id="adminsalutationcombobox" layoutX="96.0" layoutY="55.0" prefHeight="31.0" prefWidth="85.0" />
+                <TextField fx:id="admincitytextbox" layoutX="97.0" layoutY="175.0" prefHeight="31.0" prefWidth="170.0" promptText="City" />
+                <TextField fx:id="adminstatetextbox" layoutX="279.0" layoutY="175.0" prefHeight="31.0" prefWidth="55.0" promptText="State" />
+                <Text layoutX="434.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apt #:" />
+                <TextField fx:id="adminaptnumtextbox" layoutX="477.0" layoutY="135.0" prefHeight="27.0" prefWidth="80.0" AnchorPane.rightAnchor="43.0" />
+                <TextField fx:id="adminfirstnametextbox" layoutX="189.0" layoutY="57.0" prefHeight="27.0" prefWidth="180.0" promptText="First Name" AnchorPane.rightAnchor="231.0" />
+                <TextField fx:id="adminzipcodetextbox" layoutX="344.0" layoutY="175.0" prefHeight="27.0" prefWidth="84.0" promptText="Zip Code" />
+                <TextField fx:id="admincountrytextbox" layoutX="436.0" layoutY="175.0" prefHeight="27.0" prefWidth="121.0" promptText="Country" AnchorPane.rightAnchor="43.0" />
+                <Label fx:id="currsalutation" layoutX="136.0" layoutY="60.0" />
+                <Separator prefWidth="200.0" />
+            </AnchorPane>
+        </Tab>
+        <Tab text="Users">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <ImageView fitHeight="911.0" fitWidth="600.0" layoutY="-86.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@water_splash_people.jpg" />
+                </ImageView>
+                <Text fill="WHITE" layoutX="20.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USERS" wrappingWidth="214.478515625">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Text>
+                <ScrollPane layoutX="50.0" layoutY="49.0" prefHeight="258.0" prefWidth="500.0" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="49.0">
+                    <AnchorPane prefHeight="260.0" prefWidth="482.0">
+                        <ListView fx:id="userlist" prefHeight="537.0" prefWidth="482.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </AnchorPane>
+                </ScrollPane>
+                <Button fx:id="banuser" contentDisplay="CENTER" layoutX="127.0" layoutY="321.0" mnemonicParsing="false" text="Ban User" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="127.0" />
+                <Button fx:id="deleteuser" contentDisplay="CENTER" layoutX="261.0" layoutY="321.0" mnemonicParsing="false" text="Delete User" />
+                <Button fx:id="unblockuser" contentDisplay="CENTER" layoutX="405.0" layoutY="321.0" mnemonicParsing="false" text="Unblock User" />
+            </AnchorPane>
+        </Tab>
+      <Tab text="Logs">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="450.0" fitWidth="631.0" layoutX="-9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@BLOG-OGC-01.jpg" />
+                     </image>
+                  </ImageView>
+                  <ListView fx:id="logList" layoutX="50.0" layoutY="30.0" prefHeight="238.0" prefWidth="495.0" />
+                  <ComboBox fx:id="reportType" layoutX="196.0" layoutY="285.0" prefHeight="25.0" prefWidth="223.0" promptText="                    Report Type" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+    </TabPane>
+    <Pane layoutX="462.0" layoutY="6.0" prefHeight="25.0" prefWidth="130.0">
+        <Button fx:id="Logout" layoutX="65.0" mnemonicParsing="false" text="Log Out" />
+      <Button fx:id="refreshAdmin" layoutX="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="26.0">
+         <graphic>
+            <ImageView fitHeight="14.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@refresh.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+    </Pane>
 </AnchorPane>

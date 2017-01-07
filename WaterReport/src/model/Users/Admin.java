@@ -14,6 +14,12 @@ public class Admin implements Account {
     private boolean isBanned;
     private boolean isBlocked;
 
+    /**
+     * Constructor used to load data from the DB
+     * @param name the Admin's name
+     * @param email the Admin's email
+     * @param userID the Admin's userID
+     */
     public Admin(String name, String email, int userID) {
         this.name = name;
         this.email = email;
@@ -83,10 +89,6 @@ public class Admin implements Account {
         return isBlocked;
     }
     @Override
-    public void setIsBlocked() {
-        isBlocked = !isBlocked;
-    }
-    @Override
     public void setBlocked(boolean block) {isBlocked = block;}
 
 
@@ -103,14 +105,18 @@ public class Admin implements Account {
         if (!(obj instanceof Admin)) {
             return false;
         }
-        return ((Admin) obj).getUserID() == this.getUserID();
+        return ((Admin) obj).hashCode() == this.hashCode();
     }
     @Override
     public int hashCode() {
-        return getUserID();
+        return getEmail().hashCode();
     }
     @Override
     public String toString() {
-        return name + ", " + email + ", " + getAuthLevel().name();
+        String msg = name + ", " + email + ", " + getAuthLevel();
+        if (isBlocked) {
+            msg += ", BLOCKED";
+        }
+        return msg;
     }
 }

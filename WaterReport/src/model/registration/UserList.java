@@ -1,15 +1,13 @@
-package model.login;
+package model.registration;
 
-import fxapp.persistance.PersistenceHandler;
+import lib.password_hashing.PasswordStorage;
 import model.Users.Account;
 import model.Users.Admin;
 import model.Users.AuthLevel;
 import model.log.LogList;
-import model.registration.UserFactory;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import db.DB;
+
+import java.util.*;
 
 /**
  * Created by Alexandra on 9/28/2016.
@@ -24,7 +22,7 @@ public class UserList {
      * Gets the set of users
      * @return a Set containing usernames as Strings
      */
-    public static Set<String> getUserList() {
+    public static Collection<String> getUserList() {
         return userMap.keySet();
     }
 
@@ -37,7 +35,19 @@ public class UserList {
         return userMap.get(userid);
     }
 
-
+    /**
+     * Expands User Map from a given List of Accounts
+     * @param accounts List of Accounts that need to be added to the userMap
+     */
+    public static void mapAllAccounts(List<Account> accounts) {
+        if (accounts != null) {
+            for (Account acc : accounts) {
+                if (!userMap.containsValue(acc)) {
+                    userMap.put(acc.getEmail(), acc);
+                }
+            }
+        }
+    }
     /**
      * If input is valid, makes a new Account and updates Authentication and
      * UserList's maps.
@@ -52,7 +62,8 @@ public class UserList {
      */
     public static Account makeNewUser(String firstName, String lastName,
                                       String userid, String pass1,
-                                      String pass2, AuthLevel auth) {
+                                      String pass2, AuthLevel auth)
+            throws PasswordStorage.CannotPerformOperationException {
         Account account = UserFactory.makeAccount(firstName, lastName,
                 userid, auth);
         if (userMap.containsKey(userid)
@@ -74,7 +85,8 @@ public class UserList {
      * with the given oldEmail
      * @return true iff the map was updated, false otherwise
      */
-    public static boolean updateMap(String oldEmail, String newEmail) {
+    public static boolean updateMap(String oldEmail, String newEmail)
+            throws PasswordStorage.CannotPerformOperationException {
         Account account = userMap.remove(oldEmail);
         if (account == null) {
             throw new java.util.NoSuchElementException("No account is"
@@ -101,10 +113,12 @@ public class UserList {
      */
     public static boolean deleteAccount(Admin admin, String userid) {
         Account deleted = userMap.remove(userid);
+        DB.deleteAccount(deleted);
         if ((deleted == null) || !Authentication.deleteAccount(userid)) {
             throw new java.util.NoSuchElementException("No account is"
                     + "associated with the userid " + userid);
         }
+        //System.out.println("deleteAccount called in UserList");
         LogList.makeDeletedAccountEntry(admin, userid);
         return true;
     }
@@ -125,6 +139,7 @@ public class UserList {
                     + "associated with the userid " + userid);
         }
         account.setIsBanned();
+        DB.ban(userid);
         LogList.makeBannedAccountEntry(admin, userid);
         return true;
     }
@@ -144,7 +159,8 @@ public class UserList {
             throw new java.util.NoSuchElementException("No account is +"
                     + "associated with the userid " + userid);
         }
-        account.setIsBlocked();
+        account.setBlocked(false);
+        DB.unblock(userid);
         LogList.makeUnblockAccountEntry(admin, userid);
         return true;
     }
@@ -164,10 +180,13 @@ public class UserList {
      * @param pass the passwords for the users being added
      */
 
-    public static void addAccounts(List<Account> users, List<CharSequence> pass) {
+    public static void addAccounts(List<Account> users,
+                                   List<CharSequence> pass)
+            throws PasswordStorage.CannotPerformOperationException {
         if (users.size() == pass.size()) {
-            for(int i = 0; i < users.size(); i++) {
-                Authentication.addNewAccount(users.get(i).getEmail(), pass.get(i).toString(), pass.get(i).toString());
+            for (int i = 0; i < users.size(); i++) {
+                Authentication.addNewAccount(users.get(i).getEmail(),
+                        pass.get(i).toString(), pass.get(i).toString());
                 userMap.put(users.get(i).getEmail(), users.get(i));
             }
         }

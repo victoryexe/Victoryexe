@@ -4,7 +4,7 @@ import model.Users.Account;
 import model.Users.Admin;
 import model.Users.Manager;
 import model.report.Report;
-
+import db.DB;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +24,9 @@ public class LogList {
             new LinkedList<>();
     private static final List<UnblockAccountLog> unblockAccountLog =
             new LinkedList<>();
+
+    // All unused methods in this class are only because those features
+    // have not yet been implemented.
 
     /**
      * Gets the List of all BannedAccountLogs
@@ -65,6 +68,16 @@ public class LogList {
         return new LinkedList<>(unblockAccountLog);
     }
 
+    public static List<Log> getAllLogs() {
+        List<Log> logs = new LinkedList<>();
+        logs.addAll(getLoginAttemptLog());
+        logs.addAll(getDeletedReportLog());
+        logs.addAll(getDeletedAccountLog());
+        logs.addAll(getBannedAccountLog());
+        logs.addAll(getUnblockAccountLog());
+        return logs;
+    }
+
     /**
      * Makes a new BannedAccountLog with the given params and adds it to the
      * appropriate list
@@ -76,6 +89,7 @@ public class LogList {
         BannedAccountLog log = new BannedAccountLog(responsibleAccount,
                 bannedAccountID);
         bannedAccountLog.add(log);
+        DB.addLog(log);
     }
 
     /**
@@ -89,8 +103,34 @@ public class LogList {
         DeletedAccountLog log = new DeletedAccountLog(responsibleAccount,
                 deletedAccountID);
         deletedAccountLog.add(log);
+        DB.addLog(log);
+        //System.out.println("deletedAccount");
+
     }
 
+    /**
+     * Logs to be added to all Logs
+     * @param logs
+     */
+    public static void addNewLogs(List<Log>[] logs) {
+        if (logs[0] != null) {
+            for (Log log : logs[0]) {
+                bannedAccountLog.add((BannedAccountLog) log);
+            }
+            for (Log log : logs[1]) {
+                deletedAccountLog.add((DeletedAccountLog) log);
+            }
+            for (Log log : logs[2]) {
+                deletedReportLog.add((DeletedReportLog) log);
+            }
+            for (Log log : logs[3]) {
+                loginAttemptLog.add((LoginAttemptLog) log);
+            }
+            for (Log log : logs[4]) {
+                unblockAccountLog.add((UnblockAccountLog) log);
+            }
+        }
+    }
     /**
      * Makes a new DeletedReportLog with the given params and adds it to the
      * appropriate list
@@ -101,6 +141,8 @@ public class LogList {
                                               Report report) {
         DeletedReportLog log = new DeletedReportLog(responsibleAccount, report);
         deletedReportLog.add(log);
+        DB.addLog(log);
+
     }
 
     /**
@@ -114,6 +156,8 @@ public class LogList {
         LoginAttemptLog log = new LoginAttemptLog(responsibleAccount,
                 successStatus);
         loginAttemptLog.add(log);
+        DB.addLog(log);
+
     }
 
     /**
@@ -127,5 +171,7 @@ public class LogList {
         UnblockAccountLog log = new UnblockAccountLog(responsibleAccount,
                 unblockedAccountID);
         unblockAccountLog.add(log);
+        DB.addLog(log);
+
     }
 }

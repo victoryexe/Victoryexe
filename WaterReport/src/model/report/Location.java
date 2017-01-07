@@ -21,7 +21,14 @@ public class Location implements Comparable<Location> {
         this.latitude = latitude;
         this.longitude = longitude;
     }
-
+    /**
+     *
+     */
+    public Location(String location) {
+        String[] loc = location.split(",");
+        this.latitude = Double.parseDouble(loc[0].trim());
+        this.longitude = Double.parseDouble(loc[1].trim());
+    }
     /**
      * Gets the latitude associated with this Location
      * @return the latitude associated with this Location
@@ -87,5 +94,9 @@ public class Location implements Comparable<Location> {
         } else {
             return Double.compare(this.longitude, loc.longitude);
         }
+    }
+    @Override
+    public String toString() {
+        return "" + latitude + ", " + longitude;
     }
 }

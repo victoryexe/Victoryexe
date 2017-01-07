@@ -1,5 +1,6 @@
 package controller;
 
+import db.DB;
 import fxapp.Main;
 import javafx.fxml.FXML;
 
@@ -8,23 +9,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
 import model.Users.Account;
-import model.Users.User;
+import model.log.Log;
+import model.log.LogList;
+import model.registration.Authentication;
+import model.registration.UserList;
 
 /**
  * Created by grizz on 11/11/2016.
+ * Handles delegation of tasks for the main Admin screen to the
+ * appropriate Controllers;
  */
 public class AdminController {
 
-    @FXML
-    private Text adminname;
-    @FXML
-    private Text adminemail;
-    @FXML
-    private Text adminaddress;
-    @FXML
-    private Text adminaptnum;
     @FXML
     private TextField adminlastnametextbox;
     @FXML
@@ -56,14 +53,24 @@ public class AdminController {
     @FXML
     private Button unblockuser;
     @FXML
+    private Button refreshAdmin;
+    @FXML
     private ComboBox<String> adminsalutationcombobox;
+    @FXML
+    private ComboBox<String> reportType;
     @FXML
     private Label currsalutation;
     @FXML
     private ListView<Account> userlist;
+    @FXML
+    private ListView<Log> logList;
 
     private Main mainApp;
 
+    /**
+     * Provides a reference back to Main  mostly for switching screens
+     * @param mainApp the reference back to Main
+     */
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
@@ -77,6 +84,16 @@ public class AdminController {
                 currsalutation);
         UserListController userList = new UserListController(userlist, deleteuser, banuser, unblockuser);
 
+        LogListController loglist = new LogListController(logList, reportType);
+
         Logout.setOnAction(event -> mainApp.showLogin());
+        refreshAdmin.setOnAction((ActionEvent) -> {
+            UserList.mapAllAccounts(DB.loadAllAccounts());
+            Authentication.loadMap(DB.loadMap());
+            LogList.addNewLogs(DB.loadLogData());
+            DB.loadAllReports();
+            userList.updateUserList();
+            loglist.updateLogList(loglist.getLogType());
+        });
     }
 }

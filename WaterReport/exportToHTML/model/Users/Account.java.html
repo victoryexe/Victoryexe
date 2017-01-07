@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>Account.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Account.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model.Users; 
+</span><span class="s2">/** 
+* Author Osvaldo Armas 
+* Version 2.0 
+* Date:  9/30/2016 
+*/</span><span class="s1"> 
+</span><span class="s0">public interface </span><span class="s1">Account { 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@return </span><span class="s2">the name of the Account Owner 
+    **/</span><span class="s1"> 
+    String getName(); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@param </span><span class="s2">name of the Account Owner 
+    **/</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setName(String name); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@return </span><span class="s2">the UserID of the Account Owner 
+    **/</span><span class="s1"> 
+    </span><span class="s0">int </span><span class="s1">getUserID(); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@return </span><span class="s2">the Email of the Account Owner 
+    **/</span><span class="s1"> 
+    String getEmail(); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@param </span><span class="s2">email of the Account Owner 
+    **/</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setEmail(String email); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@return </span><span class="s2">the Home Address of the Account Owner 
+    **/</span><span class="s1"> 
+    Address getHomeAddress(); 
+    </span><span class="s2">/** 
+     * </span><span class="s3">@param </span><span class="s2">address of the Account Owner 
+     */</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setHomeAddress(Address address); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@param </span><span class="s2">title of the Account Owner 
+    **/</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setTitle(String title); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@return </span><span class="s2">the title of the Account Owner 
+    **/</span><span class="s1"> 
+    String getTitle(); 
+    </span><span class="s2">/** 
+    * </span><span class="s3">@return </span><span class="s2">the Authorization of the Account Owner 
+    **/</span><span class="s1"> 
+    AuthLevel getAuthLevel(); 
+ 
+    </span><span class="s2">/** 
+     * Gets this Account's banned status 
+     * </span><span class="s3">@return </span><span class="s2">true if this Account is banned, false otherwise 
+     */</span><span class="s1"> 
+    </span><span class="s0">boolean </span><span class="s1">getIsBanned(); 
+ 
+    </span><span class="s2">/** 
+     * Flips this Account's banned status: if the Account is currently 
+     * banned this will set isBanned to false, and vice-versa 
+     */</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setIsBanned(); 
+ 
+    </span><span class="s2">/** 
+     * Method used in Account Loading setting the Account as banned 
+     * or not banned 
+     * </span><span class="s3">@param </span><span class="s2">ban whether or not the Account is banned 
+     */</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setBanned(</span><span class="s0">boolean </span><span class="s1">ban); 
+ 
+    </span><span class="s2">/** 
+     * Gets this Account's blocked status 
+     * </span><span class="s3">@return </span><span class="s2">true if this Account is blocked, otherwise false 
+     */</span><span class="s1"> 
+    </span><span class="s0">boolean </span><span class="s1">getIsBlocked(); 
+ 
+    </span><span class="s2">/** 
+     * Method used in Account Loading setting the Account as blocked 
+     * or not blocked 
+     * </span><span class="s3">@param </span><span class="s2">block whether or not the Account is blocked 
+     */</span><span class="s1"> 
+    </span><span class="s0">void </span><span class="s1">setBlocked(</span><span class="s0">boolean </span><span class="s1">block); 
+} 
+</span></pre>
+</body>
+</html>

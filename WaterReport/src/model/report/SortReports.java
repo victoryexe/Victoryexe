@@ -3,6 +3,7 @@ package model.report;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -22,10 +23,38 @@ public class SortReports {
         reports = ReportsList.getWaterReportsList();
         reports.addAll(ReportsList.getQualityReportsList());
 
-        for (int i = 0; i < reports.size(); i++) {
-            // don't sort reports that have been marked as deleted
-            if (reports.get(i).getIsDeleted()) {
-                reports.remove(i--);
+        Iterator itr = reports.iterator();
+        while (itr.hasNext()) { // remove reports marked as delete
+            if (((Report) itr.next()).getIsDeleted()) {
+                itr.remove();
+            }
+        }
+    }
+
+    /**
+     * Updates @code reports with non-deleted WaterReports
+     */
+    private static void updateWaterReports() {
+        reports = ReportsList.getWaterReportsList();
+
+        Iterator itr = reports.iterator();
+        while (itr.hasNext()) { // don't sort reports that are deleted
+            if (((Report) itr.next()).getIsDeleted()) {
+                itr.remove();
+            }
+        }
+    }
+
+    /**
+     * Updates @code reports with non-deleted QualityReports
+     */
+    private static void updateQualityReports() {
+        reports = ReportsList.getQualityReportsList();
+
+        Iterator itr = reports.iterator();
+        while (itr.hasNext()) { // remove deleted reports
+            if (((Report) itr.next()).getIsDeleted()) {
+                itr.remove();
             }
         }
     }
@@ -61,16 +90,15 @@ public class SortReports {
      * empty set if no WaterReports match
      */
     public static Set<WaterReport> filterByWaterType(WaterType ... type) {
-        updateReports();
+        updateWaterReports();
         Set<WaterReport> reportSet = new HashSet<>();
         for (Report r : reports) {
-            if (r instanceof WaterReport) { // type check
-                for (int i = 0; i < type.length; i++) {
-                    // checks if the report's water type is a param
-                    if (((WaterReport) r).getWaterType().equals(type[i])) {
-                        reportSet.add((WaterReport) r);
-                        i = type.length; // exit array check
-                    }
+            boolean added = false;
+            for (int i = 0; (i < type.length) && !added; i++) {
+                // checks if the report's water type is a param
+                if (type[i].equals(((WaterReport)r).getWaterType())) {
+                    reportSet.add((WaterReport) r);
+                    added = true;
                 }
             }
         }
@@ -86,17 +114,15 @@ public class SortReports {
      */
     public static Set<WaterReport> filterByWaterCondition(WaterCondition ...
                                                                   condition) {
-        updateReports();
+        updateWaterReports();
         Set<WaterReport> reportSet = new HashSet<>();
         for (Report r : reports) {
-            if (r instanceof WaterReport) { // type check
-                for (int i = 0; i < condition.length; i++) {
-                    // checks if the report's water condition is a param
-                    if (((WaterReport) r).getWaterCondition()
-                            .equals(condition[i])) {
-                        reportSet.add((WaterReport) r);
-                        i = condition.length; // exit array check
-                    }
+            boolean added = false;
+            for (int i = 0; (i < condition.length) && !added; i++) {
+                // checks if the report's water condition is a param
+                if (condition[i].equals(((WaterReport) r).getWaterCondition())) {
+                    reportSet.add((WaterReport) r);
+                    added = true; // exit innermost loop early
                 }
             }
         }
@@ -112,16 +138,14 @@ public class SortReports {
      */
     public static Set<QualityReport> filterByOverallCondition(
             OverallCondition ... condition) {
-        updateReports();
+        updateQualityReports();
         Set<QualityReport> reportSet = new HashSet<>();
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                for (int i = 0; i < condition.length; i++) {
-                    if (((QualityReport) r).getWaterCondition()
-                            .equals(condition[i])) {
-                        reportSet.add((QualityReport) r);
-                        i = condition.length; // exit param check
-                    }
+            boolean added = false;
+            for (int i = 0; (i < condition.length) && !added; i++) {
+                if (condition[i].equals(((QualityReport) r).getWaterCondition())) {
+                    reportSet.add((QualityReport) r);
+                    added = true;
                 }
             }
         }
@@ -135,16 +159,14 @@ public class SortReports {
      */
     public static List<WaterReport> filterWaterReportsByLocation(
             Location ... loc) {
-        updateReports();
+        updateWaterReports();
         List<WaterReport> waterReports = new ArrayList<>();
         for (Report r : reports) {
-            if (r instanceof WaterReport) {
-                boolean added = false;
-                for (int i = 0; (i < loc.length) && !added; i++) {
-                    if (r.getLocation().equals(loc[i])) {
-                        waterReports.add((WaterReport) r);
-                        added = true; // prevents duplicates and exits
-                    }
+            boolean added = false;
+            for (int i = 0; (i < loc.length) && !added; i++) {
+                if (loc[i].equals(r.getLocation())) {
+                    waterReports.add((WaterReport) r);
+                    added = true; // prevents duplicates and exits
                 }
             }
         }
@@ -158,16 +180,14 @@ public class SortReports {
      */
     public static List<QualityReport> filterQualityReportsByLocation(
             Location ... loc) {
-        updateReports();
+        updateQualityReports();
         List<QualityReport> qualityReports = new ArrayList<>();
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                boolean added = false;
-                for (int i = 0; (i < loc.length) && !added; i++) {
-                    if (r.getLocation().equals(loc[i])) {
-                        qualityReports.add((QualityReport) r);
-                        added = true; // prevents duplicates and exits
-                    }
+            boolean added = false;
+            for (int i = 0; (i < loc.length) && !added; i++) {
+                if (loc[i].equals(r.getLocation())) {
+                    qualityReports.add((QualityReport) r);
+                    added = true; // prevents duplicates and exits
                 }
             }
         }
@@ -199,38 +219,28 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByVirusPPM(
             Location loc, double radius, int year) {
-        updateReports();
-        List<List<Double>> reportsByMonth = new ArrayList<>();
-        //instantiate list
-        for (int i = 0; i < 12; i++) {
-            reportsByMonth.add(new LinkedList<>());
-        }
+        updateQualityReports();
+        final int MONTHS = 12;
+        // There is no way to resolve this unchecked cast since Java
+        // does not allow instantiation of generic arrays.
+        // The "magic number" 12 is because there are 12 months in a year.
+        List<Double>[] reportsByMonth = (List<Double>[]) new List[MONTHS];
+
         //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
-                        && (r.getTimestamp().getYear() == year)) {
-                    // check against params
-                    int index = r.getTimestamp().getMonthValue() - 1;
-                    reportsByMonth.get(index).add(((QualityReport) r)
-                            .getVirusPPM());
+            if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
+                    && (r.getTimestamp().getYear() == year)) {
+                // check against params
+                int index = r.getTimestamp().getMonthValue() - 1;
+                if (reportsByMonth[index] == null) {
+                    reportsByMonth[index] = new ArrayList<>();
                 }
+                reportsByMonth[index].add(((QualityReport) r)
+                        .getVirusPPM());
             }
         }
 
-        double[] virusPPMByMonth = new double[12];
-        for (int i = 0; i < reportsByMonth.size(); i++) {
-            double sum = 0;
-            for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
-                sum += reportsByMonth.get(i).get(j);
-            }
-            if (!reportsByMonth.get(i).isEmpty()) {
-                virusPPMByMonth[i] = sum / reportsByMonth.get(i).size();
-            } else {
-                virusPPMByMonth[i] = 0;
-            }
-        }
-        return virusPPMByMonth;
+        return getAverage(reportsByMonth);
     }
 
     /**
@@ -245,37 +255,43 @@ public class SortReports {
      */
     public static double[] generateHistoricalReportByContaminantPPM(
             Location loc, double radius, int year) {
-        updateReports();
-        List<List<Double>> reportsByMonth = new ArrayList<>();
-        //instantiate list
-        for (int i = 0; i < 12; i++) {
-            reportsByMonth.add(new LinkedList<>());
-        }
+        updateQualityReports();
+        final int MONTHS = 12;
+        // There is no way to resolve this unchecked cast since Java
+        // does not allow instantiation of generic arrays.
+        // The "magic number" 12 is because there are 12 months in a year.
+        List<Double>[] reportsByMonth = (List<Double>[]) new List[MONTHS];
+
         //noinspection Convert2streamapi
         for (Report r : reports) {
-            if (r instanceof QualityReport) {
-                if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
-                        && (r.getTimestamp().getYear() == year)) {
-                    // check against params
-                    int index = r.getTimestamp().getMonthValue() - 1;
-                    reportsByMonth.get(index).add(((QualityReport) r)
-                            .getContaminantPPM());
+            if ((Location.calculateDistance(loc, r.getLocation()) <= radius)
+                    && (r.getTimestamp().getYear() == year)) {
+                // check against params
+                int index = r.getTimestamp().getMonthValue() - 1;
+                if (reportsByMonth[index] == null) {
+                    reportsByMonth[index] = new ArrayList<>();
                 }
+                reportsByMonth[index].add(((QualityReport) r)
+                        .getContaminantPPM());
             }
         }
 
-        double[] contaminantPPMByMonth = new double[12];
-        for (int i = 0; i < reportsByMonth.size(); i++) {
+        return getAverage(reportsByMonth);
+    }
+
+    private static double[] getAverage(List<Double>[] reportsByMonth) {
+        double[] AveragePPMByMonth = new double[reportsByMonth.length];
+        for (int i = 0; i < reportsByMonth.length; i++) {
             double sum = 0;
-            for (int j = 0; j < reportsByMonth.get(i).size(); j++) {
-                sum += reportsByMonth.get(i).get(j);
-            }
-            if (!reportsByMonth.get(i).isEmpty()) {
-                contaminantPPMByMonth[i] = sum / reportsByMonth.get(i).size();
+            if (reportsByMonth[i] == null) {
+                AveragePPMByMonth[i] = sum;
             } else {
-                contaminantPPMByMonth[i] = 0;
+                for (int j = 0; j < reportsByMonth[i].size(); j++) {
+                    sum += reportsByMonth[i].get(j);
+                }
+                AveragePPMByMonth[i] = sum / reportsByMonth[i].size();
             }
         }
-        return contaminantPPMByMonth;
+        return AveragePPMByMonth;
     }
 }

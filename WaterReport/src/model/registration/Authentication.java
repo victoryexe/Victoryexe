@@ -1,9 +1,11 @@
-package model.login;
+package model.registration;
 
-import fxapp.persistance.PersistenceHandler;
+import jdk.internal.org.objectweb.asm.util.CheckAnnotationAdapter;
+import lib.password_hashing.PasswordStorage;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
+
+// All classes flagged as utility classes were designed to be utility classes.
 
 /**
  * Created by Alexandra on 9/24/2016.
@@ -14,14 +16,43 @@ import java.util.HashMap;
 public class Authentication {
     private static final Map<String, CharSequence> userMap = new HashMap<>();
 
+//    /**
+//     * calls the Persistence handler to save the passwords to a file
+//     * (not safe but used in desperation)
+//     */
+//    public static void savePass() {
+//        PersistenceHandler.savePass(userMap.values());
+//    }
+
     /**
-     * calls the Persistence handler to save the passwords to a file
-     * (not safe but used in desperation)
+     * Gets the hashed password associated with the given account
+     * @param userid the Account for which to get the hashed password
+     * @return the hashed password or null if the user doesn't exist
      */
-    public static void savePass() {
-        PersistenceHandler.savePass(userMap.values());
+    public static String getHash(String userid) {
+        String hash = (String) userMap.get(userid);
+        if (userid == null || hash == null) {
+            return null;
+        }
+        return hash;
     }
 
+    /**
+     * Creates Mapping from email Map
+     * @param emailMap
+     */
+    public static void loadMap(HashMap<String, CharSequence> emailMap) {
+        if (emailMap != null) {
+            Set<String> emails = new HashSet<>(emailMap.keySet());
+            for (String email : emails) {
+                //System.out.println(email);
+                //System.out.println(emailMap.get(email));
+                if (!userMap.containsKey(email)) {
+                    userMap.put(email, emailMap.get(email));
+                }
+            }
+        }
+    }
     /**
      * Verifies that the user exists
      * @param userid The username
@@ -37,9 +68,11 @@ public class Authentication {
      * @param password The user-entered password
      * @return true iff the password is indeed the user's password
      */
-    static boolean verifyPassword(String userid, String password) {
-        // TODO currently plain text string matching
-        return userMap.get(userid).equals(password);
+    static boolean verifyPassword(String userid, String password)
+            throws PasswordStorage.CannotPerformOperationException,
+            PasswordStorage.InvalidHashException {
+        return PasswordStorage.verifyPassword(password,
+                (String) userMap.get(userid));
     }
 
     /**
@@ -49,13 +82,14 @@ public class Authentication {
      * @param password2 the confirmed password
      * @return true if the user was successfully added to the map
      */
-    static boolean addNewAccount(String subject, CharSequence password,
-                                 String password2) {
+    static boolean addNewAccount(String subject, String password,
+                                 String password2)
+            throws PasswordStorage.CannotPerformOperationException {
         if (userMap.containsKey(subject)) {
             return false;
         }
-        if (password.equals(password2)) { // TODO plain string matching
-            userMap.put(subject, password);
+        if (password.equals(password2)) {
+            userMap.put(subject, PasswordStorage.createHash(password));
             return true;
         }
         return false;
@@ -72,14 +106,15 @@ public class Authentication {
      * @return true iff the map was updated, false otherwise
      */
     private static boolean updateAccount(String oldEmail, String newEmail,
-                                         CharSequence pass1, String pass2) {
+                                         String pass1, String pass2)
+            throws PasswordStorage.CannotPerformOperationException {
         CharSequence oldPass = userMap.remove(oldEmail);
         if (oldPass == null) {
             throw new java.util.NoSuchElementException("No existing user"
                     + "with the email " + oldEmail);
         }
         if (pass1.equals(pass2)) {
-            userMap.put(newEmail, pass1);
+            userMap.put(newEmail, PasswordStorage.createHash(pass1));
             return true;
         }
         return false;
@@ -93,7 +128,8 @@ public class Authentication {
      * with the given oldEmail
      * @return true iff the map was updated, false otherwise
      */
-    static boolean updateEmail(String oldEmail, String newEmail) {
+    static boolean updateEmail(String oldEmail, String newEmail)
+            throws PasswordStorage.CannotPerformOperationException {
         String pass = (String) userMap.get(oldEmail);
         if (pass == null) {
             throw new java.util.NoSuchElementException("No existing user"

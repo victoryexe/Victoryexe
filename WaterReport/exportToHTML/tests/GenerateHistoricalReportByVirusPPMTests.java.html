@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>GenerateHistoricalReportByVirusPPMTests.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+GenerateHistoricalReportByVirusPPMTests.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">tests; 
+ 
+</span><span class="s0">import </span><span class="s1">model.Users.Worker; 
+</span><span class="s0">import </span><span class="s1">model.report.*; 
+</span><span class="s0">import </span><span class="s1">org.junit.Before; 
+</span><span class="s0">import </span><span class="s1">org.junit.Test; 
+ 
+</span><span class="s0">import static </span><span class="s1">model.report.OverallCondition.SAFE; 
+</span><span class="s0">import static </span><span class="s1">model.report.OverallCondition.TREATABLE; 
+</span><span class="s0">import static </span><span class="s1">model.report.OverallCondition.UNSAFE; 
+</span><span class="s0">import static </span><span class="s1">org.junit.Assert.assertEquals; 
+</span><span class="s0">import </span><span class="s1">java.lang.reflect.Field; 
+</span><span class="s0">import </span><span class="s1">java.util.HashMap; 
+</span><span class="s0">import </span><span class="s1">java.util.Map; 
+</span><span class="s0">import </span><span class="s1">java.util.Arrays; 
+ 
+</span><span class="s2">/** 
+ * Created by davidarida on 11/14/16. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">GenerateHistoricalReportByVirusPPMTests { 
+    </span><span class="s0">private </span><span class="s1">Map&lt;Integer, QualityReport&gt; quality; 
+ 
+ 
+    @Before 
+    </span><span class="s0">public void </span><span class="s1">setUp() { 
+        </span><span class="s0">try </span><span class="s1">{ </span><span class="s2">// clear maps before each test</span><span class="s1"> 
+            Field field; 
+            field = ReportsList.</span><span class="s0">class</span><span class="s1">.getDeclaredField(</span><span class="s3">&quot;qualityReportMap&quot;</span><span class="s1">); 
+            field.setAccessible(</span><span class="s0">true</span><span class="s1">); 
+            ((HashMap&lt;Integer, QualityReport&gt;) field.get(</span><span class="s3">&quot;&quot;</span><span class="s1">)).clear(); 
+            quality = (HashMap&lt;Integer, QualityReport&gt;) field.get(</span><span class="s3">&quot;&quot;</span><span class="s1">); 
+ 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            </span><span class="s0">throw new </span><span class="s1">RuntimeException(e); 
+        } 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">1000</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testMapEmpty() { 
+        </span><span class="s0">double</span><span class="s1">[] arr = </span><span class="s0">new double</span><span class="s1">[</span><span class="s4">12</span><span class="s1">]; 
+        assertEquals(</span><span class="s4">12</span><span class="s1">, SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">).length); 
+        assertEquals(Arrays.toString(arr), Arrays.toString(SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">))); 
+    } 
+ 
+ 
+    @Test(timeout = </span><span class="s4">1000</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testGeneralOnce() { 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;David&quot;</span><span class="s1">, </span><span class="s3">&quot;darida3@gatech.edu&quot;</span><span class="s1">, </span><span class="s4">189</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">, </span><span class="s4">0</span><span class="s1">), SAFE, </span><span class="s4">8</span><span class="s1">, </span><span class="s4">5</span><span class="s1">); 
+ 
+        </span><span class="s0">double</span><span class="s1">[] arr = </span><span class="s0">new double</span><span class="s1">[</span><span class="s4">12</span><span class="s1">]; 
+        arr[</span><span class="s4">10</span><span class="s1">] = </span><span class="s4">8</span><span class="s1">; 
+        assertEquals(</span><span class="s4">12</span><span class="s1">, SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">).length); 
+        assertEquals(Arrays.toString(arr), Arrays.toString(SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">))); 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">1000</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testGeneralMultiple() { 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;David&quot;</span><span class="s1">, </span><span class="s3">&quot;darida3@gatech.edu&quot;</span><span class="s1">, </span><span class="s4">189</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">, </span><span class="s4">0</span><span class="s1">), SAFE, </span><span class="s4">8</span><span class="s1">, </span><span class="s4">5</span><span class="s1">); 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;Owen&quot;</span><span class="s1">, </span><span class="s3">&quot;grizzlythresher@gmail.com&quot;</span><span class="s1">, </span><span class="s4">190</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0.1</span><span class="s1">, </span><span class="s4">0</span><span class="s1">), TREATABLE, </span><span class="s4">9</span><span class="s1">, </span><span class="s4">9</span><span class="s1">); 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;Dacorvyn&quot;</span><span class="s1">, </span><span class="s3">&quot;iceguy12@gmail.com&quot;</span><span class="s1">, </span><span class="s4">191</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">, </span><span class="s4">0.1</span><span class="s1">), TREATABLE, </span><span class="s4">17</span><span class="s1">, </span><span class="s4">20</span><span class="s1">); 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;Ozzy&quot;</span><span class="s1">, </span><span class="s3">&quot;oarmas3@gatech.edu&quot;</span><span class="s1">, </span><span class="s4">192</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">27</span><span class="s1">, </span><span class="s4">53</span><span class="s1">), UNSAFE, </span><span class="s4">1023</span><span class="s1">, </span><span class="s4">9001</span><span class="s1">); 
+ 
+        </span><span class="s0">double</span><span class="s1">[] arr = </span><span class="s0">new double</span><span class="s1">[</span><span class="s4">12</span><span class="s1">]; 
+        arr[</span><span class="s4">10</span><span class="s1">] = (</span><span class="s4">8.0 </span><span class="s1">+ </span><span class="s4">9.0 </span><span class="s1">+ </span><span class="s4">17.0</span><span class="s1">)/</span><span class="s4">3</span><span class="s1">; 
+        assertEquals(</span><span class="s4">12</span><span class="s1">, SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">).length); 
+        assertEquals(Arrays.toString(arr), Arrays.toString(SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">))); 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">1000</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testNullData() { 
+        </span><span class="s0">double</span><span class="s1">[] arr = </span><span class="s0">new double</span><span class="s1">[</span><span class="s4">12</span><span class="s1">]; 
+        assertEquals(</span><span class="s4">12</span><span class="s1">, SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">null</span><span class="s1">, </span><span class="s4">0</span><span class="s1">, </span><span class="s4">0</span><span class="s1">).length); 
+        assertEquals(Arrays.toString(arr), Arrays.toString(SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">null</span><span class="s1">, </span><span class="s4">0</span><span class="s1">, </span><span class="s4">0</span><span class="s1">))); 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">1000</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testLocationZeroRadius() { 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;Owen&quot;</span><span class="s1">, </span><span class="s3">&quot;grizzlythresher@gmail.com&quot;</span><span class="s1">, </span><span class="s4">190</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0.1</span><span class="s1">, </span><span class="s4">0</span><span class="s1">), TREATABLE, </span><span class="s4">9</span><span class="s1">, </span><span class="s4">9</span><span class="s1">); 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;Dacorvyn&quot;</span><span class="s1">, </span><span class="s3">&quot;iceguy12@gmail.com&quot;</span><span class="s1">, </span><span class="s4">191</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">, </span><span class="s4">0.1</span><span class="s1">), TREATABLE, </span><span class="s4">17</span><span class="s1">, </span><span class="s4">20</span><span class="s1">); 
+ 
+        </span><span class="s0">double</span><span class="s1">[] arr = </span><span class="s0">new double</span><span class="s1">[</span><span class="s4">12</span><span class="s1">]; 
+        assertEquals(</span><span class="s4">12</span><span class="s1">, SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">0</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">).length); 
+        assertEquals(Arrays.toString(arr), Arrays.toString(SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">0</span><span class="s1">, </span><span class="s4">2016</span><span class="s1">))); 
+    } 
+ 
+    @Test(timeout = </span><span class="s4">1000</span><span class="s1">) 
+    </span><span class="s0">public void </span><span class="s1">testLocationWrongYear() { 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;Owen&quot;</span><span class="s1">, </span><span class="s3">&quot;grizzlythresher@gmail.com&quot;</span><span class="s1">, </span><span class="s4">190</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0.1</span><span class="s1">, </span><span class="s4">0</span><span class="s1">), TREATABLE, </span><span class="s4">9</span><span class="s1">, </span><span class="s4">9</span><span class="s1">); 
+        ReportsList.makeReport(</span><span class="s0">new </span><span class="s1">Worker(</span><span class="s3">&quot;Dacorvyn&quot;</span><span class="s1">, </span><span class="s3">&quot;iceguy12@gmail.com&quot;</span><span class="s1">, </span><span class="s4">191</span><span class="s1">), </span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">, </span><span class="s4">0.1</span><span class="s1">), TREATABLE, </span><span class="s4">17</span><span class="s1">, </span><span class="s4">20</span><span class="s1">); 
+ 
+        </span><span class="s0">double</span><span class="s1">[] arr = </span><span class="s0">new double</span><span class="s1">[</span><span class="s4">12</span><span class="s1">]; 
+        assertEquals(</span><span class="s4">12</span><span class="s1">, SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2015</span><span class="s1">).length); 
+        assertEquals(Arrays.toString(arr), Arrays.toString(SortReports.generateHistoricalReportByVirusPPM(</span><span class="s0">new </span><span class="s1">Location(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">), </span><span class="s4">50</span><span class="s1">, </span><span class="s4">2015</span><span class="s1">))); 
+    } 
+     
+} 
+</span></pre>
+</body>
+</html>

@@ -5,6 +5,7 @@ import model.Users.User;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.sql.Timestamp;
 
 /**
  * Created by Alexandra on 10/12/2016.
@@ -29,6 +30,9 @@ public abstract class Report implements Comparable<Report> {
         submitterID = submitter;
         this.location = location;
     }
+    Report(User submitter, Location location, String tStamp) {
+        this(submitter, location, LocalDateTime.parse(tStamp));
+    }
 
     /**
      * Creates a report, using the local machine's date and time, the user
@@ -39,7 +43,6 @@ public abstract class Report implements Comparable<Report> {
     Report(User submitter, Location location) {
         this(submitter, location, LocalDateTime.now());
     }
-
     /**
      * Gets the id of this report
      * @return the id of this report
@@ -47,12 +50,15 @@ public abstract class Report implements Comparable<Report> {
     public abstract int getReportID();
 
     /**
-     * Gets the User that submitted this report
-     * @return the User that submitted this report
+     * Gets the name of the User who submitted this report
+     * @return the name of the User who submitted this report
      */
-    public User getSubmitterID() {
-        return submitterID;
-    }
+    public String getSubmitterName() { return submitterID.getName();}
+    /**
+     * Gets the name of the User who submitted this report
+     * @return the email of the User who submitted this report
+     */
+    public String getSubmitterID() { return submitterID.getEmail();}
 
     /**
      * Gets the location which this report corresponds to
@@ -61,6 +67,12 @@ public abstract class Report implements Comparable<Report> {
     public Location getLocation() {
         return location;
     }
+
+    /**
+     * Returns the coordinates of this Location
+     * @return the coordinates as a String
+     */
+    public String getCoordinates() { return location.toString();}
 
     /**
      * Gets the date this report was submitted on

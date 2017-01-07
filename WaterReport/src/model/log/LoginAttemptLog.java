@@ -6,7 +6,7 @@ import model.Users.Account;
  * Created by Alexandra on 10/27/2016.
  * A Log that holds information specific to login attempts
  */
-class LoginAttemptLog extends Log {
+public class LoginAttemptLog extends Log {
     private final boolean successStatus;
 
     /**
@@ -14,16 +14,25 @@ class LoginAttemptLog extends Log {
      * @param responsibleAccount the account logging in
      * @param successStatus whether the user's login succeeded
      */
-    LoginAttemptLog(Account responsibleAccount, boolean successStatus) {
+    public LoginAttemptLog(Account responsibleAccount, boolean successStatus) {
         super(responsibleAccount);
         this.successStatus = successStatus;
     }
 
     /**
-     * Gets whether the login attempt was successful or not
-     * @return true iff the login attempt succeeded
+     * @param responsibleAccount The Adming that banned the account
+     * @param successStatus loginAttemptSuccess
+     * @param timeStamp the String format of the timestamp
      */
-    public boolean getSuccessStatus() {
-        return successStatus;
+    public LoginAttemptLog(Account responsibleAccount, boolean successStatus,
+                            String timeStamp) {
+        super(timeStamp, responsibleAccount);
+        this.successStatus = successStatus;
+    }
+    @Override
+    public String toString() {
+        return "'" + getResponsibleAccount().getEmail() + "',"
+                + successStatus + ",'"
+                + getTimestamp().toString() + "'";
     }
 }

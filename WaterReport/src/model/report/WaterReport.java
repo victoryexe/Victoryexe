@@ -14,21 +14,7 @@ public class WaterReport extends Report {
     private final WaterType waterType;
     private final WaterCondition waterCondition;
 
-    /**
-     * Creates a report using a given date and time, user responsible
-     * for the report, water's location
-     * @param submitter the User who created this report
-     * @param location the location of this source
-     * @param timestamp the date and time of submission for report
-     */
-    public WaterReport(User submitter, Location location, WaterType waterType,
-                       WaterCondition waterCondition, int rID, LocalDateTime timestamp) {
-        super(submitter, location, timestamp);
-        this.waterType = waterType;
-        this.waterCondition = waterCondition;
-        this.rID = rID;
-    }
-
+    // Constructor is used to load data from the DB
     /**
      * Creates a WaterReport with the given parameters and a timestamp
      * @param submitter the User who submitted this report
@@ -43,6 +29,22 @@ public class WaterReport extends Report {
         this.waterCondition = waterCondition;
         rID = reportCount++;
     }
+    /**
+     * Creates a WaterReport with the given parameters and a timestamp
+     * @param tStamp String Formatter Time Stamp
+     * @param user the User who submitted this report
+     * @param location the location of this source
+     * @param waterType the type of water at this source
+     * @param condition the condition of the water at this source
+     */
+    public WaterReport(String tStamp ,User user, Location location,
+                         WaterType waterType, WaterCondition condition) {
+        super(user, location, tStamp);
+        this.waterType = waterType;
+        this.waterCondition = condition;
+        rID = reportCount++;
+    }
+
 
     /**
      * Gets the WaterType of this water source

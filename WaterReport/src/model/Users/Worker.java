@@ -6,6 +6,12 @@ package model.Users;
 */
 public class Worker extends User {
 
+    /**
+     * Constructor used to load data from the DB
+     * @param name the Worker's name
+     * @param email the Worker's email
+     * @param uID the Worker's userID
+     */
     public Worker(String name, String email, int uID) {
         super(name, email, uID);
     }

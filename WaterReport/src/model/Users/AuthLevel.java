@@ -5,9 +5,9 @@ package model.Users;
  * An enum class representing the types of users the system allows
  */
 public enum AuthLevel {
-    USER, WORKER, MANAGER, ADMIN;
+    USER, WORKER, MANAGER, ADMIN
 
-    public static AuthLevel fromString(String str) {
+    /*public static AuthLevel fromString(String str) {
         switch (str) {
             case "USER" :
                 return USER;
@@ -21,4 +21,5 @@ public enum AuthLevel {
                 return null;
         }
     }
+    */
 }

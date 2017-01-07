@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>FileFormatException.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+FileFormatException.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model; 
+ 
+</span><span class="s2">/** 
+ * Created by robertwaters on 10/11/16. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">FileFormatException </span><span class="s0">extends </span><span class="s1">Exception { 
+    </span><span class="s0">private </span><span class="s1">String line; 
+ 
+    </span><span class="s0">public </span><span class="s1">FileFormatException(String str) { 
+        line = str; 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">String getOriginalLine() { </span><span class="s0">return </span><span class="s1">line; } 
+} 
+</span></pre>
+</body>
+</html>

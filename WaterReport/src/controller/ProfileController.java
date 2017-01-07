@@ -1,24 +1,21 @@
 package controller;
 
+import db.DB;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.Users.Account;
+import lib.password_hashing.PasswordStorage;
 import model.Users.Address;
 import model.Users.Profile;
-import model.login.UserList;
-
-import java.util.ArrayList;
-
-import static controller.MainController.populateComboBox;
-import static controller.MainController.restrictToNums;
+import model.registration.UserList;
 
 /**
  * Created by grizz on 9/27/2016.
  * Handles User Profiles
  */
-public class ProfileController {
+class ProfileController {
 
     private final TextField lastnametextbox;
     private final TextField firstnametextbox;
@@ -45,16 +42,6 @@ public class ProfileController {
         this.zipcodetextbox = zipcodetextbox;
         this.emailtextbox = emailtextbox;
 
-        restrictToNums(aptnumtextbox);
-        restrictToNums(zipcodetextbox);
-
-        ArrayList<String> salutation = new ArrayList<>();
-        salutation.add("");
-        salutation.add("Mr.");
-        salutation.add("Ms.");
-        salutation.add("Mrs.");
-        salutation.add("Dr.");
-        populateComboBox(salutationcombobox, salutation);
         salutationcombobox.setVisible(false);
         salutationcombobox.setOnMousePressed(event -> salutationcombobox.requestFocus());
         currProfile = new Profile(LoginScreenController.getCurrUser());
@@ -68,50 +55,23 @@ public class ProfileController {
         lastnametextbox.setText(name.substring(name.indexOf(" ")));
         emailtextbox.setText(currProfile.getEmail());
         if (currProfile.getAddress() != null) {
-            streetaddresstextbox.setText(currProfile.getAddress().getStreet());
-            if (currProfile.getAddress().apartmentNumber() != -1) {
-                aptnumtextbox.setText("" + currProfile.getAddress().apartmentNumber());
+            Address add = currProfile.getAddress();
+            streetaddresstextbox.setText(add.getStreet());
+            if (add.apartmentNumber() != -1) {
+                aptnumtextbox.setText("" + add.apartmentNumber());
             }
-            citytextbox.setText(currProfile.getAddress().getCity());
-            statetextbox.setText(currProfile.getAddress().getState());
-            countrytextbox.setText(currProfile.getAddress().getCountry());
-            if (currProfile.getAddress().getZip() != -1) {
-                zipcodetextbox.setText("" + currProfile.getAddress().getZip());
+            citytextbox.setText(add.getCity());
+            statetextbox.setText(add.getState());
+            countrytextbox.setText(add.getCountry());
+            if (add.getZip() != -1) {
+                zipcodetextbox.setText("" + add.getZip());
             }
         }
-        salutationedit.setOnAction(event -> {
-            salutationedit.setVisible(false);
-            submit.setVisible(true);
-            currsalutation.setVisible(false);
-            salutationcombobox.setVisible(true);
-            if (currProfile.getTitle() != null) {
-                switch (currProfile.getTitle()) {
-                    case "":
-                        salutationcombobox.setValue(salutation.get(0));
-                        break;
-                    case "Mr.":
-                        salutationcombobox.setValue(salutation.get(1));
-                        break;
-                    case "Ms.":
-                        salutationcombobox.setValue(salutation.get(2));
-                        break;
-                    case "Mrs.":
-                        salutationcombobox.setValue(salutation.get(3));
-                        break;
-                    case "Dr.":
-                        salutationcombobox.setValue(salutation.get(4));
-                        break;
-                    default:
-                        salutationcombobox.setValue(salutation.get(0));
-                        break;
-                }
-            }
-            setAllEditable(true);
-        });
+
         submit.setOnAction(event -> {
             submit.setVisible(false);
             salutationedit.setVisible(true);
-            currProfile.changeTitle((String) salutationcombobox.getValue());
+            currProfile.changeTitle(salutationcombobox.getValue());
             currsalutation.setText(currProfile.getTitle());
             currsalutation.setVisible(true);
             salutationcombobox.setVisible(false);
@@ -120,39 +80,55 @@ public class ProfileController {
             int zip;
             int apt;
             if (!currProfile.getEmail().equals(emailtextbox.getText())) {
-                UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
-                currProfile.changeEmail(emailtextbox.getText());
+                try {
+                    UserList.updateMap(currProfile.getEmail(), emailtextbox.getText());
+                    currProfile.changeEmail(emailtextbox.getText());
+                } catch (PasswordStorage.CannotPerformOperationException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            if (currProfile.getAddress() == null) {
-                if (zipcodetextbox.getText().equals("")) {
+            Address add = currProfile.getAddress();
+            if (add == null) {
+                if ("".equals(zipcodetextbox.getText())) {
                     zip = -1;
                 } else {
                     zip = Integer.valueOf(zipcodetextbox.getText());
                 }
-                if (aptnumtextbox.getText().equals("")) {
+                if ("".equals(aptnumtextbox.getText())) {
                     apt = -1;
                 } else {
                     apt = Integer.valueOf(aptnumtextbox.getText());
                 }
-                currProfile.changeAddress(new Address(streetaddresstextbox.getText(), apt,
-                        citytextbox.getText(), statetextbox.getText(), zip, countrytextbox.getText()));
+                add = new Address(streetaddresstextbox.getText(), apt,
+                        citytextbox.getText(), statetextbox.getText(), zip, countrytextbox.getText());
             } else {
-                currProfile.getAddress().setStreet(streetaddresstextbox.getText());
-                currProfile.getAddress().setCity(citytextbox.getText());
-                currProfile.getAddress().setState(statetextbox.getText());
-                if (zipcodetextbox.getText().equals("")) {
-                    currProfile.getAddress().setZip(-1);
+                add.setStreet(streetaddresstextbox.getText());
+                add.setCity(citytextbox.getText());
+                add.setState(statetextbox.getText());
+                add.setCountry(countrytextbox.getText());
+                if ("".equals(zipcodetextbox.getText())) {
+                    add.setZip(-1);
                 } else {
-                    currProfile.getAddress().setZip(Integer.valueOf(zipcodetextbox.getText()));
+                    add.setZip(Integer.valueOf(zipcodetextbox.getText()));
                 }
-                if (aptnumtextbox.getText().equals("")) {
-                    currProfile.getAddress().setApartmentNum(-1);
+                if ("".equals(aptnumtextbox.getText())) {
+                    add.setApartmentNum(-1);
                 } else {
-                    currProfile.getAddress().setApartmentNum(Integer.valueOf(aptnumtextbox.getText()));
+                    add.setApartmentNum(Integer.valueOf(aptnumtextbox.getText()));
                 }
             }
+            currProfile.changeAddress(add);
+            DB.changeAddress(add.toString() , currProfile.getEmail());
         });
 
+        salutationedit.setOnAction((ActionEvent) -> {
+            setAllEditable(true);
+            salutationedit.setVisible(false);
+            submit.setVisible(true);
+            salutationcombobox.setVisible(true);
+            salutationcombobox.setValue(currProfile.getTitle());
+            currsalutation.setVisible(false);
+        });
     }
     /**
      * Sets all texts fields as either editable or non-editable

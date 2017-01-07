@@ -1,15 +1,25 @@
 package controller;
 
+import db.DB;
 import fxapp.Main;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-import model.Users.*;
-import model.login.UserList;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import lib.password_hashing.PasswordStorage;
+import model.Users.Account;
+import model.Users.AuthLevel;
+import model.registration.UserList;
 import model.registration.Registration;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -33,7 +43,7 @@ public class RegistrationController {
     @FXML
     private Button regCancel;
     @FXML
-    private ComboBox authLevels;
+    private ComboBox<AuthLevel> authLevels;
 
 
     private String first;
@@ -44,13 +54,17 @@ public class RegistrationController {
     private AuthLevel authLevel;
     private Main mainApp;
 
+    /**
+     * sets up a reference back to Main
+     * @param main the reference back to main
+     */
     public void setMainApp(Main main) {
         mainApp = main;
     }
 
     @FXML
     public void initialize() {
-        ArrayList<AuthLevel> auth = new ArrayList<>();
+        List<AuthLevel> auth = new ArrayList<>();
         Collections.addAll(auth, AuthLevel.values());
         MainController.populateComboBox(authLevels, auth);
         regCancel.setOnAction(event -> mainApp.showLogin());
@@ -61,17 +75,21 @@ public class RegistrationController {
             mail = email.getText();
             pass = passwordSet.getText();
             pass2 = passwordConfirm.getText();
-            authLevel = (AuthLevel) authLevels.getValue();
+            authLevel = authLevels.getValue();
             Account user;
 
             if (isInputValid(first, last, mail, pass, pass2)) {
-                Registration.createAccount(first, last, mail, pass, pass2, authLevel);
-                user = UserList.getUserAccount(mail);
-                LoginScreenController.setCurrUser(user);
-                if (authLevel == AuthLevel.ADMIN) {
-                    mainApp.showAdmin();
-                } else {
-                    mainApp.showMain();
+                try {
+                    user = Registration.createAccount(first, last, mail, pass, pass2, authLevel);
+                    DB.addAccount(user);
+                    LoginScreenController.setCurrUser(user);
+                    if (authLevel == AuthLevel.ADMIN) {
+                        mainApp.showAdmin();
+                    } else {
+                        mainApp.showMain();
+                    }
+                } catch (PasswordStorage.CannotPerformOperationException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -99,8 +117,8 @@ System.out.println(results[0].formattedAddress);*/
      */
     private boolean isInputValid(String firstName, String lastName, String userid,
                                        String password1, String password2) {
-        if (firstName.equals("") || lastName.equals("")|| userid.equals("")
-                || password1.equals("")|| password2.equals("")) { // null checks
+        if ("".equals(firstName) || "".equals(lastName) || "".equals(userid)
+                || "".equals(password1) || "".equals(password2)) { // null checks
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "All fields must be filled in.", ButtonType.CLOSE);
             alert.show();

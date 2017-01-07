@@ -1,0 +1,181 @@
+<html>
+<head>
+<title>MapController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MapController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">controllers; 
+ 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.GoogleMapView; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.MapComponentInitializedListener; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.event.UIEventType; 
+</span><span class="s0">import </span><span class="s1">com.lynden.gmapsfx.javascript.object.*; 
+ 
+</span><span class="s0">import </span><span class="s1">fxapp.MainFXApplication; 
+ 
+</span><span class="s0">import </span><span class="s1">javafx.fxml.FXML; 
+</span><span class="s0">import </span><span class="s1">javafx.fxml.Initializable; 
+</span><span class="s0">import </span><span class="s1">javafx.stage.FileChooser; 
+</span><span class="s0">import </span><span class="s1">javafx.stage.Window; 
+ 
+</span><span class="s0">import </span><span class="s1">model.Facade; 
+</span><span class="s0">import </span><span class="s1">model.Location; 
+ 
+</span><span class="s0">import </span><span class="s1">netscape.javascript.JSObject; 
+ 
+</span><span class="s0">import </span><span class="s1">java.io.File; 
+</span><span class="s0">import </span><span class="s1">java.net.URL; 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+</span><span class="s0">import </span><span class="s1">java.util.ResourceBundle; 
+ 
+</span><span class="s2">/** 
+ * Created by robertwaters on 10/12/16. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">MapController </span><span class="s0">implements </span><span class="s1">Initializable, MapComponentInitializedListener { 
+    @FXML 
+    </span><span class="s0">private </span><span class="s1">GoogleMapView mapView; 
+ 
+    </span><span class="s0">private </span><span class="s1">GoogleMap map; 
+ 
+    </span><span class="s0">private </span><span class="s1">Window mainStage; 
+ 
+    </span><span class="s0">private </span><span class="s1">MainFXApplication theApp; 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">initialize(URL url, ResourceBundle rb) { 
+        mapView.addMapInializedListener(</span><span class="s0">this</span><span class="s1">); 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setCallbacks(Window stage, MainFXApplication app) { 
+        mainStage = stage; 
+        theApp = app; 
+    } 
+ 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">mapInitialized() { 
+        MapOptions options = </span><span class="s0">new </span><span class="s1">MapOptions(); 
+ 
+        </span><span class="s2">//set up the center location for the map</span><span class="s1"> 
+        LatLong center = </span><span class="s0">new </span><span class="s1">LatLong(</span><span class="s3">34</span><span class="s1">, -</span><span class="s3">88</span><span class="s1">); 
+ 
+        options.center(center) 
+                .zoom(</span><span class="s3">9</span><span class="s1">) 
+                .overviewMapControl(</span><span class="s0">false</span><span class="s1">) 
+                .panControl(</span><span class="s0">false</span><span class="s1">) 
+                .rotateControl(</span><span class="s0">false</span><span class="s1">) 
+                .scaleControl(</span><span class="s0">false</span><span class="s1">) 
+                .streetViewControl(</span><span class="s0">false</span><span class="s1">) 
+                .zoomControl(</span><span class="s0">false</span><span class="s1">) 
+                .mapType(MapTypeIdEnum.TERRAIN); 
+ 
+        map = mapView.createMap(options); 
+ 
+ 
+        </span><span class="s2">/** now we communciate with the model to get all the locations for markers */</span><span class="s1"> 
+        Facade fc = Facade.getInstance(); 
+        List&lt;Location&gt; locations = fc.getLocations(); 
+ 
+        </span><span class="s0">for </span><span class="s1">(Location l: locations) { 
+            MarkerOptions markerOptions = </span><span class="s0">new </span><span class="s1">MarkerOptions(); 
+            LatLong loc = </span><span class="s0">new </span><span class="s1">LatLong(l.getLatitude(), l.getLongitude()); 
+ 
+            markerOptions.position(loc) 
+                    .visible(Boolean.TRUE) 
+                    .title(l.getTitle()); 
+ 
+            Marker marker = </span><span class="s0">new </span><span class="s1">Marker(markerOptions); 
+ 
+            map.addUIEventHandler(marker, 
+                    UIEventType.click, 
+                    (JSObject obj) -&gt; { 
+                        InfoWindowOptions infoWindowOptions = </span><span class="s0">new </span><span class="s1">InfoWindowOptions(); 
+                        infoWindowOptions.content(l.getDescription()); 
+ 
+                        InfoWindow window = </span><span class="s0">new </span><span class="s1">InfoWindow(infoWindowOptions); 
+                        window.open(map, marker); 
+                    }); 
+ 
+            map.addMarker(marker); 
+        } 
+ 
+ 
+    } 
+ 
+    @FXML 
+    </span><span class="s0">public void </span><span class="s1">onOpenTextFileMenu() { 
+        FileChooser fc = </span><span class="s0">new </span><span class="s1">FileChooser(); 
+        fc.setTitle(</span><span class="s4">&quot;Open Text File&quot;</span><span class="s1">); 
+        File file  = fc.showOpenDialog(mainStage); 
+        </span><span class="s0">if </span><span class="s1">(file != </span><span class="s0">null</span><span class="s1">) 
+            Facade.getInstance().loadModelFromText(file); 
+    } 
+ 
+    @FXML 
+    </span><span class="s0">public void </span><span class="s1">onOpenBinaryFileMenu() { 
+        FileChooser fc = </span><span class="s0">new </span><span class="s1">FileChooser(); 
+        fc.setTitle(</span><span class="s4">&quot;Open Binary File&quot;</span><span class="s1">); 
+        File file  = fc.showOpenDialog(mainStage); 
+        </span><span class="s0">if </span><span class="s1">(file != </span><span class="s0">null</span><span class="s1">) 
+            Facade.getInstance().loadModelFromBinary(file); 
+    } 
+ 
+    @FXML 
+    </span><span class="s0">public void </span><span class="s1">onOpenJsonFileMenu() { 
+        FileChooser fc = </span><span class="s0">new </span><span class="s1">FileChooser(); 
+        fc.setTitle(</span><span class="s4">&quot;Open JSON File&quot;</span><span class="s1">); 
+        File file  = fc.showOpenDialog(mainStage); 
+        </span><span class="s0">if </span><span class="s1">(file != </span><span class="s0">null</span><span class="s1">) 
+            Facade.getInstance().loadModelFromJson(file); 
+    } 
+ 
+    @FXML 
+    </span><span class="s0">public void </span><span class="s1">onSaveTextFileMenu() { 
+        FileChooser fc = </span><span class="s0">new </span><span class="s1">FileChooser(); 
+        fc.setTitle(</span><span class="s4">&quot;Save Text File&quot;</span><span class="s1">); 
+        File file  = fc.showSaveDialog(mainStage); 
+        </span><span class="s0">if </span><span class="s1">(file != </span><span class="s0">null</span><span class="s1">) 
+            Facade.getInstance().saveModelToText(file); 
+    } 
+ 
+    @FXML 
+    </span><span class="s0">public void </span><span class="s1">onSaveBinaryFileMenu() { 
+        FileChooser fc = </span><span class="s0">new </span><span class="s1">FileChooser(); 
+        fc.setTitle(</span><span class="s4">&quot;Save Binary File&quot;</span><span class="s1">); 
+        File file  = fc.showSaveDialog(mainStage); 
+        </span><span class="s0">if </span><span class="s1">(file != </span><span class="s0">null</span><span class="s1">) 
+            Facade.getInstance().saveModelToBinary(file); 
+    } 
+ 
+    @FXML 
+    </span><span class="s0">public void </span><span class="s1">onSaveJsonMenu() { 
+        FileChooser fc = </span><span class="s0">new </span><span class="s1">FileChooser(); 
+        fc.setTitle(</span><span class="s4">&quot;Save JSON File&quot;</span><span class="s1">); 
+        File file  = fc.showSaveDialog(mainStage); 
+        </span><span class="s0">if </span><span class="s1">(file != </span><span class="s0">null</span><span class="s1">) 
+            Facade.getInstance().saveModelToJson(file); 
+    } 
+ 
+    @FXML 
+    </span><span class="s0">public void </span><span class="s1">onCloseMenu() { 
+        theApp.closeMapView(); 
+    } 
+ 
+} 
+</span></pre>
+</body>
+</html>

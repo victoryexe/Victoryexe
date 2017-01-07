@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>WaterReport.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s5 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+WaterReport.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model.report; 
+ 
+</span><span class="s0">import </span><span class="s1">model.Users.User; 
+ 
+</span><span class="s0">import </span><span class="s1">java.time.LocalDateTime; 
+ 
+</span><span class="s2">/** 
+ * Created by Alexandra on 10/12/2016. 
+ * Represents a Water Availability Report 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">WaterReport </span><span class="s0">extends </span><span class="s1">Report { 
+    </span><span class="s0">private static int </span><span class="s1">reportCount = </span><span class="s3">0</span><span class="s1">; 
+    </span><span class="s0">private final int </span><span class="s1">rID; 
+    </span><span class="s0">private final </span><span class="s1">WaterType waterType; 
+    </span><span class="s0">private final </span><span class="s1">WaterCondition waterCondition; 
+ 
+    </span><span class="s2">// Constructor is used to load data from the DB</span><span class="s1"> 
+    </span><span class="s2">/** 
+     * Creates a WaterReport with the given parameters and a timestamp 
+     * </span><span class="s4">@param </span><span class="s2">submitter the User who submitted this report 
+     * </span><span class="s4">@param </span><span class="s2">location the location of this source 
+     * </span><span class="s4">@param </span><span class="s2">waterType the type of water at this source 
+     * </span><span class="s4">@param </span><span class="s2">waterCondition the condition of the water at this source 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">WaterReport(User submitter, Location location, WaterType waterType, 
+                       WaterCondition waterCondition) { 
+        </span><span class="s0">super</span><span class="s1">(submitter, location); 
+        </span><span class="s0">this</span><span class="s1">.waterType = waterType; 
+        </span><span class="s0">this</span><span class="s1">.waterCondition = waterCondition; 
+        rID = reportCount++; 
+    } 
+    </span><span class="s2">/** 
+     * Creates a WaterReport with the given parameters and a timestamp 
+     * </span><span class="s4">@param </span><span class="s2">tStamp String Formatter Time Stamp 
+     * </span><span class="s4">@param </span><span class="s2">user the User who submitted this report 
+     * </span><span class="s4">@param </span><span class="s2">location the location of this source 
+     * </span><span class="s4">@param </span><span class="s2">waterType the type of water at this source 
+     * </span><span class="s4">@param </span><span class="s2">condition the condition of the water at this source 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">WaterReport(String tStamp ,User user, Location location, 
+                         WaterType waterType, WaterCondition condition) { 
+        </span><span class="s0">super</span><span class="s1">(user, location, tStamp); 
+        </span><span class="s0">this</span><span class="s1">.waterType = waterType; 
+        </span><span class="s0">this</span><span class="s1">.waterCondition = condition; 
+        rID = reportCount++; 
+    } 
+ 
+ 
+    </span><span class="s2">/** 
+     * Gets the WaterType of this water source 
+     * </span><span class="s4">@return </span><span class="s2">the WaterType of this source 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">WaterType getWaterType() { 
+        </span><span class="s0">return </span><span class="s1">waterType; 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Gets the WaterCondition of the water this report is about 
+     * </span><span class="s4">@return </span><span class="s2">the WaterCondition of this source 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">WaterCondition getWaterCondition() { 
+        </span><span class="s0">return </span><span class="s1">waterCondition; 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">getReportID() { 
+        </span><span class="s0">return </span><span class="s1">rID; 
+    } 
+ 
+    @SuppressWarnings(</span><span class="s5">&quot;SimplifiableIfStatement&quot;</span><span class="s1">) 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">equals(Object obj) { 
+        </span><span class="s2">// IntelliJ wants to simplify this entire method into one statement.</span><span class="s1"> 
+        </span><span class="s2">// For readability, I prefer to keep this method as is.</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(</span><span class="s0">this </span><span class="s1">== obj) { 
+            </span><span class="s0">return true</span><span class="s1">; 
+        } 
+        </span><span class="s0">if </span><span class="s1">(obj == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return false</span><span class="s1">; 
+        } 
+        </span><span class="s0">return </span><span class="s1">(obj </span><span class="s0">instanceof </span><span class="s1">WaterReport) 
+                &amp;&amp; (((WaterReport) obj).getReportID() == </span><span class="s0">this</span><span class="s1">.getReportID()); 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">hashCode() { 
+        </span><span class="s0">return </span><span class="s1">getReportID(); 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">String toString() { 
+        </span><span class="s0">return </span><span class="s5">&quot;Availability Report #W&quot; </span><span class="s1">+ getReportID(); 
+    } 
+} 
+</span></pre>
+</body>
+</html>

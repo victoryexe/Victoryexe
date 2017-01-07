@@ -1,6 +1,6 @@
 package model.registration;
 
-import model.login.UserList;
+import lib.password_hashing.PasswordStorage;
 import model.Users.AuthLevel;
 import model.Users.Account;
 
@@ -23,7 +23,8 @@ public class Registration {
     public static Account createAccount(String first, String last,
                                         String userid,
                                         String pass1, String pass2,
-                                        AuthLevel auth) {
+                                        AuthLevel auth)
+            throws PasswordStorage.CannotPerformOperationException {
         return UserList.makeNewUser(first, last, userid, pass1, pass2, auth);
     }
 }

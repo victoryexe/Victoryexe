@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>DeletedReportLog.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+DeletedReportLog.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">model.log; 
+ 
+</span><span class="s0">import </span><span class="s1">model.Users.Manager; 
+</span><span class="s0">import </span><span class="s1">model.report.Report; 
+ 
+</span><span class="s2">/** 
+ * Created by Alexandra on 10/27/2016. 
+ * A Log that holds information specific to Report deletion 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">DeletedReportLog </span><span class="s0">extends </span><span class="s1">Log { 
+    </span><span class="s0">private final </span><span class="s1">String reportID; 
+ 
+    </span><span class="s2">// For all logs, we kept the responsibleAccount specific as possible</span><span class="s1"> 
+    </span><span class="s2">// because not all user types can initiate actions. For example, a</span><span class="s1"> 
+    </span><span class="s2">// regular User should not be able to ban an account; only an admin can.</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Makes a DeletedReport log with a timestamp and reportID 
+     * </span><span class="s3">@param </span><span class="s2">responsibleAccount the Manager that deleted the report 
+     * </span><span class="s3">@param </span><span class="s2">report the report that is being deleted 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">DeletedReportLog(Manager responsibleAccount, Report report) { 
+        </span><span class="s0">super</span><span class="s1">(responsibleAccount); 
+        reportID = report.toString(); 
+    } 
+    </span><span class="s2">/** 
+     * </span><span class="s3">@param </span><span class="s2">responsibleAccount The Adming that banned the account 
+     * </span><span class="s3">@param </span><span class="s2">reportID the userID of the banned account 
+     * </span><span class="s3">@param </span><span class="s2">timeStamp the String format of the timestamp 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">DeletedReportLog(Manager responsibleAccount, String reportID, 
+                             String timeStamp) { 
+        </span><span class="s0">super</span><span class="s1">(timeStamp, responsibleAccount); 
+        </span><span class="s0">this</span><span class="s1">.reportID = reportID; 
+    } 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">String toString() { 
+        </span><span class="s0">if </span><span class="s1">(reportID != </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return </span><span class="s4">&quot;'&quot; </span><span class="s1">+ getTimestamp().toString() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                    + getResponsibleAccount().getEmail() + </span><span class="s4">&quot;','&quot;</span><span class="s1"> 
+                    + reportID + </span><span class="s4">&quot;'&quot;</span><span class="s1">; 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s0">return </span><span class="s4">&quot;EMPTY LOG&quot;</span><span class="s1">; 
+        } 
+    } 
+} 
+</span></pre>
+</body>
+</html>

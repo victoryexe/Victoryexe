@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>.travis.yml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(0,0,0); }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(128,128,128); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+.travis.yml</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">language: </span><span class="s2">php</span><span class="s1"> 
+</span><span class="s0">sudo: </span><span class="s2">required</span><span class="s1"> 
+</span><span class="s0">dist: </span><span class="s2">trusty</span><span class="s1"> 
+</span><span class="s0">before_install:</span><span class="s1"> 
+- </span><span class="s2">sudo apt-get update -qq</span><span class="s1"> 
+- </span><span class="s2">sudo apt-get -qq install mono-runtime mono-mcs</span><span class="s1"> 
+</span><span class="s0">php:</span><span class="s1"> 
+    - </span><span class="s3">&quot;5.5&quot;</span><span class="s1"> 
+    - </span><span class="s3">&quot;5.4&quot;</span><span class="s1"> 
+</span><span class="s4"># Versions below here are not installed on travis-ci</span><span class="s1"> 
+</span><span class="s4">#   - &quot;5.3&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;5.2&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;5.1&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;5.0&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;4.4&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;4.3&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;4.2&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;4.1&quot;</span><span class="s1"> 
+</span><span class="s4">#   - &quot;4.0&quot;</span><span class="s1"> 
+</span><span class="s0">script: </span><span class="s2">./tests/runtests.sh</span><span class="s1"> 
+</span></pre>
+</body>
+</html>
